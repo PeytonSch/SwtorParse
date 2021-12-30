@@ -13,7 +13,7 @@ import scalafx.scene.paint._
  * On the back end JFXApp3 first calls javafx.application.Application.launch
  * then executes body of its constructor when javafx.application.Application.start(primaryStage:Stage) is called
  */
-object ScalaFXHelloWorld extends JFXApp3 {
+object Main extends JFXApp3 {
 
 
   /**
