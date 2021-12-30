@@ -1,38 +1,49 @@
-import eu.hansolo.tilesfx.Tile.SkinType
-import eu.hansolo.tilesfx.TileBuilder
 import scalafx.animation.AnimationTimer
-import scalafx.application.{AppHelper3, JFXApp3}
+import scalafx.application.{JFXApp3}
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox}
-import scalafx.scene.effect.DropShadow
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, HBox}
-import scalafx.scene.paint.Color._
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
 import scalafx.scene.paint._
-import scalafx.scene.text.Text
-import scalafx.stage.Stage
-import scalafx.geometry.Pos
 
+
+/**
+ * ScalaFX applications can extend JFXApp3 to create properly initialized JavaFX applications.
+ * On the back end JFXApp3 first calls javafx.application.Application.launch
+ * then executes body of its constructor when javafx.application.Application.start(primaryStage:Stage) is called
+ */
 object ScalaFXHelloWorld extends JFXApp3 {
 
 
-
-
+  /**
+   * This start() Method is essentially this start of our application, you can think of this as the main function
+   */
   override def start(): Unit = {
 
+    // Tiles is all of the tiles in the UI. Contained and managed in a GuiTiles class
     val tiles : GuiTiles = new GuiTiles()
+
+    // Set the last Timer Call to the current system time. This is a var so it can be updated. It controls the UI
+    // Refresh rate, checking the time against the last time and the execution rate.
     var lastTimerCall = System.nanoTime()
+    val program_execution_rate : Long = 1_000_000_000L
+
+    // This can be used to generate random numbers
     val random = scala.util.Random
+
+    // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
 
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
-      if (now > lastTimerCall + 1_000_000_000L) {
+      if (now > lastTimerCall + program_execution_rate) {
         lastTimerCall = now
 
-        /** Parser Items */
+        /** Parser Items
+         * I'm mostly just testing parsing things in here, this is all WIP
+         * */
         val result = parser.getNextLine()
         result.getResult() match {
           case "ApplyEffect" => result.getResultType() match {
@@ -42,6 +53,10 @@ object ScalaFXHelloWorld extends JFXApp3 {
         }
 
 
+
+        /**
+         * All this code is essentially updating the UI with Mock Data
+         * */
 
         /** Timer Ran Code */
         if (tiles.statusTile.getLeftValue() > 1000) { tiles.statusTile.setLeftValue(0); }
@@ -74,20 +89,24 @@ object ScalaFXHelloWorld extends JFXApp3 {
     })
 
 
-
+    // A stage is like the window we create for the GUI
     val stage = new PrimaryStage()
 
+    // This can be though of as like a layout
     val pane = new GridPane()
 
+    // Things should be in darkmode always
     val backgroundFill = new BackgroundFill(Color.web("#2a2a2a"), CornerRadii.Empty, Insets.Empty)
     val backgroundFillArray = Array(backgroundFill)
     val background = new Background(backgroundFillArray)
 
+    // These variables are to make adjusting the grid easier
     val menuRow = 0
     val mainRow1 = menuRow + 1
     val mainRowSpan = 2
     val mainRow2 = mainRow1 + mainRowSpan
 
+    // These Are All Menu Buttons
     val buttonPane = new GridPane()
     buttonPane.setBackground(background)
     val button3 = new Button("Open Log  ")
@@ -103,7 +122,7 @@ object ScalaFXHelloWorld extends JFXApp3 {
     val button8 = new Button("All Teams")
     button8.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
 
-
+    // Add the buttons to a sub layout grid
     buttonPane.add(button3, 0, 0, 1, 1)
     buttonPane.add(button4, 1, 0, 1, 1)
     buttonPane.add(button5, 0, 1, 1, 1)
@@ -113,8 +132,10 @@ object ScalaFXHelloWorld extends JFXApp3 {
     buttonPane.setHgap(5)
     buttonPane.setVgap(5)
 
+    // Add this sub pane to the main layout pane
     pane.add(buttonPane, 0, menuRow, 1, 1)
 
+    // The Interface Pane handles some checkboxes and stuff for quickly accessed items. This will probably be remade later
     val interfacePane = new GridPane()
     interfacePane.setBackground(background)
     val checkBox1 = new CheckBox("Raid DPS    ")
@@ -139,15 +160,19 @@ object ScalaFXHelloWorld extends JFXApp3 {
     pane.add(interfacePane, 1, menuRow, 1, 1)
 
 
+    /**
+     * Here is where we add all the main tiles from the tiles manager class
+     * */
+
     pane.add(tiles.statusTile, 3, menuRow, 4, 1)
     pane.add(tiles.switchTile, 7, menuRow, 1, 1)
 
-//    //Main Row 1
+    //Main Row 1
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
     pane.add(tiles.sparkLineTile, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
-//
+
 //    //Main Row 2
     pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
     pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
@@ -156,25 +181,31 @@ object ScalaFXHelloWorld extends JFXApp3 {
     pane.setHgap(5)
     pane.setVgap(5)
 
+    // Set the preferred size of the window
     pane.setPrefSize(1500, 800)
     pane.setBackground(background)
 
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
 
+    // add the pane to a scene and give it a camera
     val scene = new Scene(pane)
     scene.setCamera(camera)
 
-
+    // This is the title of the window
     stage.setTitle("Test Title")
     stage.setScene(scene)
     stage.show()
 
+    // Start the timer to run the timer things, or the main program loop
     timer.start()
     System.out.println("Timer Started")
 
   }
 
+  /**
+   * This method is called when you close the program.
+   */
   override def stopApp(): Unit = {
     println("Stopping App")
     //timer.stop()
