@@ -1,0 +1,19 @@
+// time         performer   target          ability name    ability id      result          result id       result type / ID        value
+[18:30:57.992] [@Chatoz] [@Ilumsharpshoota] [Kolto Probe {814832605462528}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (2624)
+
+// time         performer   target          ability name    ability id      result          result id       result type / ID        value  threat
+[18:31:10.488] [@Chatoz] [@Ilumsharpshoota] [Kolto Probe {814832605462528}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (2729) <1228>
+
+    // time         performer           target                                           ability id              result          result id       result type / ID   empty value  threat
+[18:49:22.845] [@Ilumsharpshoota] [Tunneling Tentacle {3025258999185408}:58635000046096] [ {2499885714636800}] [Event {836045448945472}: ModifyThreat {836045448945483}] () <150>
+
+
+
+\[\d\d:\d\d:\d\d.\d{3}\] \[@[^\]]*] \[@[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\)\n
+    // time         performer           target             ability name / id            result          result id       result type / ID   empty value
+[18:49:09.034] [@Cassia Tai] [@Ilumsharpshoota] [Hunter's Boon {1781346275950592}] [RemoveEffect {836045448945478}: Hunter's Boon {1781346275950592}] ()
+
+
+// timer        performer           target              target id       ?               ability name       ability id           result      result id       result type / id            value value type / id           threat
+[18:49:24.977] [@Ilumsharpshoota] [Tunneling Tentacle {3025271884087296}:58635000046187] [Orbital Strike {2145301804613632}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3403 elemental {836045448940875}) <2552>
+
