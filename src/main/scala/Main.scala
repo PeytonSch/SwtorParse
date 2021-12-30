@@ -1,5 +1,5 @@
 import scalafx.animation.AnimationTimer
-import scalafx.application.{JFXApp3}
+import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{PerspectiveCamera, Scene}
@@ -62,25 +62,25 @@ object Main extends JFXApp3 {
         if (tiles.statusTile.getLeftValue() > 1000) { tiles.statusTile.setLeftValue(0); }
         if (tiles.statusTile.getMiddleValue() > 1000) { tiles.statusTile.setMiddleValue(0); }
         if (tiles.statusTile.getRightValue() > 1000) { tiles.statusTile.setRightValue(0); }
-        tiles.statusTile.setLeftValue(tiles.statusTile.getLeftValue() + random.nextInt(4));
-        tiles.statusTile.setMiddleValue(tiles.statusTile.getMiddleValue() + random.nextInt(3));
-        tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3));
+        tiles.statusTile.setLeftValue(tiles.statusTile.getLeftValue() + random.nextInt(4))
+        tiles.statusTile.setMiddleValue(tiles.statusTile.getMiddleValue() + random.nextInt(3))
+        tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3))
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
 
-        tiles.sparkLineTile.setValue(random.nextDouble() * tiles.sparkLineTile.getRange() * 150 + tiles.sparkLineTile.getMinValue());
+        tiles.sparkLineTile.setValue(random.nextDouble() * tiles.sparkLineTile.getRange() * 150 + tiles.sparkLineTile.getMinValue())
 
         /** Radar Percentiles Chart */
-        tiles.chartData1.setValue(random.nextDouble() * 50);
-        tiles.chartData2.setValue(random.nextDouble() * 50);
-        tiles.chartData3.setValue(random.nextDouble() * 50);
-        tiles.chartData4.setValue(random.nextDouble() * 50);
-        tiles.chartData5.setValue(random.nextDouble() * 50);
-        tiles.chartData6.setValue(random.nextDouble() * 50);
-        tiles.chartData7.setValue(random.nextDouble() * 50);
-        tiles.chartData8.setValue(random.nextDouble() * 50);
+        tiles.chartData1.setValue(random.nextDouble() * 50)
+        tiles.chartData2.setValue(random.nextDouble() * 50)
+        tiles.chartData3.setValue(random.nextDouble() * 50)
+        tiles.chartData4.setValue(random.nextDouble() * 50)
+        tiles.chartData5.setValue(random.nextDouble() * 50)
+        tiles.chartData6.setValue(random.nextDouble() * 50)
+        tiles.chartData7.setValue(random.nextDouble() * 50)
+        tiles.chartData8.setValue(random.nextDouble() * 50)
 
-        /** Rightside bar chart for personal stats*/
+        /** Right side bar chart for personal stats*/
         //tiles.barChartTile.getBarChartItems().get(random.nextInt(8)).setValue(random.nextDouble() * 800);
         //tiles.barChartTile.getBarChartItems().get(2).setValue(5000)
 
@@ -95,7 +95,7 @@ object Main extends JFXApp3 {
     // This can be though of as like a layout
     val pane = new GridPane()
 
-    // Things should be in darkmode always
+    // Things should be in dark-mode always
     val backgroundFill = new BackgroundFill(Color.web("#2a2a2a"), CornerRadii.Empty, Insets.Empty)
     val backgroundFillArray = Array(backgroundFill)
     val background = new Background(backgroundFillArray)
