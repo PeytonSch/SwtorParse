@@ -45,6 +45,10 @@ Summary of Next Objectives
 Future Work Ideas Section
 ---
 
+### Timers 
+
+- Timer Database for everyone to upload and share custom-made timers on 
+
 ### Connect Clients
 
 Update UI to show other peoples information
@@ -71,4 +75,38 @@ How do we want to connect clients together and with a database? What should we u
 ABOUT
 ---
 
-Test Webhook 2
+The goal of this project is to redesign, modernize, and improve the SWTOR Star Parse Program. The current program is
+rather old and basic. 
+
+The current UI looks like:
+
+![img.png](Docs/currentStarParseUI.png)
+
+It provides some bare-bones functionality. 
+
+This Project Current Concept UI:
+
+![img.png](Docs/conceptUIversion1.png)
+
+### Goals of this project
+
+- Create a Modernized Parsing Tool
+- Retain all current functionality 
+- Add an analytics engine
+  - Analyze global logs
+  - Provide partial fight statistics
+  - Provide feedback, tips, trends from top parses 
+  - Provide percentile metrics 
+  
+
+### Skills this project will cover
+---
+
+- Scala, a hybrid functional and object oriented programing language 
+- Databases 
+- Datascience - Industry Standard Analytic tools and frameworks, such as Spark
+- Streaming Data and Real Time Data Processing
+- Infrastructure and Devops Development and Cluster Management 
+- UI Design
+- Possibly Web design and full stack website development 
+- Small Team Software Development 
