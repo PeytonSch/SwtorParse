@@ -41,7 +41,6 @@ Summary of Next Objectives
 
 - [ ] How do we handle two programs trying to use the log at the same time?
 
-- [ ] 
 
 Future Work Ideas Section
 ---
