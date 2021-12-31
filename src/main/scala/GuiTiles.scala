@@ -16,24 +16,24 @@ import scalafx.scene.paint.Color
  */
 
 class GuiTiles {
-  val     TILE_WIDTH : Double  = 250;
-  val     TILE_HEIGHT : Double = 350;
-  val     menuTileSize : Double = .30;
+  val     TILE_WIDTH : Double  = 250
+  val     TILE_HEIGHT : Double = 350
+  val     menuTileSize : Double = .30
 
   /** These indicators are for the status tile */
   val leftGraphics : Indicator = new Indicator(Tile.RED);
-  leftGraphics.setOn(true);
+  leftGraphics.setOn(true)
 
   val middleGraphics : Indicator = new Indicator(Tile.YELLOW);
-  middleGraphics.setOn(true);
+  middleGraphics.setOn(true)
 
   val rightGraphics : Indicator = new Indicator(Tile.GREEN);
-  rightGraphics.setOn(true);
+  rightGraphics.setOn(true)
 
   /** These values are for the leaderboard */
-  val leaderBoardItem1 = new LeaderBoardItem("Xan", 47);
-  val leaderBoardItem2 = new LeaderBoardItem("Isaac", 43);
-  val leaderBoardItem3 = new LeaderBoardItem("Tsou", 12);
+  val leaderBoardItem1 = new LeaderBoardItem("Xan", 47)
+  val leaderBoardItem2 = new LeaderBoardItem("Isaac", 43)
+  val leaderBoardItem3 = new LeaderBoardItem("Tsou", 12)
   val leaderBoardItem4 = new LeaderBoardItem("Chatoz", 8)
 
   /** Chart Data for the percentiles polygon radar chart
