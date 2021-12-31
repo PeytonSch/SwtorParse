@@ -2,6 +2,9 @@ import patterns.{SimpleRegularValue, Temp, ValueType}
 
 import scala.io.Source
 
+/**
+ * This Parser Class is intended to handle extracting data from logs. It is a WIP
+ */
 class Parser {
 
   var lastReadLine = 0
