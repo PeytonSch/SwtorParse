@@ -9,6 +9,12 @@ import scalafx.geometry.Pos
 import javafx.scene.paint.Stop
 import scalafx.scene.paint.Color
 
+/**
+ * This GuiTiles Class handles most of the elements in the GUI.
+ * Right now it has some random data in it. We will have to figure
+ * out how to go about updating this etc.
+ */
+
 class GuiTiles {
   val     TILE_WIDTH : Double  = 250;
   val     TILE_HEIGHT : Double = 350;
