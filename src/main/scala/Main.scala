@@ -21,6 +21,8 @@ object Main extends JFXApp3 {
    */
   override def start(): Unit = {
 
+    val files = FileHelper.getListOfFiles("./SampleLogs")
+
     // Tiles is all of the tiles in the UI. Contained and managed in a GuiTiles class
     val tiles : GuiTiles = new GuiTiles()
 
@@ -106,6 +108,15 @@ object Main extends JFXApp3 {
     val mainRowSpan = 2
     val mainRow2 = mainRow1 + mainRowSpan
 
+    // File select
+    val filePane = new GridPane()
+    filePane.setBackground(background)
+    val firstFile = new Button("New button")
+    firstFile.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
+    filePane.add(firstFile, 0, 0, 1, 1)
+    filePane.setHgap(5)
+    filePane.setVgap(5)
+
     // These Are All Menu Buttons
     val buttonPane = new GridPane()
     buttonPane.setBackground(background)
@@ -174,9 +185,10 @@ object Main extends JFXApp3 {
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
-    pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
-    pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
-    pane.add(tiles.donutChartTile, 6, mainRow2, 1, 1)
+    pane.add(tiles.sunburstTile, 1, mainRow2, 3, 1)
+    pane.add(tiles.sunburstTile2, 4, mainRow2, 3, 1)
+    pane.add(tiles.donutChartTile, 7, mainRow2, 1, 1)
+    pane.add(filePane, 0, mainRow2, 1, 1)
 
     pane.setHgap(5)
     pane.setVgap(5)

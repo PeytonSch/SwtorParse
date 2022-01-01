@@ -11,7 +11,7 @@ class Parser {
 
   def getNextLine(): ValueType = {
 
-    val lines = Source.fromFile("OLD-combat-log-sample.txt").getLines.toList
+    val lines = Source.fromFile("SampleLogs/OLD-combat-log-sample.txt").getLines.toList
 
     val line = lines(lastReadLine)
     //println(line)
