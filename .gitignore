@@ -65,3 +65,6 @@ jitwatch.out
 .metals
 .bloop
 project/**/metals.sbt
+
+# This doesnt seem necessary
+.bsp/sbt.json
