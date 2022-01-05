@@ -10,6 +10,10 @@ class BaseInformation(
 
   override def toString: String = timestamp + " " + performer
 
+  def getActor() : Actor = performer
+
+  def getTimestamp() : LogTimestamp = timestamp
+
 
 
 
