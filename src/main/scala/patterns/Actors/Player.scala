@@ -12,11 +12,11 @@ class Player (
 
   override def isPlayer(): Boolean = true
 
-  /**
-   * Parse a string containing an actor and return an instance of actor
-   * @param actorString
-   * @return
-   */
+  override def getName(): String = name
+
+  override def getPosition(): Position = position
+
+  override def getHealth(): Health = health
 
 
 }

@@ -13,4 +13,11 @@ class Companion (
 
   override def isPlayer(): Boolean = false
 
+  override def getName(): String = name
+
+  override def getPosition(): Position = position
+
+  override def getHealth(): Health = health
+
+  def getId = id
 }
