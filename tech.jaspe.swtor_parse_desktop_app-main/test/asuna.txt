@@ -1,0 +1,320 @@
+[17:56:25.232] [@Asuna Yuukí] [@Asuna Yuukí] [Unnatural Might {1781509484707840}] [ApplyEffect {836045448945477}: Hunter's Boon {1781509484708111}] ()
+[17:56:25.232] [@Asuna Yuukí] [@Asuna Yuukí] [Unnatural Might {1781509484707840}] [ApplyEffect {836045448945477}: Mark of Power {1781509484708115}] ()
+[17:56:25.232] [@Asuna Yuukí] [@Asuna Yuukí] [Unnatural Might {1781509484707840}] [ApplyEffect {836045448945477}: Unnatural Might {1781509484707840}] ()
+[17:56:25.233] [@Asuna Yuukí] [@Asuna Yuukí] [Unnatural Might {1781509484707840}] [ApplyEffect {836045448945477}: Coordination {1781509484708107}] ()
+[17:56:25.233] [@Asuna Yuukí] [@Asuna Yuukí] [Advanced Kyrprax Versatile Stim {4256329770205184}] [ApplyEffect {836045448945477}: Advanced Kyrprax Versatile Stim {4256329770205184}] ()
+[17:56:25.233] [@Asuna Yuukí] [@Asuna Yuukí] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[17:56:25.584] [@Asuna Yuukí] [@Asuna Yuukí] [Critical Focus {4328455156006912}] [ApplyEffect {836045448945477}: Residual Power {4328455156007170}] ()
+[17:56:25.585] [@Asuna Yuukí] [@Asuna Yuukí] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[17:56:34.108] [@Asuna Yuukí] [@Asuna Yuukí] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
+[17:56:34.309] [@Asuna Yuukí] [@Asuna Yuukí] [Critical Focus {4328455156006912}] [RemoveEffect {836045448945478}: Residual Power {4328455156007170}] ()
+[17:56:48.652] [@Asuna Yuukí] [@Asuna Yuukí] [Channel Hatred {807733024522240}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:56:48.652] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [ApplyEffect {836045448945477}: Fury {2515454971084800}] ()
+[17:56:48.652] [@Asuna Yuukí] [@Asuna Yuukí] [Channel Hatred {807733024522240}] [ApplyEffect {836045448945477}: Channel Hatred {807733024522240}] ()
+[17:56:58.551] [@Asuna Yuukí] [@Asuna Yuukí] [Channel Hatred {807733024522240}] [RemoveEffect {836045448945478}: Channel Hatred {807733024522240}] ()
+[17:56:58.552] [@Asuna Yuukí] [@Asuna Yuukí] [Channel Hatred {807733024522240}] [Event {836045448945472}: AbilityCancel {836045448945481}] ()
+[17:56:58.553] [@Asuna Yuukí] [@Asuna Yuukí] [1,000,000 Health {4185054787928064}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:03.666] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [1,000,000 Health {3322114253783040}] [ApplyEffect {836045448945477}: 1,000,000 Health {3322114253783040}] ()
+[17:57:08.549] [@Asuna Yuukí] [@Asuna Yuukí] [] [Event {836045448945472}: EnterCombat {836045448945489}] (Fury)
+[17:57:08.576] [@Asuna Yuukí] [@Asuna Yuukí] [Force Charge {807750204391424}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:08.576] [@Asuna Yuukí] [@Asuna Yuukí] [Sprint {810670782152704}] [RemoveEffect {836045448945478}: Sprint {810670782152704}] ()
+[17:57:08.578] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (3)
+[17:57:09.368] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Force Charge {807750204391424}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5097 energy {836045448940874}) <5097>
+[17:57:09.969] [@Asuna Yuukí] [@Asuna Yuukí] [Battering Assault {807720139620352}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:09.969] [@Asuna Yuukí] [@Asuna Yuukí] [Mastery Surge {4293365273198592}] [ApplyEffect {836045448945477}: Mastery Surge {4293365273198592}] ()
+[17:57:09.969] [@Asuna Yuukí] [@Asuna Yuukí] [Power Surge {4292944366403584}] [ApplyEffect {836045448945477}: Power Surge {4292944366403584}] ()
+[17:57:09.970] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Enraged Slash {3455528822898688}] [ApplyEffect {836045448945477}: Beat Down (Physical) {3455528822898950}] ()
+[17:57:09.970] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (6)
+[17:57:10.493] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4594* energy {836045448940874}) <4594>
+[17:57:10.563] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:10.563] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [RemoveEffect {836045448945478}: Fury {2515454971084800}] ()
+[17:57:10.563] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [ApplyEffect {836045448945477}: Berserk {4056201474080768}] ()
+[17:57:10.595] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[17:57:10.772] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4294* energy {836045448940874}) <4294>
+[17:57:11.313] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:11.314] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:11.314] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [ApplyEffect {836045448945477}: Hyper {4268128045367554}] ()
+[17:57:11.314] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:11.314] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Massacre {1259670958243840}] ()
+[17:57:11.818] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:11.818] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:11.818] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [ApplyEffect {836045448945477}: Ferocity {3915257827295232}] ()
+[17:57:11.952] [@Asuna Yuukí] [@Asuna Yuukí] [Frenzied Sabers {3191469938573312}] [ApplyEffect {836045448945477}: Frenzied Sabers {3191469938573312}] ()
+[17:57:11.952] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [ApplyEffect {836045448945477}: Execute {1261118362222592}] ()
+[17:57:11.952] [@Asuna Yuukí] [@Asuna Yuukí] [Slaughter {3191525773148160}] [ApplyEffect {836045448945477}: Slaughter {3191525773148160}] ()
+[17:57:12.030] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:12.030] [@Asuna Yuukí] [@Asuna Yuukí] [Critical Focus {4328455156006912}] [ApplyEffect {836045448945477}: Residual Power {4328455156007170}] ()
+[17:57:12.030] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [ApplyEffect {836045448945477}: Furious Power {4267054303543552}] ()
+[17:57:12.035] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (9883 energy {836045448940874}) <9883>
+[17:57:12.035] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1556* energy {836045448940874}) <1556>
+[17:57:12.290] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5873* energy {836045448940874}) <5873>
+[17:57:12.730] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:12.731] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:12.731] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:13.276] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (35173* energy {836045448940874}) <35173>
+[17:57:13.276] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2779* energy {836045448940874}) <2779>
+[17:57:13.697] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3780 energy {836045448940874}) <3780>
+[17:57:13.944] [@Asuna Yuukí] [@Asuna Yuukí] [Gore {1261122657189888}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:13.944] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:13.944] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Sundered (Physical) {1261122657190166}] ()
+[17:57:13.945] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [RemoveEffect {836045448945478}: Furious Power {4267054303543552}] ()
+[17:57:14.085] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (31366 energy {836045448940874}) <31366>
+[17:57:14.085] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[17:57:14.344] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [RemoveEffect {836045448945478}: Hyper {4268128045367554}] ()
+[17:57:14.933] [@Asuna Yuukí] [@Asuna Yuukí] [Vicious Throw {2145542322782208}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:14.933] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:15.539] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [RemoveEffect {836045448945478}: Ferocity {3915257827295232}] ()
+[17:57:15.539] [@Asuna Yuukí] [@Asuna Yuukí] [Slaughter {3191525773148160}] [RemoveEffect {836045448945478}: Slaughter {3191525773148160}] ()
+[17:57:15.540] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Vicious Throw {2145542322782208}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (49545* energy {836045448940874}) <49545>
+[17:57:16.046] [@Asuna Yuukí] [@Asuna Yuukí] [Mastery Surge {4293365273198592}] [RemoveEffect {836045448945478}: Mastery Surge {4293365273198592}] ()
+[17:57:16.046] [@Asuna Yuukí] [@Asuna Yuukí] [Power Surge {4292944366403584}] [RemoveEffect {836045448945478}: Power Surge {4292944366403584}] ()
+[17:57:16.046] [@Asuna Yuukí] [@Asuna Yuukí] [Devastating Blast {3361602183102464}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:16.046] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:16.049] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3939 energy {836045448940874}) <3939>
+[17:57:16.131] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:16.131] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [RemoveEffect {836045448945478}: Execute {1261118362222592}] ()
+[17:57:16.449] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Devastating Blast {3361602183102464}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (28444* energy {836045448940874}) <28444>
+[17:57:17.137] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:17.137] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:17.137] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [ApplyEffect {836045448945477}: Hyper {4268128045367554}] ()
+[17:57:17.138] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:17.138] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [RemoveEffect {836045448945478}: Berserk {4056201474080768}] ()
+[17:57:17.638] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [ApplyEffect {836045448945477}: Execute {1261118362222592}] ()
+[17:57:17.829] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (17876* energy {836045448940874}) <17876>
+[17:57:17.829] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (896 energy {836045448940874}) <896>
+[17:57:18.246] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:18.246] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:18.246] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [ApplyEffect {836045448945477}: Fury {2515454971084800}] ()
+[17:57:18.246] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:18.248] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3474 energy {836045448940874}) <3474>
+[17:57:18.926] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (9942 energy {836045448940874}) <9942>
+[17:57:18.927] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[17:57:19.472] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5613* energy {836045448940874}) <5613>
+[17:57:19.643] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:19.643] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:19.643] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:20.331] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (18087* energy {836045448940874}) <18087>
+[17:57:20.332] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[17:57:20.871] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3425 energy {836045448940874}) <3425>
+[17:57:21.039] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:21.039] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:21.739] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (17989* energy {836045448940874}) <17989>
+[17:57:21.739] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (876 energy {836045448940874}) <876>
+[17:57:22.276] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5859* energy {836045448940874}) <5859>
+[17:57:22.431] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:22.432] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:23.129] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (9482 energy {836045448940874}) <9482>
+[17:57:23.130] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (871 energy {836045448940874}) <871>
+[17:57:23.433] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:23.433] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:23.433] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [ApplyEffect {836045448945477}: Ferocity {3915257827295232}] ()
+[17:57:23.476] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5607* energy {836045448940874}) <5607>
+[17:57:23.832] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:23.832] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [ApplyEffect {836045448945477}: Furious Power {4267054303543552}] ()
+[17:57:25.439] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:25.439] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:26.047] [@Asuna Yuukí] [@Asuna Yuukí] [Slaughter {3191525773148160}] [ApplyEffect {836045448945477}: Slaughter {3191525773148160}] ()
+[17:57:26.133] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (16176 energy {836045448940874}) <16176>
+[17:57:26.133] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2418* energy {836045448940874}) <2418>
+[17:57:26.664] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3392 energy {836045448940874}) <3392>
+[17:57:26.828] [@Asuna Yuukí] [@Asuna Yuukí] [Battering Assault {807720139620352}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:26.829] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (6)
+[17:57:27.333] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [RemoveEffect {836045448945478}: Hyper {4268128045367554}] ()
+[17:57:27.368] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5390* energy {836045448940874}) <5390>
+[17:57:27.471] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1125* energy {836045448940874}) <1125>
+[17:57:27.650] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5506* energy {836045448940874}) <5506>
+[17:57:28.188] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3413 energy {836045448940874}) <3413>
+[17:57:28.232] [@Asuna Yuukí] [@Asuna Yuukí] [Vicious Throw {2145542322782208}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:28.232] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:28.834] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [RemoveEffect {836045448945478}: Ferocity {3915257827295232}] ()
+[17:57:28.834] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [RemoveEffect {836045448945478}: Furious Power {4267054303543552}] ()
+[17:57:28.834] [@Asuna Yuukí] [@Asuna Yuukí] [Slaughter {3191525773148160}] [RemoveEffect {836045448945478}: Slaughter {3191525773148160}] ()
+[17:57:28.834] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Vicious Throw {2145542322782208}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (29362 energy {836045448940874}) <29362>
+[17:57:29.614] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5792* energy {836045448940874}) <5792>
+[17:57:29.648] [@Asuna Yuukí] [@Asuna Yuukí] [Devastating Blast {3361602183102464}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:29.649] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:29.733] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:29.734] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [RemoveEffect {836045448945478}: Execute {1261118362222592}] ()
+[17:57:29.973] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Devastating Blast {3361602183102464}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (28831* energy {836045448940874}) <28831>
+[17:57:30.836] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:30.836] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [RemoveEffect {836045448945478}: Fury {2515454971084800}] ()
+[17:57:30.836] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [ApplyEffect {836045448945477}: Berserk {4056201474080768}] ()
+[17:57:31.047] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:31.047] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:31.047] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [ApplyEffect {836045448945477}: Hyper {4268128045367554}] ()
+[17:57:31.047] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:31.047] [@Asuna Yuukí] [@Asuna Yuukí] [Power Surge {4292944366403584}] [ApplyEffect {836045448945477}: Power Surge {4292944366403584}] ()
+[17:57:31.537] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [ApplyEffect {836045448945477}: Execute {1261118362222592}] ()
+[17:57:31.581] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (17748* energy {836045448940874}) <17748>
+[17:57:31.581] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1471* energy {836045448940874}) <1471>
+[17:57:32.021] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3818 energy {836045448940874}) <3818>
+[17:57:32.148] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:32.148] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:32.148] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:32.148] [@Asuna Yuukí] [@Asuna Yuukí] [Mastery Surge {4293365273198592}] [ApplyEffect {836045448945477}: Mastery Surge {4293365273198592}] ()
+[17:57:32.689] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (10688 energy {836045448940874}) <10688>
+[17:57:32.689] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[17:57:33.155] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6503* energy {836045448940874}) <6503>
+[17:57:33.241] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:33.241] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:33.778] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (11707 energy {836045448940874}) <11707>
+[17:57:33.778] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2020* energy {836045448940874}) <2020>
+[17:57:33.939] [@Asuna Yuukí] [@Asuna Yuukí] [Critical Focus {4328455156006912}] [RemoveEffect {836045448945478}: Residual Power {4328455156007170}] ()
+[17:57:34.212] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6501* energy {836045448940874}) <6501>
+[17:57:34.348] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:34.348] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:34.889] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (10802 energy {836045448940874}) <10802>
+[17:57:34.890] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1795* energy {836045448940874}) <1795>
+[17:57:35.317] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6293* energy {836045448940874}) <6293>
+[17:57:35.445] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:35.445] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:35.445] [@Asuna Yuukí] [@Asuna Yuukí] [Critical Focus {4328455156006912}] [ApplyEffect {836045448945477}: Residual Power {4328455156007170}] ()
+[17:57:35.983] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (18839* energy {836045448940874}) <18839>
+[17:57:35.983] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1571* energy {836045448940874}) <1571>
+[17:57:36.218] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:36.218] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:36.218] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [ApplyEffect {836045448945477}: Ferocity {3915257827295232}] ()
+[17:57:36.266] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4138 energy {836045448940874}) <4138>
+[17:57:36.413] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:36.413] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [ApplyEffect {836045448945477}: Furious Power {4267054303543552}] ()
+[17:57:36.717] [@Asuna Yuukí] [@Asuna Yuukí] [Gore {1261122657189888}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:36.717] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:36.717] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [RemoveEffect {836045448945478}: Berserk {4056201474080768}] ()
+[17:57:36.723] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [RemoveEffect {836045448945478}: Furious Power {4267054303543552}] ()
+[17:57:36.918] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (53334* energy {836045448940874}) <53334>
+[17:57:36.918] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3602* energy {836045448940874}) <3602>
+[17:57:37.112] [@Asuna Yuukí] [@Asuna Yuukí] [Power Surge {4292944366403584}] [RemoveEffect {836045448945478}: Power Surge {4292944366403584}] ()
+[17:57:37.327] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [RemoveEffect {836045448945478}: Hyper {4268128045367554}] ()
+[17:57:37.825] [@Asuna Yuukí] [@Asuna Yuukí] [Devastating Blast {3361602183102464}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:37.825] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:37.826] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [ApplyEffect {836045448945477}: Fury {2515454971084800}] ()
+[17:57:37.922] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:37.922] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [RemoveEffect {836045448945478}: Execute {1261118362222592}] ()
+[17:57:38.158] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Devastating Blast {3361602183102464}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (44081* energy {836045448940874}) <44081>
+[17:57:38.226] [@Asuna Yuukí] [@Asuna Yuukí] [Mastery Surge {4293365273198592}] [RemoveEffect {836045448945478}: Mastery Surge {4293365273198592}] ()
+[17:57:39.141] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:39.141] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:39.141] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [ApplyEffect {836045448945477}: Hyper {4268128045367554}] ()
+[17:57:39.141] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:39.441] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [RemoveEffect {836045448945478}: Ferocity {3915257827295232}] ()
+[17:57:39.734] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [ApplyEffect {836045448945477}: Execute {1261118362222592}] ()
+[17:57:39.831] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (25616* energy {836045448940874}) <25616>
+[17:57:39.832] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2469* energy {836045448940874}) <2469>
+[17:57:40.362] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5539* energy {836045448940874}) <5539>
+[17:57:40.551] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:40.551] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:40.551] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:41.237] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (18068* energy {836045448940874}) <18068>
+[17:57:41.237] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1429* energy {836045448940874}) <1429>
+[17:57:41.776] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5859* energy {836045448940874}) <5859>
+[17:57:41.948] [@Asuna Yuukí] [@Asuna Yuukí] [Battering Assault {807720139620352}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:41.948] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (6)
+[17:57:42.440] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [RemoveEffect {836045448945478}: Hyper {4268128045367554}] ()
+[17:57:42.486] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5675* energy {836045448940874}) <5675>
+[17:57:42.587] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[17:57:42.764] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5257* energy {836045448940874}) <5257>
+[17:57:43.296] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5819* energy {836045448940874}) <5819>
+[17:57:43.349] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:43.349] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:43.349] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [ApplyEffect {836045448945477}: Hyper {4268128045367554}] ()
+[17:57:43.349] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:43.867] [@Asuna Yuukí] [@Asuna Yuukí] [Slaughter {3191525773148160}] [ApplyEffect {836045448945477}: Slaughter {3191525773148160}] ()
+[17:57:44.029] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (17678* energy {836045448940874}) <17678>
+[17:57:44.029] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (862 energy {836045448940874}) <862>
+[17:57:44.571] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5563* energy {836045448940874}) <5563>
+[17:57:44.681] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:44.681] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:44.681] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:45.378] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (9483 energy {836045448940874}) <9483>
+[17:57:45.378] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (995 energy {836045448940874}) <995>
+[17:57:45.907] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3486 energy {836045448940874}) <3486>
+[17:57:46.080] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:46.080] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:46.080] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:46.766] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (10034 energy {836045448940874}) <10034>
+[17:57:46.766] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1745* energy {836045448940874}) <1745>
+[17:57:47.304] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3454 energy {836045448940874}) <3454>
+[17:57:47.475] [@Asuna Yuukí] [@Asuna Yuukí] [Vicious Throw {2145542322782208}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:47.475] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:47.973] [@Asuna Yuukí] [@Asuna Yuukí] [Slaughter {3191525773148160}] [RemoveEffect {836045448945478}: Slaughter {3191525773148160}] ()
+[17:57:47.973] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Vicious Throw {2145542322782208}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (28677* energy {836045448940874}) <28677>
+[17:57:48.479] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [RemoveEffect {836045448945478}: Hyper {4268128045367554}] ()
+[17:57:48.886] [@Asuna Yuukí] [@Asuna Yuukí] [Devastating Blast {3361602183102464}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:48.886] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:48.967] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:48.967] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [RemoveEffect {836045448945478}: Execute {1261118362222592}] ()
+[17:57:49.213] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Devastating Blast {3361602183102464}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (28554* energy {836045448940874}) <28554>
+[17:57:49.980] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:49.980] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [RemoveEffect {836045448945478}: Fury {2515454971084800}] ()
+[17:57:49.980] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [ApplyEffect {836045448945477}: Berserk {4056201474080768}] ()
+[17:57:50.383] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:50.383] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:50.383] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [ApplyEffect {836045448945477}: Ferocity {3915257827295232}] ()
+[17:57:50.679] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:50.679] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [ApplyEffect {836045448945477}: Furious Power {4267054303543552}] ()
+[17:57:51.114] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:51.114] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (2)
+[17:57:51.114] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [ApplyEffect {836045448945477}: Hyper {4268128045367554}] ()
+[17:57:51.114] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:51.114] [@Asuna Yuukí] [@Asuna Yuukí] [Power Surge {4292944366403584}] [ApplyEffect {836045448945477}: Power Surge {4292944366403584}] ()
+[17:57:51.603] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [ApplyEffect {836045448945477}: Execute {1261118362222592}] ()
+[17:57:51.659] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (17094 energy {836045448940874}) <17094>
+[17:57:51.660] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1465 energy {836045448940874}) <1465>
+[17:57:52.088] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3667 energy {836045448940874}) <3667>
+[17:57:52.311] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:52.311] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (1)
+[17:57:52.311] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:52.311] [@Asuna Yuukí] [@Asuna Yuukí] [Mastery Surge {4293365273198592}] [ApplyEffect {836045448945477}: Mastery Surge {4293365273198592}] ()
+[17:57:52.311] [@Asuna Yuukí] [@Asuna Yuukí] [Furious Power {4267054303543296}] [RemoveEffect {836045448945478}: Furious Power {4267054303543552}] ()
+[17:57:52.851] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (31917* energy {836045448940874}) <31917>
+[17:57:52.851] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[17:57:53.267] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6770* energy {836045448940874}) <6770>
+[17:57:53.409] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:53.409] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:53.692] [@Asuna Yuukí] [@Asuna Yuukí] [Ferocity {3915257827295232}] [RemoveEffect {836045448945478}: Ferocity {3915257827295232}] ()
+[17:57:53.952] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (29637* energy {836045448940874}) <29637>
+[17:57:53.952] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2457* energy {836045448940874}) <2457>
+[17:57:54.368] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4080 energy {836045448940874}) <4080>
+[17:57:54.502] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:54.502] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:55.048] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (11691 energy {836045448940874}) <11691>
+[17:57:55.048] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[17:57:55.460] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6542* energy {836045448940874}) <6542>
+[17:57:55.592] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:55.592] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:56.141] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (11801 energy {836045448940874}) <11801>
+[17:57:56.141] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Massacre {1259670958243840}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1954* energy {836045448940874}) <1954>
+[17:57:56.555] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6674* energy {836045448940874}) <6674>
+[17:57:56.697] [@Asuna Yuukí] [@Asuna Yuukí] [Battering Assault {807720139620352}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:56.697] [@Asuna Yuukí] [@Asuna Yuukí] [Berserk {4056201474080768}] [RemoveEffect {836045448945478}: Berserk {4056201474080768}] ()
+[17:57:56.697] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (6)
+[17:57:57.206] [@Asuna Yuukí] [@Asuna Yuukí] [Power Surge {4292944366403584}] [RemoveEffect {836045448945478}: Power Surge {4292944366403584}] ()
+[17:57:57.207] [@Asuna Yuukí] [@Asuna Yuukí] [Hyper {4268128045367296}] [RemoveEffect {836045448945478}: Hyper {4268128045367554}] ()
+[17:57:57.236] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6712* energy {836045448940874}) <6712>
+[17:57:57.337] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (568 energy {836045448940874}) <568>
+[17:57:57.513] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Battering Assault {807720139620352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6495* energy {836045448940874}) <6495>
+[17:57:57.799] [@Asuna Yuukí] [@Asuna Yuukí] [Gore {1261122657189888}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:57.799] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:57.799] [@Asuna Yuukí] [@Asuna Yuukí] [Fury {2515454971084800}] [ApplyEffect {836045448945477}: Fury {2515454971084800}] ()
+[17:57:57.866] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Ataru Form {1259692433080320}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3821 energy {836045448940874}) <3821>
+[17:57:58.076] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (16891 energy {836045448940874}) <16891>
+[17:57:58.076] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1703 energy {836045448940874}) <1703>
+[17:57:58.292] [@Asuna Yuukí] [@Asuna Yuukí] [Mastery Surge {4293365273198592}] [RemoveEffect {836045448945478}: Mastery Surge {4293365273198592}] ()
+[17:57:59.190] [@Asuna Yuukí] [@Asuna Yuukí] [Devastating Blast {3361602183102464}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:57:59.191] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:57:59.304] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:57:59.304] [@Asuna Yuukí] [@Asuna Yuukí] [Execute {1261118362222592}] [RemoveEffect {836045448945478}: Execute {1261118362222592}] ()
+[17:57:59.513] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Devastating Blast {3361602183102464}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (28745* energy {836045448940874}) <28745>
+[17:58:00.598] [@Asuna Yuukí] [@Asuna Yuukí] [Vicious Throw {2145542322782208}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[17:58:00.598] [@Asuna Yuukí] [@Asuna Yuukí] [] [Spend {836045448945473}: rage point {836045448938497}] (3)
+[17:58:00.598] [@Asuna Yuukí] [@Asuna Yuukí] [] [Restore {836045448945476}: rage point {836045448938497}] (1)
+[17:58:01.197] [@Asuna Yuukí] [@Asuna Yuukí] [] [Event {836045448945472}: ExitCombat {836045448945490}] (Fury)
+[17:58:01.201] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [1,000,000 Health {3322114253783040}] [RemoveEffect {836045448945478}: 1,000,000 Health {3322114253783040}] ()
+[17:58:01.201] [@Asuna Yuukí] [@Asuna Yuukí] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[17:58:01.202] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Enraged Slash {3455528822898688}] [RemoveEffect {836045448945478}: Beat Down (Physical) {3455528822898950}] ()
+[17:58:01.202] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Gore {1261122657189888}] [RemoveEffect {836045448945478}: Sundered (Physical) {1261122657190166}] ()
+[17:58:01.204] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [Vicious Throw {2145542322782208}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (28824* energy {836045448940874}) <28824>
+[17:58:01.204] [@Asuna Yuukí] [Operations Training Dummy {2857785339412480}:21538025254645] [] [Event {836045448945472}: Death {836045448945493}] ()
+[17:58:01.591] [@Asuna Yuukí] [@Asuna Yuukí] [Critical Focus {4328455156006912}] [RemoveEffect {836045448945478}: Residual Power {4328455156007170}] ()
+[17:58:01.591] [@Asuna Yuukí] [@Asuna Yuukí] [Massacre {1259670958243840}] [RemoveEffect {836045448945478}: Massacre {1259670958243840}] ()
+[17:58:07.298] [@Asuna Yuukí] [@Asuna Yuukí] [Frenzied Sabers {3191469938573312}] [RemoveEffect {836045448945478}: Frenzied Sabers {3191469938573312}] ()
