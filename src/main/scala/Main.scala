@@ -1,3 +1,4 @@
+import parser.Parser
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
@@ -43,16 +44,11 @@ object Main extends JFXApp3 {
       if (now > lastTimerCall + program_execution_rate) {
         lastTimerCall = now
 
-        /** Parser Items
+        /** parser.Parser Items
          * I'm mostly just testing parsing things in here, this is all WIP
          * */
         val result = parser.getNextLine()
-        result.getResult() match {
-          case "ApplyEffect" => result.getResultType() match {
-            case "Heal" => // add heal value to graph
-          }
-          case _ =>
-        }
+        println(result)
 
 
 

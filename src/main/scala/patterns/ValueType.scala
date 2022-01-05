@@ -2,7 +2,7 @@ package patterns
 
 
 /**
- * This is the ValueType trait. It is used by the Parser. Patterns that contain values should extend this
+ * This is the ValueType trait. It is used by the parser.Parser. Patterns that contain values should extend this
  * It will be used to define methods for extracting data and updating the GUI.
  *
  * This is very much a WIP
