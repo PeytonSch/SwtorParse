@@ -1,0 +1,496 @@
+[19:09:22.050] [@Natjie] [@Natjie] [Major Social Boost {3050208464207872}] [ApplyEffect {836045448945477}: Major Social Boost {3050208464207872}] ()
+[19:09:22.051] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Coordination {1781346275950860}] ()
+[19:09:22.051] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Hunter's Boon {1781346275950592}] ()
+[19:09:22.051] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Unnatural Might {1781346275950868}] ()
+[19:09:22.051] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Mark of Power {1781346275950864}] ()
+[19:09:22.051] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[19:09:22.591] [@Natjie] [@Natjie] [Flagship: Orbital Support {3428028147302400}] [ApplyEffect {836045448945477}: Flagship: Orbital Support {3428028147302656}] ()
+[19:09:22.593] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:09:43.786] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
+[19:10:23.512] [@Natjie] [@Natjie] [Deploy Field Mail Droid {2969385769631744}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:10:25.334] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [RemoveEffect {836045448945478}: Coordination {1781346275950860}] ()
+[19:10:25.335] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [RemoveEffect {836045448945478}: Hunter's Boon {1781346275950592}] ()
+[19:10:25.335] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [RemoveEffect {836045448945478}: Unnatural Might {1781346275950868}] ()
+[19:10:25.335] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [RemoveEffect {836045448945478}: Mark of Power {1781346275950864}] ()
+[19:10:29.615] [@Natjie] [@Natjie] [Deploy Field Mail Droid {2969385769631744}] [ApplyEffect {836045448945477}: Deploy Field Mail Droid {2969385769631744}] ()
+[19:11:42.127] [@Natjie] [@Natjie] [Major Social Boost {3050208464207872}] [ApplyEffect {836045448945477}: Major Social Boost {3050208464207872}] ()
+[19:11:42.128] [@Natjie] [@Natjie] [Deploy Field Mail Droid {2969385769631744}] [ApplyEffect {836045448945477}: Deploy Field Mail Droid {2969385769631744}] ()
+[19:11:42.128] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[19:11:42.147] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:11:42.147] [@Natjie] [@Natjie] [Conversation {806968520343552}] [ApplyEffect {836045448945477}: In Conversation {806968520343876}] ()
+[19:11:58.996] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
+[19:12:07.284] [@Natjie] [@Natjie] [Conversation {806968520343552}] [RemoveEffect {836045448945478}: In Conversation {806968520343876}] ()
+[19:15:59.354] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:15:59.355] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Hunter's Boon {1781346275950592}] ()
+[19:15:59.356] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Coordination {1781346275950860}] ()
+[19:15:59.357] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Mark of Power {1781346275950864}] ()
+[19:15:59.357] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Unnatural Might {1781346275950868}] ()
+[19:16:49.959] [@Natjie] [@Natjie] [Major Social Boost {3050208464207872}] [ApplyEffect {836045448945477}: Major Social Boost {3050208464207872}] ()
+[19:16:49.960] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Coordination {1781346275950860}] ()
+[19:16:49.960] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Hunter's Boon {1781346275950592}] ()
+[19:16:49.961] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Unnatural Might {1781346275950868}] ()
+[19:16:49.961] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Mark of Power {1781346275950864}] ()
+[19:16:49.961] [@Natjie] [@Natjie] [Flagship: Orbital Support {3428028147302400}] [ApplyEffect {836045448945477}: Flagship: Orbital Support {3428028147302656}] ()
+[19:16:49.961] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[19:16:50.085] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:17:05.640] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
+[19:17:25.676] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:17:26.347] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:26.347] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:17:35.558] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:35.559] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:35.559] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:35.559] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:17:35.559] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:48.507] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:17:49.123] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:49.124] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:17:59.925] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:59.926] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:59.926] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:17:59.927] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:17:59.927] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:18:43.227] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:18:43.228] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [ApplyEffect {836045448945477}: Hydraulic Overrides {3213829538316288}] ()
+[19:18:53.259] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [RemoveEffect {836045448945478}: Hydraulic Overrides {3213829538316288}] ()
+[19:19:07.331] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:19:07.943] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:07.944] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:19:22.476] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:22.476] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:22.476] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:22.477] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:19:22.477] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:28.406] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:19:28.978] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:28.979] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:19:46.542] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:46.543] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:46.544] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:46.545] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:19:46.545] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:52.947] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:19:53.579] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:19:53.579] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:22:08.825] [@Natjie] [@Natjie] [] [Event {836045448945472}: EnterCombat {836045448945489}] (Onderon)
+[19:22:08.836] [@Natjie] [@Natjie] [Sprint {810670782152704}] [RemoveEffect {836045448945478}: Sprint {810670782152704}] ()
+[19:22:17.394] [@Natjie] [@Natjie] [] [Event {836045448945472}: ExitCombat {836045448945490}] (Onderon)
+[19:22:17.400] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:22:21.384] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:22:21.385] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:22:21.385] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:22:21.386] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:22:21.386] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:22:28.622] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:26.120] [@Natjie] [@Natjie] [] [Event {836045448945472}: EnterCombat {836045448945489}] (Onderon)
+[19:23:26.140] [@Natjie] [@Natjie] [Sprint {810670782152704}] [RemoveEffect {836045448945478}: Sprint {810670782152704}] ()
+[19:23:29.328] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:30.855] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:23:30.857] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [ApplyEffect {836045448945477}: Tracer Lock {994022936018944}] ()
+[19:23:30.857] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [ApplyEffect {836045448945477}: Supercharge {3401326335623168}] ()
+[19:23:30.857] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [ApplyEffect {836045448945477}: Power Barrier {3394793690365952}] ()
+[19:23:30.954] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Heat Signature {985140943651080}] ()
+[19:23:30.954] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Sundered (Physical) {985140943651123}] ()
+[19:23:30.954] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [ApplyEffect {836045448945477}: Advanced Targeting {3402086544834560}] ()
+[19:23:30.955] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (20067* kinetic {836045448940873}) <20067>
+[19:23:31.176] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Maul {2016452785733632}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (13458 kinetic {836045448940873}) <13458>
+[19:23:31.261] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:31.262] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (12)
+[19:23:31.262] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Tracer Beacon {3411372264128770}] ()
+[19:23:31.262] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Marked (Physical) {3411372264128776}] ()
+[19:23:31.262] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Burning Shot {4322399252119552}] [ApplyEffect {836045448945477}: Burning (Priming Shot) {4322399252119847}] ()
+[19:23:31.263] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2320 elemental {836045448940875}) <2320>
+[19:23:31.839] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:32.011] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (14271 energy {836045448940874}) <14271>
+[19:23:32.011] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (835 energy {836045448940874}) <835>
+[19:23:32.336] [@Natjie] [@Natjie] [Fortuitous Redoubt {4307259492401152}] [ApplyEffect {836045448945477}: Fortuitous Redoubt {4307259492401152}] ()
+[19:23:32.718] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[19:23:32.719] [Pritarr {4256870936084480}:60490025251682] [@Natjie] [Maul {2016452785733632}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[19:23:32.836] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:32.837] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:23:32.837] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Stunned {3394145150304537}] ()
+[19:23:32.837] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Slowed (Physical) {3394145150304544}] ()
+[19:23:32.838] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Tracer Missile {985140943650816}] [RemoveEffect {836045448945478}: Sundered (Physical) {985140943651123}] ()
+[19:23:32.838] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Marked (Physical) {3411372264128776}] ()
+[19:23:32.838] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Burning Shot {4322399252119552}] [RemoveEffect {836045448945478}: Burning (Priming Shot) {4322399252119847}] ()
+[19:23:32.839] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Stunned {3394145150304537}] ()
+[19:23:32.839] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Slowed (Physical) {3394145150304544}] ()
+[19:23:32.840] [@Natjie] [@Natjie] [Critical Surge {4289220629757952}] [ApplyEffect {836045448945477}: Critical Surge {4289220629757952}] ()
+[19:23:32.841] [@Natjie] [@Natjie] [Mastery Surge {4293365273198592}] [ApplyEffect {836045448945477}: Mastery Surge {4293365273198592}] ()
+[19:23:32.847] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4065* elemental {836045448940875}) <4065>
+[19:23:32.847] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:23:32.848] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12797* energy {836045448940874}) <12797>
+[19:23:32.848] [@Natjie] [Pritarr {4256870936084480}:60490025251682] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (395 energy {836045448940874}) <395>
+[19:23:33.235] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:33.324] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: FailedEffect {836045448945499}] ()
+[19:23:34.206] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:23:34.356] [@Natjie] [@Natjie] [Heatseeker Missiles {814592087293952}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:34.356] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:23:34.715] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:34.811] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Heatseeker Missiles {814592087293952}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (38886* kinetic {836045448940873}) <38886>
+[19:23:35.755] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:35.755] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:23:35.755] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Tracer Beacon {3411372264128770}] ()
+[19:23:35.824] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Heat Signature {985140943651080}] ()
+[19:23:35.824] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Sundered (Physical) {985140943651123}] ()
+[19:23:35.825] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (13008 kinetic {836045448940873}) <13008>
+[19:23:35.858] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (9727 kinetic {836045448940873} (49 absorbed {836045448945511})) <9727>
+[19:23:36.121] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:37.288] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Maul {2016452785733632}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (13834 kinetic {836045448940873} (69 absorbed {836045448945511})) <13834>
+[19:23:37.384] [@Natjie] [@Natjie] [Fortuitous Redoubt {4307259492401152}] [RemoveEffect {836045448945478}: Fortuitous Redoubt {4307259492401152}] ()
+[19:23:37.385] [@Natjie] [@Natjie] [Rail Shot {814278554681344}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:37.385] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:23:37.522] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:37.929] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [RemoveEffect {836045448945478}: Tracer Lock {994022936018944}] ()
+[19:23:37.929] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Rail Shot {814278554681344}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (39015* energy {836045448940874}) <39015>
+[19:23:37.930] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Rail Shot {814278554681344}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (1547* energy {836045448940874}) <1547>
+[19:23:38.749] [@Natjie] [@Natjie] [Critical Surge {4289220629757952}] [RemoveEffect {836045448945478}: Critical Surge {4289220629757952}] ()
+[19:23:38.749] [@Natjie] [@Natjie] [Mastery Surge {4293365273198592}] [RemoveEffect {836045448945478}: Mastery Surge {4293365273198592}] ()
+[19:23:38.821] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:38.849] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (9204 kinetic {836045448940873}) <9204>
+[19:23:38.920] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:40.393] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4624 kinetic {836045448940873}) <4624>
+[19:23:40.470] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:23:40.472] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [ApplyEffect {836045448945477}: Tracer Lock {994022936018944}] ()
+[19:23:40.473] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:40.539] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (21181* kinetic {836045448940873}) <21181>
+[19:23:40.794] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4269 kinetic {836045448940873}) <4269>
+[19:23:41.670] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:41.670] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:23:41.670] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Slowed (Physical) {3394145150304544}] ()
+[19:23:41.671] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (7142 energy {836045448940874}) <7142>
+[19:23:41.671] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:23:41.839] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:41.992] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Maul {2016452785733632}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (13114 kinetic {836045448940873}) <13114>
+[19:23:42.639] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:23:42.639] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12224* energy {836045448940874}) <12224>
+[19:23:42.640] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (401 energy {836045448940874}) <401>
+[19:23:43.138] [@Natjie] [@Natjie] [Fortuitous Redoubt {4307259492401152}] [ApplyEffect {836045448945477}: Fortuitous Redoubt {4307259492401152}] ()
+[19:23:43.236] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:43.442] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[19:23:43.538] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:23:43.538] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (13036* energy {836045448940874}) <13036>
+[19:23:43.538] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (830* energy {836045448940874}) <830>
+[19:23:44.445] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:23:44.445] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12321* energy {836045448940874}) <12321>
+[19:23:44.445] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (457 energy {836045448940874}) <457>
+[19:23:44.728] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:45.062] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[19:23:45.626] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:23:46.125] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (1)
+[19:23:46.651] [Pritarr Stalker {4360907928895488}:60490025251728] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:23:47.154] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:23:47.228] [@Natjie] [@Natjie] [] [Event {836045448945472}: ExitCombat {836045448945490}] (Onderon)
+[19:23:47.241] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Tracer Missile {985140943650816}] [RemoveEffect {836045448945478}: Sundered (Physical) {985140943651123}] ()
+[19:23:47.242] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Slowed (Physical) {3394145150304544}] ()
+[19:23:47.242] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:23:47.246] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (21504* kinetic {836045448940873}) <21504>
+[19:23:47.246] [@Natjie] [Pritarr Stalker {4360907928895488}:60490025251728] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:23:47.523] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:49.030] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:23:49.829] [@Natjie] [@Natjie] [Fortuitous Redoubt {4307259492401152}] [RemoveEffect {836045448945478}: Fortuitous Redoubt {4307259492401152}] ()
+[19:23:53.329] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [RemoveEffect {836045448945478}: Advanced Targeting {3402086544834560}] ()
+[19:24:02.159] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [RemoveEffect {836045448945478}: Tracer Lock {994022936018944}] ()
+[19:24:02.159] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [RemoveEffect {836045448945478}: Power Barrier {3394793690365952}] ()
+[19:24:47.228] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [RemoveEffect {836045448945478}: Supercharge {3401326335623168}] ()
+[19:26:40.143] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:26:40.770] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:26:40.770] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:27:59.768] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:27:59.770] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:27:59.770] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:27:59.770] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:27:59.771] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:28:21.083] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:28:21.084] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [ApplyEffect {836045448945477}: Hydraulic Overrides {3213829538316288}] ()
+[19:28:31.198] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [RemoveEffect {836045448945478}: Hydraulic Overrides {3213829538316288}] ()
+[19:29:13.866] [@Natjie] [@Natjie] [] [Event {836045448945472}: EnterCombat {836045448945489}] (Onderon)
+[19:29:13.908] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:13.908] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (12)
+[19:29:13.908] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Tracer Beacon {3411372264128770}] ()
+[19:29:13.909] [@Natjie] [@Natjie] [Sprint {810670782152704}] [RemoveEffect {836045448945478}: Sprint {810670782152704}] ()
+[19:29:13.909] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Marked (Physical) {3411372264128776}] ()
+[19:29:13.910] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning Shot {4322399252119552}] [ApplyEffect {836045448945477}: Burning (Priming Shot) {4322399252119847}] ()
+[19:29:13.910] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2315 elemental {836045448940875}) <2315>
+[19:29:14.360] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (13812 energy {836045448940874}) <13812>
+[19:29:14.361] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:14.780] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:15.427] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:15.427] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:15.427] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Slowed (Physical) {3394145150304544}] ()
+[19:29:15.428] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2315 elemental {836045448940875}) <2315>
+[19:29:15.428] [@Natjie] [@Natjie] [Mastery Surge {4293365273198592}] [ApplyEffect {836045448945477}: Mastery Surge {4293365273198592}] ()
+[19:29:15.429] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [ApplyEffect {836045448945477}: Advanced Targeting {3402086544834560}] ()
+[19:29:15.429] [@Natjie] [@Natjie] [Critical Surge {4289220629757952}] [ApplyEffect {836045448945477}: Critical Surge {4289220629757952}] ()
+[19:29:15.430] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (11390* energy {836045448940874}) <11390>
+[19:29:15.430] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (682* energy {836045448940874}) <682>
+[19:29:16.187] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:16.390] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:16.390] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2527 elemental {836045448940875}) <2527>
+[19:29:16.391] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (15129* energy {836045448940874}) <15129>
+[19:29:16.391] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:16.776] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4659* elemental {836045448940875}) <4659>
+[19:29:17.116] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:17.293] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:17.293] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (14838* energy {836045448940874}) <14838>
+[19:29:17.294] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:17.673] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (1)
+[19:29:18.182] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:18.182] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2527 elemental {836045448940875}) <2527>
+[19:29:18.183] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (7714 energy {836045448940874}) <7714>
+[19:29:18.183] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:18.300] [@Natjie] [@Natjie] [Heatseeker Missiles {814592087293952}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:18.300] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:29:18.961] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Heatseeker Missiles {814592087293952}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (37367* kinetic {836045448940873}) <37367>
+[19:29:19.080] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:19.368] [Orlax Snapper {4256901000855552}:60490023210840] [@Natjie] [Maul {2022405610405888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (10988 kinetic {836045448940873}) <10988>
+[19:29:19.414] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:19.486] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [ApplyEffect {836045448945477}: Supercharge {3401326335623168}] ()
+[19:29:19.487] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2527 elemental {836045448940875}) <2527>
+[19:29:19.808] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:19.809] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:29:19.809] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [ApplyEffect {836045448945477}: Tracer Lock {994022936018944}] ()
+[19:29:19.810] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [ApplyEffect {836045448945477}: Power Barrier {3394793690365952}] ()
+[19:29:19.810] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Tracer Beacon {3411372264128770}] ()
+[19:29:19.978] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Heat Signature {985140943651080}] ()
+[19:29:19.978] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Sundered (Physical) {985140943651123}] ()
+[19:29:19.978] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2532 elemental {836045448940875}) <2532>
+[19:29:19.978] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12734 kinetic {836045448940873}) <12734>
+[19:29:20.491] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:20.927] [Orlax Snapper {4256901000855552}:60490023210840] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4431 kinetic {836045448940873}) <4431>
+[19:29:21.220] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:21.220] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:21.220] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2532 elemental {836045448940875}) <2532>
+[19:29:21.221] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (7942 energy {836045448940874}) <7942>
+[19:29:21.221] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (332 energy {836045448940874}) <332>
+[19:29:21.388] [Orlax Snapper {4256901000855552}:60490023210840] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4422 kinetic {836045448940873}) <4422>
+[19:29:21.417] [@Natjie] [@Natjie] [Mastery Surge {4293365273198592}] [RemoveEffect {836045448945478}: Mastery Surge {4293365273198592}] ()
+[19:29:21.418] [@Natjie] [@Natjie] [Critical Surge {4289220629757952}] [RemoveEffect {836045448945478}: Critical Surge {4289220629757952}] ()
+[19:29:21.884] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:21.995] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4918 kinetic {836045448940873}) <4918>
+[19:29:22.214] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:22.215] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4065* elemental {836045448940875}) <4065>
+[19:29:22.215] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12635* energy {836045448940874}) <12635>
+[19:29:22.215] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (596* energy {836045448940874}) <596>
+[19:29:22.296] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2320 elemental {836045448940875}) <2320>
+[19:29:22.495] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:22.633] [Orlax Snapper {4256901000855552}:60490023210840] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (8353 kinetic {836045448940873}) <8353>
+[19:29:23.104] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:23.105] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12570* energy {836045448940874}) <12570>
+[19:29:23.105] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (523 energy {836045448940874}) <523>
+[19:29:23.411] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:23.687] [@Natjie] [@Natjie] [Fortuitous Redoubt {4307259492401152}] [ApplyEffect {836045448945477}: Fortuitous Redoubt {4307259492401152}] ()
+[19:29:23.960] [Orlax Snapper {4256901000855552}:60490023210840] [@Natjie] [Maul {2022405610405888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -dodge {836045448945505}) <1>
+[19:29:24.008] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:24.008] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Marked (Physical) {3411372264128776}] ()
+[19:29:24.009] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Burning Shot {4322399252119552}] [RemoveEffect {836045448945478}: Burning (Priming Shot) {4322399252119847}] ()
+[19:29:24.009] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Slowed (Physical) {3394145150304544}] ()
+[19:29:24.009] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Tracer Missile {985140943650816}] [RemoveEffect {836045448945478}: Sundered (Physical) {985140943651123}] ()
+[19:29:24.012] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (7298 energy {836045448940874}) <7298>
+[19:29:24.013] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:29:24.013] [@Natjie] [Orlax Snapper {4256901000855552}:60490023210840] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (937 energy {836045448940874} -)
+[19:29:24.594] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Maul {2022405610405888}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6563 kinetic {836045448940873} (33 absorbed {836045448945511})) <6563>
+[19:29:24.830] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:25.417] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:26.037] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:29:26.221] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (1)
+[19:29:26.580] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5403 kinetic {836045448940873} (27 absorbed {836045448945511})) <5403>
+[19:29:27.040] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:29:27.118] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Heat Signature {985140943651080}] ()
+[19:29:27.118] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Sundered (Physical) {985140943651123}] ()
+[19:29:27.119] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12011 kinetic {836045448940873}) <12011>
+[19:29:27.608] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:28.438] [@Natjie] [@Natjie] [Rail Shot {814278554681344}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:28.438] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:29:28.555] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (10192 kinetic {836045448940873} (51 absorbed {836045448945511})) <10192>
+[19:29:28.714] [@Natjie] [@Natjie] [Fortuitous Redoubt {4307259492401152}] [RemoveEffect {836045448945478}: Fortuitous Redoubt {4307259492401152}] ()
+[19:29:29.027] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [RemoveEffect {836045448945478}: Tracer Lock {994022936018944}] ()
+[19:29:29.028] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Rail Shot {814278554681344}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (33464* energy {836045448940874}) <33464>
+[19:29:29.028] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Rail Shot {814278554681344}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (832 energy {836045448940874}) <832>
+[19:29:29.123] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:31.032] [@Natjie] [@Natjie] [] [Event {836045448945472}: ExitCombat {836045448945490}] (Onderon)
+[19:29:31.061] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:29:31.061] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (12)
+[19:29:31.061] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Tracer Beacon {3411372264128770}] ()
+[19:29:31.062] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Marked (Physical) {3411372264128776}] ()
+[19:29:31.062] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Tracer Missile {985140943650816}] [RemoveEffect {836045448945478}: Sundered (Physical) {985140943651123}] ()
+[19:29:31.062] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Marked (Physical) {3411372264128776}] ()
+[19:29:31.062] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:29:31.145] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5596 kinetic {836045448940873}) <5596>
+[19:29:31.557] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (14054 energy {836045448940874}) <14054>
+[19:29:31.558] [@Natjie] [Orlax {4256896705888256}:60490023210798] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:29:31.558] [@Natjie] [Orlax {4256896705888256}:60490023210798] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (849 energy {836045448940874} -)
+[19:29:31.560] [Orlax {4256896705888256}:60490023210798] [@Natjie] [Melee Attack {813578475012096}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (5056 kinetic {836045448940873}) <5056>
+[19:29:31.933] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:29:35.071] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [RemoveEffect {836045448945478}: Advanced Targeting {3402086544834560}] ()
+[19:29:42.028] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [RemoveEffect {836045448945478}: Power Barrier {3394793690365952}] ()
+[19:29:43.134] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Tracer Beacon {3411372264128770}] ()
+[19:30:29.053] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [RemoveEffect {836045448945478}: Supercharge {3401326335623168}] ()
+[19:30:29.455] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:30:30.082] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:30:30.083] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:30:37.397] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:30:37.398] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:30:37.399] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:30:37.400] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:30:37.400] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:30:37.401] [@Natjie] [@Natjie] [Using {810799631171584}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:30:59.566] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:31:00.190] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:31:00.190] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:31:31.615] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:31:31.616] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:31:31.617] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:31:31.617] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:31:31.617] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:31:37.039] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:31:37.660] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:31:37.662] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()
+[19:31:57.770] [@Natjie] [@Natjie] [] [Event {836045448945472}: EnterCombat {836045448945489}] (Onderon)
+[19:31:57.779] [@Natjie] [@Natjie] [Sprint {810670782152704}] [RemoveEffect {836045448945478}: Sprint {810670782152704}] ()
+[19:32:03.867] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:32:03.867] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:32:03.867] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:32:03.868] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [RemoveEffect {836045448945478}: Subterranean Teithek {4447004843311104}] ()
+[19:32:03.868] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[19:32:03.869] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:03.869] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (12)
+[19:32:03.869] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Tracer Beacon {3411372264128770}] ()
+[19:32:03.869] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Marked (Physical) {3411372264128776}] ()
+[19:32:03.870] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Burning Shot {4322399252119552}] [ApplyEffect {836045448945477}: Burning (Priming Shot) {4322399252119847}] ()
+[19:32:03.870] [@Natjie] [@Natjie] [Critical Surge {4289220629757952}] [ApplyEffect {836045448945477}: Critical Surge {4289220629757952}] ()
+[19:32:03.871] [@Natjie] [@Natjie] [Mastery Surge {4293365273198592}] [ApplyEffect {836045448945477}: Mastery Surge {4293365273198592}] ()
+[19:32:03.872] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [ApplyEffect {836045448945477}: Advanced Targeting {3402086544834560}] ()
+[19:32:03.873] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (3825* elemental {836045448940875}) <3825>
+[19:32:04.386] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (26106* energy {836045448940874}) <26106>
+[19:32:04.387] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Priming Shot {3411372264128512}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:32:04.508] [Pritarr {4256870936084480}:60490019941817] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12811 kinetic {836045448940873}) <12811>
+[19:32:04.803] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:05.381] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:05.381] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:05.381] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Stunned {3394145150304537}] ()
+[19:32:05.381] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Slowed (Physical) {3394145150304544}] ()
+[19:32:05.382] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Burning (Priming Shot) {4322399252119847}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (2527 elemental {836045448940875}) <2527>
+[19:32:05.382] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (15502* energy {836045448940874}) <15502>
+[19:32:05.382] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (342 energy {836045448940874}) <342>
+[19:32:06.151] [Pritarr {4256870936084480}:60490019941909] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4516 kinetic {836045448940873}) <4516>
+[19:32:06.337] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:06.337] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:06.338] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Marked (Physical) {3411372264128776}] ()
+[19:32:06.338] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Burning Shot {4322399252119552}] [RemoveEffect {836045448945478}: Burning (Priming Shot) {4322399252119847}] ()
+[19:32:06.339] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Stunned {3394145150304537}] ()
+[19:32:06.339] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Slowed (Physical) {3394145150304544}] ()
+[19:32:06.339] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [ApplyEffect {836045448945477}: Supercharge {3401326335623168}] ()
+[19:32:06.341] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (7997 energy {836045448940874}) <7997>
+[19:32:06.341] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:32:06.342] [@Natjie] [Pritarr {4256870936084480}:60490019941817] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (335 energy {836045448940874} -)
+[19:32:06.407] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: FailedEffect {836045448945499}] ()
+[19:32:06.550] [Pritarr {4256870936084480}:60490019941909] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:32:06.921] [Pritarr {4256870936084480}:60490019941909] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (4293 kinetic {836045448940873}) <4293>
+[19:32:07.341] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:07.341] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:32:07.342] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [ApplyEffect {836045448945477}: Tracer Lock {994022936018944}] ()
+[19:32:07.342] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [ApplyEffect {836045448945477}: Power Barrier {3394793690365952}] ()
+[19:32:07.343] [@Natjie] [@Natjie] [Priming Shot {3411372264128512}] [RemoveEffect {836045448945478}: Tracer Beacon {3411372264128770}] ()
+[19:32:07.429] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Heat Signature {985140943651080}] ()
+[19:32:07.429] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Sundered (Physical) {985140943651123}] ()
+[19:32:07.443] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12916 kinetic {836045448940873}) <12916>
+[19:32:07.730] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:08.398] [Pritarr {4256870936084480}:60490019941909] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6426 kinetic {836045448940873}) <6426>
+[19:32:08.677] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:08.677] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:08.677] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Stunned {3394145150304537}] ()
+[19:32:08.678] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Slowed (Physical) {3394145150304544}] ()
+[19:32:08.678] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (15040* energy {836045448940874}) <15040>
+[19:32:08.678] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (348 energy {836045448940874}) <348>
+[19:32:08.693] [Pritarr {4256870936084480}:60490019941909] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6169 kinetic {836045448940873}) <6169>
+[19:32:09.002] [Pritarr {4256870936084480}:60490019941863] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12862 kinetic {836045448940873}) <12862>
+[19:32:09.135] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:09.631] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:09.631] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (8288 energy {836045448940874}) <8288>
+[19:32:09.631] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:32:09.942] [@Natjie] [@Natjie] [Critical Surge {4289220629757952}] [RemoveEffect {836045448945478}: Critical Surge {4289220629757952}] ()
+[19:32:09.943] [@Natjie] [@Natjie] [Mastery Surge {4293365273198592}] [RemoveEffect {836045448945478}: Mastery Surge {4293365273198592}] ()
+[19:32:10.526] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:10.526] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12718* energy {836045448940874}) <12718>
+[19:32:10.527] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (917* energy {836045448940874}) <917>
+[19:32:10.527] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:11.119] [Pritarr {4256870936084480}:60490019941863] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12215 kinetic {836045448940873}) <12215>
+[19:32:11.537] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:11.537] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Tracer Missile {985140943650816}] [RemoveEffect {836045448945478}: Sundered (Physical) {985140943651123}] ()
+[19:32:11.538] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Stunned {3394145150304537}] ()
+[19:32:11.539] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Slowed (Physical) {3394145150304544}] ()
+[19:32:11.541] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (7422 energy {836045448940874}) <7422>
+[19:32:11.542] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:32:11.542] [@Natjie] [Pritarr {4256870936084480}:60490019941909] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502})
+[19:32:12.037] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:12.143] [@Natjie] [@Natjie] [Heatseeker Missiles {814592087293952}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:12.143] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:32:12.589] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Heatseeker Missiles {814592087293952}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (33805* kinetic {836045448940873}) <33805>
+[19:32:13.448] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:13.698] [Pritarr {4256870936084480}:60490019941863] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6404 kinetic {836045448940873}) <6404>
+[19:32:13.746] [@Natjie] [@Natjie] [Tracer Missile {985140943650816}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:14.100] [Pritarr {4256870936084480}:60490019941863] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (6314 kinetic {836045448940873}) <6314>
+[19:32:15.309] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (15)
+[19:32:15.369] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Heat Signature {985140943651080}] ()
+[19:32:15.369] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Sundered (Physical) {985140943651123}] ()
+[19:32:15.369] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Tracer Missile {985140943650816}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (11755 kinetic {836045448940873}) <11755>
+[19:32:16.207] [Pritarr {4256870936084480}:60490019941863] [@Natjie] [Melee Attack {813544115273728}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>
+[19:32:16.250] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:32:16.600] [@Natjie] [@Natjie] [] [Event {836045448945472}: ExitCombat {836045448945490}] (Onderon)
+[19:32:16.665] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:32:16.665] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (5)
+[19:32:16.665] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Stunned {3394145150304537}] ()
+[19:32:16.666] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Slowed (Physical) {3394145150304544}] ()
+[19:32:16.666] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Tracer Missile {985140943650816}] [RemoveEffect {836045448945478}: Sundered (Physical) {985140943651123}] ()
+[19:32:16.667] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Stunned {3394145150304537}] ()
+[19:32:16.667] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Blazing Bolts {3394145150304256}] [RemoveEffect {836045448945478}: Slowed (Physical) {3394145150304544}] ()
+[19:32:16.668] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:32:16.671] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (12177* energy {836045448940874}) <12177>
+[19:32:16.671] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [] [Event {836045448945472}: Death {836045448945493}] ()
+[19:32:16.672] [@Natjie] [Pritarr {4256870936084480}:60490019941863] [Blazing Bolts {3394145150304256}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (338 energy {836045448940874} -)
+[19:32:17.151] [@Natjie] [@Natjie] [Blazing Bolts {3394145150304256}] [Event {836045448945472}: FailedEffect {836045448945499}] ()
+[19:32:17.761] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (1)
+[19:32:22.572] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [RemoveEffect {836045448945478}: Advanced Targeting {3402086544834560}] ()
+[19:32:30.308] [@Natjie] [@Natjie] [Tracer Lock {994022936018944}] [RemoveEffect {836045448945478}: Tracer Lock {994022936018944}] ()
+[19:32:30.308] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [RemoveEffect {836045448945478}: Power Barrier {3394793690365952}] ()
+[19:33:12.958] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:33:12.958] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [ApplyEffect {836045448945477}: Hydraulic Overrides {3213829538316288}] ()
+[19:33:16.561] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [RemoveEffect {836045448945478}: Supercharge {3401326335623168}] ()
+[19:33:22.987] [@Natjie] [@Natjie] [Hydraulic Overrides {3213829538316288}] [RemoveEffect {836045448945478}: Hydraulic Overrides {3213829538316288}] ()
+[19:35:20.968] [@Natjie] [@Natjie] [Major Social Boost {3050208464207872}] [ApplyEffect {836045448945477}: Major Social Boost {3050208464207872}] ()
+[19:35:20.970] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Coordination {1781346275950860}] ()
+[19:35:20.970] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Hunter's Boon {1781346275950592}] ()
+[19:35:20.970] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Unnatural Might {1781346275950868}] ()
+[19:35:20.970] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Mark of Power {1781346275950864}] ()
+[19:35:20.970] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[19:35:20.995] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:35:36.683] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
+[19:46:25.257] [@Natjie] [@Natjie] [Rapid Scan {3394085020762112}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:46:26.767] [@Natjie] [@Natjie] [] [Spend {836045448945473}: energy {836045448938503}] (18)
+[19:46:26.767] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [ApplyEffect {836045448945477}: Supercharge {3401326335623168}] ()
+[19:46:26.768] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [ApplyEffect {836045448945477}: Power Barrier {3394793690365952}] ()
+[19:46:26.768] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [ApplyEffect {836045448945477}: Advanced Targeting {3402086544834560}] ()
+[19:46:26.777] [@Natjie] [@Natjie] [Rapid Scan {3394085020762112}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (17657*)
+[19:46:27.027] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:46:28.428] [@Natjie] [@Natjie] [] [Restore {836045448945476}: energy {836045448938503}] (2)
+[19:46:32.752] [@Natjie] [@Natjie] [Advanced Targeting {3402086544834560}] [RemoveEffect {836045448945478}: Advanced Targeting {3402086544834560}] ()
+[19:46:41.848] [@Natjie] [@Natjie] [Power Barrier {3394793690365952}] [RemoveEffect {836045448945478}: Power Barrier {3394793690365952}] ()
+[19:47:26.835] [@Natjie] [@Natjie] [Supercharge {3401326335623168}] [RemoveEffect {836045448945478}: Supercharge {3401326335623168}] ()
+[19:48:41.390] [@Natjie] [@Natjie] [Looking for what's inside... {4281764566532096}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:49:52.477] [@Natjie] [@Natjie] [Unlock Decoration (Legacy) {3374053293293568}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:49:53.983] [@Natjie] [@Natjie] [Unlock Decoration (Legacy) {3374053293293568}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:49:54.971] [@Natjie] [@Natjie] [Unlock Decoration (Legacy) {3374053293293568}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:50:04.847] [@Natjie] [@Natjie] [Unlock Decoration (Legacy) {3374053293293568}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[19:56:30.028] [@Natjie] [@Natjie] [Major Social Boost {3050208464207872}] [ApplyEffect {836045448945477}: Major Social Boost {3050208464207872}] ()
+[19:56:30.029] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Coordination {1781346275950860}] ()
+[19:56:30.029] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Hunter's Boon {1781346275950592}] ()
+[19:56:30.029] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Unnatural Might {1781346275950868}] ()
+[19:56:30.030] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Mark of Power {1781346275950864}] ()
+[19:56:30.030] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[19:56:30.439] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[19:56:53.035] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
+[19:58:35.211] [@Natjie] [@Natjie] [Hunter's Boon {1781346275950592}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[20:01:06.013] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityActivate {836045448945479}] ()
+[20:01:06.644] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [Event {836045448945472}: AbilityDeactivate {836045448945480}] ()
+[20:01:06.644] [@Natjie] [@Natjie] [Subterranean Teithek {4447004843311104}] [ApplyEffect {836045448945477}: Subterranean Teithek {4447004843311104}] ()

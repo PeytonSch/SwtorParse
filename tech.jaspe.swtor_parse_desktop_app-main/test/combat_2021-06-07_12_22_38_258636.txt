@@ -1,0 +1,8 @@
+[20:58:22.356] [@Natjie] [@Natjie] [Mark of Power {952795544944640}] [ApplyEffect {836045448945477}: Coordination {952795544945165}] ()
+[20:58:22.356] [@Natjie] [@Natjie] [Mark of Power {952795544944640}] [ApplyEffect {836045448945477}: Mark of Power {952795544944640}] ()
+[20:58:22.357] [@Natjie] [@Natjie] [Mark of Power {952795544944640}] [ApplyEffect {836045448945477}: Unnatural Might {952795544945173}] ()
+[20:58:22.357] [@Natjie] [@Natjie] [Mark of Power {952795544944640}] [ApplyEffect {836045448945477}: Hunter's Boon {952795544945169}] ()
+[20:58:22.357] [@Natjie] [@Natjie] [Major Reputation Boost {3213009199562752}] [ApplyEffect {836045448945477}: Major Reputation Boost {3213009199562752}] ()
+[20:58:22.357] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
+[20:58:22.747] [@Natjie] [@Natjie] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
+[20:58:30.691] [@Natjie] [@Natjie] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
