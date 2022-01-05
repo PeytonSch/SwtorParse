@@ -1,5 +1,6 @@
 Analysis of New Combat Log Format
 ---
+
 #### Affects Applied to Oneself
 ```
 [21:57:07.879] [@Heavy Sloth#689203382607232|(-388.22,19.78,94.98,-21.95)|(44307/46271)] [=] [Unnatural Might {4503002626916352}] [ApplyEffect {836045448945477}: Unnatural Might {4503002626916634}]
@@ -77,6 +78,11 @@ Every single line begins with this format:
 
 ```
 
+IDs for Mobs are broken into `Name {MobTypeID}:IndividualMobID`. So for example:
+`Rival Acolyte {287749923930112}:26518003904775`
+All Rival Acolytes in the game have the same `Rival Acolyte {287749923930112}` part
+
+
 This pattern recognizes performers and targets that are players:
 ```
 \[@*\w*\s*\w*#\d*\|\(-*\d*.\d\d,-*\d*.\d\d,-*\d*.\d*,-*\d*.\d\d\)\|\(\d*/\d*\)\]
@@ -112,12 +118,17 @@ Possible Implementation Ideas
 * Maybe have a line struct with default null values and then just extract the values that are present in each line?
     * Struct could have a type field as well to signify meta data
     
+    
+    
+    
+    
+    
 Notes on how values are represented:
 - Most values will have `(value type {id})`, the lines that dont seem to mostly be from companions
     - For example `(1332 energy {836045448940874})` signifies 1332 energy damage with that id
 - An `*` represents a critical value
 - `<###>` represents the amount of threat from that action. This is optional and is not always present
-* Some Types of values, what does `~` signify?:
+* Some Types of values, Question: what does `~` signify? (Thinking it may be the effective amount due to an overheal or over dps):
     * `(1332 energy {836045448940874}) <1332>`
     * `(57* energy {836045448940874}) <40>`
     * `(6502* ~4879 energy {836045448940874}) <6502>`
@@ -144,4 +155,14 @@ Some complete log lines without it for comparison:
 [21:06:59.847] [@Heavy Sloth#689203382607232|(-525.49,215.50,20.93,-123.11)|(41340/46271)] [Dread Host Soldier {3266932513964032}:28040000024938|(-524.63,218.77,21.40,-25.64)|(778/7950)] [Bleeding (Draining Scream) {807857578574081}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (257* internal {836045448940876}) <257>
 [21:06:59.948] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:28040000053427|(-527.41,213.12,20.42,-111.65)|(43851/44109)] [@Heavy Sloth#689203382607232|(-525.70,215.36,20.88,-123.11)|(42241/46271)] [Enlivening Force {3770727882817536}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (900) <180>
 [21:07:04.676] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:28040000053427|(-525.87,201.10,19.55,-7.34)|(44109/44109)] [Dread Host Detection Probe {3266962578735104}:28040000029154|(-525.57,198.69,19.39,172.84)|(0/2530)] [Melee Attack {813625719652352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (814* energy {836045448940874} -shield {836045448945509} (867 absorbed {836045448945511})) <326>
+```
+
+Example of why it is probably the effective amount:
+```
+// Here the Acolyte has 250 health
+[22:08:53.710] [Rival Acolyte {287749923930112}:26518003904775|(127.13,-316.76,-21.35,-19.40)|(250/345)] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:26518005427235|(127.91,-319.00,-21.35,160.70)|(2944/2944)] [Melee Attack {813445331025920}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -parry {836045448945503}) <1>
+
+// Here the effective damage is 251
+[22:08:54.227] [@Heavy Sloth#689203382607232|(128.99,-321.23,-21.35,-162.12)|(2891/2909)] [Rival Acolyte {287749923930112}:26518003904775|(127.13,-316.76,-21.35,-19.16)|(0/345)] [Vengeful Slam {3503361873674240}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (590* ~251 energy {836045448940874}) <590>
+
 ```
