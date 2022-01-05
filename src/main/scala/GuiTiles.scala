@@ -109,7 +109,7 @@ class GuiTiles {
     .skinType(SkinType.STATUS)
     .prefSize(TILE_WIDTH*menuTileSize, TILE_HEIGHT*menuTileSize)
     .title("Status Tile")
-    .description("Parser Status")
+    .description("parser.Parser Status")
     .leftText("Cannot Find Log")
     .middleText("Parsing, No Raid Connected")
     .rightText("Log Loaded, Raid Team Connected")
