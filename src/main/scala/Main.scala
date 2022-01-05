@@ -111,9 +111,13 @@ object Main extends JFXApp3 {
     // File select
     val filePane = new GridPane()
     filePane.setBackground(background)
-    val firstFile = new Button("New button")
-    firstFile.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-    filePane.add(firstFile, 0, 0, 1, 1)
+    for (i <- 0 until files.length){
+      println(files(i).getAbsolutePath().toString().split('/').last)
+      val firstFile = new Button(files(i).getAbsolutePath().split('\\').last)
+      firstFile.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
+      filePane.add(firstFile, 0, i , 1, 1)
+    }
+
     filePane.setHgap(5)
     filePane.setVgap(5)
 
