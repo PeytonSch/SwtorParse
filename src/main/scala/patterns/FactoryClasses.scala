@@ -3,6 +3,7 @@ package patterns
 import patterns.Actions.Action
 import patterns.Actors.{Actor, Companion, NoneActor, Npc, Player}
 import patterns.Result.{ApplyEffect, Event, RemoveEffect, Result}
+import patterns.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue, Value}
 import patterns.subTypes.{ActorId, Health, LogTimestamp, Position}
 
 class FactoryClasses {
@@ -115,6 +116,109 @@ class FactoryClasses {
       new ApplyEffect("ERROR","Err","Else Case Hit","Err")
     }
 
+
+  }
+
+  def valueFromLine(logLine: String): Value = {
+    // First see if this line even contains a value
+    val lineArray = logLine.split(']')
+    if (lineArray.size > 5) {
+      // Dont forget to trim off threat
+      val extractedValue = logLine.split(']')(5).split('<')(0).trim
+      //println("Contains a value: " + extractedValue)
+      // If it does contain a value, determine how many parts it has
+
+      /**
+       * We need to see if the value line has any of the following
+       * - is it a critical value
+       * - does it have an excess amount
+       * - does it have a value type, if so it also has an ID
+       * - does it have a negation, if so it also has an ID
+       * - There are two types of negations, partial negations with values and complete negations without
+       *    - Maybe check if value is 0 for negation?
+       */
+
+      // Check if the value is 0
+      // If it is 0, get complete negation information and return
+      if (extractedValue(1) == '0') {
+        val negationType = extractedValue.split('-')(1).split('{')(0).trim
+        val negatopmTypeId = extractedValue.split('-')(1).split('{')(1).split('}')(0).trim
+
+        //println(s"Log line contains a complete negation: " +
+        //  s"\n ${extractedValue} with negation ${negationType} with id ${negatopmTypeId}")
+        new CompleteNegation(negationType,negatopmTypeId)
+      }
+      else {
+        /**
+         * These are the parts needed in a regular value. Using vars because it just makes sense
+         */
+        val containsCrit = extractedValue.split(' ')(0).contains('*')
+        // if there is a crit drop the * off the base value
+        var baseValue : Int = 0
+        if (containsCrit)
+          baseValue = extractedValue.split(" ")(0).drop(1).trim.dropRight(1).toInt
+        else
+          baseValue = extractedValue.split(" ")(0).drop(1).trim.toInt
+        var excessValue : Int = 0
+        var valueType : String = ""
+        var valueTypeId : String = ""
+        var partialNegation : PartialNegation = new PartialNegation("","",0,"","")
+
+
+        //println(s"Crit: ${containsCrit}")
+        val containsExcess = extractedValue.split(' ')(1).contains('~')
+        if (containsExcess) {
+          // This handles values like (1764 ~99) where there is no space at the end
+          if (extractedValue.split('~')(1).split(' ')(0).contains(')')){
+            excessValue = extractedValue.split('~')(1).split(' ')(0).dropRight(1).toInt
+          }
+          else {
+            excessValue = extractedValue.split('~')(1).split(' ')(0).toInt
+          }
+         //println(s"Extracted Excess Value: ${excessValue} from ${extractedValue}")
+        }
+
+        // Extract the type, if there even is one it changes position depending on if there was an excess value
+        // if it contains an excess it will be after excess if there is one
+        if (containsExcess) {
+          try {
+            valueType = extractedValue.split('~')(1).split(' ')(1).split(' ')(0).trim
+            valueTypeId = extractedValue.split('~')(1).split('{')(1).split('}')(0).trim
+            //println(s"Extracted value type ${valueType} : ${valueTypeId} from ${extractedValue}")
+          }
+          catch {
+            case _ : Throwable => println(s"Could not extract value type for ${extractedValue}")
+          }
+        }
+        // if it does not contain excess try to extract type
+        else {
+          // if it does not contain excess and was not a complete negation, I beleive it will always
+          // be at the second index
+          valueType = extractedValue.split(' ')(1).split('{')(0).trim
+          valueTypeId = extractedValue.split('{')(1).split('}')(0).trim
+          //println(s"Extracted value type ${valueType} : ${valueTypeId} from ${extractedValue}")
+        }
+
+        // Check for partial negation
+        // at this point a - will only exist if there is a partial negation
+        // for some reason there is this case with a random -) though as in this line: (51 ~0 energy {836045448940874} -)"
+        if (extractedValue.contains('-') && !extractedValue.contains("-)")) {
+          val negationType = extractedValue.split('-')(1).split(' ')(0).trim
+          val negationId = extractedValue.split('-')(1).split('{')(1).split('}')(0).trim
+          val negationAmount = extractedValue.split('-')(1).split('(')(1).split(' ')(0).toInt
+          val negatedThrough = extractedValue.split('-')(1).split('(')(1).split(' ')(1).split(' ')(0).trim
+          val negatedThroughId = extractedValue.split('-')(1).split('(')(1).split('{')(1).split('}')(0)
+
+          partialNegation = new PartialNegation(negationType,negationId,negationAmount,negatedThrough,negatedThroughId)
+        }
+
+
+        new RegularValue(baseValue,containsCrit,excessValue,valueType,valueTypeId,partialNegation)
+      }
+
+    } else {
+      new NoValue
+    }
 
   }
 
