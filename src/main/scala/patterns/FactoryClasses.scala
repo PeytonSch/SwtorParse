@@ -2,7 +2,8 @@ package patterns
 
 import patterns.Actions.Action
 import patterns.Actors.{Actor, Companion, NoneActor, Npc, Player}
-import patterns.subTypes.{Health, ActorId, LogTimestamp, Position}
+import patterns.Result.{ApplyEffect, Result}
+import patterns.subTypes.{ActorId, Health, LogTimestamp, Position}
 
 class FactoryClasses {
 
@@ -89,6 +90,25 @@ class FactoryClasses {
     if (name == "]") return new Action("","")
     val id = logLine.split('[')(4).split('{')(1).split('}')(0)
     new Action(name,id)
+
+  }
+
+
+  def resultFromLine(logLine: String) : Result = {
+    val name = logLine.split('[')(5).split('{')(0).trim
+    val effectId = logLine.split('[')(5).split('{')(1).split('}')(0)
+    val resultType = logLine.split('[')(5).split(':')(1).split('{')(0).trim
+    val resultTypeId = logLine.split('[')(5).split(':')(1).split('{')(1).split('}')(0).trim
+
+    // TODO: These should not all be Apply Effects
+    if (name == "ApplyEffect") {
+      new ApplyEffect(name,effectId,resultType,resultTypeId)
+    }
+    else {
+      // TODO: This is wrong, just a place holder
+      new ApplyEffect(name,effectId,resultType,resultTypeId)
+    }
+
 
   }
 
