@@ -1,10 +1,10 @@
 package patterns.Actors
 
-import patterns.subTypes.{Health, Id, Position}
+import patterns.subTypes.{Health, ActorId, Position}
 
 class Npc (
             name : String,
-            id : Id,
+            id : ActorId,
             position : Position,
             health :  Health
           ) extends Actor {
@@ -19,6 +19,6 @@ class Npc (
 
   override def getHealth(): Health = health
 
-  def getId(): Id = id
+  def getId(): ActorId = id
 
 }
