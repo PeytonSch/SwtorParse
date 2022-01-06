@@ -1,12 +1,12 @@
 package patterns.Result
 
 class ApplyEffect (
-                  name : String,
-                  effectId : String,
                   resultType : String,
-                  resultTypeId : String
+                  effectId : String,
+                  name : String,
+                  nameId : String
 
                   ) extends Result {
-  override def toString: String = s"[ Name: ${name} ResultType: ${resultType} ]"
+  override def toString: String = s"[ Type: ${resultType} Name: ${name} ]"
 
 }

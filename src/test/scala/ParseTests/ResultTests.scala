@@ -2,6 +2,7 @@ package ParseTests
 
 import org.scalatest.flatspec.AnyFlatSpec
 import patterns.FactoryClasses
+import patterns.Result.{ApplyEffect, Event}
 
 class ResultTests extends AnyFlatSpec {
 
@@ -16,9 +17,9 @@ class ResultTests extends AnyFlatSpec {
   val baseInformationNpcLogLing = factory.resultFromLine(npcLogLine)
 
   "Result From Line" should "be correctly parsed" in {
-    assert(baseInformationPlayerLogLine.toString == "[ Name: ApplyEffect ResultType: Damage ]")
-    assert(baseInformationCompanionLogLine.toString == "[ Name: ApplyEffect ResultType: Unnatural Might ]")
-    assert(baseInformationNpcLogLing.toString == "[ Name: Event ResultType: TargetCleared ]")
+    assert(baseInformationPlayerLogLine.asInstanceOf[ApplyEffect].toString == "[ Type: ApplyEffect Name: Damage ]")
+    assert(baseInformationCompanionLogLine.toString == "[ Type: ApplyEffect Name: Unnatural Might ]")
+    assert(baseInformationNpcLogLing.asInstanceOf[Event].toString == "[ Type: Event Name: TargetCleared ]")
   }
 
 }
