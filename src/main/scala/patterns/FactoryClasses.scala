@@ -1,6 +1,6 @@
 package patterns
 
-import patterns.Actors.{Actor, Companion, Npc, Player}
+import patterns.Actors.{Actor, Companion, NoneActor, Npc, Player}
 import patterns.subTypes.{Health, Id, LogTimestamp, Position}
 
 class FactoryClasses {
@@ -8,14 +8,27 @@ class FactoryClasses {
   def timestampFromLine(line : String): LogTimestamp = {
     new LogTimestamp(line.split(']')(0).split('[')(1))
   }
+  def targetActorFromLogLineString(logLine: String): Actor = {
+    val actorString : String = logLine.split('[')(3).split(']')(0)
+    println("Target Actor: " + actorString)
+    // Check if the actor is empty, if so skip
+    if (actorString == "") return new NoneActor
+    // Check if the actor is the performer, if so skip
+    if (actorString == "=") return performingActorFromLogLineString(logLine)
+
+    actorFromActorString(actorString)
+  }
+  def performingActorFromLogLineString(logLine: String): Actor = {
+    val actorString : String = logLine.split('[')(2).split(']')(0)
+    actorFromActorString(actorString)
+  }
 
   /**
    * Parse a string containing an actor and return an instance of actor
    * @param actorString
    * @return
    */
-  def actorFromString(logLine: String): Actor = {
-    val actorString : String = logLine.split('[')(2).split(']')(0)
+  def actorFromActorString(actorString: String): Actor = {
     // First determine if the actor is a player and companion or npc
     // a player has an @ symbol, a companion has an @ and /
     // and an npc has neither
@@ -67,7 +80,7 @@ class FactoryClasses {
   }
 
   def baseInformationFromLine(logLine : String) = {
-    new BaseInformation(timestampFromLine(logLine),actorFromString(logLine))
+    new BaseInformation(timestampFromLine(logLine),performingActorFromLogLineString(logLine))
   }
 
 }

@@ -1,5 +1,18 @@
 Analysis of New Combat Log Format
 ---
+#### Basic Patter
+Each log line is broken into 5 [blocks] then optional (value block) and <threat block>
+The 5 blocks are
+```
+[TimeStamp] [Performer] [Target] [Action] [Result] (value) <threat>
+```
+#### Sub Patterns
+ - Performer and Target is broken into 
+```
+[Name {typeId}:instanceId|(pos)|(currentHealth/maxHealth)]
+```
+ids are optional.
+
 
 #### Affects Applied to Oneself
 ```
