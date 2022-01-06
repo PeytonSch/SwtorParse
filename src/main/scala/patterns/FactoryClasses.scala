@@ -1,12 +1,26 @@
 package patterns
 
-import patterns.Actors.{Actor, Companion, Npc, Player}
-import patterns.subTypes.{Health, Id, LogTimestamp, Position}
+import patterns.Actions.Action
+import patterns.Actors.{Actor, Companion, NoneActor, Npc, Player}
+import patterns.subTypes.{Health, ActorId, LogTimestamp, Position}
 
 class FactoryClasses {
 
   def timestampFromLine(line : String): LogTimestamp = {
     new LogTimestamp(line.split(']')(0).split('[')(1))
+  }
+  def targetActorFromLogLineString(logLine: String): Actor = {
+    val actorString : String = logLine.split('[')(3).split(']')(0)
+    // Check if the actor is empty, if so skip
+    if (actorString == "") return new NoneActor
+    // Check if the actor is the performer, if so skip
+    if (actorString == "=") return performingActorFromLogLineString(logLine)
+
+    actorFromActorString(actorString)
+  }
+  def performingActorFromLogLineString(logLine: String): Actor = {
+    val actorString : String = logLine.split('[')(2).split(']')(0)
+    actorFromActorString(actorString)
   }
 
   /**
@@ -14,8 +28,7 @@ class FactoryClasses {
    * @param actorString
    * @return
    */
-  def actorFromString(logLine: String): Actor = {
-    val actorString : String = logLine.split('[')(2).split(']')(0)
+  def actorFromActorString(actorString: String): Actor = {
     // First determine if the actor is a player and companion or npc
     // a player has an @ symbol, a companion has an @ and /
     // and an npc has neither
@@ -38,7 +51,7 @@ class FactoryClasses {
         val dir_pos = actorString.split('(')(1).split(')')(0).split(',')(3).toDouble
         val current_health = actorString.split('(')(2).split('/')(0).toInt
         val max_health = actorString.split('(')(2).split('/')(1).dropRight(1).toInt
-        new Companion(companionName, new Id(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
+        new Companion(companionName, new ActorId(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
 
       }
       else {
@@ -62,12 +75,21 @@ class FactoryClasses {
       val dir_pos = actorString.split('(')(1).split(')')(0).split(',')(3).toDouble
       val current_health = actorString.split('(')(2).split('/')(0).toInt
       val max_health = actorString.split('(')(2).split('/')(1).dropRight(1).toInt
-      new Npc(actorName, new Id(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
+      new Npc(actorName, new ActorId(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
     }
   }
 
   def baseInformationFromLine(logLine : String) = {
-    new BaseInformation(timestampFromLine(logLine),actorFromString(logLine))
+    new BaseInformation(timestampFromLine(logLine),performingActorFromLogLineString(logLine))
+  }
+
+  def actionFromLine(logLine: String): Action = {
+    val name = logLine.split('[')(4).split('{')(0).trim
+    // If it is an empty action, name will just be ']' and we should move on
+    if (name == "]") return new Action("","")
+    val id = logLine.split('[')(4).split('{')(1).split('}')(0)
+    new Action(name,id)
+
   }
 
 }

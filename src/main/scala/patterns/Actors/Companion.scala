@@ -1,10 +1,10 @@
 package patterns.Actors
 
-import patterns.subTypes.{Health, Id, Position}
+import patterns.subTypes.{Health, ActorId, Position}
 
 class Companion (
                   name : String,
-                  id : Id,
+                  id : ActorId,
                   position : Position,
                   health :  Health
                 ) extends Actor {

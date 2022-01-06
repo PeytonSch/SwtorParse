@@ -1,5 +1,8 @@
 package parser
 
+import patterns.Actions.Action
+import patterns.Actors.Actor
+import patterns.subTypes.LogTimestamp
 import patterns.{BaseInformation, FactoryClasses, SimpleRegularValue, Temp, ValueType}
 
 import scala.io.Source
@@ -21,11 +24,20 @@ class Parser {
     //println(line)
     lastReadLine = lastReadLine + 1
     //parseLineInformation(line)
-    extractBase(line).toString
+
+    /**
+     * Extract the timestamp, Actor name / Id / Position / Health
+     */
+    val time : LogTimestamp = factory.timestampFromLine(line)
+    val performer : Actor = factory.performingActorFromLogLineString(line)
+    val target : Actor = factory.targetActorFromLogLineString(line)
+    val action : Action = factory.actionFromLine(line)
+
+    ""
 
   }
 
-  def extractBase(line: String): BaseInformation = factory.baseInformationFromLine(line)
+  //def extractBase(line: String): BaseInformation = factory.baseInformationFromLine(line)
 
 
 //  def parseLineInformation(line: String): ValueType = {
