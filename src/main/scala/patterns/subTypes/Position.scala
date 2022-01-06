@@ -1,4 +1,4 @@
-package patterns.subTypes
+package parsing.subTypes
 
 class Position(
               x_dir : Double,

@@ -1,6 +1,6 @@
-package patterns.Actors
+package parsing.Actors
 
-import patterns.subTypes.{Health, Position}
+import parsing.subTypes.{Health, Position}
 
 class Player (
                name : String,

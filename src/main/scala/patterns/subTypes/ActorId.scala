@@ -1,4 +1,4 @@
-package patterns.subTypes
+package parsing.subTypes
 
 class ActorId( // These IDs are too Long to be Ints or Longs, they need to be strings
                typeId : String,

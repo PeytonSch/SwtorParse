@@ -1,4 +1,4 @@
-package patterns.Values
+package parsing.Values
 
 class PartialNegation(
                negationType: String, // Ex: "Shield"
