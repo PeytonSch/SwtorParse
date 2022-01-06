@@ -1,8 +1,8 @@
 package ParseTests
 
 import org.scalatest.flatspec.AnyFlatSpec
-import patterns.FactoryClasses
-import patterns.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue}
+import parsing.FactoryClasses
+import parsing.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue}
 
 class ValueTests extends AnyFlatSpec{
 
@@ -12,7 +12,7 @@ class ValueTests extends AnyFlatSpec{
   val missLogLine = "[22:05:32.451] [Acolyte Henchman {379421705895936}:26518005416704|(67.84,-162.62,-11.45,92.27)|(130/130)] [@Igrin#689797178977446|(64.01,-162.46,-11.44,-102.52)|(1879/1999)] [Ranged Attack {813449625993216}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (0 -miss {836045448945502}) <1>"
   val critLogLine = "[22:05:46.237] [@Igrin#689797178977446|(53.46,-188.57,-12.50,23.77)|(1999/1999)] [Competing Acolyte {379408820994048}:26518005417167|(52.57,-189.84,-12.50,-148.47)|(0/240)] [Smash {807801743998976}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (199* kinetic {836045448940873}) <199>"
   val healLine = "[22:05:55.233] [@Igrin#689797178977446/Vette {290296839536640}:26518005402831|(54.08,-187.91,-12.50,-84.34)|(2100/2100)] [@Igrin#689797178977446|(65.76,-189.12,-12.30,-90.10)|(1999/1999)] [Kolto Shell {4238290907561984}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (63 ~33) <11>"
-
+  val areaEnteredLine = "[22:09:10.592] [@Heavy Sloth#689203382607232|(373.97,241.99,10.26,178.46)|(360708/377823)] [] [] [AreaEntered {836045448953664}: Rishi {833571547775718}] (HE600) <v7.0.0b>"
   val negationLine = "[20:59:52.340] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:28040000040093|(-609.50,223.78,11.27,119.73)|(44109/44109)] [Dread Host Soldier {3266932513964032}:28040000034858|(-611.39,224.86,11.22,-105.21)|(73/7950)] [Melee Attack {813625719652352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (462 energy {836045448940874} -shield {836045448945509} (492 absorbed {836045448945511})) <185>"
 
 
@@ -25,10 +25,12 @@ class ValueTests extends AnyFlatSpec{
   val critTest = factory.valueFromLine(critLogLine)
   val healTest = factory.valueFromLine(healLine)
   val negationTest = factory.valueFromLine(negationLine)
+  val areaEnteredTest = factory.valueFromLine(areaEnteredLine)
 
   "No value log lines" should "return no value" in {
     assert(noValueLogTest1.isInstanceOf[NoValue])
     assert(noValueLogTest2.isInstanceOf[NoValue])
+    assert(areaEnteredTest.isInstanceOf[NoValue])
   }
 
   "Lines with Regular values" should "return instances of regular value" in {

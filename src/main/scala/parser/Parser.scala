@@ -1,12 +1,12 @@
 package parser
 
-import patterns.Actions.Action
-import patterns.Actors.Actor
-import patterns.Result.Result
-import patterns.Threat.ThreatValue
-import patterns.Values.Value
-import patterns.subTypes.LogTimestamp
-import patterns.{BaseInformation, FactoryClasses, SimpleRegularValue, Temp, ValueType}
+import parsing.Actions.Action
+import parsing.Actors.Actor
+import parsing.Result.Result
+import parsing.Threat.ThreatValue
+import parsing.Values.Value
+import parsing.subTypes.LogTimestamp
+import parsing.{FactoryClasses}
 
 import scala.io.Source
 

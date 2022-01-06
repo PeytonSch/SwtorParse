@@ -1,4 +1,4 @@
-package patterns.Values
+package parsing.Values
 
 class RegularValue(
                     baseValue: Int,

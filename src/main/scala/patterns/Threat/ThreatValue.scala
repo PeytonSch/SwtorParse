@@ -1,4 +1,4 @@
-package patterns.Threat
+package parsing.Threat
 
 class ThreatValue (
                   value : Int

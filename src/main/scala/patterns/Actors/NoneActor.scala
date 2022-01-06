@@ -1,5 +1,5 @@
-package patterns.Actors
-import patterns.subTypes.{Health, Position}
+package parsing.Actors
+import parsing.subTypes.{Health, Position}
 
 // TODO: This is not the best way to handle this, should probably make Actors Options
 class NoneActor extends Actor {
