@@ -1,7 +1,7 @@
 package ParseTests
 
 import org.scalatest.flatspec.AnyFlatSpec
-import patterns.FactoryClasses
+import parsing.FactoryClasses
 
 class ThreatTests extends AnyFlatSpec{
 
@@ -13,6 +13,7 @@ class ThreatTests extends AnyFlatSpec{
   val threat2 = "[21:05:46.225] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:28040000040093|(-611.39,224.82,11.21,-64.94)|(44109/44109)] [@Heavy Sloth#689203382607232|(-607.66,226.28,11.53,1.48)|(46271/46271)] [Protective Barrier {4238475591155712}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (2597* ~563) <112>"
   val threat3 = "[20:59:52.340] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:28040000040093|(-609.50,223.78,11.27,119.73)|(44109/44109)] [Dread Host Soldier {3266932513964032}:28040000034858|(-611.39,224.86,11.22,-105.21)|(73/7950)] [Melee Attack {813625719652352}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (462 energy {836045448940874} -shield {836045448945509} (492 absorbed {836045448945511})) <185>"
 
+  val areaEnteredLine = "[22:09:10.592] [@Heavy Sloth#689203382607232|(373.97,241.99,10.26,178.46)|(360708/377823)] [] [] [AreaEntered {836045448953664}: Rishi {833571547775718}] (HE600) <v7.0.0b>"
 
   val factory = new FactoryClasses
 
@@ -24,6 +25,8 @@ class ThreatTests extends AnyFlatSpec{
   val threatTest2 = factory.threatFromLine(threat2)
   val threatTest3 = factory.threatFromLine(threat3)
 
+  val areaEnteredTest = factory.threatFromLine(areaEnteredLine)
+
   "Lines without threat" should "report 0 threat" in {
     assert(threatTest1.getValue() == 4708)
     assert(threatTest2.getValue() == 112)
@@ -34,6 +37,7 @@ class ThreatTests extends AnyFlatSpec{
     assert(noThreatTest1.getValue() == 0)
     assert(noThreatTest2.getValue() == 0)
     assert(noThreatTest3.getValue() == 0)
+    assert(areaEnteredTest.getValue() == 0)
   }
 
 }

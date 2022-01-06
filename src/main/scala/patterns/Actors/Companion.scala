@@ -1,6 +1,6 @@
-package patterns.Actors
+package parsing.Actors
 
-import patterns.subTypes.{Health, ActorId, Position}
+import parsing.subTypes.{Health, ActorId, Position}
 
 class Companion (
                   name : String,

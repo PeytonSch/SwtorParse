@@ -1,4 +1,4 @@
-package patterns.Values
+package parsing.Values
 
 trait Value {
 
