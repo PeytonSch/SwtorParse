@@ -3,6 +3,7 @@ package patterns
 import patterns.Actions.Action
 import patterns.Actors.{Actor, Companion, NoneActor, Npc, Player}
 import patterns.Result.{ApplyEffect, Event, RemoveEffect, Result}
+import patterns.Threat.ThreatValue
 import patterns.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue, Value}
 import patterns.subTypes.{ActorId, Health, LogTimestamp, Position}
 
@@ -220,6 +221,16 @@ class FactoryClasses {
       new NoValue
     }
 
+  }
+
+
+  def threatFromLine(logLine: String): ThreatValue = {
+    if (logLine.contains('<')) {
+      new ThreatValue(logLine.split('<')(1).split('>')(0).toInt)
+    }
+    else {
+      new ThreatValue(0)
+    }
   }
 
 }
