@@ -2,6 +2,7 @@ package parser
 
 import patterns.Actions.Action
 import patterns.Actors.Actor
+import patterns.Result.Result
 import patterns.subTypes.LogTimestamp
 import patterns.{BaseInformation, FactoryClasses, SimpleRegularValue, Temp, ValueType}
 
@@ -32,7 +33,7 @@ class Parser {
     val performer : Actor = factory.performingActorFromLogLineString(line)
     val target : Actor = factory.targetActorFromLogLineString(line)
     val action : Action = factory.actionFromLine(line)
-
+    val result : Result = factory.resultFromLine(line)
     ""
 
   }
