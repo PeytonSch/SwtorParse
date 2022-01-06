@@ -1,6 +1,6 @@
 package patterns.Actors
 
-import patterns.subTypes.{Health, Id, Position}
+import patterns.subTypes.{Health, ActorId, Position}
 
 trait Actor {
 
