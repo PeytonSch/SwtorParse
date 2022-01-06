@@ -1,4 +1,4 @@
-package patterns.subTypes
+package parsing.subTypes
 
 class LogTimestamp (
                    time : String

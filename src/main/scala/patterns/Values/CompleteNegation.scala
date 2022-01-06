@@ -1,4 +1,4 @@
-package patterns.Values
+package parsing.Values
 
 class CompleteNegation (
                          negationType: String, // Ex: "miss" or "deflect"

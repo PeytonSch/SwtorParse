@@ -1,6 +1,8 @@
-package parsing.Result
+package patterns.Result
 
-class ApplyEffect (
+import parsing.Result.Result
+
+class AreaEntered(
                   resultType : String,
                   effectId : String,
                   name : String,

@@ -1,4 +1,4 @@
-package patterns.Result
+package parsing.Result
 
 class RemoveEffect (
                      resultType : String,

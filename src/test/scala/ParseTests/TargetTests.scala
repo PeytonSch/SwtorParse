@@ -1,7 +1,7 @@
 package ParseTests
 
 import org.scalatest.flatspec.AnyFlatSpec
-import patterns.FactoryClasses
+import parsing.FactoryClasses
 
 class TargetTests extends AnyFlatSpec{
 
