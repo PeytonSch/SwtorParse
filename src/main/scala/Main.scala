@@ -7,7 +7,8 @@ import scalafx.scene.{PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
 import scalafx.scene.paint._
-
+import java.time.Instant
+import eu.hansolo.tilesfx.chart.ChartData
 
 /**
  * ScalaFX applications can extend JFXApp3 to create properly initialized JavaFX applications.
@@ -37,7 +38,6 @@ object Main extends JFXApp3 {
 
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
-
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
@@ -65,8 +65,8 @@ object Main extends JFXApp3 {
         tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3))
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
-
-        tiles.sparkLineTile.setValue(random.nextDouble() * tiles.sparkLineTile.getRange() * 150 + tiles.sparkLineTile.getMinValue())
+        tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
+        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(120))
 
         /** Radar Percentiles Chart */
         tiles.chartData1.setValue(random.nextDouble() * 50)
@@ -180,7 +180,7 @@ object Main extends JFXApp3 {
 
     //Main Row 1
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.sparkLineTile, 1, mainRow1, 5, mainRowSpan)
+    pane.add(tiles.timelineTile, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
