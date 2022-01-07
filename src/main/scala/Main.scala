@@ -5,10 +5,18 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox}
+import scalafx.scene.control.{MenuBar, Menu, MenuItem}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
 import scalafx.scene.paint._
+import scalafx.stage.{FileChooser, DirectoryChooser}
+import scalafx.event.{ActionEvent}
+import scalafx.Includes._
+import java.io.File
+import java.nio.file.Paths
+import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+
 
 /**
  * ScalaFX applications can extend JFXApp3 to create properly initialized JavaFX applications.
@@ -99,7 +107,8 @@ object Main extends JFXApp3 {
     val background = new Background(backgroundFillArray)
 
     // These variables are to make adjusting the grid easier
-    val menuRow = 0
+    val mainMenuRow = 0
+    val menuRow = mainMenuRow + 1
     val mainRow1 = menuRow + 1
     val mainRowSpan = 2
     val mainRow2 = mainRow1 + mainRowSpan
@@ -117,34 +126,53 @@ object Main extends JFXApp3 {
     filePane.setHgap(5)
     filePane.setVgap(5)
 
-    // These Are All Menu Buttons
-    val buttonPane = new GridPane()
-    buttonPane.setBackground(background)
-    val button3 = new Button("Open Log  ")
-    button3.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-    val button4 = new Button(" Team 1   ")
-    button4.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-    val button5 = new Button("Settings     ")
-    button5.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-    val button6 = new Button(" Team 2   ")
-    button6.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-    val button7 = new Button("Add Team ")
-    button7.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-    val button8 = new Button("All Teams")
-    button8.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
+    // Main Menu Bar
 
-    // Add the buttons to a sub layout grid
-    buttonPane.add(button3, 0, 0, 1, 1)
-    buttonPane.add(button4, 1, 0, 1, 1)
-    buttonPane.add(button5, 0, 1, 1, 1)
-    buttonPane.add(button6, 1, 1, 1, 1)
-    buttonPane.add(button7, 0, 2, 1, 1)
-    buttonPane.add(button8, 1, 2, 1, 1)
-    buttonPane.setHgap(5)
-    buttonPane.setVgap(5)
+    //Make all the menus
+    val menu1 = new Menu("File")
+    menu1.items = List(new MenuItem("Choose Log Directory..."), new MenuItem("Open Recent Log Directory..."))
+    val menu2 = new Menu("Options")
+    val menu3 = new Menu("View")
+    val menu4 = new Menu("Help")
 
-    // Add this sub pane to the main layout pane
-    pane.add(buttonPane, 0, menuRow, 1, 1)
+    //Create blank menubar
+    val mainMenuBar = new MenuBar()
+
+    //add the menus to the menubar
+    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4)
+
+    //add the menubar to the pane
+    pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
+
+    //style of the menu bar and menus
+    //mainMenuBar.setBackground(background)
+    //menu1.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+    //menu2.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+    //menu3.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+    //menu4.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+
+    //create a DirectoryChooser object
+    val directoryChooser = new DirectoryChooser {
+      title = "Open Resource File"
+    }
+
+    //open file explorer when MenuItem("Choose Log File...") is clicked
+    //Not exactly sure how we want to handle userData at the moment, just printing out the chosen directory for now
+    menu1.items(0).onActionProperty() = (e: ActionEvent) => {
+      val selectedDirectory: File = directoryChooser.showDialog(stage)
+
+      if (selectedDirectory != Nil) {
+          val dirPath = selectedDirectory.getAbsolutePath()
+          println(dirPath)
+      }
+    }
+
+    //End of Main Menu Bar code
+
+
+    
+
+
 
     // The Interface Pane handles some checkboxes and stuff for quickly accessed items. This will probably be remade later
     val interfacePane = new GridPane()
