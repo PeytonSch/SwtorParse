@@ -3,7 +3,7 @@ package ParseTests
 import org.scalatest.flatspec.AnyFlatSpec
 import parsing.FactoryClasses
 import parsing.Result.{ApplyEffect, Event}
-import patterns.Result.AreaEntered
+import parsing.Result.AreaEntered
 
 class ResultTests extends AnyFlatSpec {
 
