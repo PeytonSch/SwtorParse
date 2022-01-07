@@ -30,7 +30,7 @@ object Main extends JFXApp3 {
     // Set the last Timer Call to the current system time. This is a var so it can be updated. It controls the UI
     // Refresh rate, checking the time against the last time and the execution rate.
     var lastTimerCall = System.nanoTime()
-    val program_execution_rate : Long = 1_000_000_000L
+    val program_execution_rate : Long = 200_000_000L
 
     // This can be used to generate random numbers
     val random = scala.util.Random
