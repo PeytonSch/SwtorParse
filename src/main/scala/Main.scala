@@ -56,7 +56,8 @@ object Main extends JFXApp3 {
          * I'm mostly just testing parsing things in here, this is all WIP
          * */
         val result = parser.getNextLine()
-        println(result)
+
+
 
 
 
