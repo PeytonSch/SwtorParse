@@ -1,12 +1,14 @@
 package parser
 
-import parsing.Actions.Action
+import parsing.Actions.DefaultAction
 import parsing.Actors.Actor
 import parsing.Result.Result
 import parsing.Threat.ThreatValue
 import parsing.Values.Value
 import parsing.subTypes.LogTimestamp
-import parsing.{FactoryClasses}
+import parsing.FactoryClasses
+import patterns.Actions.Action
+import patterns.LogInformation
 
 import scala.io.Source
 
@@ -19,7 +21,7 @@ class Parser {
 
   var lastReadLine = 0
 
-  def getNextLine(): String = {
+  def getNextLine(): LogInformation = {
 
     val lines = Source.fromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt").getLines.toList
 
@@ -29,7 +31,7 @@ class Parser {
 //    println(lastReadLine)
 
     /**
-     * Extract the timestamp, Actor name / Id / Position / Health
+     * Extract log information
      */
     val time : LogTimestamp = factory.timestampFromLine(line)
     val performer : Actor = factory.performingActorFromLogLineString(line)
@@ -39,7 +41,8 @@ class Parser {
     // See if this line has a value associated with it
     val resultValue : Value = factory.valueFromLine(line)
     val threatValue : ThreatValue = factory.threatFromLine(line)
-    ""
+
+    new LogInformation(time,performer,target,action,result,resultValue,threatValue)
 
   }
 

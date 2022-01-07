@@ -1,7 +1,7 @@
 package ParseTests
 
 import org.scalatest.flatspec.AnyFlatSpec
-import parsing.Actors.{Companion, Npc}
+import parsing.Actors.{Companion, NoneActor, Npc}
 import parsing.FactoryClasses
 
 class PerformerTests extends AnyFlatSpec{
@@ -11,11 +11,18 @@ class PerformerTests extends AnyFlatSpec{
   val companionLogLine = "[22:04:03.036] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:26518005410002|(-56.35,-60.31,-0.57,-85.17)|(2878/2944)] [=] [ {4196681264398336}] [ApplyEffect {836045448945477}: Unnatural Might {4196681264398641}]"
   val npcLogLine = "[22:04:30.903] [Acolyte Henchman {379421705895936}:26518005413256|(0.32,-122.48,-11.44,150.00)|(0/90)] [] [] [Event {836045448945472}: TargetCleared {836045448953669}]"
 
+  val noPerformer = "[22:05:29.820] [] [@Heavy Sloth#689203382607232|(28.42,-173.66,-12.49,6.00)|(2909/2909)] [Protective Barrier {4238475591155712}] [RemoveEffect {836045448945478}: Protective Barrier {4238475591155712}]"
+
   val factory = new FactoryClasses
 
   val baseInformationPlayerLogLine = factory.performingActorFromLogLineString(playerLogLine)
   val baseInformationCompanionLogLine = factory.performingActorFromLogLineString(companionLogLine)
   val baseInformationNpcLogLing = factory.performingActorFromLogLineString(npcLogLine)
+  val noPerformerTest = factory.performingActorFromLogLineString(noPerformer)
+
+  "Extractors" should "return NoneActor correctly" in {
+    assert(noPerformerTest.isInstanceOf[NoneActor])
+  }
 
   "Extractors" should "extract player name correctly" in {
     assert(baseInformationPlayerLogLine.getName() == "Heavy Sloth")

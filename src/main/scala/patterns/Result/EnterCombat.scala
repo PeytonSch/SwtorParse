@@ -1,8 +1,8 @@
-package parsing.Result
+package patterns.Result
 
 import parsing.Result.Result
 
-class AreaEntered(
+class EnterCombat(
                   resultType : String,
                   effectId : String,
                   name : String,
