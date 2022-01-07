@@ -165,18 +165,37 @@ class FactoryClasses {
           val containsCrit = extractedValue.split(' ')(0).contains('*')
           // if there is a crit drop the * off the base value
           var baseValue: Int = 0
-          if (containsCrit)
-            baseValue = extractedValue.split(" ")(0).drop(1).trim.dropRight(1).toInt
-          else
-            baseValue = extractedValue.split(" ")(0).drop(1).trim.toInt
+          if (containsCrit) {
+            val part = extractedValue.split(" ")(0).drop(1).trim.dropRight(1)
+            if (part.contains('*')){
+              baseValue = part.dropRight(1).toInt
+            }
+            else {
+              baseValue = part.toInt
+            }
+//            baseValue = extractedValue.split(" ")(0).drop(1).trim.dropRight(1).toInt
+          } else {
+            val part = extractedValue.split(" ")(0).drop(1).trim
+            if (part.contains(')')){
+              baseValue = part.dropRight(1).toInt
+            }
+            else {
+              baseValue = part.toInt
+            }
+          }
           var excessValue: Int = 0
           var valueType: String = ""
           var valueTypeId: String = ""
           var partialNegation: PartialNegation = new PartialNegation("", "", 0, "", "")
 
+          var containsExcess = false
+          try {
+            containsExcess = extractedValue.split(' ')(1).contains('~')
+          } catch {
+            case e: ArrayIndexOutOfBoundsException => // this happens on simple values like (861)
+            case e: Throwable => println(s"Error: ${e}")
+          }
 
-          //println(s"Crit: ${containsCrit}")
-          val containsExcess = extractedValue.split(' ')(1).contains('~')
           if (containsExcess) {
             // This handles values like (1764 ~99) where there is no space at the end
             if (extractedValue.split('~')(1).split(' ')(0).contains(')')) {
@@ -197,16 +216,25 @@ class FactoryClasses {
               //println(s"Extracted value type ${valueType} : ${valueTypeId} from ${extractedValue}")
             }
             catch {
-              case _: Throwable => println(s"Could not extract value type for ${extractedValue}")
+              // If there is an index out of bound exception, it is because there is a line like (2022* ~0) which does not have a value type
+              case e: IndexOutOfBoundsException =>
+              case e: Throwable => println(s"Could not extract value type for ${extractedValue} + ${e}")
             }
           }
           // if it does not contain excess try to extract type
           else {
             // if it does not contain excess and was not a complete negation, I beleive it will always
             // be at the second index
-            valueType = extractedValue.split(' ')(1).split('{')(0).trim
-            valueTypeId = extractedValue.split('{')(1).split('}')(0).trim
-            //println(s"Extracted value type ${valueType} : ${valueTypeId} from ${extractedValue}")
+
+            try {
+              valueType = extractedValue.split(' ')(1).split('{')(0).trim
+              valueTypeId = extractedValue.split('{')(1).split('}')(0).trim
+              //println(s"Extracted value type ${valueType} : ${valueTypeId} from ${extractedValue}")
+            }
+            catch {
+              case _:ArrayIndexOutOfBoundsException => //this happens on simple values like (861)
+              case e : Throwable => println("Error: " + e)
+            }
           }
 
           // Check for partial negation
