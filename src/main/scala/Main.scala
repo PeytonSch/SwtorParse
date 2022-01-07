@@ -161,7 +161,7 @@ object Main extends JFXApp3 {
     menu1.items(0).onActionProperty() = (e: ActionEvent) => {
       val selectedDirectory: File = directoryChooser.showDialog(stage)
 
-      if (selectedDirectory != Nil) {
+      if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
           println(dirPath)
       }
