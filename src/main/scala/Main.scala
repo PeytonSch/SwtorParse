@@ -14,6 +14,8 @@ import scalafx.Includes._
 import java.io.File
 import java.nio.file.Paths
 import java.nio.file.Files
+import java.time.Instant
+import eu.hansolo.tilesfx.chart.ChartData
 
 
 /**
@@ -37,14 +39,13 @@ object Main extends JFXApp3 {
     // Set the last Timer Call to the current system time. This is a var so it can be updated. It controls the UI
     // Refresh rate, checking the time against the last time and the execution rate.
     var lastTimerCall = System.nanoTime()
-    val program_execution_rate : Long = 1_000_000_000L
+    val program_execution_rate : Long = 200_000_000L
 
     // This can be used to generate random numbers
     val random = scala.util.Random
 
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
-
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
@@ -72,8 +73,8 @@ object Main extends JFXApp3 {
         tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3))
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
-
-        tiles.sparkLineTile.setValue(random.nextDouble() * tiles.sparkLineTile.getRange() * 150 + tiles.sparkLineTile.getMinValue())
+        tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
+        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(120))
 
         /** Radar Percentiles Chart */
         tiles.chartData1.setValue(random.nextDouble() * 50)
@@ -207,7 +208,7 @@ object Main extends JFXApp3 {
 
     //Main Row 1
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.sparkLineTile, 1, mainRow1, 5, mainRowSpan)
+    pane.add(tiles.timelineTile, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
