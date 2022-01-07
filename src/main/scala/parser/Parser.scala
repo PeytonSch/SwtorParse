@@ -26,7 +26,7 @@ class Parser {
     val line = lines(lastReadLine)
     //println(line)
     lastReadLine = lastReadLine + 1
-    //parseLineInformation(line)
+//    println(lastReadLine)
 
     /**
      * Extract the timestamp, Actor name / Id / Position / Health
