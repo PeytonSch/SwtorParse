@@ -1,12 +1,14 @@
 package parsing
 
-import parsing.Actions.Action
+import parsing.Actions.DefaultAction
 import parsing.Actors.{Actor, Companion, NoneActor, Npc, Player}
 import parsing.Result.{ApplyEffect, Event, RemoveEffect, Result}
 import parsing.Threat.ThreatValue
 import parsing.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue, Value}
 import parsing.subTypes.{ActorId, Health, LogTimestamp, Position}
-import patterns.Result.AreaEntered
+import parsing.Result.AreaEntered
+import patterns.Actions.{Action, NoAction, SafeLogin}
+import patterns.Result.{EnterCombat, ExitCombat}
 
 class FactoryClasses {
 
@@ -91,9 +93,14 @@ class FactoryClasses {
   def actionFromLine(logLine: String): Action = {
     val name = logLine.split('[')(4).split('{')(0).trim
     // If it is an empty action, name will just be ']' and we should move on
-    if (name == "]") return new Action("","")
+    if (name == "]") return new NoAction()
     val id = logLine.split('[')(4).split('{')(1).split('}')(0)
-    new Action(name,id)
+    println(name)
+    if (name == "Safe Login") {
+      new SafeLogin(name,id)
+    } else {
+      new DefaultAction(name,id)
+    }
 
   }
 
@@ -112,7 +119,14 @@ class FactoryClasses {
       new RemoveEffect(resultType,effectId,name,nameId)
     }
     else if (resultType == "Event") {
-      new Event(resultType,effectId,name,nameId)
+      if (name == "EnterCombat"){
+        new EnterCombat(resultType,effectId,name,nameId)
+      } else if (name == "ExitCombat") {
+        new ExitCombat(resultType,effectId,name,nameId)
+      } else {
+        new Event(resultType,effectId,name,nameId)
+      }
+
     }
     else if (resultType == "AreaEntered") {
       new AreaEntered(resultType,effectId,name,nameId)

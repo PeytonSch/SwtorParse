@@ -1,0 +1,7 @@
+package patterns
+
+class CombatInstance (
+
+                     ){
+
+}
