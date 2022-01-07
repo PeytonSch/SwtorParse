@@ -5,6 +5,8 @@ import eu.hansolo.tilesfx.chart.SunburstChart.TextOrientation
 import eu.hansolo.tilesfx.chart.{ChartData, RadarChartMode}
 import eu.hansolo.tilesfx.skins.{BarChartItem, LeaderBoardItem}
 import eu.hansolo.tilesfx.tools.TreeNode
+import eu.hansolo.tilesfx.tools.Helper;
+import eu.hansolo.tilesfx.Section;
 import scalafx.geometry.Pos
 import javafx.scene.paint.Stop
 import scalafx.scene.paint.Color
@@ -61,7 +63,7 @@ class GuiTiles {
   val barChartItem6 = new BarChartItem("APM", 43, Tile.YELLOW);
   val barChartItem7 = new BarChartItem("CRIT", 12, Tile.ORANGE);
   val barChartItem8 = new BarChartItem("TIME", 8, Tile.ORANGE);
-  
+
   /** Sunburst Tile (Fancy Pie Charts 1 and 2) Data
    * This will be updated to represent damage taken and damage done
    * by sources
@@ -135,16 +137,38 @@ class GuiTiles {
     .leaderBoardItems(leaderBoardItem1, leaderBoardItem2, leaderBoardItem3, leaderBoardItem4)
     .build();
 
-  val sparkLineTile = TileBuilder.create()
-    .skinType(SkinType.SPARK_LINE)
-    .prefSize(TILE_WIDTH*4, TILE_HEIGHT)
+    val timelineTile = TileBuilder.create()
+    .skinType(SkinType.TIMELINE)
+    .prefSize(TILE_WIDTH * 4, TILE_HEIGHT)
     .title("Damage Per Second")
     .unit("dps")
+    .minValue(0)
+    .maxValue(350)
+    .smoothing(false)
+    .lowerThreshold(70)
+    .lowerThresholdColor(Helper.getColorWithOpacity(Tile.RED, 0.0))
+    .threshold(240)
+    .thresholdColor(Helper.getColorWithOpacity(Tile.RED, 0.0))
+    .thresholdVisible(true)
+    .tickLabelColor(Helper.getColorWithOpacity(Tile.FOREGROUND, 0.5))
+    .highlightSections(true)
+    .sectionsVisible(true)
+    .timePeriod(java.time.Duration.ofMinutes(1))
+    .numberOfValuesForTrendCalculation(5)
+    .trendVisible(false)
+    .maxTimePeriod(java.time.Duration.ofSeconds(60))
     .gradientStops(new Stop(0, Tile.RED),
-      new Stop(8000, Tile.YELLOW),
-      new Stop(12000, Tile.GREEN))
-    .strokeWithGradient(true)
-    //.smoothing(true)
+                    new Stop(0.15, Tile.RED),
+                    new Stop(0.2, Tile.YELLOW_ORANGE),
+                    new Stop(0.25, Tile.GREEN),
+                    new Stop(0.3, Tile.GREEN),
+                    new Stop(0.35, Tile.GREEN),
+                    new Stop(0.45, Tile.YELLOW_ORANGE),
+                    new Stop(0.5, Tile.ORANGE),
+                    new Stop(0.685, Tile.RED),
+                    new Stop(1.0, Tile.RED))
+    .averageVisible(false)
+    .timeoutMs(60000)
     .build();
 
 
