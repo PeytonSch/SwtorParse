@@ -70,16 +70,21 @@ class FactoryClasses {
     }
     // [Rival Acolyte {287749923930112}:26518005413169|(1.99,-125.04,-11.44,0.00)|(221/345)]
     else {
-      val actorName = actorString.split('{')(0).trim
-      val actorTypeID = actorString.split('{')(1).split('}')(0)
-      val actorInstanceID = actorString.split(':')(1).split('|')(0)
-      val x_pos = actorString.split('(')(1).split(')')(0).split(',')(0).toDouble
-      val y_pos = actorString.split('(')(1).split(')')(0).split(',')(1).toDouble
-      val z_pos = actorString.split('(')(1).split(')')(0).split(',')(2).toDouble
-      val dir_pos = actorString.split('(')(1).split(')')(0).split(',')(3).toDouble
-      val current_health = actorString.split('(')(2).split('/')(0).toInt
-      val max_health = actorString.split('(')(2).split('/')(1).dropRight(1).toInt
-      new Npc(actorName, new ActorId(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
+      if (actorString == "") {
+        new NoneActor
+      }
+      else {
+        val actorName = actorString.split('{')(0).trim
+        val actorTypeID = actorString.split('{')(1).split('}')(0)
+        val actorInstanceID = actorString.split(':')(1).split('|')(0)
+        val x_pos = actorString.split('(')(1).split(')')(0).split(',')(0).toDouble
+        val y_pos = actorString.split('(')(1).split(')')(0).split(',')(1).toDouble
+        val z_pos = actorString.split('(')(1).split(')')(0).split(',')(2).toDouble
+        val dir_pos = actorString.split('(')(1).split(')')(0).split(',')(3).toDouble
+        val current_health = actorString.split('(')(2).split('/')(0).toInt
+        val max_health = actorString.split('(')(2).split('/')(1).dropRight(1).toInt
+        new Npc(actorName, new ActorId(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
+      }
     }
   }
 
