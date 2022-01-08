@@ -1,3 +1,4 @@
+import Controller.Controller
 import parser.Parser
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
@@ -5,17 +6,24 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox}
-import scalafx.scene.control.{MenuBar, Menu, MenuItem}
+import scalafx.scene.control.{Menu, MenuBar, MenuItem}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
 import scalafx.scene.paint._
-import scalafx.stage.{FileChooser, DirectoryChooser}
-import scalafx.event.{ActionEvent}
+import scalafx.stage.{DirectoryChooser, FileChooser}
+import scalafx.event.ActionEvent
 import scalafx.Includes._
+
 import java.io.File
 import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import parsing.Result.ApplyEffect
+import patterns.Actions.SafeLogin
+import patterns.LogInformation
+import patterns.Result.{EnterCombat, ExitCombat}
+
+import scala.collection.IterableOnce.iterableOnceExtensionMethods
 
 
 /**
@@ -30,6 +38,8 @@ object Main extends JFXApp3 {
    * This start() Method is essentially this start of our application, you can think of this as the main function
    */
   override def start(): Unit = {
+
+    val controller = new Controller()
 
     val files = FileHelper.getListOfFiles("./SampleLogs")
 
@@ -52,10 +62,14 @@ object Main extends JFXApp3 {
       if (now > lastTimerCall + program_execution_rate) {
         lastTimerCall = now
 
-        /** parser.Parser Items
-         * I'm mostly just testing parsing things in here, this is all WIP
+        /**
+         * This returns all lines from the log that are new this tick.
+         * It returns them as instances of LogInformation
          * */
-        val result = parser.getNextLine()
+        val result = parser.getNewLines()
+
+        // if there are new lines to parse
+        if (result.size != 0) topLevelParse(result,controller)
 
 
 
@@ -250,5 +264,48 @@ object Main extends JFXApp3 {
   override def stopApp(): Unit = {
     println("Stopping App")
     //timer.stop()
+  }
+
+  /**
+   * This top level parser is created to orchestrate combat control and parsing
+   * at the game loop level
+   * @param linesToParse
+   */
+  def topLevelParse(linesToParse: IndexedSeq[LogInformation], controller : Controller): Unit = {
+
+    for (logInfo <- linesToParse) {
+
+      /**
+       * Check for Entering or Exiting Combat
+       */
+      // Check to see if we entered or exit combat
+      if(logInfo.getResult().isInstanceOf[EnterCombat]) {
+        controller.startNewCombat()
+      } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
+        controller.endCombat()
+      }
+
+      // Check for login action
+      if (logInfo.getAction().isInstanceOf[SafeLogin]){
+        controller.setPlayerToon(logInfo.getPerformer().getName())
+      }
+
+      // if we are currently in combat
+      if (controller.currentCombat != null) {
+
+        // Make sure the actor and target are in the combat actors set
+        controller.appendToCombatActors(logInfo.getPerformer())
+        controller.appendToCombatActors(logInfo.getTarget())
+
+        // see if the Result is an ApplyEffect and see if its name is Damage
+        if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Damage") {
+          controller
+        }
+
+      }
+
+
+    }
+
   }
 }
