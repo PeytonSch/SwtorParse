@@ -16,6 +16,7 @@ import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import java.util.prefs.{Preferences, PreferencesFactory}
 
 
 /**
@@ -31,6 +32,20 @@ object Main extends JFXApp3 {
    */
   override def start(): Unit = {
 
+
+    //Initialize Java Preferences object
+    val prefs: Preferences = Preferences.userNodeForPackage(this.getClass())
+
+    //Example code for working with Java Preferences API (assuming prefs is the instance of the Preference class)
+    //Set a preference value: prefs.put("key", "value")
+    //Get a preference value: prefs.get("key", "default value")
+    //Print all the valid keys in this node: prefs.keys().foreach(println)
+    //Remove a key: prefs.remove("key")
+    //Force changes to be updated in the preferences storage: prefs.flush()
+    //MJP
+
+    //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
+    //val files = FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
     val files = FileHelper.getListOfFiles("./SampleLogs")
 
     // Tiles is all of the tiles in the UI. Contained and managed in a GuiTiles class
@@ -43,6 +58,8 @@ object Main extends JFXApp3 {
 
     // This can be used to generate random numbers
     val random = scala.util.Random
+
+    
 
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
@@ -159,17 +176,19 @@ object Main extends JFXApp3 {
     //open file explorer when MenuItem("Choose Log File...") is clicked
     //Not exactly sure how we want to handle userData at the moment, just printing out the chosen directory for now
     menu1.items(0).onActionProperty() = (e: ActionEvent) => {
+
       val selectedDirectory: File = directoryChooser.showDialog(stage)
 
-      if (selectedDirectory != Nil) {
+      
+      if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
-          println(dirPath)
+          prefs.put("PARSE_LOG_DIR", dirPath)
+          println(s"Added the selected directory: \"$dirPath\"" + " to your user preferences.")
       }
     }
 
     //End of Main Menu Bar code
-
-
+    
     
 
 
