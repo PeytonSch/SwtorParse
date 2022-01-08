@@ -9,6 +9,8 @@ trait Actor {
   def getPosition(): Position
   def getHealth(): Health
 
+  def getId(): ActorId
+
   override def toString: String = "Err, this actor string needs to be overridden"
 
 

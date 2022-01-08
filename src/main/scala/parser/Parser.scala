@@ -21,28 +21,51 @@ class Parser {
 
   var lastReadLine = 0
 
-  def getNextLine(): LogInformation = {
+  def getNewLines(path: String): IndexedSeq[LogInformation] = {
+    getLinesFromFile(path)
+  }
+  def getNewLines(): IndexedSeq[LogInformation] = {
+    getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
+  }
 
-    val lines = Source.fromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt").getLines.toList
+  def getLinesFromFile(path: String): IndexedSeq[LogInformation] = {
 
-    val line = lines(lastReadLine)
-    //println(line)
-    lastReadLine = lastReadLine + 1
-//    println(lastReadLine)
+    // TODO: Can we grab only remaining lines somehow?
+    val lines = Source.fromFile(path).getLines.toList
 
-    /**
-     * Extract log information
-     */
-    val time : LogTimestamp = factory.timestampFromLine(line)
-    val performer : Actor = factory.performingActorFromLogLineString(line)
-    val target : Actor = factory.targetActorFromLogLineString(line)
-    val action : Action = factory.actionFromLine(line)
-    val result : Result = factory.resultFromLine(line)
-    // See if this line has a value associated with it
-    val resultValue : Value = factory.valueFromLine(line)
-    val threatValue : ThreatValue = factory.threatFromLine(line)
+    // if there are no new read lines we dont need to do anything
+    if (lastReadLine == lines.length-1){
+//      println("No new read lines")
+      IndexedSeq()
+    } else {
+      val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine,lines.length)) yield {
+        //println(s"Extracting ling ${currentIndex} from log")
+        val line = lines(currentIndex)
+        /**
+         * Extract log information
+         */
+        val time : LogTimestamp = factory.timestampFromLine(line)
+        val performer : Actor = factory.performingActorFromLogLineString(line)
+        val target : Actor = factory.targetActorFromLogLineString(line)
+        val action : Action = factory.actionFromLine(line)
+        val result : Result = factory.resultFromLine(line)
+        // See if this line has a value associated with it
+        val resultValue : Value = factory.valueFromLine(line)
+        val threatValue : ThreatValue = factory.threatFromLine(line)
 
-    new LogInformation(time,performer,target,action,result,resultValue,threatValue)
+        lastReadLine = currentIndex
+
+        new LogInformation(time,performer,target,action,result,resultValue,threatValue)
+
+
+
+
+      }
+
+      //println(s"Read ${collected.size} log lines this tick")
+
+      collected
+    }
 
   }
 
