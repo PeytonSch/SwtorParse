@@ -73,7 +73,8 @@ object Main extends JFXApp3 {
          * I'm mostly just testing parsing things in here, this is all WIP
          * */
         val result = parser.getNextLine()
-        println(result)
+
+
 
 
 
@@ -179,7 +180,7 @@ object Main extends JFXApp3 {
 
       val selectedDirectory: File = directoryChooser.showDialog(stage)
 
-      
+
       if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
           prefs.put("PARSE_LOG_DIR", dirPath)
