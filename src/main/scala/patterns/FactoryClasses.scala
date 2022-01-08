@@ -1,12 +1,14 @@
 package parsing
 
-import parsing.Actions.Action
+import parsing.Actions.DefaultAction
 import parsing.Actors.{Actor, Companion, NoneActor, Npc, Player}
 import parsing.Result.{ApplyEffect, Event, RemoveEffect, Result}
 import parsing.Threat.ThreatValue
 import parsing.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue, Value}
 import parsing.subTypes.{ActorId, Health, LogTimestamp, Position}
-import patterns.Result.AreaEntered
+import parsing.Result.AreaEntered
+import patterns.Actions.{Action, NoAction, SafeLogin}
+import patterns.Result.{EnterCombat, ExitCombat}
 
 class FactoryClasses {
 
@@ -70,25 +72,35 @@ class FactoryClasses {
     }
     // [Rival Acolyte {287749923930112}:26518005413169|(1.99,-125.04,-11.44,0.00)|(221/345)]
     else {
-      val actorName = actorString.split('{')(0).trim
-      val actorTypeID = actorString.split('{')(1).split('}')(0)
-      val actorInstanceID = actorString.split(':')(1).split('|')(0)
-      val x_pos = actorString.split('(')(1).split(')')(0).split(',')(0).toDouble
-      val y_pos = actorString.split('(')(1).split(')')(0).split(',')(1).toDouble
-      val z_pos = actorString.split('(')(1).split(')')(0).split(',')(2).toDouble
-      val dir_pos = actorString.split('(')(1).split(')')(0).split(',')(3).toDouble
-      val current_health = actorString.split('(')(2).split('/')(0).toInt
-      val max_health = actorString.split('(')(2).split('/')(1).dropRight(1).toInt
-      new Npc(actorName, new ActorId(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
+      if (actorString == "") {
+        new NoneActor
+      }
+      else {
+        val actorName = actorString.split('{')(0).trim
+        val actorTypeID = actorString.split('{')(1).split('}')(0)
+        val actorInstanceID = actorString.split(':')(1).split('|')(0)
+        val x_pos = actorString.split('(')(1).split(')')(0).split(',')(0).toDouble
+        val y_pos = actorString.split('(')(1).split(')')(0).split(',')(1).toDouble
+        val z_pos = actorString.split('(')(1).split(')')(0).split(',')(2).toDouble
+        val dir_pos = actorString.split('(')(1).split(')')(0).split(',')(3).toDouble
+        val current_health = actorString.split('(')(2).split('/')(0).toInt
+        val max_health = actorString.split('(')(2).split('/')(1).dropRight(1).toInt
+        new Npc(actorName, new ActorId(actorTypeID, actorInstanceID), new Position(x_pos, y_pos, z_pos, dir_pos), new Health(current_health, max_health))
+      }
     }
   }
 
   def actionFromLine(logLine: String): Action = {
     val name = logLine.split('[')(4).split('{')(0).trim
     // If it is an empty action, name will just be ']' and we should move on
-    if (name == "]") return new Action("","")
+    if (name == "]") return new NoAction()
     val id = logLine.split('[')(4).split('{')(1).split('}')(0)
-    new Action(name,id)
+    println(name)
+    if (name == "Safe Login") {
+      new SafeLogin(name,id)
+    } else {
+      new DefaultAction(name,id)
+    }
 
   }
 
@@ -107,7 +119,14 @@ class FactoryClasses {
       new RemoveEffect(resultType,effectId,name,nameId)
     }
     else if (resultType == "Event") {
-      new Event(resultType,effectId,name,nameId)
+      if (name == "EnterCombat"){
+        new EnterCombat(resultType,effectId,name,nameId)
+      } else if (name == "ExitCombat") {
+        new ExitCombat(resultType,effectId,name,nameId)
+      } else {
+        new Event(resultType,effectId,name,nameId)
+      }
+
     }
     else if (resultType == "AreaEntered") {
       new AreaEntered(resultType,effectId,name,nameId)
