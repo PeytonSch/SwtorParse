@@ -53,11 +53,13 @@ class ControllerIterativeTests extends AnyFlatSpec{
       // Make sure the actor and target are in the combat actors set
       controller.appendToCombatActors(logInfo.getPerformer())
       if (!logInfo.getPerformer().isInstanceOf[NoneActor]){
-        assert(controller.getLastCurrentCombatActor().toString() == logInfo.getPerformer().toString)
+        // This test no longer is all that applicable with the introduciton of CombatActorInstances
+        //  assert(controller.getLastCurrentCombatActor().toString() == logInfo.getPerformer().toString)
       }
       controller.appendToCombatActors(logInfo.getTarget())
       if (!logInfo.getTarget().isInstanceOf[NoneActor]){
-        assert(controller.getLastCurrentCombatActor().toString() == logInfo.getTarget().toString)
+        // This test no longer is all that applicable with the introduciton of CombatActorInstances
+//        assert(controller.getLastCurrentCombatActor().toString() == logInfo.getTarget().toString)
       }
 
       // see if the Result is an ApplyEffect and see if its name is Damage

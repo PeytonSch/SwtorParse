@@ -39,12 +39,11 @@ class ControllerTests extends AnyFlatSpec{
   }
 
   "Controller" should "add up total damage correctly from each Actor" in {
-    println(controller.getAllCombatInstances()(0).getCombatDamage())
-    assert(controller.getAllCombatInstances()(0).getCombatDamage()("[ Type ID: 3266932513964032 Instance ID: 28040000023320 ]") == 449)
-    assert(controller.getAllCombatInstances()(0).getCombatDamage()("[ Type ID: 3266941103898624 Instance ID: 28040000035026 ]") == 2199)
-    assert(controller.getAllCombatInstances()(0).getCombatDamage()("[ Type ID: 3266932513964032 Instance ID: 28040000034858 ]") == 3198)
-    assert(controller.getAllCombatInstances()(0).getCombatDamage()("[ Type ID: 3915326546771968 Instance ID: 28040000040093 ]") == 654)
-    assert(controller.getAllCombatInstances()(0).getCombatDamage()("[ Type ID: Heavy Sloth Instance ID: Heavy Sloth ]") == 22288)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3266932513964032 Instance ID: 28040000023320 ]")).getDamageDone() == 449)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3266941103898624 Instance ID: 28040000035026 ]")).getDamageDone() == 2199)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3266932513964032 Instance ID: 28040000034858 ]")).getDamageDone() == 3198)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3915326546771968 Instance ID: 28040000040093 ]")).getDamageDone() == 654)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: Heavy Sloth Instance ID: Heavy Sloth ]")).getDamageDone() == 22288)
   }
 
 //  "Controller" should "get total damage correctly for each actor" in {

@@ -10,58 +10,66 @@ class CombatInstance (
 
                      ){
 
-  var combatActors : Vector[Actor] = Vector()
-
-  // Actor ID : String, Damage: Int
-  var combatDamage : Map[String,Int] = Map()
+  var combatActors : Vector[CombatActorInstance] = Vector()
 
   def appendToCombatActors(a:Actor): Unit = {
-    /**
-     * Right now, the way the parser works, is it returns up to two new actor object with every line parsed.
-     *
-     * That means, with two back to back lines where the actor @Xan does something, two @Xan Actor objects are returned.
-     *
-     * We dont want 20 @Xan actors, we only want one, so here we need to check the actor set for an actor with that
-     * id already in it. If that actor is in the set, we should remove it and insert the new actor object that has
-     * an updated health and position information.
-     *
-     * This is difficult to do with a set, so I have changed combat Actors back to a vector
-     */
 
     if (a == null || a.isInstanceOf[NoneActor]) return
 
-    // iterate through combatActors and if we find the same id, then remove that actor
+    var updated = false
+
+    // iterate through combatActors and if we find the same id, then update that combat actor
     for (actor <- combatActors) {
-      if (actor.isInstanceOf[NoneActor]){
-
+      if (actor.getIdString() == a.getId().toString) {
+        actor.updateActor(a)
+        updated = true
       }
-      else if (actor.getId().compare(a.getId())) {
-        combatActors = combatActors.filterNot(_.getId() eq actor.getId())
-
-      }
+    }
+    // if we did not update an old actor, then add it to the list
+    if (!updated) {
+      val newActor = new CombatActorInstance
+      newActor.newCombatActorInstance(a)
+      combatActors = combatActors :+ newActor
     }
     // regardless of the filter operation, add the new actor in
-    combatActors = combatActors :+ a
+
   }
 
-  def getCombatActors() : Vector[Actor] = combatActors
+  def getCombatActors() = combatActors
 
-  def getLastCurrentCombatActor(): Actor = combatActors.last
+  def getLastCurrentCombatActor() = combatActors.last.getActor()
 
   def addDamageToCurrentCombat(logInfo : LogInformation): Unit = {
-    //access the combat damage map, if it contains the String id for the actor creating damage, add to the int
-    val id: String = logInfo.getPerformer().getId().toString
+    // check which actor is performing the damage and add it to their damage
+    val performerId: String = logInfo.getPerformer().getId().toString
+    val targetId: String = logInfo.getTarget().getId().toString
     val totalValue : Int = logInfo.getResulValue().getTotalValue()
 
-    if (combatDamage.contains(id)) {
-      combatDamage = combatDamage.updated(id,combatDamage(id) + totalValue)
-    } else {
-      combatDamage = combatDamage updated (id,totalValue)
+    // find the combatActor to add damage to
+    for (actor <- combatActors) {
+      if (actor.getIdString() == performerId) {
+        actor.updateDamageDone(totalValue)
+      }
+    }
+
+    // find the combatActor to add damage taken to
+    for (actor <- combatActors) {
+      if (actor.getIdString() == targetId) {
+        actor.updateDamageTaken(totalValue)
+      }
     }
 
   }
 
-  def getCombatDamage() = combatDamage
+  def getCombatActorByIdString(id:String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    for (actor <- combatActors) {
+      if (actor.getIdString() == id) {
+        result = actor
+      }
+    }
+    result
+  }
 
 
 }
