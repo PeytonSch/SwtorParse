@@ -1,3 +1,4 @@
+import Controller.Controller
 import parser.Parser
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
@@ -5,17 +6,25 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox}
-import scalafx.scene.control.{MenuBar, Menu, MenuItem}
+import scalafx.scene.control.{Menu, MenuBar, MenuItem}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
 import scalafx.scene.paint._
-import scalafx.stage.{FileChooser, DirectoryChooser}
-import scalafx.event.{ActionEvent}
+import scalafx.stage.{DirectoryChooser, FileChooser}
+import scalafx.event.ActionEvent
 import scalafx.Includes._
+
 import java.io.File
 import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import parsing.Result.ApplyEffect
+import patterns.Actions.SafeLogin
+import patterns.LogInformation
+import patterns.Result.{EnterCombat, ExitCombat}
+import scala.collection.IterableOnce.iterableOnceExtensionMethods
+import java.util.prefs.{Preferences, PreferencesFactory}
+import scala.collection.mutable.ListBuffer
 
 
 /**
@@ -31,6 +40,22 @@ object Main extends JFXApp3 {
    */
   override def start(): Unit = {
 
+    val controller = new Controller()
+
+    //Initialize Java Preferences object
+    val prefs: Preferences = Preferences.userNodeForPackage(this.getClass())
+
+    //Example code for working with Java Preferences API (assuming prefs is the instance of the Preference class)
+    //Set a preference value: prefs.put("key", "value")
+    //Get a preference value: prefs.get("key", "default value")
+    //Print all the valid keys in this node: prefs.keys().foreach(println)
+    //Remove a key: prefs.remove("key")
+    //Force changes to be updated in the preferences storage: prefs.flush()
+    //MJP
+
+    //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
+    //val files = FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
+
     val files = FileHelper.getListOfFiles("./SampleLogs")
 
     // Tiles is all of the tiles in the UI. Contained and managed in a GuiTiles class
@@ -44,6 +69,8 @@ object Main extends JFXApp3 {
     // This can be used to generate random numbers
     val random = scala.util.Random
 
+
+
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
     /** Everything in here is ran on the timer interval */
@@ -52,10 +79,14 @@ object Main extends JFXApp3 {
       if (now > lastTimerCall + program_execution_rate) {
         lastTimerCall = now
 
-        /** parser.Parser Items
-         * I'm mostly just testing parsing things in here, this is all WIP
+        /**
+         * This returns all lines from the log that are new this tick.
+         * It returns them as instances of LogInformation
          * */
-        val result = parser.getNextLine()
+        val result = parser.getNewLines()
+
+        // if there are new lines to parse
+        if (result.size != 0) controller.parseLatest(result)
 
 
 
@@ -75,7 +106,7 @@ object Main extends JFXApp3 {
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
         tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
-        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(120))
+        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
 
         /** Radar Percentiles Chart */
         tiles.chartData1.setValue(random.nextDouble() * 50)
@@ -114,19 +145,6 @@ object Main extends JFXApp3 {
     val mainRowSpan = 2
     val mainRow2 = mainRow1 + mainRowSpan
 
-    // File select
-    val filePane = new GridPane()
-    filePane.setBackground(background)
-    for (i <- 0 until files.length){
-      println(files(i).getAbsolutePath().toString().split('/').last)
-      val firstFile = new Button(files(i).getAbsolutePath().split('\\').last)
-      firstFile.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-      filePane.add(firstFile, 0, i , 1, 1)
-    }
-
-    filePane.setHgap(5)
-    filePane.setVgap(5)
-
     // Main Menu Bar
 
     //Make all the menus
@@ -136,11 +154,20 @@ object Main extends JFXApp3 {
     val menu3 = new Menu("View")
     val menu4 = new Menu("Help")
 
+    // File select
+    var fileBuffer = new ListBuffer[MenuItem]()
+    for (i <- 0 until files.length){
+      fileBuffer += new MenuItem(files(i).getAbsolutePath().split('\\').last)
+    }
+
+    val fileMenu = new Menu("Log Files")
+    fileMenu.items = fileBuffer.toList
+
     //Create blank menubar
     val mainMenuBar = new MenuBar()
 
     //add the menus to the menubar
-    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4)
+    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu)
 
     //add the menubar to the pane
     pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
@@ -160,20 +187,18 @@ object Main extends JFXApp3 {
     //open file explorer when MenuItem("Choose Log File...") is clicked
     //Not exactly sure how we want to handle userData at the moment, just printing out the chosen directory for now
     menu1.items(0).onActionProperty() = (e: ActionEvent) => {
+
       val selectedDirectory: File = directoryChooser.showDialog(stage)
+
 
       if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
-          println(dirPath)
+          prefs.put("PARSE_LOG_DIR", dirPath)
+          println(s"Added the selected directory: \"$dirPath\"" + " to your user preferences.")
       }
     }
 
     //End of Main Menu Bar code
-
-
-    
-
-
 
     // The Interface Pane handles some checkboxes and stuff for quickly accessed items. This will probably be remade later
     val interfacePane = new GridPane()
@@ -214,10 +239,10 @@ object Main extends JFXApp3 {
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
-    pane.add(tiles.sunburstTile, 1, mainRow2, 3, 1)
-    pane.add(tiles.sunburstTile2, 4, mainRow2, 3, 1)
-    pane.add(tiles.donutChartTile, 7, mainRow2, 1, 1)
-    pane.add(filePane, 0, mainRow2, 1, 1)
+    pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
+    pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
+    pane.add(tiles.donutChartTile, 6, mainRow2, 1, 1)
+
 
     pane.setHgap(5)
     pane.setVgap(5)
@@ -251,4 +276,5 @@ object Main extends JFXApp3 {
     println("Stopping App")
     //timer.stop()
   }
+
 }

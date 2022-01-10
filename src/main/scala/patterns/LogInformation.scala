@@ -18,5 +18,15 @@ class LogInformation (
                        threatValue : ThreatValue
                      ){
 
+  def getTime(): LogTimestamp = time
+  def getPerformer(): Actor = performer
+  def getTarget(): Actor = target
+  def getAction(): Action = action
+  def getResult(): Result = result
+  def getResulValue(): Value = resultValue
+  def getThreatValue(): ThreatValue = threatValue
+
+  override def toString: String = s"${time} ${performer} ${target} ${action} ${result} ${resultValue} ${threatValue}"
+
 
 }

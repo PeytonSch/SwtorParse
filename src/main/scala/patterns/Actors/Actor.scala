@@ -9,7 +9,23 @@ trait Actor {
   def getPosition(): Position
   def getHealth(): Health
 
+  def getId(): ActorId
+
   override def toString: String = "Err, this actor string needs to be overridden"
+
+  /**
+   * This is untested, wrote it for a test and didn't use it.
+   * @param a
+   * @return
+   */
+  def compareActors(a: Actor): Boolean = {
+    if (this.toString == a.toString) {
+      true
+    }
+    else {
+      false
+    }
+  }
 
 
 
