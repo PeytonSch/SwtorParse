@@ -1,0 +1,11 @@
+//This is just a text file that lists all the preferences we are working with. The Java
+//Preferences API kind of does its own thing with storing the data, so looking that up
+//might be a pain. Keeping a fairly up to date list here will make referencing easier.
+// MJP
+
+
+PARSE_LOG_DIR = the directory to look for logs
+
+
+
+
