@@ -17,6 +17,7 @@ import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
 import java.util.prefs.{Preferences, PreferencesFactory}
+import scala.collection.mutable.ListBuffer
 
 
 /**
@@ -59,7 +60,7 @@ object Main extends JFXApp3 {
     // This can be used to generate random numbers
     val random = scala.util.Random
 
-    
+
 
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
@@ -92,7 +93,7 @@ object Main extends JFXApp3 {
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
         tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
-        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(120))
+        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
 
         /** Radar Percentiles Chart */
         tiles.chartData1.setValue(random.nextDouble() * 50)
@@ -131,19 +132,6 @@ object Main extends JFXApp3 {
     val mainRowSpan = 2
     val mainRow2 = mainRow1 + mainRowSpan
 
-    // File select
-    val filePane = new GridPane()
-    filePane.setBackground(background)
-    for (i <- 0 until files.length){
-      println(files(i).getAbsolutePath().toString().split('/').last)
-      val firstFile = new Button(files(i).getAbsolutePath().split('\\').last)
-      firstFile.setStyle("-fx-font-size: 1.5em; -fx-background-color: #6b6b6b; -fx-text-fill: white")
-      filePane.add(firstFile, 0, i , 1, 1)
-    }
-
-    filePane.setHgap(5)
-    filePane.setVgap(5)
-
     // Main Menu Bar
 
     //Make all the menus
@@ -153,11 +141,20 @@ object Main extends JFXApp3 {
     val menu3 = new Menu("View")
     val menu4 = new Menu("Help")
 
+    // File select
+    var fileBuffer = new ListBuffer[MenuItem]()
+    for (i <- 0 until files.length){
+      fileBuffer += new MenuItem(files(i).getAbsolutePath().split('\\').last)
+    }
+
+    val fileMenu = new Menu("Log Files")
+    fileMenu.items = fileBuffer.toList
+
     //Create blank menubar
     val mainMenuBar = new MenuBar()
 
     //add the menus to the menubar
-    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4)
+    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu)
 
     //add the menubar to the pane
     pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
@@ -189,10 +186,6 @@ object Main extends JFXApp3 {
     }
 
     //End of Main Menu Bar code
-    
-    
-
-
 
     // The Interface Pane handles some checkboxes and stuff for quickly accessed items. This will probably be remade later
     val interfacePane = new GridPane()
@@ -233,10 +226,10 @@ object Main extends JFXApp3 {
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
-    pane.add(tiles.sunburstTile, 1, mainRow2, 3, 1)
-    pane.add(tiles.sunburstTile2, 4, mainRow2, 3, 1)
-    pane.add(tiles.donutChartTile, 7, mainRow2, 1, 1)
-    pane.add(filePane, 0, mainRow2, 1, 1)
+    pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
+    pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
+    pane.add(tiles.donutChartTile, 6, mainRow2, 1, 1)
+
 
     pane.setHgap(5)
     pane.setVgap(5)
