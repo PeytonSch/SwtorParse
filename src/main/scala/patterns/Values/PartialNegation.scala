@@ -13,4 +13,7 @@ class PartialNegation(
     (negationType,negationTypeId,negatedAmount,negatedThrough,negatedThroughId)
   }
 
+  def getNegatedAmount = negatedAmount
+
+
 }

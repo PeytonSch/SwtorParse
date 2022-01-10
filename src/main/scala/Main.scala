@@ -69,7 +69,7 @@ object Main extends JFXApp3 {
         val result = parser.getNewLines()
 
         // if there are new lines to parse
-        if (result.size != 0) topLevelParse(result,controller)
+        if (result.size != 0) controller.parseLatest(result)
 
 
 
@@ -266,46 +266,4 @@ object Main extends JFXApp3 {
     //timer.stop()
   }
 
-  /**
-   * This top level parser is created to orchestrate combat control and parsing
-   * at the game loop level
-   * @param linesToParse
-   */
-  def topLevelParse(linesToParse: IndexedSeq[LogInformation], controller : Controller): Unit = {
-
-    for (logInfo <- linesToParse) {
-
-      /**
-       * Check for Entering or Exiting Combat
-       */
-      // Check to see if we entered or exit combat
-      if(logInfo.getResult().isInstanceOf[EnterCombat]) {
-        controller.startNewCombat()
-      } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
-        controller.endCombat()
-      }
-
-      // Check for login action
-      if (logInfo.getAction().isInstanceOf[SafeLogin]){
-        controller.setPlayerToon(logInfo.getPerformer().getName())
-      }
-
-      // if we are currently in combat
-      if (controller.currentCombat != null) {
-
-        // Make sure the actor and target are in the combat actors set
-        controller.appendToCombatActors(logInfo.getPerformer())
-        controller.appendToCombatActors(logInfo.getTarget())
-
-        // see if the Result is an ApplyEffect and see if its name is Damage
-        if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Damage") {
-          controller
-        }
-
-      }
-
-
-    }
-
-  }
 }
