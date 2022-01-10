@@ -9,4 +9,6 @@ class ApplyEffect (
                   ) extends Result {
   override def toString: String = s"[ Type: ${resultType} Name: ${name} ]"
 
+  def getName(): String = name
+
 }

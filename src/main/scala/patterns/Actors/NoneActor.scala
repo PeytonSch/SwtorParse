@@ -10,4 +10,8 @@ class NoneActor extends Actor {
   override def getPosition(): Position = new Position(0,0,0,0)
 
   override def getHealth(): Health = new Health(0,0)
+
+  override def toString: String = "None Actor"
+
+  override def getId = null
 }

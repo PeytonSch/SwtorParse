@@ -95,7 +95,6 @@ class FactoryClasses {
     // If it is an empty action, name will just be ']' and we should move on
     if (name == "]") return new NoAction()
     val id = logLine.split('[')(4).split('{')(1).split('}')(0)
-    println(name)
     if (name == "Safe Login") {
       new SafeLogin(name,id)
     } else {
@@ -169,7 +168,8 @@ class FactoryClasses {
 
         // Check if the value is 0
         // If it is 0, get complete negation information and return
-        if (extractedValue(1) == '0') {
+        if (extractedValue(1) == '0' && extractedValue(2) != ')') {
+          //println(s"Extracted: ${extractedValue} from ${logLine}")
           val negationType = extractedValue.split('-')(1).split('{')(0).trim
           val negatopmTypeId = extractedValue.split('-')(1).split('{')(1).split('}')(0).trim
 
