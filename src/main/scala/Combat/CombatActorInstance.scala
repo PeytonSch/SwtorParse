@@ -1,0 +1,5 @@
+package Combat
+
+class CombatActorInstance {
+
+}

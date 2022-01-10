@@ -1,6 +1,7 @@
 package Combat
 
-import parsing.Actors.Actor
+import parsing.Actors.{Actor, NoneActor}
+import parsing.Values.Value
 import patterns.LogInformation
 
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
@@ -10,6 +11,9 @@ class CombatInstance (
                      ){
 
   var combatActors : Vector[Actor] = Vector()
+
+  // Actor ID : String, Damage: Int
+  var combatDamage : Map[String,Int] = Map()
 
   def appendToCombatActors(a:Actor): Unit = {
     /**
@@ -24,14 +28,16 @@ class CombatInstance (
      * This is difficult to do with a set, so I have changed combat Actors back to a vector
      */
 
-    if (a == null) return
+    if (a == null || a.isInstanceOf[NoneActor]) return
 
     // iterate through combatActors and if we find the same id, then remove that actor
-    println(s"Received actor: ${a.getId()}, checking to see if this actor is in the following: ")
-    combatActors.foreach(println)
     for (actor <- combatActors) {
-      if (actor.getId().compare(a.getId())) {
+      if (actor.isInstanceOf[NoneActor]){
+
+      }
+      else if (actor.getId().compare(a.getId())) {
         combatActors = combatActors.filterNot(_.getId() eq actor.getId())
+
       }
     }
     // regardless of the filter operation, add the new actor in
@@ -40,9 +46,22 @@ class CombatInstance (
 
   def getCombatActors() : Vector[Actor] = combatActors
 
+  def getLastCurrentCombatActor(): Actor = combatActors.last
+
   def addDamageToCurrentCombat(logInfo : LogInformation): Unit = {
+    //access the combat damage map, if it contains the String id for the actor creating damage, add to the int
+    val id: String = logInfo.getPerformer().getId().toString
+    val totalValue : Int = logInfo.getResulValue().getTotalValue()
+
+    if (combatDamage.contains(id)) {
+      combatDamage = combatDamage.updated(id,combatDamage(id) + totalValue)
+    } else {
+      combatDamage = combatDamage updated (id,totalValue)
+    }
 
   }
+
+  def getCombatDamage() = combatDamage
 
 
 }
