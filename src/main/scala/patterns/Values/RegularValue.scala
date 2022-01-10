@@ -16,6 +16,11 @@ class RegularValue(
   def getValueTypeId(): String = valueTypeId
   def getPartialNegation(): PartialNegation = partialNegation
 
+
+  override def getTotalAmountDiscounted(): Int = (excess + partialNegation.getNegatedAmount)
+  override def getFullValue(): Int = baseValue
+  override def getTotalValue(): Int = baseValue - (excess + partialNegation.getNegatedAmount)
+
   def packagedNoNegationForTests() : (Int,Boolean,Int,String,String) = {
     (baseValue,crit,excess,valueType,valueTypeId)
   }

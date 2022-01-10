@@ -20,7 +20,7 @@ class ActionTests extends AnyFlatSpec{
 
   "Action types" should "return correctly" in {
 
-    println(noActionTest.toString)
+    //println(noActionTest.toString)
 
     assert(noActionTest.isInstanceOf[NoAction])
     assert(loginTest.isInstanceOf[SafeLogin])
