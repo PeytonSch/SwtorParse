@@ -19,5 +19,5 @@ class Companion (
 
   override def getHealth(): Health = health
 
-  def getId = id
+  override def getId = id
 }

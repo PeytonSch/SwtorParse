@@ -1,3 +1,4 @@
+import Controller.Controller
 import parser.Parser
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
@@ -5,17 +6,23 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox}
-import scalafx.scene.control.{MenuBar, Menu, MenuItem}
+import scalafx.scene.control.{Menu, MenuBar, MenuItem}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
 import scalafx.scene.paint._
-import scalafx.stage.{FileChooser, DirectoryChooser}
-import scalafx.event.{ActionEvent}
+import scalafx.stage.{DirectoryChooser, FileChooser}
+import scalafx.event.ActionEvent
 import scalafx.Includes._
+
 import java.io.File
 import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import parsing.Result.ApplyEffect
+import patterns.Actions.SafeLogin
+import patterns.LogInformation
+import patterns.Result.{EnterCombat, ExitCombat}
+import scala.collection.IterableOnce.iterableOnceExtensionMethods
 import java.util.prefs.{Preferences, PreferencesFactory}
 import scala.collection.mutable.ListBuffer
 
@@ -33,6 +40,7 @@ object Main extends JFXApp3 {
    */
   override def start(): Unit = {
 
+    val controller = new Controller()
 
     //Initialize Java Preferences object
     val prefs: Preferences = Preferences.userNodeForPackage(this.getClass())
@@ -47,6 +55,7 @@ object Main extends JFXApp3 {
 
     //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
     //val files = FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
+
     val files = FileHelper.getListOfFiles("./SampleLogs")
 
     // Tiles is all of the tiles in the UI. Contained and managed in a GuiTiles class
@@ -70,10 +79,14 @@ object Main extends JFXApp3 {
       if (now > lastTimerCall + program_execution_rate) {
         lastTimerCall = now
 
-        /** parser.Parser Items
-         * I'm mostly just testing parsing things in here, this is all WIP
+        /**
+         * This returns all lines from the log that are new this tick.
+         * It returns them as instances of LogInformation
          * */
-        val result = parser.getNextLine()
+        val result = parser.getNewLines()
+
+        // if there are new lines to parse
+        if (result.size != 0) controller.parseLatest(result)
 
 
 
@@ -263,4 +276,5 @@ object Main extends JFXApp3 {
     println("Stopping App")
     //timer.stop()
   }
+
 }

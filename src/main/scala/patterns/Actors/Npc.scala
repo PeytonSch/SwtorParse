@@ -19,6 +19,5 @@ class Npc (
 
   override def getHealth(): Health = health
 
-  def getId(): ActorId = id
-
+  override def getId = id
 }

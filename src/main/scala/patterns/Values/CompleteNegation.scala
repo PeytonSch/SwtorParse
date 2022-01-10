@@ -5,4 +5,8 @@ class CompleteNegation (
                          negationTypeId: String
                        ) extends Value {
 
+  override def getFullValue(): Int = 0
+  override def getTotalAmountDiscounted(): Int = 0
+  override def getTotalValue(): Int = 0
+
 }
