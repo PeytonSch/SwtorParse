@@ -22,6 +22,8 @@ import parsing.Result.ApplyEffect
 import patterns.Actions.SafeLogin
 import patterns.LogInformation
 import patterns.Result.{EnterCombat, ExitCombat}
+import scalafx.scene.input.MouseEvent
+
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
 import java.util.prefs.{Preferences, PreferencesFactory}
 import scala.collection.mutable.ListBuffer
@@ -70,14 +72,21 @@ object Main extends JFXApp3 {
     val random = scala.util.Random
 
 
-
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
+
+    // Init the controller
+    controller.parseLatest(parser.getNewLines())
+
+
+
+
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
       if (now > lastTimerCall + program_execution_rate) {
         lastTimerCall = now
+
 
         /**
          * This returns all lines from the log that are new this tick.
@@ -105,7 +114,13 @@ object Main extends JFXApp3 {
         tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3))
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
-        tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
+        //tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
+
+        // if the current combat is not null, set to show player damage
+        if (controller.getCurrentCombat() != null) {
+          // TODO: This needs to have a static graph if the combat is complete
+          tiles.timelineTile.setValue(controller.getCurrentPlayerDamage())
+        }
         tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
 
         /** Radar Percentiles Chart */
@@ -163,11 +178,31 @@ object Main extends JFXApp3 {
     val fileMenu = new Menu("Log Files")
     fileMenu.items = fileBuffer.toList
 
+    val menuAction = (event: ActionEvent) => {
+      //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
+      controller
+        .setCurrentCombatInstance(controller.
+          getCombatInstanceById(event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText))
+    }
+
+    val combatInstanceMenu = new Menu("Combat Instances")
+    var combatInstanceBuffer = new ListBuffer[MenuItem]()
+    for (combatInstance <- controller.getAllCombatInstances()){
+      println(s"Got combat instance: ${combatInstance}")
+      var item = new MenuItem(combatInstance.getName)
+      item.setOnAction(menuAction)
+      combatInstanceBuffer += item
+    }
+    combatInstanceMenu.items = combatInstanceBuffer.toList
+
+
+
+
     //Create blank menubar
     val mainMenuBar = new MenuBar()
 
     //add the menus to the menubar
-    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu)
+    mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu, combatInstanceMenu)
 
     //add the menubar to the pane
     pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)

@@ -5,11 +5,13 @@ import eu.hansolo.tilesfx.chart.SunburstChart.TextOrientation
 import eu.hansolo.tilesfx.chart.{ChartData, RadarChartMode}
 import eu.hansolo.tilesfx.skins.{BarChartItem, LeaderBoardItem}
 import eu.hansolo.tilesfx.tools.TreeNode
-import eu.hansolo.tilesfx.tools.Helper;
-import eu.hansolo.tilesfx.Section;
+import eu.hansolo.tilesfx.tools.Helper
+import eu.hansolo.tilesfx.Section
 import scalafx.geometry.Pos
 import javafx.scene.paint.Stop
 import scalafx.scene.paint.Color
+
+import java.time.Duration
 
 /**
  * This GuiTiles Class handles most of the elements in the GUI.
@@ -140,6 +142,8 @@ class GuiTiles {
     val timelineTile = TileBuilder.create()
     .skinType(SkinType.TIMELINE)
     .prefSize(TILE_WIDTH * 4, TILE_HEIGHT)
+      //.maxTimePeriod(Duration.ofSeconds(10))
+      .value(0)
     .title("Damage Per Second")
     .unit("dps")
     .minValue(0)
