@@ -12,6 +12,23 @@ class CombatInstance (
 
   var combatActors : Vector[CombatActorInstance] = Vector()
 
+  var playerInCombat : String = ""
+
+  def setPlayerInCombat(player:String): Unit = playerInCombat = player
+
+  def getPlayerInCombatId() = playerInCombat
+
+  def getPlayerInCombatActor() = this.getCombatActorByIdString(playerInCombat)
+
+  // make a combat instance name from actors
+  def getName: String = {
+    var str = ""
+    for (a <- combatActors) {
+      str += a.getIdString()
+    }
+    str
+  }
+
   def appendToCombatActors(a:Actor): Unit = {
 
     if (a == null || a.isInstanceOf[NoneActor]) return
