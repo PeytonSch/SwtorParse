@@ -13,14 +13,16 @@ class Controller () {
   var playerToon : String = "" // The name of the character the user is currently logged into
   var allCombatInstances : Vector[CombatInstance] = Vector()
 
+  var playerToonIdString : String = ""
+
 
   def setCurrentCombatInstance(i : CombatInstance): Unit = {
-    //println(s"Setting current combat to ${i}")
     currentCombat = i
   }
 
   def startNewCombat() = {
     setCurrentCombatInstance(new CombatInstance)
+    this.getCurrentCombat().setPlayerInCombat(playerToonIdString)
     //println(s"Current combat is ${this.currentCombat}")
     allCombatInstances = allCombatInstances :+ currentCombat
     //println(s"All combat instances has size ${allCombatInstances.size}")
@@ -48,6 +50,23 @@ class Controller () {
 
   def getLastCurrentCombatActor() = currentCombat.getLastCurrentCombatActor()
 
+  def setPlayerToonIdString(str: String) = if(playerToonIdString == "") playerToonIdString = str
+
+  def getCurrentPlayerIdString() = this.playerToonIdString
+
+  def getCurrentPlayerDamage(): Int = {
+    currentCombat.getPlayerInCombatActor().getDamageDone()
+  }
+
+  def getCombatInstanceById(id:String): CombatInstance = {
+    for (cInst <- allCombatInstances) {
+      if (cInst.getName == id) {
+        return cInst
+      }
+    }
+    null
+  }
+
 
   /**
    * This function takes the output from parser.getLines and puts the information
@@ -73,6 +92,7 @@ class Controller () {
       // Check for login action
       if (logInfo.getAction().isInstanceOf[SafeLogin]){
         this.setPlayerToon(logInfo.getPerformer().getName())
+        this.setPlayerToonIdString(logInfo.getPerformer().getId().toString)
         //println(s"Got Login of Toon: ${controller.getPlayerToonName()} from line ${logInfo}")
       }
 
