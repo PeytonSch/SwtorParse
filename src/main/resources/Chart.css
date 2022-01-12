@@ -1,0 +1,21 @@
+.chart-plot-background {
+    -fx-background-color: #2a2a2a;
+    -fx-stroke-width: 5em;
+}
+
+.chart-title {
+    -fx-text-fill: #4682b4;
+    -fx-font-size: 1.6em;
+}
+
+.chart-axis {
+    -fx-text-fill: #4682b4;
+}
+
+.chart-legend-item-symbol{
+    -fx-background-radius: 0;
+}
+
+
+.default-color0.chart-series-line { -fx-stroke: #4feb34; }
+.default-color1.chart-series-line { -fx-stroke: #4feb34; }
