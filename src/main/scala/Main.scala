@@ -280,7 +280,7 @@ object Main extends JFXApp3 {
 
     //Main Row 1
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.timelineTile, 1, mainRow1, 5, mainRowSpan)
+    pane.add(tiles.lineChart, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
@@ -296,12 +296,15 @@ object Main extends JFXApp3 {
     // Set the preferred size of the window
     pane.setPrefSize(1500, 800)
     pane.setBackground(background)
+    tiles.lineChart.setBackground(background)
 
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
 
     // add the pane to a scene and give it a camera
     val scene = new Scene(pane)
+    scene.getStylesheets().add("Chart.css")
+
     scene.setCamera(camera)
 
     // This is the title of the window

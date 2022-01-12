@@ -7,8 +7,11 @@ import eu.hansolo.tilesfx.skins.{BarChartItem, LeaderBoardItem}
 import eu.hansolo.tilesfx.tools.TreeNode
 import eu.hansolo.tilesfx.tools.Helper
 import eu.hansolo.tilesfx.Section
+import javafx.collections.ObservableList
 import scalafx.geometry.Pos
 import javafx.scene.paint.Stop
+import scalafx.collections.ObservableBuffer
+import scalafx.scene.chart.{LineChart, NumberAxis, XYChart}
 import scalafx.scene.paint.Color
 
 import java.time.Duration
@@ -247,5 +250,45 @@ class GuiTiles {
     .textVisible(true)
     .chartData(chartData1, chartData2, chartData3, chartData4)
     .build();
+
+
+  val xAxis = NumberAxis("Values for X-Axis", 0, 3, 1)
+  val yAxis = NumberAxis("Values for Y-Axis", 0, 3, 1)
+
+  // Helper function to convert a tuple to `XYChart.Data`
+  val toChartData = (xy: (Double, Double)) => XYChart.Data[Number, Number](xy._1, xy._2)
+
+  val series1 = new XYChart.Series[Number, Number] {
+    name = "Series 1"
+    data = Seq(
+      (0.0, 1.0),
+      (1.2, 1.4),
+      (2.2, 1.9),
+      (2.7, 2.3),
+      (2.9, 0.5)).map(toChartData)
+  }
+
+  val series2 = new XYChart.Series[Number, Number] {
+    name = "Series 2"
+    data = Seq(
+      (0.0, 1.6),
+      (0.8, 0.4),
+      (1.4, 2.9),
+      (2.1, 1.3),
+      (2.6, 0.9)).map(toChartData)
+  }
+
+  val lineChart = new LineChart[Number, Number](xAxis, yAxis, ObservableBuffer(series1, series2))
+  lineChart.setAnimated(true)
+  lineChart.setTitle("Damage")
+  lineChart.setCreateSymbols(false)
+  lineChart.setLegendVisible(false)
+  lineChart.setMinWidth(750)
+  lineChart.setMinHeight(350)
+
+
+
+
+
 
 }
