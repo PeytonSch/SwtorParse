@@ -115,13 +115,13 @@ object Main extends JFXApp3 {
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
         //tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
-
+        //tiles.timelineTile.calcAutoScale()
         // if the current combat is not null, set to show player damage
         if (controller.getCurrentCombat() != null) {
           // TODO: This needs to have a static graph if the combat is complete
-          tiles.timelineTile.setValue(controller.getCurrentPlayerDamage())
+          //tiles.timelineTile.addChartData(new ChartData(controller.getCurrentPlayerDamage(),java.time.Instant.now()))
         }
-        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
+        //tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
 
         /** Radar Percentiles Chart */
         tiles.chartData1.setValue(random.nextDouble() * 50)
@@ -180,9 +180,20 @@ object Main extends JFXApp3 {
 
     val menuAction = (event: ActionEvent) => {
       //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
+      // set the current combat instance
       controller
         .setCurrentCombatInstance(controller.
           getCombatInstanceById(event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText))
+
+      // clear out and add all of the combat instance data to the chart
+      val timeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
+      println(s"Current combat has a saved time series of ${timeSeries.size} elements")
+      for (i <- timeSeries) {
+        tiles.timelineTile.reInit()
+        println(s"Adding chart data ${i._1}:${i._2}")
+        tiles.timelineTile.addChartData(new ChartData(i._1,i._2))
+      }
+
     }
 
     val combatInstanceMenu = new Menu("Combat Instances")

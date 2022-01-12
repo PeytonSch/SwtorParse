@@ -25,7 +25,8 @@ class Parser {
     getLinesFromFile(path)
   }
   def getNewLines(): IndexedSeq[LogInformation] = {
-    getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
+    //getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
+    getLinesFromFile("SampleLogs/combat_solo_2021-12-30_20_58_33_468342.txt")
   }
 
   def getLinesFromFile(path: String): IndexedSeq[LogInformation] = {
