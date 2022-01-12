@@ -20,9 +20,11 @@ class Controller () {
     currentCombat = i
   }
 
-  def startNewCombat() = {
+  def startNewCombat(logInfo : LogInformation) = {
+    //println(s"Starting new combat on ${logInfo}")
     setCurrentCombatInstance(new CombatInstance)
     this.getCurrentCombat().setPlayerInCombat(playerToonIdString)
+    this.getCurrentCombat().setCombatStartTimeStamp(logInfo)
     //println(s"Current combat is ${this.currentCombat}")
     allCombatInstances = allCombatInstances :+ currentCombat
     //println(s"All combat instances has size ${allCombatInstances.size}")
@@ -84,7 +86,7 @@ class Controller () {
        */
       // Check to see if we entered or exit combat
       if(logInfo.getResult().isInstanceOf[EnterCombat]) {
-        this.startNewCombat()
+        this.startNewCombat(logInfo)
       } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
         this.endCombat()
       }

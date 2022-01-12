@@ -4,6 +4,7 @@ import parsing.Actors.{Actor, NoneActor}
 import parsing.Values.Value
 import patterns.LogInformation
 
+import java.time.{LocalDate, LocalTime}
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
 
 class CombatInstance (
@@ -13,6 +14,14 @@ class CombatInstance (
   var combatActors : Vector[CombatActorInstance] = Vector()
 
   var playerInCombat : String = ""
+
+  var startTimeStamp : LocalTime = null
+  def setCombatStartTimeStamp(logInfo: LogInformation) = {
+    this.startTimeStamp = LocalTime.parse(logInfo.getTime().toString)
+  }
+
+  override def toString: String = s"Combat Instance: ${this.startTimeStamp}"
+
 
   def setPlayerInCombat(player:String): Unit = playerInCombat = player
 
@@ -61,11 +70,21 @@ class CombatInstance (
     val performerId: String = logInfo.getPerformer().getId().toString
     val targetId: String = logInfo.getTarget().getId().toString
     val totalValue : Int = logInfo.getResulValue().getTotalValue()
+    // TODO: this time should be the number of seconds since this combat instance started
+    val timestamp : LocalTime = LocalTime.parse(logInfo.getTime().toString)
+    // Tihs gets the time to epoch second but assumes the log was created on this day. Not really a big
+    // deal if we dont show date information
+    // TODO: Can we extract the date information from the log name
+    val timeFromStartOfDay = timestamp.toSecondOfDay
+    val dayFromEpoch =  LocalDate.now().atStartOfDay().toEpochSecond(java.time.ZoneOffset.UTC)
+    val instantFromEpoch = timeFromStartOfDay + dayFromEpoch
+    println(s"Got seconds from epoch ${instantFromEpoch}")
+    val instant : java.time.Instant = java.time.Instant.ofEpochSecond(instantFromEpoch)
 
     // find the combatActor to add damage to
     for (actor <- combatActors) {
       if (actor.getIdString() == performerId) {
-        actor.updateDamageDone(totalValue)
+        actor.updateDamageDone(totalValue,instant)
       }
     }
 

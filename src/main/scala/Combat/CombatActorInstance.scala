@@ -1,7 +1,9 @@
 package Combat
 
+import eu.hansolo.tilesfx.chart.ChartData
 import parsing.Actors.Actor
 import parsing.subTypes.ActorId
+import patterns.LogInformation
 
 /**
  * A combat Actor Instance is an instance of an Actor in combat.
@@ -39,13 +41,27 @@ class CombatActorInstance {
   def getIdString() = actorIdString
 
 
+  // Chart Data is going to hold the UI information for this CombatActorInstance
+  var damageDoneTimeSeries : Vector[(Int,java.time.Instant)] = null
   var damageDone = 0
-  def updateDamageDone(i: Int): Unit = damageDone += i
+  def updateDamageDone(damageAmount: Int, axisValue : java.time.Instant): Unit = {
+    damageDone += damageAmount
+//    val chartData = new ChartData(damageAmount,axisValue)
+//    println(s"Created chart data ${chartData}")
+    if (damageDoneTimeSeries == null) damageDoneTimeSeries = Vector((damageAmount,axisValue))
+    else {
+      println(s"Updating damage done time sereis with ${damageAmount} at ${axisValue}")
+      damageDoneTimeSeries = damageDoneTimeSeries :+ (damageAmount,axisValue)
+    }
+
+  }
   def getDamageDone() = damageDone
+  def getDamageDoneTimeSeries() = damageDoneTimeSeries
 
   var damageTaken = 0
   def updateDamageTaken(i: Int): Unit = damageTaken += i
   def getDamageTaken() = damageTaken
+
 
 
 
