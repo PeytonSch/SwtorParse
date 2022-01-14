@@ -11,10 +11,12 @@ import javafx.collections.ObservableList
 import scalafx.geometry.Pos
 import javafx.scene.paint.Stop
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.chart.{LineChart, NumberAxis, XYChart}
+import scalafx.scene.chart.{BarChart, CategoryAxis, LineChart, NumberAxis, XYChart}
+import scalafx.scene.layout.StackPane
 import scalafx.scene.paint.Color
 
 import java.time.Duration
+import scala.util.Random
 
 /**
  * This GuiTiles Class handles most of the elements in the GUI.
@@ -26,6 +28,8 @@ class GuiTiles {
   val     TILE_WIDTH : Double  = 250
   val     TILE_HEIGHT : Double = 350
   val     menuTileSize : Double = .30
+
+  val random = new Random()
 
   /** These indicators are for the status tile */
   val leftGraphics : Indicator = new Indicator(Tile.RED);
@@ -251,40 +255,74 @@ class GuiTiles {
     .chartData(chartData1, chartData2, chartData3, chartData4)
     .build();
 
-
-  val xAxis = NumberAxis("Values for X-Axis", 0, 3, 1)
-  val yAxis = NumberAxis("Values for Y-Axis", 0, 3, 1)
+  val xAxis = NumberAxis("Combat Time")
+//  val xAxis = NumberAxis("Values for X-Axis", 0, 3, 10)
+  val yAxis = NumberAxis("Damage & Damage/Sec", 0, 30,10)
+  val xAxis2 : CategoryAxis = CategoryAxis("Combat Time")
 
   // Helper function to convert a tuple to `XYChart.Data`
-  val toChartData = (xy: (Double, Double)) => XYChart.Data[Number, Number](xy._1, xy._2)
+  val toNumberChartData = (xy: (Int, Int)) => XYChart.Data[Number, Number](xy._1, xy._2)
+  val toCatagoryChartData = (xy: (String, Int)) => XYChart.Data[String, Number](xy._1, xy._2)
 
-  val series1 = new XYChart.Series[Number, Number] {
+  val series1 = new XYChart.Series[String, Number] {
     name = "Series 1"
-    data = Seq(
-      (0.0, 1.0),
-      (1.2, 1.4),
-      (2.2, 1.9),
-      (2.7, 2.3),
-      (2.9, 0.5)).map(toChartData)
+    //    data = Seq(
+    //      (0.0, 1.0),
+    //      (1.2, 1.4),
+    //      (2.2, 1.9),
+    //      (2.7, 2.3),
+    //      (2.9, 0.5)).map(toChartData)
+    val dataSeq: Seq[(String, Int)] = for (i <- 1 to 30) yield (i.toString, random.nextInt(20))
+    data = dataSeq.map(toCatagoryChartData)
   }
 
   val series2 = new XYChart.Series[Number, Number] {
     name = "Series 2"
-    data = Seq(
-      (0.0, 1.6),
-      (0.8, 0.4),
-      (1.4, 2.9),
-      (2.1, 1.3),
-      (2.6, 0.9)).map(toChartData)
+//    data = Seq(
+//      (0.0, 1.6),
+//      (0.8, 0.4),
+//      (1.4, 2.9),
+//      (2.1, 1.3),
+//      (2.6, 0.9)).map(toChartData)
+    val dataSeq : Seq[(Int,Int)] = for (i <- 1 to 30) yield (i,random.nextInt(20))
+    data = dataSeq.map(toNumberChartData)
   }
 
-  val lineChart = new LineChart[Number, Number](xAxis, yAxis, ObservableBuffer(series1, series2))
+  val series3 = new XYChart.Series[String, Number] {
+    name = "Series 2"
+//    data = Seq(
+//      ("0", 1.6),
+//      ("0.8", 0.4),
+//      ("1.4", 2.9),
+//      ("2.1", 1.3),
+//      ("2.6", 0.9)).map(toBarChartData)
+    val dataSeq : Seq[(String,Int)] = for (i <- 1 to 30) yield (i.toString,random.nextInt(20)+10)
+    data = dataSeq.map(toCatagoryChartData)
+  }
+
+  val lineChart = new LineChart[String, Number](xAxis2, yAxis, ObservableBuffer(series1))
   lineChart.setAnimated(true)
   lineChart.setTitle("Damage")
   lineChart.setCreateSymbols(false)
   lineChart.setLegendVisible(false)
-  lineChart.setMinWidth(750)
-  lineChart.setMinHeight(350)
+  lineChart.setPrefSize(750,350)
+  lineChart.verticalGridLinesVisible = false
+  lineChart.horizontalGridLinesVisible = false
+//  lineChart.getXAxis.setStyle()
+
+  val barChart = new BarChart[String,Number](xAxis2, yAxis, ObservableBuffer(series3))
+  barChart.setAnimated(false)
+  barChart.setTitle("Damage")
+  barChart.setLegendVisible(false)
+  barChart.setPrefSize(750,350)
+  barChart.verticalGridLinesVisible = false
+  barChart.horizontalGridLinesVisible = false
+//  barChart.getXAxis.setVisible(false)
+//  barChart.getYAxis.setVisible(false)
+//  barChart.getXAxis.setTickLabelsVisible(false)
+
+  val stackedArea : StackPane = new StackPane()
+  stackedArea.getChildren.addAll(barChart,lineChart)
 
 
 
