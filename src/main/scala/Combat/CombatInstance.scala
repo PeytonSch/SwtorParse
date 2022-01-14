@@ -2,8 +2,10 @@ package Combat
 
 import parsing.Actors.{Actor, NoneActor}
 import parsing.Values.Value
+import parsing.subTypes.LogTimestamp
 import patterns.LogInformation
 
+import java.time.{LocalDate, LocalTime}
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
 
 class CombatInstance (
@@ -14,6 +16,17 @@ class CombatInstance (
 
   var playerInCombat : String = ""
 
+  var startTimeStamp : LogTimestamp = null
+  def setCombatStartTimeStamp(logInfo: LogInformation) = {
+    if(startTimeStamp == null) this.startTimeStamp = logInfo.getTime()
+    else {
+      println("Error, tried updating timestamp that was already set")
+    }
+  }
+
+  override def toString: String = s"Combat Instance: ${this.startTimeStamp}"
+
+
   def setPlayerInCombat(player:String): Unit = playerInCombat = player
 
   def getPlayerInCombatId() = playerInCombat
@@ -21,7 +34,7 @@ class CombatInstance (
   def getPlayerInCombatActor() = this.getCombatActorByIdString(playerInCombat)
 
   // make a combat instance name from actors
-  def getName: String = {
+  def getNameFromActors: String = {
     var str = ""
     for (a <- combatActors) {
       str += a.getIdString()
@@ -60,12 +73,14 @@ class CombatInstance (
     // check which actor is performing the damage and add it to their damage
     val performerId: String = logInfo.getPerformer().getId().toString
     val targetId: String = logInfo.getTarget().getId().toString
-    val totalValue : Int = logInfo.getResulValue().getTotalValue()
+    val totalValue : Int = logInfo.getResulValue().getFullValue()
+    // TODO: this time should be the number of seconds since this combat instance started
+    val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
 
     // find the combatActor to add damage to
     for (actor <- combatActors) {
       if (actor.getIdString() == performerId) {
-        actor.updateDamageDone(totalValue)
+        actor.updateDamageDone(totalValue,durationMarkFromStart)
       }
     }
 
