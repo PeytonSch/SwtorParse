@@ -186,13 +186,18 @@ object Main extends JFXApp3 {
           getCombatInstanceById(event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText))
 
       // clear out and add all of the combat instance data to the chart
-      val timeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
-      println(s"Current combat has a saved time series of ${timeSeries.size} elements")
-      for (i <- timeSeries) {
-        tiles.timelineTile.reInit()
+      val damageTimeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
+      val damagePerSecondTimeSeries = controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecondTimeSeries()
+      println(s"Current combat has a saved time series of ${damageTimeSeries.size} elements")
+      for (i <- damageTimeSeries) {
         println(s"Adding chart data ${i._1}:${i._2}")
-        tiles.timelineTile.addChartData(new ChartData(i._1,i._2))
       }
+      tiles.lineChartSeries.getData.removeAll()
+      tiles.barChartSeries.getData.removeAll()
+      tiles.barChartSeries.data = damageTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+      tiles.lineChartSeries.data = damagePerSecondTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+      println(s"Got max value of ${damageTimeSeries.valuesIterator.max}")
+      tiles.yAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
 
     }
 
@@ -200,7 +205,7 @@ object Main extends JFXApp3 {
     var combatInstanceBuffer = new ListBuffer[MenuItem]()
     for (combatInstance <- controller.getAllCombatInstances()){
       println(s"Got combat instance: ${combatInstance}")
-      var item = new MenuItem(combatInstance.getName)
+      var item = new MenuItem(combatInstance.getNameFromActors)
       item.setOnAction(menuAction)
       combatInstanceBuffer += item
     }
@@ -287,7 +292,7 @@ object Main extends JFXApp3 {
 //    //Main Row 2
     pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
     pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
-    pane.add(tiles.donutChartTile, 6, mainRow2, 1, 1)
+    pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
 
     pane.setHgap(5)

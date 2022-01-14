@@ -5,6 +5,8 @@ import parsing.Actors.Actor
 import parsing.subTypes.ActorId
 import patterns.LogInformation
 
+import scala.collection.mutable
+
 /**
  * A combat Actor Instance is an instance of an Actor in combat.
  * It is a way to keep track of all actor stats in an instance of combat.
@@ -42,21 +44,39 @@ class CombatActorInstance {
 
 
   // Chart Data is going to hold the UI information for this CombatActorInstance
-  var damageDoneTimeSeries : Vector[(Int,java.time.Instant)] = null
+  var damageDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   var damageDone = 0
-  def updateDamageDone(damageAmount: Int, axisValue : java.time.Instant): Unit = {
+  var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def updateDamageDone(damageAmount: Int, axisValue : Int): Unit = {
     damageDone += damageAmount
-//    val chartData = new ChartData(damageAmount,axisValue)
-//    println(s"Created chart data ${chartData}")
-    if (damageDoneTimeSeries == null) damageDoneTimeSeries = Vector((damageAmount,axisValue))
-    else {
-      println(s"Updating damage done time sereis with ${damageAmount} at ${axisValue}")
-      damageDoneTimeSeries = damageDoneTimeSeries :+ (damageAmount,axisValue)
-    }
 
+    /**
+     * Update damageDoneTimeSeries
+     * */
+      // check if we already have damage done in this second
+      if (damageDoneTimeSeries.contains(axisValue)){
+        val newDamageInBucket : Int = damageDoneTimeSeries.get(axisValue).get + damageAmount
+        damageDoneTimeSeries += (axisValue -> newDamageInBucket)
+      }
+        // if we don't have any data for this second yet, add that key value
+      else {
+        damageDoneTimeSeries(axisValue) = damageAmount
+      }
+
+    /**
+     * Update damagePerSecondTimeSeries
+     */
+    if (damagePerSecondTimeSeries.contains(axisValue)){
+      damagePerSecondTimeSeries += (axisValue -> damageDone / (axisValue + 1))
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      damagePerSecondTimeSeries(axisValue) = damageDone / (axisValue + 1)
+    }
   }
   def getDamageDone() = damageDone
   def getDamageDoneTimeSeries() = damageDoneTimeSeries
+  def getDamagePerSecondTimeSeries() = damagePerSecondTimeSeries
 
   var damageTaken = 0
   def updateDamageTaken(i: Int): Unit = damageTaken += i

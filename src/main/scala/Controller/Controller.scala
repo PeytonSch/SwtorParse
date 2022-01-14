@@ -62,7 +62,7 @@ class Controller () {
 
   def getCombatInstanceById(id:String): CombatInstance = {
     for (cInst <- allCombatInstances) {
-      if (cInst.getName == id) {
+      if (cInst.getNameFromActors == id) {
         return cInst
       }
     }
