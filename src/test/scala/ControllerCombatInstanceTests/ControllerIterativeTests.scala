@@ -31,7 +31,7 @@ class ControllerIterativeTests extends AnyFlatSpec{
      */
     // Check to see if we entered or exit combat
     if(logInfo.getResult().isInstanceOf[EnterCombat]) {
-      controller.startNewCombat()
+      controller.startNewCombat(logInfo)
       assert(controller.getCurrentCombat() != null)
       assert(controller.getCurrentCombat().isInstanceOf[CombatInstance])
 

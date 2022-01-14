@@ -1,7 +1,11 @@
 package Combat
 
+import eu.hansolo.tilesfx.chart.ChartData
 import parsing.Actors.Actor
 import parsing.subTypes.ActorId
+import patterns.LogInformation
+
+import scala.collection.mutable
 
 /**
  * A combat Actor Instance is an instance of an Actor in combat.
@@ -39,13 +43,45 @@ class CombatActorInstance {
   def getIdString() = actorIdString
 
 
+  // Chart Data is going to hold the UI information for this CombatActorInstance
+  var damageDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   var damageDone = 0
-  def updateDamageDone(i: Int): Unit = damageDone += i
+  var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def updateDamageDone(damageAmount: Int, axisValue : Int): Unit = {
+    damageDone += damageAmount
+
+    /**
+     * Update damageDoneTimeSeries
+     * */
+      // check if we already have damage done in this second
+      if (damageDoneTimeSeries.contains(axisValue)){
+        val newDamageInBucket : Int = damageDoneTimeSeries.get(axisValue).get + damageAmount
+        damageDoneTimeSeries += (axisValue -> newDamageInBucket)
+      }
+        // if we don't have any data for this second yet, add that key value
+      else {
+        damageDoneTimeSeries(axisValue) = damageAmount
+      }
+
+    /**
+     * Update damagePerSecondTimeSeries
+     */
+    if (damagePerSecondTimeSeries.contains(axisValue)){
+      damagePerSecondTimeSeries += (axisValue -> damageDone / (axisValue + 1))
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      damagePerSecondTimeSeries(axisValue) = damageDone / (axisValue + 1)
+    }
+  }
   def getDamageDone() = damageDone
+  def getDamageDoneTimeSeries() = damageDoneTimeSeries
+  def getDamagePerSecondTimeSeries() = damagePerSecondTimeSeries
 
   var damageTaken = 0
   def updateDamageTaken(i: Int): Unit = damageTaken += i
   def getDamageTaken() = damageTaken
+
 
 
 

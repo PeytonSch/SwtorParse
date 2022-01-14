@@ -115,13 +115,13 @@ object Main extends JFXApp3 {
 
         tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
         //tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
-
+        //tiles.timelineTile.calcAutoScale()
         // if the current combat is not null, set to show player damage
         if (controller.getCurrentCombat() != null) {
           // TODO: This needs to have a static graph if the combat is complete
-          tiles.timelineTile.setValue(controller.getCurrentPlayerDamage())
+          //tiles.timelineTile.addChartData(new ChartData(controller.getCurrentPlayerDamage(),java.time.Instant.now()))
         }
-        tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
+        //tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
 
         /** Radar Percentiles Chart */
         tiles.chartData1.setValue(random.nextDouble() * 50)
@@ -180,16 +180,32 @@ object Main extends JFXApp3 {
 
     val menuAction = (event: ActionEvent) => {
       //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
+      // set the current combat instance
       controller
         .setCurrentCombatInstance(controller.
           getCombatInstanceById(event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText))
+
+      // clear out and add all of the combat instance data to the chart
+      val damageTimeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
+      val damagePerSecondTimeSeries = controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecondTimeSeries()
+      println(s"Current combat has a saved time series of ${damageTimeSeries.size} elements")
+      for (i <- damageTimeSeries) {
+        println(s"Adding chart data ${i._1}:${i._2}")
+      }
+      tiles.lineChartSeries.getData.removeAll()
+      tiles.barChartSeries.getData.removeAll()
+      tiles.barChartSeries.data = damageTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+      tiles.lineChartSeries.data = damagePerSecondTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+      println(s"Got max value of ${damageTimeSeries.valuesIterator.max}")
+      tiles.yAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
+
     }
 
     val combatInstanceMenu = new Menu("Combat Instances")
     var combatInstanceBuffer = new ListBuffer[MenuItem]()
     for (combatInstance <- controller.getAllCombatInstances()){
       println(s"Got combat instance: ${combatInstance}")
-      var item = new MenuItem(combatInstance.getName)
+      var item = new MenuItem(combatInstance.getNameFromActors)
       item.setOnAction(menuAction)
       combatInstanceBuffer += item
     }
@@ -269,14 +285,14 @@ object Main extends JFXApp3 {
 
     //Main Row 1
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.timelineTile, 1, mainRow1, 5, mainRowSpan)
+    pane.add(tiles.stackedArea, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
     pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
     pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
-    pane.add(tiles.donutChartTile, 6, mainRow2, 1, 1)
+    pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
 
     pane.setHgap(5)
@@ -285,12 +301,15 @@ object Main extends JFXApp3 {
     // Set the preferred size of the window
     pane.setPrefSize(1500, 800)
     pane.setBackground(background)
+    tiles.stackedArea.setBackground(background)
 
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
 
     // add the pane to a scene and give it a camera
     val scene = new Scene(pane)
+    scene.getStylesheets().add("Chart.css")
+
     scene.setCamera(camera)
 
     // This is the title of the window
