@@ -1,4 +1,5 @@
 import Controller.Controller
+import eu.hansolo.tilesfx.Tile
 import parser.Parser
 import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
@@ -18,6 +19,7 @@ import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import eu.hansolo.tilesfx.tools.TreeNode
 import parsing.Result.ApplyEffect
 import patterns.Actions.SafeLogin
 import patterns.LogInformation
@@ -26,6 +28,7 @@ import scalafx.scene.input.MouseEvent
 
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
 import java.util.prefs.{Preferences, PreferencesFactory}
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
 
@@ -180,31 +183,120 @@ object Main extends JFXApp3 {
 
     val menuAction = (event: ActionEvent) => {
       //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
+
       // set the current combat instance
       controller
         .setCurrentCombatInstance(controller.
           getCombatInstanceById(event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText))
 
+      /**
+       * Main DPS Chart
+       */
+
       // clear out and add all of the combat instance data to the chart
       val damageTimeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
       val damagePerSecondTimeSeries = controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecondTimeSeries()
-      println(s"Current combat has a saved time series of ${damageTimeSeries.size} elements")
-      for (i <- damageTimeSeries) {
-        println(s"Adding chart data ${i._1}:${i._2}")
-      }
+//      println(s"Current combat has a saved time series of ${damageTimeSeries.size} elements")
       tiles.lineChartSeries.getData.removeAll()
       tiles.barChartSeries.getData.removeAll()
       tiles.barChartSeries.data = damageTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
       tiles.lineChartSeries.data = damagePerSecondTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
-      println(s"Got max value of ${damageTimeSeries.valuesIterator.max}")
+//      println(s"Got max value of ${damageTimeSeries.valuesIterator.max}")
       tiles.yAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
+
+      /**
+       * Update the damage types indicator as well as the base types for the damage taken pie chart
+       */
+
+      // remove the all old data for both tiles
+      tiles.dtpstree.removeAllNodes()
+      tiles.damageFromTypeIndicator.clearChartData()
+
+      for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTypeTaken()) {
+        // TODO: Need to make sure you have ALL the damage types here or they wont show
+        types._1 match {
+          case "internal" => {
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,Tile.LIGHT_GREEN))
+            new TreeNode(new ChartData("Internal", types._2, Tile.LIGHT_GREEN), tiles.dtpstree);
+          }
+          case "kinetic" => {
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,Tile.ORANGE))
+            new TreeNode(new ChartData("Kinetic", types._2, Tile.ORANGE), tiles.dtpstree);
+          }
+          case "energy" => {
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,Tile.BLUE))
+            new TreeNode(new ChartData("Energy", types._2, Tile.BLUE), tiles.dtpstree);
+          }
+          case "elemental" => {
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,Tile.LIGHT_RED))
+            new TreeNode(new ChartData("Elemental", types._2, Tile.LIGHT_RED), tiles.dtpstree);
+          }
+          case "No Type" =>
+          case x => {
+            println(s"Got Unknown Damage type: ${x}")
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,Tile.GRAY))
+            new TreeNode(new ChartData("Regular", types._2, Tile.GRAY), tiles.dtpstree);
+          }
+        }
+      }
+
+      /**
+       * Update the damage taken from source tile ability data
+       */
+
+       // Helper function to get inner ring to add ability damage to
+        def getCorrectChild(name : String): TreeNode[ChartData] = {
+         val root : java.util.List[TreeNode[ChartData]] = tiles.dtpstree.getAll
+          for (i <- 0 until root.size()){
+           if(root.get(i).getItem.getName == name) return root.get(i)
+          }
+         // this is a backup, probably shouldn't happen
+         println("Error, returning root tree, this should not happen")
+          tiles.dtpstree
+        }
+
+      // TODO: Should track effects back to ability names, for example, toxic dart applies an effect
+      // called poisoned, when it ticks, the ability is called poisoned not toxic dart
+      for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenStats()) {
+        types._1 match {
+          case "internal" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_GREEN), getCorrectChild("Internal"));
+            }
+          }
+          case "kinetic" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.ORANGE), getCorrectChild("Kinetic"));
+            }
+          }
+          case "energy" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.BLUE), getCorrectChild("Energy"));
+            }
+          }
+          case "elemental" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_RED), getCorrectChild("Elemental"));
+            }
+          }
+          case "No Type" =>
+          case x => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.GRAY), getCorrectChild("Regular"));
+            }
+          }
+
+        }
+      }
+
+
 
     }
 
     val combatInstanceMenu = new Menu("Combat Instances")
     var combatInstanceBuffer = new ListBuffer[MenuItem]()
     for (combatInstance <- controller.getAllCombatInstances()){
-      println(s"Got combat instance: ${combatInstance}")
+//      println(s"Got combat instance: ${combatInstance}")
       var item = new MenuItem(combatInstance.getNameFromActors)
       item.setOnAction(menuAction)
       combatInstanceBuffer += item
@@ -245,7 +337,7 @@ object Main extends JFXApp3 {
       if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
           prefs.put("PARSE_LOG_DIR", dirPath)
-          println(s"Added the selected directory: \"$dirPath\"" + " to your user preferences.")
+//          println(s"Added the selected directory: \"$dirPath\"" + " to your user preferences.")
       }
     }
 
@@ -290,7 +382,7 @@ object Main extends JFXApp3 {
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
-    pane.add(tiles.sunburstTile, 0, mainRow2, 3, 1)
+    pane.add(tiles.damageTakenSourceTile, 0, mainRow2, 3, 1)
     pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
     pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
@@ -313,7 +405,7 @@ object Main extends JFXApp3 {
     scene.setCamera(camera)
 
     // This is the title of the window
-    stage.setTitle("Test Title")
+    stage.setTitle("ELITE RAIDING PARSER")
     stage.setScene(scene)
     stage.show()
 
