@@ -82,7 +82,7 @@ class CombatInstance (
     // find the combatActor to add damage to
     for (actor <- combatActors) {
       if (actor.getIdString() == performerId) {
-        actor.updateDamageDone(totalValue,durationMarkFromStart)
+        actor.updateDamageDone(totalValue,durationMarkFromStart,damageType,damageSource)
       }
     }
 

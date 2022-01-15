@@ -46,8 +46,21 @@ class CombatActorInstance {
   var damageDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   var damageDone = 0
   var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
-  def updateDamageDone(damageAmount: Int, axisValue : Int): Unit = {
+  var damageDoneStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
+  def getDamageDoneStats() = damageDoneStats
+  var damageTypeDone : mutable.Map[String,Int] = mutable.Map()
+  def getDamageTypeDone() = damageTypeDone
+  def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
     damageDone += damageAmount
+    // update damage Types
+    if (damageTypeDone.contains(damageType)){
+      val newDamageInBucket : Int = damageTypeDone.get(damageType).get + damageAmount
+      damageTypeDone += (damageType -> newDamageInBucket)
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      damageTypeDone(damageType) = damageAmount
+    }
 
     /**
      * Update damageDoneTimeSeries
@@ -72,6 +85,27 @@ class CombatActorInstance {
     else {
       damagePerSecondTimeSeries(axisValue) = damageDone / (axisValue + 1)
     }
+
+    /**
+     * Damage Done Stats, can we combine this and get rid of the above?
+     */
+    // see if we have seen this type
+    if (damageDoneStats.contains(damageType)){
+      // if we have seen this type, check the inner key and see if we have this ability
+      if (damageDoneStats(damageType).contains(damageSource)) {
+        // if we have the ability update the damage amount for that ability
+        val newDamageValue = damageDoneStats(damageType)(damageSource) + damageAmount
+        damageDoneStats(damageType) += (damageSource -> newDamageValue)
+      } else {
+        // if we dont have that ability add it to the inner map
+        damageDoneStats(damageType)(damageSource) = damageAmount
+      }
+    }
+    // if we have nothing for this damage type, we know we can just add the stats
+    else {
+      damageDoneStats(damageType) = mutable.Map(damageSource -> damageAmount)
+    }
+
   }
   def getDamageDone() = damageDone
   def getDamageDoneTimeSeries() = damageDoneTimeSeries
@@ -90,6 +124,7 @@ class CombatActorInstance {
   // TODO: Add DTPS graph functionality, make it toggleable in the UI
   def updateDamageTaken(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
     damageTaken += damageAmount
+    // update damage Types
     if (damageTypeTaken.contains(damageType)){
       val newDamageInBucket : Int = damageTypeTaken.get(damageType).get + damageAmount
       damageTypeTaken += (damageType -> newDamageInBucket)
