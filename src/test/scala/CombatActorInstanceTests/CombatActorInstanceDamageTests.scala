@@ -25,15 +25,27 @@ class CombatActorInstanceDamageTests extends AnyFlatSpec{
   }
 
   "Combat Actors" should "update damage maps accordingly" in {
-    testCombatActor.updateDamageDone(10,1)
-    testCombatActor.updateDamageDone(10,1)
-    testCombatActor.updateDamageDone(10,2)
+    testCombatActor.updateDamageDone(10,1, "Internal", "Source1")
+    testCombatActor.updateDamageDone(10,1, "Internal", "Source2")
+    testCombatActor.updateDamageDone(10,2, "Elemental","Source3")
 
     assert(testCombatActor.getDamageDoneTimeSeries().size == 2)
     assert(testCombatActor.getDamageDoneTimeSeries()(1) == 20)
     assert(testCombatActor.getDamageDoneTimeSeries()(2) == 10)
 
     assert(testCombatActor.getDamageDone() == 30)
+
+    assert(testCombatActor.getDamageTypeDone().size == 2)
+    assert(testCombatActor.getDamageTypeDone()("Internal") == 20)
+    assert(testCombatActor.getDamageTypeDone()("Elemental") == 10)
+
+    assert(testCombatActor.getDamageDoneStats().size == 2)
+    assert(testCombatActor.getDamageDoneStats()("Internal").size == 2)
+    assert(testCombatActor.getDamageDoneStats()("Elemental").size == 1)
+
+    assert(testCombatActor.getDamageDoneStats()("Internal")("Source1") == 10)
+    assert(testCombatActor.getDamageDoneStats()("Internal")("Source2") == 10)
+    assert(testCombatActor.getDamageDoneStats()("Elemental")("Source3") == 10)
   }
 
 

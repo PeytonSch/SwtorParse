@@ -205,6 +205,109 @@ object Main extends JFXApp3 {
       tiles.yAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
 
       /**
+       * Helper function to get inner ring to add ability damage to.
+       * This is used for both damage taken from source and
+       * damage done from source ability.
+       * @param name
+       * @return
+       */
+      def getCorrectChild(name : String, from : String): TreeNode[ChartData] = {
+        if (from == "dtps") {
+          val root : java.util.List[TreeNode[ChartData]] = tiles.dtpstree.getAll
+          for (i <- 0 until root.size()){
+            if(root.get(i).getItem.getName == name) return root.get(i)
+          }
+        }
+        else {
+          val root : java.util.List[TreeNode[ChartData]] = tiles.damageDoneTree.getAll
+          for (i <- 0 until root.size()){
+            if(root.get(i).getItem.getName == name) return root.get(i)
+          }
+        }
+        // this is a backup, probably shouldn't happen
+        println("Error, returning root tree, this should not happen")
+        tiles.dtpstree
+      }
+
+      /**
+       * * * * * * Damage Done Section * * * * *
+       *
+       * Update the base types for the damage taken pie chart
+       */
+
+      /** TODO: This and the damage taken section have a lot of repeat code, can probably factor some of this
+       * out into functions. Both here and in the CombatActorInstance functions
+       */
+
+
+      // remove the all old data for both tiles
+      tiles.damageDoneTree.removeAllNodes()
+
+      // TODO: Put all these tile colors in a config factory!
+
+      for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTypeDone()) {
+        // TODO: Need to make sure you have ALL the damage types here or they wont show
+        types._1 match {
+          case "internal" => {
+            new TreeNode(new ChartData("Internal", types._2, Tile.LIGHT_GREEN), tiles.damageDoneTree);
+          }
+          case "kinetic" => {
+            new TreeNode(new ChartData("Kinetic", types._2, Tile.ORANGE), tiles.damageDoneTree);
+          }
+          case "energy" => {
+            new TreeNode(new ChartData("Energy", types._2, Tile.BLUE), tiles.damageDoneTree);
+          }
+          case "elemental" => {
+            new TreeNode(new ChartData("Elemental", types._2, Tile.LIGHT_RED), tiles.damageDoneTree);
+          }
+          case "No Type" =>
+          case x => {
+            println(s"Got Unknown Damage type: ${x}")
+            new TreeNode(new ChartData("Regular", types._2, Tile.GRAY), tiles.damageDoneTree);
+          }
+        }
+      }
+
+      /**
+       * Update the damage done from source tile ability data
+       */
+
+      for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneStats()) {
+        types._1 match {
+          case "internal" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_GREEN), getCorrectChild("Internal","dps"));
+            }
+          }
+          case "kinetic" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.ORANGE), getCorrectChild("Kinetic","dps"));
+            }
+          }
+          case "energy" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.BLUE), getCorrectChild("Energy","dps"));
+            }
+          }
+          case "elemental" => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_RED), getCorrectChild("Elemental","dps"));
+            }
+          }
+          case "No Type" =>
+          case x => {
+            for (ability <- types._2) {
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.GRAY), getCorrectChild("Regular","dps"));
+            }
+          }
+
+        }
+      }
+
+
+      /**
+       * * * * * * Damage Taken Section * * * * *
+       *
        * Update the damage types indicator as well as the base types for the damage taken pie chart
        */
 
@@ -244,45 +347,32 @@ object Main extends JFXApp3 {
        * Update the damage taken from source tile ability data
        */
 
-       // Helper function to get inner ring to add ability damage to
-        def getCorrectChild(name : String): TreeNode[ChartData] = {
-         val root : java.util.List[TreeNode[ChartData]] = tiles.dtpstree.getAll
-          for (i <- 0 until root.size()){
-           if(root.get(i).getItem.getName == name) return root.get(i)
-          }
-         // this is a backup, probably shouldn't happen
-         println("Error, returning root tree, this should not happen")
-          tiles.dtpstree
-        }
-
-      // TODO: Should track effects back to ability names, for example, toxic dart applies an effect
-      // called poisoned, when it ticks, the ability is called poisoned not toxic dart
       for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenStats()) {
         types._1 match {
           case "internal" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_GREEN), getCorrectChild("Internal"));
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_GREEN), getCorrectChild("Internal","dtps"));
             }
           }
           case "kinetic" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.ORANGE), getCorrectChild("Kinetic"));
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.ORANGE), getCorrectChild("Kinetic","dtps"));
             }
           }
           case "energy" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.BLUE), getCorrectChild("Energy"));
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.BLUE), getCorrectChild("Energy","dtps"));
             }
           }
           case "elemental" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_RED), getCorrectChild("Elemental"));
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_RED), getCorrectChild("Elemental","dtps"));
             }
           }
           case "No Type" =>
           case x => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.GRAY), getCorrectChild("Regular"));
+              new TreeNode(new ChartData(ability._1, ability._2, Tile.GRAY), getCorrectChild("Regular","dtps"));
             }
           }
 
@@ -383,7 +473,7 @@ object Main extends JFXApp3 {
 
 //    //Main Row 2
     pane.add(tiles.damageTakenSourceTile, 0, mainRow2, 3, 1)
-    pane.add(tiles.sunburstTile2, 3, mainRow2, 3, 1)
+    pane.add(tiles.damageDoneSourceTile, 3, mainRow2, 3, 1)
     pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
 

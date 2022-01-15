@@ -6,6 +6,8 @@
 
 PARSE_LOG_DIR = the directory to look for logs
 
+// TODO: Preference request for changing color schemes, maybe a few prebuilt ones and then full customization
+
 
 
 

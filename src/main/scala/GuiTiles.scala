@@ -78,43 +78,18 @@ class GuiTiles {
    * by sources
    * */
   val dtpstree = new TreeNode(new ChartData("ROOT"));
-  var  dtpsfirst  = new TreeNode(new ChartData("Physical", 8.3, Tile.BLUE), dtpstree);
-  var  dtpssecond = new TreeNode(new ChartData("Force", 2.2, Tile.ORANGE), dtpstree);
-  var  dtpsthird  = new TreeNode(new ChartData("Tech", 1.4, Tile.PINK), dtpstree);
-  var  dtpsfourth = new TreeNode(new ChartData("True", 1.2, Tile.LIGHT_GREEN), dtpstree);
-
-  var  dtpsjan = new TreeNode(new ChartData("Saber Strike", 3.5), dtpsfirst);
-  var  dtpsfeb = new TreeNode(new ChartData("Brontes Beat Down", 3.1), dtpsfirst);
-  var  dtpsmar = new TreeNode(new ChartData("Styrak Super Slap", 1.7), dtpsfirst);
-  var  dtpsapr = new TreeNode(new ChartData("Thundering Blast", 1.1), dtpssecond);
-  var  dtpsmay = new TreeNode(new ChartData("Chain Lightning", 0.8), dtpssecond);
-  var  dtpsjun = new TreeNode(new ChartData("Shock", 0.3), dtpssecond);
-  val  dtpsjul = new TreeNode(new ChartData("Backstab", 0.7), dtpsthird);
-  val  dtpsaug = new TreeNode(new ChartData("Explosive Probe", 0.6), dtpsthird);
-  val  dtpssep = new TreeNode(new ChartData("Mine", 0.1), dtpsthird);
-  val  dtpsoct = new TreeNode(new ChartData("Fall Damage", 0.5), dtpsfourth);
-  val  dtpsnov = new TreeNode(new ChartData("Death Mark", 0.4), dtpsfourth);
-  val  dtpsdec = new TreeNode(new ChartData("Roasted by Chatoz", 0.3), dtpsfourth);
+  val  dtpsTreeStart1  = new TreeNode(new ChartData("Damage Taken 1", 1, Tile.BLUE), dtpstree);
+  val  dtpsTreeStart2  = new TreeNode(new ChartData("Damage Taken 2", 1, Tile.RED), dtpstree);
+  val  dtpsTreeOuter1 = new TreeNode(new ChartData("Damaging Ability", 1), dtpsTreeStart1);
+  val  dtpsTreeOuter2 = new TreeNode(new ChartData("Damaging Ability 2", 1), dtpsTreeStart2);
 
   // Sunburst Tile 2
-  val  tree   = new TreeNode(new ChartData("ROOT"));
-  val  first  = new TreeNode(new ChartData("Virulence", 8.3, Tile.BLUE), tree);
-  val  second = new TreeNode(new ChartData("Sniper Base Class", 2.2, Tile.ORANGE), tree);
-  val  third  = new TreeNode(new ChartData("Reflected", 1.4, Tile.PINK), tree);
-  val  fourth = new TreeNode(new ChartData("Misc Buff Damage", 1.2, Tile.LIGHT_GREEN), tree);
+  val  damageDoneTree   = new TreeNode(new ChartData("ROOT"));
+  val  dpsTreeStart1  = new TreeNode(new ChartData("Damage Done 1", 1, Tile.BLUE), damageDoneTree);
+  val  dpsTreeStart2  = new TreeNode(new ChartData("Damage Done 2", 1, Tile.RED), damageDoneTree);
+  val  dpsTreeOuter1 = new TreeNode(new ChartData("Damaging Ability", 1), dpsTreeStart1);
+  val  dpsTreeOuter2 = new TreeNode(new ChartData("Damaging Ability 2", 1), dpsTreeStart2);
 
-  val  jan = new TreeNode(new ChartData("Cull", 3.5), first);
-  val  feb = new TreeNode(new ChartData("Weakening Blast", 3.1), first);
-  val  mar = new TreeNode(new ChartData("Lethal Shot", 1.7), first);
-  val  apr = new TreeNode(new ChartData("Takedown", 1.1), second);
-  val  may = new TreeNode(new ChartData("Corrosive Dart", 0.8), second);
-  val  jun = new TreeNode(new ChartData("Orbital Strike", 0.3), second);
-  val  jul = new TreeNode(new ChartData("Saber Strike", 0.7), third);
-  val  aug = new TreeNode(new ChartData("Spike", 0.6), third);
-  val  sep = new TreeNode(new ChartData("Shock", 0.1), third);
-  val  oct = new TreeNode(new ChartData("Bloodthirst", 0.5), fourth);
-  val  nov = new TreeNode(new ChartData("Crit Adrenal", 0.4), fourth);
-  val  dec = new TreeNode(new ChartData("Kephess laying down like a bitch", 0.3), fourth);
 
   val statusTile = TileBuilder.create()
     .skinType(SkinType.STATUS)
@@ -221,7 +196,7 @@ class GuiTiles {
   val damageTakenSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
     .prefSize(TILE_WIDTH*2, TILE_HEIGHT)
     .title("Sources: Damage Taken")
-    .textVisible(false)
+    .textVisible(true)
     .sunburstTree(dtpstree)
     .sunburstBackgroundColor(Tile.BACKGROUND)
     .sunburstTextColor(Tile.BACKGROUND)
@@ -232,17 +207,17 @@ class GuiTiles {
     .sunburstInteractive(true)
     .build();
 
-  val sunburstTile2 = TileBuilder.create().skinType(SkinType.SUNBURST)
+  val damageDoneSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
     .prefSize(TILE_WIDTH*2, TILE_HEIGHT)
     .title("Sources: Damage Done")
-    .textVisible(false)
-    .sunburstTree(tree)
+    .textVisible(true)
+    .sunburstTree(damageDoneTree)
     .sunburstBackgroundColor(Tile.BACKGROUND)
     .sunburstTextColor(Tile.BACKGROUND)
     .sunburstUseColorFromParent(true)
     .sunburstTextOrientation(TextOrientation.TANGENT)
-    .sunburstAutoTextColor(true)
-    .sunburstUseChartDataTextColor(true)
+    .sunburstAutoTextColor(false)
+    .sunburstUseChartDataTextColor(false)
     .sunburstInteractive(true)
     .build();
 
