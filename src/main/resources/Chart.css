@@ -4,15 +4,15 @@
 }
 
 .chart-title {
-    -fx-text-fill: #4682b4;
+    -fx-text-fill: #FF9D40;
     -fx-font-size: 1.6em;
 }
 
 /*.chart-axis {*/
-/*    -fx-text-fill: #4682b4;*/
+/*    -fx-text-fill: #FF9D40;*/
 /*}*/
 
-.axis-label { -fx-text-fill: #4682b4; }
+.axis-label { -fx-text-fill: #FF9D40; }
 
 
 .chart-legend-item-symbol{
@@ -21,9 +21,11 @@
 
 
 .default-color0.chart-series-line {
-    -fx-stroke: #4feb34;
+    -fx-stroke: #48FF80;
     -fx-stroke-width: 2px;
 
 }
-.default-color0.chart-bar { -fx-stroke: #005AFF; }
-.chart-bar { -fx-bar-fill: #005AFF; }
+.default-color0.chart-bar { -fx-stroke: #49A9FF; }
+.chart-bar {
+    -fx-bar-fill: #49A9FF;
+}
