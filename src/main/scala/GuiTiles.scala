@@ -78,17 +78,17 @@ class GuiTiles {
    * by sources
    * */
   val dtpstree = new TreeNode(new ChartData("ROOT"));
-  val  dtpsfirst  = new TreeNode(new ChartData("Physical", 8.3, Tile.BLUE), dtpstree);
-  val  dtpssecond = new TreeNode(new ChartData("Force", 2.2, Tile.ORANGE), dtpstree);
-  val  dtpsthird  = new TreeNode(new ChartData("Tech", 1.4, Tile.PINK), dtpstree);
-  val  dtpsfourth = new TreeNode(new ChartData("True", 1.2, Tile.LIGHT_GREEN), dtpstree);
+  var  dtpsfirst  = new TreeNode(new ChartData("Physical", 8.3, Tile.BLUE), dtpstree);
+  var  dtpssecond = new TreeNode(new ChartData("Force", 2.2, Tile.ORANGE), dtpstree);
+  var  dtpsthird  = new TreeNode(new ChartData("Tech", 1.4, Tile.PINK), dtpstree);
+  var  dtpsfourth = new TreeNode(new ChartData("True", 1.2, Tile.LIGHT_GREEN), dtpstree);
 
-  val  dtpsjan = new TreeNode(new ChartData("Saber Strike", 3.5), dtpsfirst);
-  val  dtpsfeb = new TreeNode(new ChartData("Brontes Beat Down", 3.1), dtpsfirst);
-  val  dtpsmar = new TreeNode(new ChartData("Styrak Super Slap", 1.7), dtpsfirst);
-  val  dtpsapr = new TreeNode(new ChartData("Thundering Blast", 1.1), dtpssecond);
-  val  dtpsmay = new TreeNode(new ChartData("Chain Lightning", 0.8), dtpssecond);
-  val  dtpsjun = new TreeNode(new ChartData("Shock", 0.3), dtpssecond);
+  var  dtpsjan = new TreeNode(new ChartData("Saber Strike", 3.5), dtpsfirst);
+  var  dtpsfeb = new TreeNode(new ChartData("Brontes Beat Down", 3.1), dtpsfirst);
+  var  dtpsmar = new TreeNode(new ChartData("Styrak Super Slap", 1.7), dtpsfirst);
+  var  dtpsapr = new TreeNode(new ChartData("Thundering Blast", 1.1), dtpssecond);
+  var  dtpsmay = new TreeNode(new ChartData("Chain Lightning", 0.8), dtpssecond);
+  var  dtpsjun = new TreeNode(new ChartData("Shock", 0.3), dtpssecond);
   val  dtpsjul = new TreeNode(new ChartData("Backstab", 0.7), dtpsthird);
   val  dtpsaug = new TreeNode(new ChartData("Explosive Probe", 0.6), dtpsthird);
   val  dtpssep = new TreeNode(new ChartData("Mine", 0.1), dtpsthird);
@@ -218,7 +218,7 @@ class GuiTiles {
     .decimals(0)
     .build();
 
-  val sunburstTile = TileBuilder.create().skinType(SkinType.SUNBURST)
+  val damageTakenSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
     .prefSize(TILE_WIDTH*2, TILE_HEIGHT)
     .title("Sources: Damage Taken")
     .textVisible(false)
@@ -227,8 +227,8 @@ class GuiTiles {
     .sunburstTextColor(Tile.BACKGROUND)
     .sunburstUseColorFromParent(true)
     .sunburstTextOrientation(TextOrientation.TANGENT)
-    .sunburstAutoTextColor(true)
-    .sunburstUseChartDataTextColor(true)
+    .sunburstAutoTextColor(false)
+    .sunburstUseChartDataTextColor(false)
     .sunburstInteractive(true)
     .build();
 
@@ -252,7 +252,7 @@ class GuiTiles {
     .title("Fight Damage Types")
     .text("% of damage taken from different types")
     .textVisible(true)
-    .chartData(chartData1, chartData2, chartData3, chartData4)
+    .sectionTextVisible(true)
     .build();
 
 //  val xAxis = NumberAxis("Combat Time")

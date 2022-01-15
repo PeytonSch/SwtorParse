@@ -43,7 +43,6 @@ class CombatActorInstance {
   def getIdString() = actorIdString
 
 
-  // Chart Data is going to hold the UI information for this CombatActorInstance
   var damageDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   var damageDone = 0
   var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
@@ -79,8 +78,48 @@ class CombatActorInstance {
   def getDamagePerSecondTimeSeries() = damagePerSecondTimeSeries
 
   var damageTaken = 0
-  def updateDamageTaken(i: Int): Unit = damageTaken += i
   def getDamageTaken() = damageTaken
+  var damageTypeTaken : mutable.Map[String,Int] = mutable.Map()
+  def getDamageTypeTaken() = damageTypeTaken
+
+  // TODO: Can we get rid of damageTypeTaken and make this all based off of damageTakenStats
+  // damage taken stats: Map(DamageType -> (Ability -> Amount)
+  var damageTakenStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
+  def getDamageTakenStats() = damageTakenStats
+
+  // TODO: Add DTPS graph functionality, make it toggleable in the UI
+  def updateDamageTaken(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
+    damageTaken += damageAmount
+    if (damageTypeTaken.contains(damageType)){
+      val newDamageInBucket : Int = damageTypeTaken.get(damageType).get + damageAmount
+      damageTypeTaken += (damageType -> newDamageInBucket)
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      damageTypeTaken(damageType) = damageAmount
+    }
+
+    /**
+     * Damage Taken Stats, can we combine this and get rid of the above?
+     */
+    // see if we have seen this type
+    if (damageTakenStats.contains(damageType)){
+      // if we have seen this type, check the inner key and see if we have this ability
+      if (damageTakenStats(damageType).contains(damageSource)) {
+        // if we have the ability update the damage amount for that ability
+        val newDamageValue = damageTakenStats(damageType)(damageSource) + damageAmount
+        damageTakenStats(damageType) += (damageSource -> newDamageValue)
+      } else {
+        // if we dont have that ability add it to the inner map
+        damageTakenStats(damageType)(damageSource) = damageAmount
+      }
+    }
+      // if we have nothing for this damage type, we know we can just add the stats
+    else {
+      damageTakenStats(damageType) = mutable.Map(damageSource -> damageAmount)
+    }
+
+  }
 
 
 

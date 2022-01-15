@@ -7,4 +7,6 @@ class SafeLogin(
 
   override def toString: String = s"[ Name: ${name} Id: ${id} ]"
 
+  override def getName(): String = name
+
 }

@@ -6,4 +6,6 @@ trait Value {
   def getTotalValue(): Int // total value, after subtracting excess and negations
   def getTotalAmountDiscounted(): Int // this is the total amount that gets subtracted from full value
 
+  def getValueType(): String // return the type of damage, like "energy"
+
 }
