@@ -12,7 +12,7 @@ class RegularValue(
   def getBaseValue() : Int = baseValue
   def getCrit(): Boolean = crit
   def getExcess(): Int = excess
-  def getValueType(): String = valueType
+  override def getValueType(): String = valueType
   def getValueTypeId(): String = valueTypeId
   def getPartialNegation(): PartialNegation = partialNegation
 
