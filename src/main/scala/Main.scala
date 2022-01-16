@@ -20,7 +20,9 @@ import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
+import parsing.Actors.Player
 import parsing.Result.ApplyEffect
 import patterns.Actions.SafeLogin
 import patterns.LogInformation
@@ -119,7 +121,7 @@ object Main extends JFXApp3 {
         tiles.statusTile.setMiddleValue(tiles.statusTile.getMiddleValue() + random.nextInt(3))
         tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3))
 
-        tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
+//        tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
         //tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
         //tiles.timelineTile.calcAutoScale()
         // if the current combat is not null, set to show player damage
@@ -184,6 +186,7 @@ object Main extends JFXApp3 {
     val fileMenu = new Menu("Log Files")
     fileMenu.items = fileBuffer.toList
 
+    // TODO: Just about everything in here probably needs to be extracted out so that it can run in the main loop
     val menuAction = (event: ActionEvent) => {
       //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
 
@@ -396,6 +399,37 @@ object Main extends JFXApp3 {
 
         }
       }
+
+      /**
+       * Update the leaderboard tile with all player damage
+       *
+       *  we do not clear leaderboard items, and create new items, instead we iterate through them setting new values
+       * there are 24 by default, for the max swtor group size. Only set the number visible that
+       * correspond to the number of players in this combat. We have to do it this way because of something
+       * with how the leaderboard tile works
+       */
+
+      for (index <- 0 until tiles.leaderBoardItems.size()){
+        tiles.leaderBoardItems.get(index).setValue(0)
+        tiles.leaderBoardItems.get(index).setName("")
+        tiles.leaderBoardItems.get(index).setVisible(false)
+      }
+
+      // get all the combat Actors
+      val combatActors = controller.getCurrentCombat().getCombatActors()
+      val players = (for (actor <- combatActors) yield actor.getActor()).filter(_.isInstanceOf[Player])
+      var lastUpdatedIndex = 0
+      for (index <- 0 until players.length){
+        // need to relate the player actor instance to the combat actor instance
+        // then we need to get the damage done and order them
+        val combatInstanceActor = controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
+        // TODO: I cannot get this to set the name to save my life, help!s
+        tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamageDone())
+        tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
+        tiles.leaderBoardItems.get(index).setVisible(true)
+      }
+
+
 
 
 
