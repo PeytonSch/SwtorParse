@@ -1,4 +1,5 @@
 import Controller.Controller
+import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
 import parser.Parser
 import scalafx.animation.AnimationTimer
@@ -46,6 +47,8 @@ object Main extends JFXApp3 {
   override def start(): Unit = {
 
     val controller = new Controller()
+
+    val config = ConfigFactory.load()
 
     //Initialize Java Preferences object
     val prefs: Preferences = Preferences.userNodeForPackage(this.getClass())
@@ -243,27 +246,42 @@ object Main extends JFXApp3 {
       // remove the all old data for both tiles
       tiles.damageDoneTree.removeAllNodes()
 
-      // TODO: Put all these tile colors in a config factory!
+      // Colors by type from config
+      val internalColor: Color = if (config.hasPath("UI.Colors.DamageTypes.internal")){
+        tiles.colorLoader(config.getString("UI.Colors.DamageTypes.internal"))
+      } else {tiles.colorLoader("")}
+      val kineticColor: Color = if (config.hasPath("UI.Colors.DamageTypes.kinetic")){
+        tiles.colorLoader(config.getString("UI.Colors.DamageTypes.kinetic"))
+      } else {tiles.colorLoader("")}
+      val energyColor: Color = if (config.hasPath("UI.Colors.DamageTypes.energy")){
+        tiles.colorLoader(config.getString("UI.Colors.DamageTypes.energy"))
+      } else {tiles.colorLoader("")}
+      val elementalColor: Color = if (config.hasPath("UI.Colors.DamageTypes.elemental")){
+        tiles.colorLoader(config.getString("UI.Colors.DamageTypes.elemental"))
+      } else {tiles.colorLoader("")}
+      val regularColor: Color = if (config.hasPath("UI.Colors.DamageTypes.regular")){
+        tiles.colorLoader(config.getString("UI.Colors.DamageTypes.regular"))
+      } else {tiles.colorLoader("")}
 
       for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTypeDone()) {
         // TODO: Need to make sure you have ALL the damage types here or they wont show
         types._1 match {
           case "internal" => {
-            new TreeNode(new ChartData("Internal", types._2, Tile.LIGHT_GREEN), tiles.damageDoneTree);
+            new TreeNode(new ChartData("Internal", types._2, internalColor), tiles.damageDoneTree);
           }
           case "kinetic" => {
-            new TreeNode(new ChartData("Kinetic", types._2, Tile.ORANGE), tiles.damageDoneTree);
+            new TreeNode(new ChartData("Kinetic", types._2, kineticColor), tiles.damageDoneTree);
           }
           case "energy" => {
-            new TreeNode(new ChartData("Energy", types._2, Tile.BLUE), tiles.damageDoneTree);
+            new TreeNode(new ChartData("Energy", types._2, energyColor), tiles.damageDoneTree);
           }
           case "elemental" => {
-            new TreeNode(new ChartData("Elemental", types._2, Tile.LIGHT_RED), tiles.damageDoneTree);
+            new TreeNode(new ChartData("Elemental", types._2, elementalColor), tiles.damageDoneTree);
           }
           case "No Type" =>
           case x => {
             println(s"Got Unknown Damage type: ${x}")
-            new TreeNode(new ChartData("Regular", types._2, Tile.GRAY), tiles.damageDoneTree);
+            new TreeNode(new ChartData("Regular", types._2, regularColor), tiles.damageDoneTree);
           }
         }
       }
@@ -276,28 +294,28 @@ object Main extends JFXApp3 {
         types._1 match {
           case "internal" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_GREEN), getCorrectChild("Internal","dps"));
+              new TreeNode(new ChartData(ability._1, ability._2, internalColor), getCorrectChild("Internal","dps"));
             }
           }
           case "kinetic" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.ORANGE), getCorrectChild("Kinetic","dps"));
+              new TreeNode(new ChartData(ability._1, ability._2, kineticColor), getCorrectChild("Kinetic","dps"));
             }
           }
           case "energy" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.BLUE), getCorrectChild("Energy","dps"));
+              new TreeNode(new ChartData(ability._1, ability._2, energyColor), getCorrectChild("Energy","dps"));
             }
           }
           case "elemental" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_RED), getCorrectChild("Elemental","dps"));
+              new TreeNode(new ChartData(ability._1, ability._2, elementalColor), getCorrectChild("Elemental","dps"));
             }
           }
           case "No Type" =>
           case x => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.GRAY), getCorrectChild("Regular","dps"));
+              new TreeNode(new ChartData(ability._1, ability._2, regularColor), getCorrectChild("Regular","dps"));
             }
           }
 
@@ -319,26 +337,26 @@ object Main extends JFXApp3 {
         // TODO: Need to make sure you have ALL the damage types here or they wont show
         types._1 match {
           case "internal" => {
-            tiles.damageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,Tile.LIGHT_GREEN))
-            new TreeNode(new ChartData("Internal", types._2, Tile.LIGHT_GREEN), tiles.dtpstree);
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,internalColor))
+            new TreeNode(new ChartData("Internal", types._2, internalColor), tiles.dtpstree);
           }
           case "kinetic" => {
-            tiles.damageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,Tile.ORANGE))
-            new TreeNode(new ChartData("Kinetic", types._2, Tile.ORANGE), tiles.dtpstree);
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,kineticColor))
+            new TreeNode(new ChartData("Kinetic", types._2, kineticColor), tiles.dtpstree);
           }
           case "energy" => {
-            tiles.damageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,Tile.BLUE))
-            new TreeNode(new ChartData("Energy", types._2, Tile.BLUE), tiles.dtpstree);
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,energyColor))
+            new TreeNode(new ChartData("Energy", types._2, energyColor), tiles.dtpstree);
           }
           case "elemental" => {
-            tiles.damageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,Tile.LIGHT_RED))
-            new TreeNode(new ChartData("Elemental", types._2, Tile.LIGHT_RED), tiles.dtpstree);
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,elementalColor))
+            new TreeNode(new ChartData("Elemental", types._2, elementalColor), tiles.dtpstree);
           }
           case "No Type" =>
           case x => {
             println(s"Got Unknown Damage type: ${x}")
-            tiles.damageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,Tile.GRAY))
-            new TreeNode(new ChartData("Regular", types._2, Tile.GRAY), tiles.dtpstree);
+            tiles.damageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,regularColor))
+            new TreeNode(new ChartData("Regular", types._2, regularColor), tiles.dtpstree);
           }
         }
       }
@@ -351,28 +369,28 @@ object Main extends JFXApp3 {
         types._1 match {
           case "internal" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_GREEN), getCorrectChild("Internal","dtps"));
+              new TreeNode(new ChartData(ability._1, ability._2, internalColor), getCorrectChild("Internal","dtps"));
             }
           }
           case "kinetic" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.ORANGE), getCorrectChild("Kinetic","dtps"));
+              new TreeNode(new ChartData(ability._1, ability._2, kineticColor), getCorrectChild("Kinetic","dtps"));
             }
           }
           case "energy" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.BLUE), getCorrectChild("Energy","dtps"));
+              new TreeNode(new ChartData(ability._1, ability._2, energyColor), getCorrectChild("Energy","dtps"));
             }
           }
           case "elemental" => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.LIGHT_RED), getCorrectChild("Elemental","dtps"));
+              new TreeNode(new ChartData(ability._1, ability._2, elementalColor), getCorrectChild("Elemental","dtps"));
             }
           }
           case "No Type" =>
           case x => {
             for (ability <- types._2) {
-              new TreeNode(new ChartData(ability._1, ability._2, Tile.GRAY), getCorrectChild("Regular","dtps"));
+              new TreeNode(new ChartData(ability._1, ability._2, regularColor), getCorrectChild("Regular","dtps"));
             }
           }
 
@@ -472,8 +490,8 @@ object Main extends JFXApp3 {
     pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
-    pane.add(tiles.damageTakenSourceTile, 0, mainRow2, 3, 1)
-    pane.add(tiles.damageDoneSourceTile, 3, mainRow2, 3, 1)
+    pane.add(tiles.damageDoneSourceTile, 0, mainRow2, 3, 1)
+    pane.add(tiles.damageTakenSourceTile, 3, mainRow2, 3, 1)
     pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
 

@@ -1,4 +1,4 @@
-import eu.hansolo.tilesfx.Tile.SkinType
+import eu.hansolo.tilesfx.Tile.{GREEN, SkinType}
 import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import eu.hansolo.tilesfx.addons.Indicator
 import eu.hansolo.tilesfx.chart.SunburstChart.TextOrientation
@@ -291,6 +291,18 @@ class GuiTiles {
   stackedArea.getChildren.addAll(barChart,lineChart)
   yAxis.setUpperBound(45)
 
+
+  def colorLoader(color: String): javafx.scene.paint.Color = {
+    color match {
+      case "LIGHT_GREEN" => Tile.LIGHT_GREEN
+      case "ORANGE" => Tile.ORANGE
+      case "BLUE" => Tile.BLUE
+      case "LIGHT_RED" => Tile.LIGHT_RED
+      case "GRAY" => Tile.GRAY
+      case _ => println(s"Color Not Yet Added to colorLoader: ${color}"); Tile.GREEN
+    }
+
+  }
 
 
 
