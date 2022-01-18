@@ -6,10 +6,9 @@ import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
-import scalafx.scene.{PerspectiveCamera, Scene}
-import scalafx.scene.control.{Button, CheckBox}
-import scalafx.scene.control.{Menu, MenuBar, MenuItem}
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
+import scalafx.scene.{Parent, PerspectiveCamera, Scene}
+import scalafx.scene.control.{Button, CheckBox, Menu, MenuBar, MenuItem, Tab, TabPane}
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, VBox}
 import scalafx.scene.paint._
 import scalafx.stage.{DirectoryChooser, FileChooser}
 import scalafx.event.ActionEvent
@@ -22,6 +21,7 @@ import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
+import javafx.fxml.FXMLLoader
 import parsing.Actors.Player
 import parsing.Result.ApplyEffect
 import patterns.Actions.SafeLogin
@@ -148,6 +148,27 @@ object Main extends JFXApp3 {
 
       }
     })
+
+    val tabbedPane = new TabPane()
+    tabbedPane.setId("tabbedPane")
+    val parentPane = new VBox()
+    parentPane.setId("parentVbox")
+    val overViewTab = new Tab
+    overViewTab.setClosable(false)
+    overViewTab.setText("Overview")
+    val dpsTab = new Tab
+    dpsTab.setClosable(false)
+    dpsTab.setText("DAMAGE DONE")
+    val hpsTab = new Tab
+    hpsTab.setClosable(false)
+    hpsTab.setText("HEALING DONE")
+    val dtpsTab = new Tab
+    dtpsTab.setClosable(false)
+    dtpsTab.setText("DAMAGE TAKEN")
+    val htpsTab = new Tab
+    htpsTab.setClosable(false)
+    htpsTab.setText("HEALING TAKEN")
+    tabbedPane.tabs = List(overViewTab,dpsTab,hpsTab,dtpsTab,htpsTab)
 
 
     // A stage is like the window we create for the GUI
@@ -423,11 +444,13 @@ object Main extends JFXApp3 {
         // need to relate the player actor instance to the combat actor instance
         // then we need to get the damage done and order them
         val combatInstanceActor = controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
-        // TODO: I cannot get this to set the name to save my life, help!s
+        // TODO: I cannot get this to set the name to save my life, help!
         tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamageDone())
         tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
+        tiles.leaderBoardItems.get(index).getChartData.setName(combatInstanceActor.getActor().getName())
         tiles.leaderBoardItems.get(index).setVisible(true)
       }
+
 
 
 
@@ -455,7 +478,7 @@ object Main extends JFXApp3 {
     mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu, combatInstanceMenu)
 
     //add the menubar to the pane
-    pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
+    //pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
 
     //style of the menu bar and menus
     //mainMenuBar.setBackground(background)
@@ -540,8 +563,12 @@ object Main extends JFXApp3 {
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
 
+    //val root : javafx.scene.Parent = FXMLLoader.load(getClass().getResource("/Application.fxml"))
+
     // add the pane to a scene and give it a camera
-    val scene = new Scene(pane)
+    parentPane.children = List(mainMenuBar,tabbedPane)
+    overViewTab.content = pane
+    val scene = new Scene(parentPane)
     scene.getStylesheets().add("Chart.css")
 
     scene.setCamera(camera)

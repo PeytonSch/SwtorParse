@@ -76,7 +76,6 @@ class CombatInstance (
     val totalValue : Int = logInfo.getResulValue().getFullValue()
     val damageType : String = logInfo.getResulValue().getValueType()
     val damageSource : String = logInfo.getAction().getName()
-    // TODO: this time should be the number of seconds since this combat instance started
     val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
 
     // find the combatActor to add damage to

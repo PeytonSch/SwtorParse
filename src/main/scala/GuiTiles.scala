@@ -42,14 +42,14 @@ class GuiTiles {
   rightGraphics.setOn(true)
 
   /** These values are for the leaderboard */
-  val leaderBoardItems : java.util.List[LeaderBoardItem] = new java.util.ArrayList[LeaderBoardItem]
+  var leaderBoardItems : java.util.List[LeaderBoardItem] = new java.util.ArrayList[LeaderBoardItem]
   val leaderBoardItem1 = new LeaderBoardItem("Xan", 47)
   val leaderBoardItem2 = new LeaderBoardItem("Isaac", 43)
   val leaderBoardItem3 = new LeaderBoardItem("Tsou", 12)
   val leaderBoardItem4 = new LeaderBoardItem("Chatoz", 8)
 
   for (i <- 0 to 23) {
-    leaderBoardItems.add(new LeaderBoardItem("Heavvvy Slotthhh", 0))
+    leaderBoardItems.add(new LeaderBoardItem("Start",0))
     leaderBoardItems.get(i).setVisible(false)
   }
 
@@ -120,7 +120,7 @@ class GuiTiles {
     //.description("Test")
     .build()
 
-  val leaderBoardTile = TileBuilder.create()
+  var leaderBoardTile = TileBuilder.create()
     .skinType(SkinType.LEADER_BOARD)
     .prefSize(TILE_WIDTH, TILE_HEIGHT)
     .title("Raid LeaderBoard")
