@@ -42,10 +42,17 @@ class GuiTiles {
   rightGraphics.setOn(true)
 
   /** These values are for the leaderboard */
+  var leaderBoardItems : java.util.List[LeaderBoardItem] = new java.util.ArrayList[LeaderBoardItem]
   val leaderBoardItem1 = new LeaderBoardItem("Xan", 47)
   val leaderBoardItem2 = new LeaderBoardItem("Isaac", 43)
   val leaderBoardItem3 = new LeaderBoardItem("Tsou", 12)
   val leaderBoardItem4 = new LeaderBoardItem("Chatoz", 8)
+
+  for (i <- 0 to 23) {
+    leaderBoardItems.add(new LeaderBoardItem("Start",0))
+    leaderBoardItems.get(i).setVisible(false)
+  }
+
 
   /** Chart Data for the percentiles polygon radar chart
    * This will show what percentile you performed in compared
@@ -113,12 +120,13 @@ class GuiTiles {
     //.description("Test")
     .build()
 
-  val leaderBoardTile = TileBuilder.create()
+  var leaderBoardTile = TileBuilder.create()
     .skinType(SkinType.LEADER_BOARD)
     .prefSize(TILE_WIDTH, TILE_HEIGHT)
     .title("Raid LeaderBoard")
     .text("If you're not first you're last")
-    .leaderBoardItems(leaderBoardItem1, leaderBoardItem2, leaderBoardItem3, leaderBoardItem4)
+    .leaderBoardItems(leaderBoardItems)
+//    .leaderBoardItems(leaderBoardItem1, leaderBoardItem2, leaderBoardItem3, leaderBoardItem4)
     .build();
 
     val timelineTile = TileBuilder.create()
@@ -290,6 +298,9 @@ class GuiTiles {
   val stackedArea : StackPane = new StackPane()
   stackedArea.getChildren.addAll(barChart,lineChart)
   yAxis.setUpperBound(45)
+
+  val stackedAreaDPSTab : StackPane = new StackPane()
+  //stackedAreaDPSTab.getChildren.addAll(barChart,lineChart)
 
 
   def colorLoader(color: String): javafx.scene.paint.Color = {

@@ -1,7 +1,7 @@
 package ParseTests
 
 import org.scalatest.flatspec.AnyFlatSpec
-import parsing.Actors.{Companion, NoneActor, Npc}
+import parsing.Actors.{Companion, NoneActor, Npc, Player}
 import parsing.FactoryClasses
 
 class PerformerTests extends AnyFlatSpec{
@@ -10,7 +10,7 @@ class PerformerTests extends AnyFlatSpec{
   val playerLogLine = "[22:04:31.735] [@Heavy Sloth#689203382607232|(1.09,-123.36,-11.44,-2.26)|(2909/2909)] [Acolyte Henchman {379421705895936}:26518005413256|(0.32,-122.48,-11.44,150.00)|(0/90)] [Assault {898601647603712}] [ApplyEffect {836045448945477}: Damage {836045448945501}] (51 ~0 energy {836045448940874} -)"
   val companionLogLine = "[22:04:03.036] [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:26518005410002|(-56.35,-60.31,-0.57,-85.17)|(2878/2944)] [=] [ {4196681264398336}] [ApplyEffect {836045448945477}: Unnatural Might {4196681264398641}]"
   val npcLogLine = "[22:04:30.903] [Acolyte Henchman {379421705895936}:26518005413256|(0.32,-122.48,-11.44,150.00)|(0/90)] [] [] [Event {836045448945472}: TargetCleared {836045448953669}]"
-
+  val otherPlayerLogLine = "[22:08:54.304] [@Igrin#689797178977446|(129.54,-319.43,-21.42,174.04)|(1999/1999)] [] [] [Event {836045448945472}: TargetCleared {836045448953669}]"
   val noPerformer = "[22:05:29.820] [] [@Heavy Sloth#689203382607232|(28.42,-173.66,-12.49,6.00)|(2909/2909)] [Protective Barrier {4238475591155712}] [RemoveEffect {836045448945478}: Protective Barrier {4238475591155712}]"
 
   val factory = new FactoryClasses
@@ -19,7 +19,7 @@ class PerformerTests extends AnyFlatSpec{
   val baseInformationCompanionLogLine = factory.performingActorFromLogLineString(companionLogLine)
   val baseInformationNpcLogLing = factory.performingActorFromLogLineString(npcLogLine)
   val noPerformerTest = factory.performingActorFromLogLineString(noPerformer)
-
+  val otherPlayerTest = factory.performingActorFromLogLineString(otherPlayerLogLine)
   "Extractors" should "return NoneActor correctly" in {
     assert(noPerformerTest.isInstanceOf[NoneActor])
   }
@@ -45,6 +45,14 @@ class PerformerTests extends AnyFlatSpec{
   "Base information" should "extract npc and companion IDs correctly" in {
     assert(baseInformationCompanionLogLine.asInstanceOf[Companion].getId.toString == ("[ Type ID: 3915326546771968 Instance ID: 26518005410002 ]"))
     assert(baseInformationNpcLogLing.asInstanceOf[Npc].getId().toString == "[ Type ID: 379421705895936 Instance ID: 26518005413256 ]")
+  }
+
+  "Actor Types" should "find player actors correctly" in {
+    assert(baseInformationPlayerLogLine.isInstanceOf[Player])
+    assert(baseInformationNpcLogLing.isInstanceOf[Npc])
+    assert(baseInformationCompanionLogLine.isInstanceOf[Companion])
+    assert(noPerformerTest.isInstanceOf[NoneActor])
+    assert(otherPlayerTest.isInstanceOf[Player])
   }
 
 }

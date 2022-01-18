@@ -29,3 +29,45 @@
 .chart-bar {
     -fx-bar-fill: #49A9FF;
 }
+
+#tabbedPane {
+    -fx-background-color: #2a2a2a;
+}
+
+.menu-item .menu{
+    -fx-background-color: #686767;
+    -fx-border-color: #686767 ;
+}
+
+.tab {
+    -fx-background-color: #686767;
+    -fx-border-color: #2a2a2a;
+    -fx-border-width: 0 1;
+    -fx-padding: 5 110;
+}
+
+.tab-label {
+    -fx-text-fill: #ecec7a;
+}
+
+.tab:selected {
+    -fx-background-color: #2a2a2a;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {-fx-border-color: #2a2a2a}
+
+.tab-header-area .tab-header-background {
+    -fx-background-color: #2a2a2a;
+}
+
+.menu-bar {
+    -fx-background-color: #747373;
+    -fx-border-radius: 0px,0px,0px,1px;
+    -fx-border-color: #2a2a2a;
+}
+
+#parentVbox {
+    -fx-background-color: #2a2a2a;
+    -fx-fill: #2a2a2a;
+    -fx-smooth: true;
+}

@@ -6,10 +6,9 @@ import scalafx.animation.AnimationTimer
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
-import scalafx.scene.{PerspectiveCamera, Scene}
-import scalafx.scene.control.{Button, CheckBox}
-import scalafx.scene.control.{Menu, MenuBar, MenuItem}
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane}
+import scalafx.scene.{Parent, PerspectiveCamera, Scene}
+import scalafx.scene.control.{Button, CheckBox, Menu, MenuBar, MenuItem, Tab, TabPane}
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, VBox}
 import scalafx.scene.paint._
 import scalafx.stage.{DirectoryChooser, FileChooser}
 import scalafx.event.ActionEvent
@@ -20,7 +19,11 @@ import java.nio.file.Paths
 import java.nio.file.Files
 import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
+import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
+import javafx.event.{Event, EventHandler}
+import javafx.fxml.FXMLLoader
+import parsing.Actors.Player
 import parsing.Result.ApplyEffect
 import patterns.Actions.SafeLogin
 import patterns.LogInformation
@@ -119,7 +122,7 @@ object Main extends JFXApp3 {
         tiles.statusTile.setMiddleValue(tiles.statusTile.getMiddleValue() + random.nextInt(3))
         tiles.statusTile.setRightValue(tiles.statusTile.getRightValue() + random.nextInt(3))
 
-        tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
+//        tiles.leaderBoardTile.getLeaderBoardItems().get(random.nextInt(3)).setValue(random.nextDouble() * 80)
         //tiles.timelineTile.addChartData(new ChartData("", random.nextDouble() * 300 + 50, Instant.now()));
         //tiles.timelineTile.calcAutoScale()
         // if the current combat is not null, set to show player damage
@@ -146,6 +149,27 @@ object Main extends JFXApp3 {
 
       }
     })
+
+    val tabbedPane = new TabPane()
+    tabbedPane.setId("tabbedPane")
+    val parentPane = new VBox()
+    parentPane.setId("parentVbox")
+    val overViewTab = new Tab
+    overViewTab.setClosable(false)
+    overViewTab.setText("Overview")
+    val dpsTab = new Tab
+    dpsTab.setClosable(false)
+    dpsTab.setText("DAMAGE DONE")
+    val hpsTab = new Tab
+    hpsTab.setClosable(false)
+    hpsTab.setText("HEALING DONE")
+    val dtpsTab = new Tab
+    dtpsTab.setClosable(false)
+    dtpsTab.setText("DAMAGE TAKEN")
+    val htpsTab = new Tab
+    htpsTab.setClosable(false)
+    htpsTab.setText("HEALING TAKEN")
+    tabbedPane.tabs = List(overViewTab,dpsTab,hpsTab,dtpsTab,htpsTab)
 
 
     // A stage is like the window we create for the GUI
@@ -184,6 +208,7 @@ object Main extends JFXApp3 {
     val fileMenu = new Menu("Log Files")
     fileMenu.items = fileBuffer.toList
 
+    // TODO: Just about everything in here probably needs to be extracted out so that it can run in the main loop
     val menuAction = (event: ActionEvent) => {
       //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
 
@@ -397,6 +422,39 @@ object Main extends JFXApp3 {
         }
       }
 
+      /**
+       * Update the leaderboard tile with all player damage
+       *
+       *  we do not clear leaderboard items, and create new items, instead we iterate through them setting new values
+       * there are 24 by default, for the max swtor group size. Only set the number visible that
+       * correspond to the number of players in this combat. We have to do it this way because of something
+       * with how the leaderboard tile works
+       */
+
+      for (index <- 0 until tiles.leaderBoardItems.size()){
+        tiles.leaderBoardItems.get(index).setValue(0)
+        tiles.leaderBoardItems.get(index).setName("")
+        tiles.leaderBoardItems.get(index).setVisible(false)
+      }
+
+      // get all the combat Actors
+      val combatActors = controller.getCurrentCombat().getCombatActors()
+      val players = (for (actor <- combatActors) yield actor.getActor()).filter(_.isInstanceOf[Player])
+      var lastUpdatedIndex = 0
+      for (index <- 0 until players.length){
+        // need to relate the player actor instance to the combat actor instance
+        // then we need to get the damage done and order them
+        val combatInstanceActor = controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
+        // TODO: I cannot get this to set the name to save my life, help!
+        tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamageDone())
+        tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
+        tiles.leaderBoardItems.get(index).getChartData.setName(combatInstanceActor.getActor().getName())
+        tiles.leaderBoardItems.get(index).setVisible(true)
+      }
+
+
+
+
 
 
     }
@@ -421,7 +479,7 @@ object Main extends JFXApp3 {
     mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu, combatInstanceMenu)
 
     //add the menubar to the pane
-    pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
+    //pane.add(mainMenuBar, 0, mainMenuRow, 10, 1)
 
     //style of the menu bar and menus
     //mainMenuBar.setBackground(background)
@@ -494,6 +552,12 @@ object Main extends JFXApp3 {
     pane.add(tiles.damageTakenSourceTile, 3, mainRow2, 3, 1)
     pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
+//    dpsTab.onSelectionChanged = (v:Event) => {
+//      dpsTab.setContent(tiles.stackedArea)
+//    }
+//    overViewTab.onSelectionChanged = (v:Event) => {
+//      overViewTab.setContent(pane)
+//    }
 
     pane.setHgap(5)
     pane.setVgap(5)
@@ -506,8 +570,12 @@ object Main extends JFXApp3 {
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
 
+    //val root : javafx.scene.Parent = FXMLLoader.load(getClass().getResource("/Application.fxml"))
+
     // add the pane to a scene and give it a camera
-    val scene = new Scene(pane)
+    parentPane.children = List(mainMenuBar,tabbedPane)
+    overViewTab.content = pane
+    val scene = new Scene(parentPane)
     scene.getStylesheets().add("Chart.css")
 
     scene.setCamera(camera)
