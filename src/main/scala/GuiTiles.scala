@@ -299,6 +299,9 @@ class GuiTiles {
   stackedArea.getChildren.addAll(barChart,lineChart)
   yAxis.setUpperBound(45)
 
+  val stackedAreaDPSTab : StackPane = new StackPane()
+  //stackedAreaDPSTab.getChildren.addAll(barChart,lineChart)
+
 
   def colorLoader(color: String): javafx.scene.paint.Color = {
     color match {
