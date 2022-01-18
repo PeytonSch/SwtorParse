@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.chart.BubbleChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -27,12 +30,14 @@
          <children>
             <TabPane prefHeight="280.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
               <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="Overview">
                      <content>
                         <GridPane>
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -40,9 +45,27 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button mnemonicParsing="false" text="Button" />
-                              <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                              <Label text="Test Label" GridPane.rowIndex="1" />
+                              <PieChart prefHeight="116.0" prefWidth="300.0" style="-fx-background-color: green;" title="Pi Chart" GridPane.rowIndex="2" />
+                              <PieChart GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <PieChart prefHeight="116.0" prefWidth="300.0" style="-fx-background-color: green;" title="Pi Chart" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <BubbleChart GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                <xAxis>
+                                  <NumberAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </BubbleChart>
+                              <LineChart GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                <xAxis>
+                                  <CategoryAxis side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                              <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue; -fx-border-color: blue;" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+                              <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </content>
