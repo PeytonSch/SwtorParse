@@ -110,7 +110,6 @@ class FactoryClasses {
     val name = logLine.split('[')(5).split(':')(1).split('{')(0).trim
     val nameId = logLine.split('[')(5).split(':')(1).split('{')(1).split('}')(0).trim
 
-    // TODO: These should not all be Apply Effects
     if (resultType == "ApplyEffect") {
       new ApplyEffect(resultType,effectId,name,nameId)
     }
