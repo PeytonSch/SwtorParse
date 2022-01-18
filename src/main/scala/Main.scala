@@ -21,6 +21,7 @@ import java.time.Instant
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
+import javafx.event.{Event, EventHandler}
 import javafx.fxml.FXMLLoader
 import parsing.Actors.Player
 import parsing.Result.ApplyEffect
@@ -551,6 +552,12 @@ object Main extends JFXApp3 {
     pane.add(tiles.damageTakenSourceTile, 3, mainRow2, 3, 1)
     pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
+    dpsTab.onSelectionChanged = (v:Event) => {
+      dpsTab.setContent(tiles.stackedArea)
+    }
+    overViewTab.onSelectionChanged = (v:Event) => {
+      overViewTab.setContent(pane)
+    }
 
     pane.setHgap(5)
     pane.setVgap(5)
