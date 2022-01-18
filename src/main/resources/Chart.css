@@ -53,6 +53,9 @@
 .tab:selected {
     -fx-background-color: #2a2a2a;
 }
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {-fx-border-color: #2a2a2a}
+
 .tab-header-area .tab-header-background {
     -fx-background-color: #2a2a2a;
 }
