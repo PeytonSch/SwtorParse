@@ -552,12 +552,12 @@ object Main extends JFXApp3 {
     pane.add(tiles.damageTakenSourceTile, 3, mainRow2, 3, 1)
     pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
 
-    dpsTab.onSelectionChanged = (v:Event) => {
-      dpsTab.setContent(tiles.stackedArea)
-    }
-    overViewTab.onSelectionChanged = (v:Event) => {
-      overViewTab.setContent(pane)
-    }
+//    dpsTab.onSelectionChanged = (v:Event) => {
+//      dpsTab.setContent(tiles.stackedArea)
+//    }
+//    overViewTab.onSelectionChanged = (v:Event) => {
+//      overViewTab.setContent(pane)
+//    }
 
     pane.setHgap(5)
     pane.setVgap(5)
