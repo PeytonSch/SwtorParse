@@ -45,6 +45,8 @@ class CombatActorInstance {
 
   var damageDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   var damageDone = 0
+  var damagePerSecond: Double = 0
+  def getDamagePerSecond = damagePerSecond
   var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   var damageDoneStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
   def getDamageDoneStats() = damageDoneStats
@@ -52,6 +54,7 @@ class CombatActorInstance {
   def getDamageTypeDone() = damageTypeDone
   def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
     damageDone += damageAmount
+    damagePerSecond = damageDone / (axisValue+1)
     // update damage Types
     if (damageTypeDone.contains(damageType)){
       val newDamageInBucket : Int = damageTypeDone.get(damageType).get + damageAmount

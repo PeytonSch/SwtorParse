@@ -242,7 +242,7 @@ object Main extends JFXApp3 {
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
     pane.add(tiles.stackedArea, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.barChartTile, 7, mainRow1, 1, mainRowSpan + 1)
+    pane.add(tiles.personalStatsBarChart, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
     pane.add(tiles.damageDoneSourceTile, 0, mainRow2, 3, 1)
