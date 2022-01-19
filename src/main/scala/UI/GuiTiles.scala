@@ -55,27 +55,27 @@ class GuiTiles {
    * This will show what percentile you performed in compared
    * to other players
    * */
-  val chartData1 = new ChartData("DPS", 24.0, Tile.GREEN);
-  val chartData2 = new ChartData("HPS", 10.0, Tile.BLUE);
-  val chartData3 = new ChartData("Threat", 12.0, Tile.RED);
-  val chartData4 = new ChartData("DTPS", 13.0, Tile.YELLOW_ORANGE);
-  val chartData5 = new ChartData("HTPS", 13.0, Tile.BLUE);
-  val chartData6 = new ChartData("APM", 13.0, Tile.BLUE);
-  val chartData7 = new ChartData("CRIT", 13.0, Tile.BLUE);
-  val chartData8 = new ChartData("TIME", 13.0, Tile.BLUE);
+  val percentileDps = new ChartData("DPS", 24.0, Tile.GREEN);
+  val percentileHps = new ChartData("HPS", 10.0, Tile.BLUE);
+  val percentileDtps = new ChartData("DTPS", 12.0, Tile.RED);
+  val percentileHtps = new ChartData("HTPS", 13.0, Tile.YELLOW_ORANGE);
+  val percentileThreat = new ChartData("THREAT", 13.0, Tile.BLUE);
+  val percentileCrit = new ChartData("CRIT", 13.0, Tile.BLUE);
+  val percentileApm = new ChartData("APM", 13.0, Tile.BLUE);
+  val percentileTime = new ChartData("TIME", 13.0, Tile.BLUE);
 
   /** Chart Data for the bar chart stats
    * This will be updated to show your personal stats
    * It needs to stop moving though
    * */
-  val barChartItem1 = new BarChartItem("DPS", 47, Tile.RED);
-  val barChartItem2 = new BarChartItem("HPS", 43, Tile.GREEN);
-  val barChartItem3 = new BarChartItem("THREAT", 12, Tile.YELLOW);
-  val barChartItem4 = new BarChartItem("DTPS", 8, Tile.RED);
-  val barChartItem5 = new BarChartItem("HTPS", 47, Tile.GREEN);
-  val barChartItem6 = new BarChartItem("APM", 43, Tile.YELLOW);
-  val barChartItem7 = new BarChartItem("CRIT", 12, Tile.ORANGE);
-  val barChartItem8 = new BarChartItem("TIME", 8, Tile.ORANGE);
+  val personalStatsDps = new BarChartItem("DPS", 47, Tile.RED);
+  val personalStatsHps = new BarChartItem("HPS", 43, Tile.GREEN);
+  val personalStatsThreat = new BarChartItem("THREAT", 12, Tile.YELLOW);
+  val personalStatsDtps = new BarChartItem("DTPS", 8, Tile.RED);
+  val personalStatsHtps = new BarChartItem("HTPS", 47, Tile.GREEN);
+  val personalStatsApm = new BarChartItem("APM", 43, Tile.YELLOW);
+  val personalStatsCrit = new BarChartItem("CRIT", 12, Tile.ORANGE);
+  val personalStatsTime = new BarChartItem("TIME", 8, Tile.ORANGE);
 
   /** Sunburst Tile (Fancy Pie Charts 1 and 2) Data
    * This will be updated to represent damage taken and damage done
@@ -126,41 +126,41 @@ class GuiTiles {
 //    .leaderBoardItems(leaderBoardItem1, leaderBoardItem2, leaderBoardItem3, leaderBoardItem4)
     .build();
 
-    val timelineTile = TileBuilder.create()
-    .skinType(SkinType.TIMELINE)
-    .prefSize(TILE_WIDTH * 4, TILE_HEIGHT)
-      //.maxTimePeriod(Duration.ofSeconds(10))
-      .value(0)
-    .title("Damage Per Second")
-    .unit("dps")
-    .minValue(0)
-    .maxValue(350)
-    .smoothing(false)
-    .lowerThreshold(70)
-    .lowerThresholdColor(Helper.getColorWithOpacity(Tile.RED, 0.0))
-    .threshold(240)
-    .thresholdColor(Helper.getColorWithOpacity(Tile.RED, 0.0))
-    .thresholdVisible(true)
-    .tickLabelColor(Helper.getColorWithOpacity(Tile.FOREGROUND, 0.5))
-    .highlightSections(true)
-    .sectionsVisible(true)
-    .timePeriod(java.time.Duration.ofMinutes(1))
-    .numberOfValuesForTrendCalculation(5)
-    .trendVisible(false)
-    .maxTimePeriod(java.time.Duration.ofSeconds(60))
-    .gradientStops(new Stop(0, Tile.RED),
-                    new Stop(0.15, Tile.RED),
-                    new Stop(0.2, Tile.YELLOW_ORANGE),
-                    new Stop(0.25, Tile.GREEN),
-                    new Stop(0.3, Tile.GREEN),
-                    new Stop(0.35, Tile.GREEN),
-                    new Stop(0.45, Tile.YELLOW_ORANGE),
-                    new Stop(0.5, Tile.ORANGE),
-                    new Stop(0.685, Tile.RED),
-                    new Stop(1.0, Tile.RED))
-    .averageVisible(false)
-    .timeoutMs(60000)
-    .build();
+//    val timelineTile = TileBuilder.create()
+//    .skinType(SkinType.TIMELINE)
+//    .prefSize(TILE_WIDTH * 4, TILE_HEIGHT)
+//      //.maxTimePeriod(Duration.ofSeconds(10))
+//      .value(0)
+//    .title("Damage Per Second")
+//    .unit("dps")
+//    .minValue(0)
+//    .maxValue(350)
+//    .smoothing(false)
+//    .lowerThreshold(70)
+//    .lowerThresholdColor(Helper.getColorWithOpacity(Tile.RED, 0.0))
+//    .threshold(240)
+//    .thresholdColor(Helper.getColorWithOpacity(Tile.RED, 0.0))
+//    .thresholdVisible(true)
+//    .tickLabelColor(Helper.getColorWithOpacity(Tile.FOREGROUND, 0.5))
+//    .highlightSections(true)
+//    .sectionsVisible(true)
+//    .timePeriod(java.time.Duration.ofMinutes(1))
+//    .numberOfValuesForTrendCalculation(5)
+//    .trendVisible(false)
+//    .maxTimePeriod(java.time.Duration.ofSeconds(60))
+//    .gradientStops(new Stop(0, Tile.RED),
+//                    new Stop(0.15, Tile.RED),
+//                    new Stop(0.2, Tile.YELLOW_ORANGE),
+//                    new Stop(0.25, Tile.GREEN),
+//                    new Stop(0.3, Tile.GREEN),
+//                    new Stop(0.35, Tile.GREEN),
+//                    new Stop(0.45, Tile.YELLOW_ORANGE),
+//                    new Stop(0.5, Tile.ORANGE),
+//                    new Stop(0.685, Tile.RED),
+//                    new Stop(1.0, Tile.RED))
+//    .averageVisible(false)
+//    .timeoutMs(60000)
+//    .build();
 
 
   val radarChartTile2 = TileBuilder.create().skinType(SkinType.RADAR_CHART)
@@ -182,19 +182,19 @@ class GuiTiles {
       new Stop(0.90909, Color.web("#ef9850")),
       new Stop(1.00000, Color.web("#ef6050")))
     .text("")
-    .chartData(chartData1, chartData2, chartData3, chartData4,
-      chartData5, chartData6, chartData7, chartData8)
+    .chartData(percentileDps, percentileHps, percentileDtps, percentileHtps,
+      percentileThreat, percentileCrit, percentileApm, percentileTime)
     .tooltipText("")
     .animated(true)
     .build();
 
-  val barChartTile = TileBuilder.create()
+  val personalStatsBarChart = TileBuilder.create()
     .skinType(SkinType.BAR_CHART)
     .prefSize(TILE_WIDTH, TILE_HEIGHT)
     .title("Personal Stats")
     .text("")
-    .barChartItems(barChartItem1, barChartItem2, barChartItem3, barChartItem4, barChartItem5,barChartItem6,
-      barChartItem7,barChartItem8)
+    .barChartItems(personalStatsDps, personalStatsHps, personalStatsThreat, personalStatsDtps, personalStatsHtps,personalStatsApm,
+      personalStatsCrit,personalStatsTime)
     .decimals(0)
     .build();
 
