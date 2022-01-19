@@ -1,25 +1,22 @@
-import eu.hansolo.tilesfx.Tile.{GREEN, SkinType}
-import eu.hansolo.tilesfx.{Tile, TileBuilder}
+package UI
+
+import eu.hansolo.tilesfx.Tile.SkinType
 import eu.hansolo.tilesfx.addons.Indicator
 import eu.hansolo.tilesfx.chart.SunburstChart.TextOrientation
 import eu.hansolo.tilesfx.chart.{ChartData, RadarChartMode}
 import eu.hansolo.tilesfx.skins.{BarChartItem, LeaderBoardItem}
-import eu.hansolo.tilesfx.tools.TreeNode
-import eu.hansolo.tilesfx.tools.Helper
-import eu.hansolo.tilesfx.Section
-import javafx.collections.ObservableList
-import scalafx.geometry.Pos
+import eu.hansolo.tilesfx.tools.{Helper, TreeNode}
+import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import javafx.scene.paint.Stop
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.chart.{BarChart, CategoryAxis, LineChart, NumberAxis, XYChart}
+import scalafx.scene.chart._
 import scalafx.scene.layout.StackPane
 import scalafx.scene.paint.Color
 
-import java.time.Duration
 import scala.util.Random
 
 /**
- * This GuiTiles Class handles most of the elements in the GUI.
+ * This UI.GuiTiles Class handles most of the elements in the GUI.
  * Right now it has some random data in it. We will have to figure
  * out how to go about updating this etc.
  */
@@ -303,17 +300,7 @@ class GuiTiles {
   //stackedAreaDPSTab.getChildren.addAll(barChart,lineChart)
 
 
-  def colorLoader(color: String): javafx.scene.paint.Color = {
-    color match {
-      case "LIGHT_GREEN" => Tile.LIGHT_GREEN
-      case "ORANGE" => Tile.ORANGE
-      case "BLUE" => Tile.BLUE
-      case "LIGHT_RED" => Tile.LIGHT_RED
-      case "GRAY" => Tile.GRAY
-      case _ => println(s"Color Not Yet Added to colorLoader: ${color}"); Tile.GREEN
-    }
 
-  }
 
 
 
