@@ -109,6 +109,8 @@ class GuiTiles {
     .text("Log file loaded: /User/Documents/swtor/logfile")
     .build()
 
+  //This particular RAID switch is not currently being used in the GUI. Keeping this
+  //code here as a reference in case we want to use a switch down the road.
   val switchTile = TileBuilder.create()
     .skinType(SkinType.SWITCH)
     .prefSize(TILE_WIDTH*menuTileSize, TILE_HEIGHT*menuTileSize)
