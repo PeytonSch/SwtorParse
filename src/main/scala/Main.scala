@@ -236,7 +236,6 @@ object Main extends JFXApp3 {
      * */
 
     pane.add(tiles.statusTile, 3, menuRow, 4, 1)
-    pane.add(tiles.switchTile, 7, menuRow, 1, 1)
 
     //Main Row 1
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
