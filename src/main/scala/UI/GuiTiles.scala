@@ -9,8 +9,12 @@ import eu.hansolo.tilesfx.tools.{Helper, TreeNode}
 import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import javafx.scene.paint.Stop
 import scalafx.collections.ObservableBuffer
+import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.chart._
-import scalafx.scene.layout.StackPane
+import scalafx.scene.control.ScrollPane.ScrollBarPolicy
+import scalafx.scene.control.{Label, ScrollPane}
+import scalafx.scene.layout.GridPane.getColumnIndex
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, StackPane}
 import scalafx.scene.paint.Color
 
 import scala.util.Random
@@ -27,6 +31,11 @@ class GuiTiles {
   val     menuTileSize : Double = .30
 
   val random = new Random()
+
+  // Things should be in dark-mode always
+  val backgroundFill = new BackgroundFill(Color.web("#2a2a2a"), CornerRadii.Empty, Insets.Empty)
+  val backgroundFillArray = Array(backgroundFill)
+  val background = new Background(backgroundFillArray)
 
   /** These indicators are for the status tile */
   val leftGraphics : Indicator = new Indicator(Tile.RED);
@@ -68,14 +77,14 @@ class GuiTiles {
    * This will be updated to show your personal stats
    * It needs to stop moving though
    * */
-  val personalStatsDps = new BarChartItem("DPS", 47, Tile.RED);
-  val personalStatsHps = new BarChartItem("HPS", 43, Tile.GREEN);
-  val personalStatsThreat = new BarChartItem("THREAT", 12, Tile.YELLOW);
-  val personalStatsDtps = new BarChartItem("DTPS", 8, Tile.RED);
-  val personalStatsHtps = new BarChartItem("HTPS", 47, Tile.GREEN);
-  val personalStatsApm = new BarChartItem("APM", 43, Tile.YELLOW);
-  val personalStatsCrit = new BarChartItem("CRIT", 12, Tile.ORANGE);
-  val personalStatsTime = new BarChartItem("TIME", 8, Tile.ORANGE);
+//  val personalStatsDps = new BarChartItem("DPS", 47, Tile.RED);
+//  val personalStatsHps = new BarChartItem("HPS", 43, Tile.GREEN);
+//  val personalStatsThreat = new BarChartItem("THREAT", 12, Tile.YELLOW);
+//  val personalStatsDtps = new BarChartItem("DTPS", 8, Tile.RED);
+//  val personalStatsHtps = new BarChartItem("HTPS", 47, Tile.GREEN);
+//  val personalStatsApm = new BarChartItem("APM", 43, Tile.YELLOW);
+//  val personalStatsCrit = new BarChartItem("CRIT", 12, Tile.ORANGE);
+//  val personalStatsTime = new BarChartItem("TIME", 8, Tile.ORANGE);
 
   /** Sunburst Tile (Fancy Pie Charts 1 and 2) Data
    * This will be updated to represent damage taken and damage done
@@ -188,15 +197,15 @@ class GuiTiles {
     .animated(true)
     .build();
 
-  val personalStatsBarChart = TileBuilder.create()
-    .skinType(SkinType.BAR_CHART)
-    .prefSize(TILE_WIDTH, TILE_HEIGHT)
-    .title("Personal Stats")
-    .text("")
-    .barChartItems(personalStatsDps, personalStatsHps, personalStatsThreat, personalStatsDtps, personalStatsHtps,personalStatsApm,
-      personalStatsCrit,personalStatsTime)
-    .decimals(0)
-    .build();
+//  val personalStatsBarChart = TileBuilder.create()
+//    .skinType(SkinType.BAR_CHART)
+//    .prefSize(TILE_WIDTH, TILE_HEIGHT)
+//    .title("Personal Stats")
+//    .text("")
+//    .barChartItems(personalStatsDps, personalStatsHps, personalStatsThreat, personalStatsDtps, personalStatsHtps,personalStatsApm,
+//      personalStatsCrit,personalStatsTime)
+//    .decimals(0)
+//    .build();
 
   val damageTakenSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
     .prefSize(TILE_WIDTH*2, TILE_HEIGHT)
@@ -300,7 +309,89 @@ class GuiTiles {
   //stackedAreaDPSTab.getChildren.addAll(barChart,lineChart)
 
 
+  val personalStatsScrollPane = new ScrollPane()
+  val personalStatsGridPane = new GridPane()
+  personalStatsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 
+
+  /**
+   * Label Data for Personal Stats. The labels can be put in a sequence to make
+   * them much simpler and easier to set properties with
+   * */
+    val personalStatLabels: Seq[Label] = Seq(
+      new Label("DPS"),
+      new Label("Damage"),
+      new Label("HPS"),
+      new Label("THREAT"),
+      new Label("DTPS"),
+      new Label("HTPS"),
+      new Label("APM"),
+      new Label("CRIT"),
+      new Label("TIME")
+    )
+
+
+  /**
+   * Adding all the value labels individually lets
+   * us access their names in the element loader. Even if it would
+   * be nice to just throw them in a sequence
+   */
+  val personalStatsDpsValue = new Label("0")
+  val personalStatsTotalDamageValue = new Label("0")
+  val personalStatsHpsValue = new Label("0")
+  val personalStatsThreatValue = new Label("0")
+  val personalStatsDtpsValue = new Label("0")
+  val personalStatsHtpsValue = new Label("0")
+  val personalStatsApmValue = new Label("0")
+  val personalStatsCritValue = new Label("0")
+  val personalStatsTimeValue = new Label("0")
+
+  for (l <- 0 until personalStatLabels.length) {
+    personalStatLabels(l).setId("personalStatslabel")
+    personalStatsGridPane.add(personalStatLabels(l),0,l)
+
+  }
+
+
+  /**
+   * Set IDs for css styling
+   */
+  personalStatsDpsValue.setId("personalStatsValueLabel")
+  personalStatsTotalDamageValue.setId("personalStatsValueLabel")
+  personalStatsHpsValue.setId("personalStatsValueLabel")
+  personalStatsThreatValue.setId("personalStatsValueLabel")
+  personalStatsDtpsValue.setId("personalStatsValueLabel")
+  personalStatsHtpsValue.setId("personalStatsValueLabel")
+  personalStatsApmValue.setId("personalStatsValueLabel")
+  personalStatsCritValue.setId("personalStatsValueLabel")
+  personalStatsTimeValue.setId("personalStatsValueLabel")
+
+
+  /**
+   * Add to grid
+   */
+  personalStatsGridPane.add(personalStatsDpsValue,1,0)
+  personalStatsGridPane.add(personalStatsTotalDamageValue,1,1)
+  personalStatsGridPane.add(personalStatsHpsValue,1,2)
+  personalStatsGridPane.add(personalStatsThreatValue,1,3)
+  personalStatsGridPane.add(personalStatsDtpsValue,1,4)
+  personalStatsGridPane.add(personalStatsHtpsValue,1,5)
+  personalStatsGridPane.add(personalStatsApmValue,1,6)
+  personalStatsGridPane.add(personalStatsCritValue,1,7)
+  personalStatsGridPane.add(personalStatsTimeValue,1,8)
+
+
+  /**
+   * Some Container Settings
+   */
+  personalStatsScrollPane.setContent(personalStatsGridPane)
+  personalStatsScrollPane.setBackground(background)
+  personalStatsGridPane.setBackground(background)
+  personalStatsScrollPane.setFitToWidth(true)
+  personalStatsScrollPane.setFitToHeight(true)
+  personalStatsGridPane.setPrefWidth(200)
+  personalStatsGridPane.gridLinesVisible = true
+  personalStatsGridPane.setPrefWidth(200)
 
 
 

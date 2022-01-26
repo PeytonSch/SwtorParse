@@ -8,7 +8,7 @@ import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{Parent, PerspectiveCamera, Scene}
-import scalafx.scene.control.{Button, CheckBox, Menu, MenuBar, MenuItem, Tab, TabPane}
+import scalafx.scene.control.{Button, CheckBox, Label, Menu, MenuBar, MenuItem, ScrollPane, Tab, TabPane}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, VBox}
 import scalafx.scene.paint._
 import scalafx.stage.{DirectoryChooser, FileChooser}
@@ -21,6 +21,7 @@ import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
 import javafx.event.{Event, EventHandler}
 import parsing.Actors.Player
+import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 
 import java.util.prefs.{Preferences, PreferencesFactory}
 import scala.collection.mutable
@@ -126,11 +127,6 @@ object Main extends JFXApp3 {
     // This can be though of as like a layout
     val pane = new GridPane()
 
-    // Things should be in dark-mode always
-    val backgroundFill = new BackgroundFill(Color.web("#2a2a2a"), CornerRadii.Empty, Insets.Empty)
-    val backgroundFillArray = Array(backgroundFill)
-    val background = new Background(backgroundFillArray)
-
     // These variables are to make adjusting the grid easier
     val mainMenuRow = 0
     val menuRow = mainMenuRow + 1
@@ -208,7 +204,7 @@ object Main extends JFXApp3 {
 
     // The Interface Pane handles some checkboxes and stuff for quickly accessed items. This will probably be remade later
     val interfacePane = new GridPane()
-    interfacePane.setBackground(background)
+    interfacePane.setBackground(tiles.background)
     val checkBox1 = new CheckBox("Raid DPS    ")
     val checkBox2 = new CheckBox("Raid HPS    ")
     val checkBox3 = new CheckBox("Raid Threat ")
@@ -242,7 +238,10 @@ object Main extends JFXApp3 {
     pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
     pane.add(tiles.stackedArea, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.personalStatsBarChart, 7, mainRow1, 1, mainRowSpan + 1)
+
+
+    pane.add(tiles.personalStatsScrollPane, 7, mainRow1, 1, mainRowSpan + 1)
+    //pane.add(tiles.personalStatsBarChart, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
     pane.add(tiles.damageDoneSourceTile, 0, mainRow2, 3, 1)
@@ -261,8 +260,8 @@ object Main extends JFXApp3 {
 
     // Set the preferred size of the window
     pane.setPrefSize(1500, 800)
-    pane.setBackground(background)
-    tiles.stackedArea.setBackground(background)
+    pane.setBackground(tiles.background)
+    tiles.stackedArea.setBackground(tiles.background)
 
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)

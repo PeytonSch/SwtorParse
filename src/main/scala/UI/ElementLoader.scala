@@ -111,8 +111,9 @@ class ElementLoader {
   def updatePersonalStats(controller: Controller, tiles: GuiTiles) = {
     //DPS
     tiles.percentileDps.setValue(controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond)
-    tiles.personalStatsDps.setChartData(new ChartData("DPS", 90))
-    tiles.personalStatsBarChart.reInit()
+    tiles.personalStatsDpsValue.setText(controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond.toString)
+    tiles.personalStatsTotalDamageValue.setText(controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone().toString)
+//    tiles.personalStatsBarChart.reInit()
 
       //controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond
 
