@@ -3,6 +3,7 @@ package UI
 import Controller.Controller
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.chart.ChartData
+import eu.hansolo.tilesfx.skins.BarChartItem
 import eu.hansolo.tilesfx.tools.TreeNode
 import parsing.Actors.Player
 import scalafx.event.ActionEvent
@@ -52,15 +53,19 @@ class ElementLoader {
      */
     updateLeaderBoard(controller,tiles)
 
+    /**
+     * Update Personal Stats
+     */
+    updatePersonalStats(controller,tiles)
+
   }
 
   /**
    * This function is for updating the UI during live parsing,
    * it is called in the timer loop
    */
+    // TODO: This is all junk right now, doesnt do anything, just sample code.
   def performTickUpdateLiveParsing(controller: Controller,tiles: GuiTiles) = {
-
-
 
 
     /**
@@ -86,14 +91,14 @@ class ElementLoader {
     //tiles.timelineTile.setMaxTimePeriod(java.time.Duration.ofSeconds(900))
 
     /** Radar Percentiles Chart */
-    tiles.chartData1.setValue(random.nextDouble() * 50)
-    tiles.chartData2.setValue(random.nextDouble() * 50)
-    tiles.chartData3.setValue(random.nextDouble() * 50)
-    tiles.chartData4.setValue(random.nextDouble() * 50)
-    tiles.chartData5.setValue(random.nextDouble() * 50)
-    tiles.chartData6.setValue(random.nextDouble() * 50)
-    tiles.chartData7.setValue(random.nextDouble() * 50)
-    tiles.chartData8.setValue(random.nextDouble() * 50)
+//    tiles.percentileDps.setValue(random.nextDouble() * 50)
+//    tiles.percentileHps.setValue(random.nextDouble() * 50)
+//    tiles.percentileDtps.setValue(random.nextDouble() * 50)
+//    tiles.percentileHtps.setValue(random.nextDouble() * 50)
+//    tiles.percentileThreat.setValue(random.nextDouble() * 50)
+//    tiles.percentileCrit.setValue(random.nextDouble() * 50)
+//    tiles.percentileApm.setValue(random.nextDouble() * 50)
+//    tiles.percentileTime.setValue(random.nextDouble() * 50)
 
     /** Right side bar chart for personal stats*/
     //tiles.barChartTile.getBarChartItems().get(random.nextInt(8)).setValue(random.nextDouble() * 800);
@@ -103,6 +108,31 @@ class ElementLoader {
   }
 
 
+  def updatePersonalStats(controller: Controller, tiles: GuiTiles) = {
+    //DPS
+    tiles.percentileDps.setValue(controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond)
+    tiles.personalStatsDpsValue.setText(controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond.toString)
+    tiles.personalStatsTotalDamageValue.setText(controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone().toString)
+//    tiles.personalStatsBarChart.reInit()
+
+      //controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond
+
+    //HPS
+
+    //DTPS
+
+    //HTPS
+
+    //Threat
+
+    //Crit
+
+    //Apm
+
+    //Time
+
+
+  }
 
   /**
    * Main DPS Chart
