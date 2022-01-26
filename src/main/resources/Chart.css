@@ -39,6 +39,27 @@
     -fx-border-color: #686767 ;
 }
 
+.label {
+    -fx-text-fill: #ecec7a;
+}
+
+#personalStatslabel {
+    -fx-text-fill: #ecec7a;
+    -fx-font-size: 20;
+}
+
+#personalStatsValueLabel {
+    -fx-text-fill: #7aadec;
+    -fx-font-size: 20;
+    -fx-alignment: center-right;
+    -fx-label-padding: 15;
+
+}
+
+/*.scroll-pane {*/
+/*    -fx-background-color: #2a2a2a;*/
+/*}*/
+
 .tab {
     -fx-background-color: #686767;
     -fx-border-color: #2a2a2a;
