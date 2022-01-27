@@ -203,43 +203,43 @@ object Main extends JFXApp3 {
     //End of Main Menu Bar code
 
     // The Interface Pane handles some checkboxes and stuff for quickly accessed items. This will probably be remade later
-    val interfacePane = new GridPane()
-    interfacePane.setBackground(tiles.background)
-    val checkBox1 = new CheckBox("Raid DPS    ")
-    val checkBox2 = new CheckBox("Raid HPS    ")
-    val checkBox3 = new CheckBox("Raid Threat ")
-    val checkBox4 = new CheckBox("Raid Timers ")
-    val checkBox5 = new CheckBox("Raid Challenges")
-
-    checkBox1.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
-    checkBox2.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
-    checkBox3.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
-    checkBox4.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
-    checkBox5.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
-
-    interfacePane.add(checkBox1, 0, 0)
-    interfacePane.add(checkBox2, 0, 1)
-    interfacePane.add(checkBox3, 1, 0)
-    interfacePane.add(checkBox4, 1, 1)
-    interfacePane.add(checkBox5, 0, 2, 2, 1)
-
-
-    pane.add(interfacePane, 1, menuRow, 1, 1)
+//    val interfacePane = new GridPane()
+//    interfacePane.setBackground(tiles.background)
+//    val checkBox1 = new CheckBox("Raid DPS    ")
+//    val checkBox2 = new CheckBox("Raid HPS    ")
+//    val checkBox3 = new CheckBox("Raid Threat ")
+//    val checkBox4 = new CheckBox("Raid Timers ")
+//    val checkBox5 = new CheckBox("Raid Challenges")
+//
+//    checkBox1.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+//    checkBox2.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+//    checkBox3.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+//    checkBox4.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+//    checkBox5.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
+//
+//    interfacePane.add(checkBox1, 0, 0)
+//    interfacePane.add(checkBox2, 0, 1)
+//    interfacePane.add(checkBox3, 1, 0)
+//    interfacePane.add(checkBox4, 1, 1)
+//    interfacePane.add(checkBox5, 0, 2, 2, 1)
+//
+//
+//    pane.add(interfacePane, 1, menuRow, 1, 1)
 
 
     /**
      * Here is where we add all the main tiles from the tiles manager class
      * */
 
-    pane.add(tiles.statusTile, 3, menuRow, 4, 1)
+    pane.add(tiles.statusTile, 2, menuRow, 5, 1)
 
     //Main Row 1
-    pane.add(tiles.leaderBoardTile, 0, mainRow1, 1, mainRowSpan)
+    pane.add(tiles.leaderBoardTile, 7, mainRow1, 1, mainRowSpan)
     pane.add(tiles.stackedArea, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
 
 
-    pane.add(tiles.personalStatsScrollPane, 7, mainRow1, 1, mainRowSpan + 1)
+    pane.add(tiles.personalStatsScrollPane, 0, menuRow, 1, mainRowSpan + 1)
     //pane.add(tiles.personalStatsBarChart, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2

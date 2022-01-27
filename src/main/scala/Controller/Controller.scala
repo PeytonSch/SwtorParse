@@ -110,6 +110,11 @@ class Controller () {
           this.getCurrentCombat().addDamageToCurrentCombat(logInfo)
         }
 
+        // Check healing
+        if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Heal") {
+          this.getCurrentCombat().addHealingToCurrentCombat(logInfo)
+        }
+
       }
 
 

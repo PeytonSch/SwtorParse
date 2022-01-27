@@ -321,15 +321,16 @@ class GuiTiles {
    * them much simpler and easier to set properties with
    * */
     val personalStatLabels: Seq[Label] = Seq(
-      new Label("DPS"),
-      new Label("Damage"),
-      new Label("HPS"),
-      new Label("THREAT"),
-      new Label("DTPS"),
-      new Label("HTPS"),
-      new Label("APM"),
-      new Label("CRIT"),
-      new Label("TIME")
+      new Label(" DPS"),
+      new Label(" Damage"),
+      new Label(" HPS"),
+      new Label(" Healing"),
+      new Label(" THREAT"),
+      new Label(" DTPS"),
+      new Label(" HTPS"),
+      new Label(" APM"),
+      new Label(" CRIT"),
+      new Label(" TIME")
     )
 
 
@@ -338,15 +339,16 @@ class GuiTiles {
    * us access their names in the element loader. Even if it would
    * be nice to just throw them in a sequence
    */
-  val personalStatsDpsValue = new Label("0")
-  val personalStatsTotalDamageValue = new Label("0")
-  val personalStatsHpsValue = new Label("0")
-  val personalStatsThreatValue = new Label("0")
-  val personalStatsDtpsValue = new Label("0")
-  val personalStatsHtpsValue = new Label("0")
-  val personalStatsApmValue = new Label("0")
-  val personalStatsCritValue = new Label("0")
-  val personalStatsTimeValue = new Label("0")
+  val personalStatsDpsValue = new Label("      0")
+  val personalStatsTotalDamageValue = new Label("      0")
+  val personalStatsHpsValue = new Label("      0")
+  val personalStatsTotalHealingValue = new Label("      0")
+  val personalStatsThreatValue = new Label("      0")
+  val personalStatsDtpsValue = new Label("      0")
+  val personalStatsHtpsValue = new Label("      0")
+  val personalStatsApmValue = new Label("      0")
+  val personalStatsCritValue = new Label("      0")
+  val personalStatsTimeValue = new Label("      0")
 
   for (l <- 0 until personalStatLabels.length) {
     personalStatLabels(l).setId("personalStatslabel")
@@ -360,6 +362,7 @@ class GuiTiles {
    */
   personalStatsDpsValue.setId("personalStatsValueLabel")
   personalStatsTotalDamageValue.setId("personalStatsValueLabel")
+  personalStatsTotalHealingValue.setId("personalStatsValueLabel")
   personalStatsHpsValue.setId("personalStatsValueLabel")
   personalStatsThreatValue.setId("personalStatsValueLabel")
   personalStatsDtpsValue.setId("personalStatsValueLabel")
@@ -375,12 +378,13 @@ class GuiTiles {
   personalStatsGridPane.add(personalStatsDpsValue,1,0)
   personalStatsGridPane.add(personalStatsTotalDamageValue,1,1)
   personalStatsGridPane.add(personalStatsHpsValue,1,2)
-  personalStatsGridPane.add(personalStatsThreatValue,1,3)
-  personalStatsGridPane.add(personalStatsDtpsValue,1,4)
-  personalStatsGridPane.add(personalStatsHtpsValue,1,5)
-  personalStatsGridPane.add(personalStatsApmValue,1,6)
-  personalStatsGridPane.add(personalStatsCritValue,1,7)
-  personalStatsGridPane.add(personalStatsTimeValue,1,8)
+  personalStatsGridPane.add(personalStatsTotalHealingValue,1,3)
+  personalStatsGridPane.add(personalStatsThreatValue,1,4)
+  personalStatsGridPane.add(personalStatsDtpsValue,1,5)
+  personalStatsGridPane.add(personalStatsHtpsValue,1,6)
+  personalStatsGridPane.add(personalStatsApmValue,1,7)
+  personalStatsGridPane.add(personalStatsCritValue,1,8)
+  personalStatsGridPane.add(personalStatsTimeValue,1,9)
 
 
   /**
@@ -390,7 +394,8 @@ class GuiTiles {
   personalStatsScrollPane.setBackground(background)
   personalStatsGridPane.setBackground(background)
   personalStatsScrollPane.setFitToWidth(true)
-  personalStatsScrollPane.setFitToHeight(true)
+//  personalStatsScrollPane.setFitToHeight(true)
+  personalStatsScrollPane.setVbarPolicy(ScrollBarPolicy.Never)
   personalStatsGridPane.setPrefWidth(200)
   personalStatsGridPane.gridLinesVisible = true
   personalStatsGridPane.setPrefWidth(200)
