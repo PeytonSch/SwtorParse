@@ -94,6 +94,34 @@ class CombatInstance (
 
   }
 
+  def addHealingToCurrentCombat(logInfo : LogInformation): Unit = {
+    // check which actor is performing the damage and add it to their damage
+    // performers can be none in healing lines
+    val performerId: String = logInfo.getPerformer().getId().toString
+    val targetId: String = logInfo.getTarget().getId().toString
+    val totalValue : Int = logInfo.getResulValue().getFullValue()
+    // heals never seem to have a type but we'll leave this here anyways
+    val damageType : String = logInfo.getResulValue().getValueType()
+    val damageSource : String = logInfo.getAction().getName()
+    val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
+
+    // find the combatActor to add healing to
+    for (actor <- combatActors) {
+      if (actor.getIdString() == performerId) {
+        actor.updateHealingDone(totalValue,durationMarkFromStart,damageType,damageSource)
+      }
+    }
+
+    // find the combatActor to add damage taken to
+//    for (actor <- combatActors) {
+//      if (actor.getIdString() == targetId) {
+//        actor.updateHealingTaken(totalValue,durationMarkFromStart,damageType,damageSource)
+//      }
+//    }
+
+  }
+
+
   def getCombatActorByIdString(id:String): CombatActorInstance = {
     var result : CombatActorInstance = null
     for (actor <- combatActors) {

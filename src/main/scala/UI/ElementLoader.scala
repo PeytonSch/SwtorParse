@@ -109,15 +109,26 @@ class ElementLoader {
 
 
   def updatePersonalStats(controller: Controller, tiles: GuiTiles) = {
-    //DPS
-    tiles.percentileDps.setValue(controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond)
-    tiles.personalStatsDpsValue.setText(controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond.toString)
-    tiles.personalStatsTotalDamageValue.setText(controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone().toString)
-//    tiles.personalStatsBarChart.reInit()
+    // we want to pad the strings to have leading spaces and a total of 7 chars
+    val padding = 7
 
-      //controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond
+    // Values
+    val dps = controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond
+    val damage = controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone()
+    val hps = controller.getCurrentCombat().getPlayerInCombatActor().getHealingPerSecond()
+    val healing = controller.getCurrentCombat().getPlayerInCombatActor().getHealingDone()
+
+    //DPS
+    tiles.percentileDps.setValue(dps)
+    tiles.personalStatsDpsValue.setText(dps.toString.reverse.padTo(padding,' ').reverse)
+    tiles.personalStatsTotalDamageValue.setText(damage.toString.reverse.padTo(padding,' ').reverse)
+
 
     //HPS
+    tiles.percentileHps.setValue(hps)
+    tiles.personalStatsHpsValue.setText(hps.toString.reverse.padTo(padding,' ').reverse)
+    tiles.personalStatsTotalHealingValue.setText(healing.toString.reverse.padTo(padding,' ').reverse)
+
 
     //DTPS
 
