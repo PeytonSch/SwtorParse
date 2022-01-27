@@ -117,6 +117,8 @@ class ElementLoader {
     val damage = controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone()
     val hps = controller.getCurrentCombat().getPlayerInCombatActor().getHealingPerSecond()
     val healing = controller.getCurrentCombat().getPlayerInCombatActor().getHealingDone()
+    val damageTaken = controller.getCurrentCombat().getPlayerInCombatActor().getDamageTaken()
+    val dtps = controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecond()
 
     //DPS
     tiles.percentileDps.setValue(dps)
@@ -129,8 +131,11 @@ class ElementLoader {
     tiles.personalStatsHpsValue.setText(hps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalHealingValue.setText(healing.toString.reverse.padTo(padding,' ').reverse)
 
-
     //DTPS
+    tiles.percentileHps.setValue(dtps)
+    tiles.personalStatsDtpsValue.setText(dtps.toString.reverse.padTo(padding,' ').reverse)
+    // TODO: Add total damage taken
+//    tiles.personalStatsTotalDamageTakenValue.setText(damageTaken.toString.reverse.padTo(padding,' ').reverse)
 
     //HTPS
 
