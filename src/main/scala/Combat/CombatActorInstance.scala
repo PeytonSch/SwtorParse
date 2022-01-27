@@ -51,6 +51,8 @@ class CombatActorInstance {
   def getDamagePerSecond = damagePerSecond
   var damageTaken = 0
   def getDamageTaken() = damageTaken
+  var damageTakenPerSecond: Double = 0
+  def getDamageTakenPerSecond() = damageTakenPerSecond
   var healingDone = 0
   def getHealingDone() = healingDone
   var healingPerSecond = 0
@@ -68,6 +70,9 @@ class CombatActorInstance {
   def gethealingDoneTimeSeries() = healingDoneTimeSeries
   var healingPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def gethealingPerSecondTimeSeries() = healingPerSecondTimeSeries
+
+  var damageTakenPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def getDamageTakenPerSecondTimeSeries() = damageTakenPerSecondTimeSeries
 
 
   /**
@@ -162,6 +167,7 @@ class CombatActorInstance {
   // TODO: Add DTPS graph functionality, make it toggleable in the UI
   def updateDamageTaken(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
     damageTaken += damageAmount
+    damageTakenPerSecond = damageTaken / (axisValue+1)
     // update damage Types
     if (damageTypeTaken.contains(damageType)){
       val newDamageInBucket : Int = damageTypeTaken.get(damageType).get + damageAmount
@@ -171,6 +177,18 @@ class CombatActorInstance {
     else {
       damageTypeTaken(damageType) = damageAmount
     }
+
+    /**
+     * Update damageTakenPerSecondTimeSeries
+     */
+    if (damageTakenPerSecondTimeSeries.contains(axisValue)){
+      damageTakenPerSecondTimeSeries += (axisValue -> damageTaken / (axisValue + 1))
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      damageTakenPerSecondTimeSeries(axisValue) = damageTaken / (axisValue + 1)
+    }
+
 
     /**
      * Damage Taken Stats, can we combine this and get rid of the above?
