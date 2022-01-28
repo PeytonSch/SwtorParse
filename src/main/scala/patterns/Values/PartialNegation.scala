@@ -16,4 +16,5 @@ class PartialNegation(
   def getNegatedAmount = negatedAmount
 
 
+
 }

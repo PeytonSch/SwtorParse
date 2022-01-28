@@ -8,4 +8,6 @@ trait Value {
 
   def getValueType(): String // return the type of damage, like "energy"
 
+  def getCrit(): Boolean // was it a crit?
+
 }

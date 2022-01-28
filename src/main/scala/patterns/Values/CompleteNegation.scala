@@ -11,4 +11,6 @@ class CompleteNegation (
 
   override def getValueType(): String = "No Type"
 
+  override def getCrit(): Boolean = false
+
 }
