@@ -325,9 +325,12 @@ class GuiTiles {
       new Label(" Damage"),
       new Label(" HPS"),
       new Label(" Healing"),
-      new Label(" THREAT"),
+      new Label(" Threat"),
+      new Label(" Threat/sec"),
       new Label(" DTPS"),
+      new Label(" TDT"),
       new Label(" HTPS"),
+      new Label(" THT"),
       new Label(" APM"),
       new Label(" CRIT"),
       new Label(" TIME")
@@ -339,16 +342,20 @@ class GuiTiles {
    * us access their names in the element loader. Even if it would
    * be nice to just throw them in a sequence
    */
-  val personalStatsDpsValue = new Label("      0")
-  val personalStatsTotalDamageValue = new Label("      0")
-  val personalStatsHpsValue = new Label("      0")
-  val personalStatsTotalHealingValue = new Label("      0")
-  val personalStatsThreatValue = new Label("      0")
-  val personalStatsDtpsValue = new Label("      0")
-  val personalStatsHtpsValue = new Label("      0")
-  val personalStatsApmValue = new Label("      0")
-  val personalStatsCritValue = new Label("      0")
-  val personalStatsTimeValue = new Label("      0")
+  val paddedStartText : String = "0".reverse.padTo(10, ' ').reverse
+  val personalStatsDpsValue = new Label(paddedStartText)
+  val personalStatsTotalDamageValue = new Label(paddedStartText)
+  val personalStatsHpsValue = new Label(paddedStartText)
+  val personalStatsTotalHealingValue = new Label(paddedStartText)
+  val personalStatsThreatValue = new Label(paddedStartText)
+  val personalStatsThreatPerSecondValue = new Label(paddedStartText)
+  val personalStatsDtpsValue = new Label(paddedStartText)
+  val personalStatsTotalDamageTakenValue = new Label(paddedStartText)
+  val personalStatsHtpsValue = new Label(paddedStartText)
+  val personalStatsTotalHealingTakenValue = new Label(paddedStartText)
+  val personalStatsApmValue = new Label(paddedStartText)
+  val personalStatsCritValue = new Label(paddedStartText)
+  val personalStatsTimeValue = new Label(paddedStartText)
 
   for (l <- 0 until personalStatLabels.length) {
     personalStatLabels(l).setId("personalStatslabel")
@@ -365,8 +372,11 @@ class GuiTiles {
   personalStatsTotalHealingValue.setId("personalStatsValueLabel")
   personalStatsHpsValue.setId("personalStatsValueLabel")
   personalStatsThreatValue.setId("personalStatsValueLabel")
+  personalStatsThreatPerSecondValue.setId("personalStatsValueLabel")
   personalStatsDtpsValue.setId("personalStatsValueLabel")
+  personalStatsTotalDamageTakenValue.setId("personalStatsValueLabel")
   personalStatsHtpsValue.setId("personalStatsValueLabel")
+  personalStatsTotalHealingTakenValue.setId("personalStatsValueLabel")
   personalStatsApmValue.setId("personalStatsValueLabel")
   personalStatsCritValue.setId("personalStatsValueLabel")
   personalStatsTimeValue.setId("personalStatsValueLabel")
@@ -380,11 +390,14 @@ class GuiTiles {
   personalStatsGridPane.add(personalStatsHpsValue,1,2)
   personalStatsGridPane.add(personalStatsTotalHealingValue,1,3)
   personalStatsGridPane.add(personalStatsThreatValue,1,4)
-  personalStatsGridPane.add(personalStatsDtpsValue,1,5)
-  personalStatsGridPane.add(personalStatsHtpsValue,1,6)
-  personalStatsGridPane.add(personalStatsApmValue,1,7)
-  personalStatsGridPane.add(personalStatsCritValue,1,8)
-  personalStatsGridPane.add(personalStatsTimeValue,1,9)
+  personalStatsGridPane.add(personalStatsThreatPerSecondValue,1,5)
+  personalStatsGridPane.add(personalStatsDtpsValue,1,6)
+  personalStatsGridPane.add(personalStatsTotalDamageTakenValue,1,7)
+  personalStatsGridPane.add(personalStatsHtpsValue,1,8)
+  personalStatsGridPane.add(personalStatsTotalHealingTakenValue,1,9)
+  personalStatsGridPane.add(personalStatsApmValue,1,10)
+  personalStatsGridPane.add(personalStatsCritValue,1,11)
+  personalStatsGridPane.add(personalStatsTimeValue,1,12)
 
 
   /**

@@ -16,6 +16,8 @@ class CombatInstance (
 
   var playerInCombat : String = ""
 
+  var combatTimeSeconds : Int = 0
+
   var startTimeStamp : LogTimestamp = null
   def setCombatStartTimeStamp(logInfo: LogInformation) = {
     if(startTimeStamp == null) this.startTimeStamp = logInfo.getTime()
@@ -112,12 +114,29 @@ class CombatInstance (
       }
     }
 
-    // find the combatActor to add damage taken to
-//    for (actor <- combatActors) {
-//      if (actor.getIdString() == targetId) {
-//        actor.updateHealingTaken(totalValue,durationMarkFromStart,damageType,damageSource)
-//      }
-//    }
+    // find the combatActor to add healing taken to
+    for (actor <- combatActors) {
+      if (actor.getIdString() == targetId) {
+        actor.updateHealingTaken(totalValue,durationMarkFromStart,damageType,damageSource)
+      }
+    }
+
+  }
+
+  def addThreatToCurrentCombat(logInfo : LogInformation): Unit = {
+    // check which actor is performing the damage and add it to their damage
+    val performerId: String = logInfo.getPerformer().getId().toString
+    val threatValue = logInfo.getThreatValue().getValue()
+    val threatSource : String = logInfo.getAction().getName()
+    val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
+    val threatType = "" // know types of threat as far as I know, but need this in here for ability stats
+
+    // find the combatActor to add threat to
+    for (actor <- combatActors) {
+      if (actor.getIdString() == performerId) {
+        actor.updateThreat(threatValue,durationMarkFromStart,"",threatSource)
+      }
+    }
 
   }
 

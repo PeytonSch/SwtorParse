@@ -48,15 +48,23 @@ class CombatActorInstance {
   var damageDone = 0
   def getDamageDone() = damageDone
   var damagePerSecond: Double = 0
-  def getDamagePerSecond = damagePerSecond
+  def getDamagePerSecond() = damagePerSecond
   var damageTaken = 0
   def getDamageTaken() = damageTaken
   var damageTakenPerSecond: Double = 0
   def getDamageTakenPerSecond() = damageTakenPerSecond
   var healingDone = 0
   def getHealingDone() = healingDone
-  var healingPerSecond = 0
-  def getHealingPerSecond() = healingPerSecond
+  var healingDonePerSecond = 0
+  def getHealingDonePerSecond() = healingDonePerSecond
+  var healingTaken = 0
+  def getHealingTaken() = healingTaken
+  var healingTakenPerSecond: Double = 0
+  def getHealingTakenPerSecond() = healingTakenPerSecond
+  var threatDone = 0
+  def getThreatDone() = threatDone
+  var threatDonePerSecond = 0
+  def getThreatDonePerSecond() = threatDonePerSecond
 
   /**
    * Graph Series
@@ -65,7 +73,7 @@ class CombatActorInstance {
   var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def getDamageDoneTimeSeries() = damageDoneTimeSeries
   def getDamagePerSecondTimeSeries() = damagePerSecondTimeSeries
-
+  // TODO: Most of these time series are not implemented in the UI yet, though we have the data ready
   var healingDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def gethealingDoneTimeSeries() = healingDoneTimeSeries
   var healingPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
@@ -73,6 +81,14 @@ class CombatActorInstance {
 
   var damageTakenPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def getDamageTakenPerSecondTimeSeries() = damageTakenPerSecondTimeSeries
+
+  var healingTakenPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def getHealingTakenPerSecondTimeSeries() = healingTakenPerSecondTimeSeries
+
+  var threatDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def getThreatDoneTimeSeries() = threatDoneTimeSeries
+  var threatPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def getThreatPerSecondTimeSeries() = threatPerSecondTimeSeries
 
 
   /**
@@ -90,6 +106,9 @@ class CombatActorInstance {
   def gethealingTakenStats() = healingTakenStats
   var healingDoneStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
   def getHealingDoneStats() = healingDoneStats
+
+  var threatDoneStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
+  def getThreatDoneStats() = threatDoneStats
 
   /**
    * Type Taken Wheel
@@ -215,7 +234,7 @@ class CombatActorInstance {
   // TODO: Add fancy pie charts for heal taken and done on healing tab
   def updateHealingDone(healAmount: Int, axisValue : Int, healType : String, healSource : String): Unit = {
     healingDone += healAmount
-    healingPerSecond = healingDone / (axisValue+1)
+    healingDonePerSecond = healingDone / (axisValue+1)
 
     /**
      * Update healingDoneTimeSeries
@@ -259,6 +278,95 @@ class CombatActorInstance {
     // if we have nothing for this damage type, we know we can just add the stats
     else {
       healingDoneStats(healType) = mutable.Map(healSource -> healAmount)
+    }
+
+  }
+
+  def updateHealingTaken(healAmount: Int, axisValue : Int, healType : String, healSource : String): Unit = {
+    healingTaken += healAmount
+    healingTakenPerSecond = healingTaken / (axisValue+1)
+
+    /**
+     * Update healingTakenPerSecondTimeSeries
+     */
+    if (healingTakenPerSecondTimeSeries.contains(axisValue)){
+      healingTakenPerSecondTimeSeries += (axisValue -> healingTaken / (axisValue + 1))
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      healingTakenPerSecondTimeSeries(axisValue) = healingTaken / (axisValue + 1)
+    }
+
+
+    /**
+     * Damage Taken Stats, can we combine this and get rid of the above?
+     */
+    // see if we have seen this type
+    if (healingTakenStats.contains(healType)){
+      // if we have seen this type, check the inner key and see if we have this ability
+      if (healingTakenStats(healType).contains(healSource)) {
+        // if we have the ability update the damage amount for that ability
+        val newHealValue = healingTakenStats(healType)(healSource) + healAmount
+        healingTakenStats(healType) += (healSource -> newHealValue)
+      } else {
+        // if we dont have that ability add it to the inner map
+        healingTakenStats(healType)(healSource) = healAmount
+      }
+    }
+    // if we have nothing for this heal type, we know we can just add the stats
+    else {
+      healingTakenStats(healType) = mutable.Map(healSource -> healAmount)
+    }
+
+  }
+
+
+  def updateThreat(threatAmount: Int, axisValue : Int, threatType: String, threatSource : String): Unit = {
+    threatDone += threatAmount
+    threatDonePerSecond = threatDone / (axisValue+1)
+
+    /**
+     * Update threatDoneTimeSeries
+     * */
+    // check if we already have damage done in this second
+    if (threatDoneTimeSeries.contains(axisValue)){
+      val newThreatInBucket : Int = threatDoneTimeSeries.get(axisValue).get + threatAmount
+      threatDoneTimeSeries += (axisValue -> newThreatInBucket)
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      threatDoneTimeSeries(axisValue) = threatAmount
+    }
+
+    /**
+     * Update threatPerSecondTimeSeries
+     */
+    if (threatPerSecondTimeSeries.contains(axisValue)){
+      threatPerSecondTimeSeries += (axisValue -> threatDone / (axisValue + 1))
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      threatPerSecondTimeSeries(axisValue) = threatDone / (axisValue + 1)
+    }
+
+    /**
+     * threat Done Stats, can we combine this and get rid of the above?
+     */
+    // see if we have seen this type, note, most (all?) threats are of no type
+    if (threatDoneStats.contains(threatType)){
+      // if we have seen this type, check the inner key and see if we have this ability
+      if (threatDoneStats(threatType).contains(threatSource)) {
+        // if we have the ability update the threat amount for that ability
+        val newthreatValue = threatDoneStats(threatType)(threatSource) + threatAmount
+        threatDoneStats(threatType) += (threatSource -> newthreatValue)
+      } else {
+        // if we dont have that ability add it to the inner map
+        threatDoneStats(threatType)(threatSource) = threatAmount
+      }
+    }
+    // if we have nothing for this damage type, we know we can just add the stats
+    else {
+      threatDoneStats(threatType) = mutable.Map(threatSource -> threatAmount)
     }
 
   }

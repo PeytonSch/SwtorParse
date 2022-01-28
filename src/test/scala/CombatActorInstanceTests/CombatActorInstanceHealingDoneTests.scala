@@ -26,6 +26,7 @@ class CombatActorInstanceHealingDoneTests extends AnyFlatSpec{
     assert(testCombatActor.gethealingDoneTimeSeries()(2) == 10)
 
     assert(testCombatActor.getHealingDone() == 30)
+    assert(testCombatActor.getHealingDonePerSecond() == 10)
 
 
     assert(testCombatActor.getHealingDoneStats().size == 1)
