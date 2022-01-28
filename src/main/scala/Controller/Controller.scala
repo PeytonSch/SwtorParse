@@ -101,6 +101,12 @@ class Controller () {
       // if we are currently in combat
       if (this.currentCombat != null) {
 
+        // update combat time
+        this.getCurrentCombat().combatTimeSeconds = logInfo.getTime() - this.getCurrentCombat().startTimeStamp
+
+        // Update Threat To actors
+        this.getCurrentCombat().addThreatToCurrentCombat(logInfo)
+
         // Make sure the actor and target are in the combat actors set
         this.appendToCombatActors(logInfo.getPerformer())
         this.appendToCombatActors(logInfo.getTarget())

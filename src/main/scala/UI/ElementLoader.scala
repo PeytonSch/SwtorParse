@@ -109,43 +109,55 @@ class ElementLoader {
 
 
   def updatePersonalStats(controller: Controller, tiles: GuiTiles) = {
-    // we want to pad the strings to have leading spaces and a total of 7 chars
-    val padding = 7
+    // we want to pad the strings to have leading spaces and a total of n chars
+    val padding = 10
 
     // Values
     val dps = controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond
     val damage = controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone()
-    val hps = controller.getCurrentCombat().getPlayerInCombatActor().getHealingPerSecond()
+    val hps = controller.getCurrentCombat().getPlayerInCombatActor().getHealingDonePerSecond()
     val healing = controller.getCurrentCombat().getPlayerInCombatActor().getHealingDone()
     val damageTaken = controller.getCurrentCombat().getPlayerInCombatActor().getDamageTaken()
     val dtps = controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecond()
+    val time = controller.getCurrentCombat().combatTimeSeconds
+    val htps = controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenPerSecond()
+    val healingTaken = controller.getCurrentCombat().getPlayerInCombatActor().getHealingTaken()
+    val threat = controller.getCurrentCombat().getPlayerInCombatActor().getThreatDone()
+    val tps = controller.getCurrentCombat().getPlayerInCombatActor().getThreatDonePerSecond()
+
+    // TODO: All Percentile Metrics Need to be calculated somehow
 
     //DPS
-    tiles.percentileDps.setValue(dps)
+    tiles.percentileDps.setValue(dps * 0.03)
     tiles.personalStatsDpsValue.setText(dps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalDamageValue.setText(damage.toString.reverse.padTo(padding,' ').reverse)
 
 
     //HPS
-    tiles.percentileHps.setValue(hps)
+    tiles.percentileHps.setValue(hps * 0.01)
     tiles.personalStatsHpsValue.setText(hps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalHealingValue.setText(healing.toString.reverse.padTo(padding,' ').reverse)
 
     //DTPS
-    tiles.percentileHps.setValue(dtps)
+    tiles.percentileDtps.setValue(dtps * 0.1)
     tiles.personalStatsDtpsValue.setText(dtps.toString.reverse.padTo(padding,' ').reverse)
-    // TODO: Add total damage taken
-//    tiles.personalStatsTotalDamageTakenValue.setText(damageTaken.toString.reverse.padTo(padding,' ').reverse)
+    tiles.personalStatsTotalDamageTakenValue.setText(damageTaken.toString.reverse.padTo(padding,' ').reverse)
 
     //HTPS
+    tiles.percentileHtps.setValue(htps * 0.01)
+    tiles.personalStatsHtpsValue.setText(htps.toString.reverse.padTo(padding,' ').reverse)
+    tiles.personalStatsTotalHealingTakenValue.setText(healingTaken.toString.reverse.padTo(padding,' ').reverse)
 
     //Threat
-
+    tiles.percentileThreat.setValue(tps * 0.01)
+    tiles.personalStatsThreatValue.setText(threat.toString.reverse.padTo(padding,' ').reverse)
+    tiles.personalStatsThreatPerSecondValue.setText(tps.toString.reverse.padTo(padding,' ').reverse)
     //Crit
 
     //Apm
 
     //Time
+    tiles.personalStatsTimeValue.setText(time.toString.reverse.padTo(padding,' ').reverse)
 
 
   }
