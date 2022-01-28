@@ -40,6 +40,8 @@ class CombatActorInstanceDamageTakenTests extends AnyFlatSpec{
     assert(testCombatActor.getDamageTakenStats()("Internal")("Source3") == 10)
     assert(testCombatActor.getDamageTakenStats()("Physical")("Source2") == 10)
 
+    assert(testCombatActor.getDamageTakenPerSecond() == 10.0)
+
   }
 
 

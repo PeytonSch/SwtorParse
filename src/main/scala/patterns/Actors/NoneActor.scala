@@ -1,5 +1,5 @@
 package parsing.Actors
-import parsing.subTypes.{Health, Position}
+import parsing.subTypes.{ActorId, Health, Position}
 
 // TODO: This is not the best way to handle this, should probably make Actors Options
 class NoneActor extends Actor {
@@ -13,5 +13,5 @@ class NoneActor extends Actor {
 
   override def toString: String = "None Actor"
 
-  override def getId = null
+  override def getId() = new ActorId("","")
 }

@@ -101,6 +101,12 @@ class Controller () {
       // if we are currently in combat
       if (this.currentCombat != null) {
 
+        // update combat time
+        this.getCurrentCombat().combatTimeSeconds = logInfo.getTime() - this.getCurrentCombat().startTimeStamp
+
+        // Update Threat To actors
+        this.getCurrentCombat().addThreatToCurrentCombat(logInfo)
+
         // Make sure the actor and target are in the combat actors set
         this.appendToCombatActors(logInfo.getPerformer())
         this.appendToCombatActors(logInfo.getTarget())
@@ -108,6 +114,11 @@ class Controller () {
         // see if the Result is an ApplyEffect and see if its name is Damage
         if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Damage") {
           this.getCurrentCombat().addDamageToCurrentCombat(logInfo)
+        }
+
+        // Check healing
+        if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Heal") {
+          this.getCurrentCombat().addHealingToCurrentCombat(logInfo)
         }
 
       }
