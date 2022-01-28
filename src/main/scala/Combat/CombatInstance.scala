@@ -79,11 +79,12 @@ class CombatInstance (
     val damageType : String = logInfo.getResulValue().getValueType()
     val damageSource : String = logInfo.getAction().getName()
     val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
+    val crit = logInfo.getResulValue().getCrit()
 
     // find the combatActor to add damage to
     for (actor <- combatActors) {
       if (actor.getIdString() == performerId) {
-        actor.updateDamageDone(totalValue,durationMarkFromStart,damageType,damageSource)
+        actor.updateDamageDone(totalValue,durationMarkFromStart,damageType,damageSource,crit)
       }
     }
 

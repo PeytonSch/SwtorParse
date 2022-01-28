@@ -65,6 +65,20 @@ class CombatActorInstance {
   def getThreatDone() = threatDone
   var threatDonePerSecond = 0
   def getThreatDonePerSecond() = threatDonePerSecond
+  var totalDamageAbilities = 0
+  var critDamageAbilities = 0
+  def getCritDamagePercent(): Double = {
+    println(s"${critDamageAbilities}/$totalDamageAbilities")
+    if (totalDamageAbilities == 0) 0
+    else critDamageAbilities.toDouble/totalDamageAbilities
+  }
+  // TODO: Expand this to an apm graph
+  // TODO: This calculation is wrong, using totalDamageAbilities is wrong
+  var apmTimeSec: Int = 0
+  def getApm(): Double = {
+    if (apmTimeSec ==0) 0
+    else ((totalDamageAbilities.toDouble*60)/ apmTimeSec)
+  }
 
   /**
    * Graph Series
@@ -118,9 +132,14 @@ class CombatActorInstance {
 
 
 
-  def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
+  def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String,crit:Boolean): Unit = {
     damageDone += damageAmount
     damagePerSecond = damageDone / (axisValue+1)
+    totalDamageAbilities += 1
+    apmTimeSec = axisValue
+
+    if (crit) critDamageAbilities += 1
+
     // update damage Types
     if (damageTypeDone.contains(damageType)){
       val newDamageInBucket : Int = damageTypeDone.get(damageType).get + damageAmount

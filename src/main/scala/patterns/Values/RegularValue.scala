@@ -10,7 +10,7 @@ class RegularValue(
                   ) extends Value {
 
   def getBaseValue() : Int = baseValue
-  def getCrit(): Boolean = crit
+  override def getCrit(): Boolean = crit
   def getExcess(): Int = excess
   override def getValueType(): String = valueType
   def getValueTypeId(): String = valueTypeId
