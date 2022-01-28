@@ -94,6 +94,18 @@ class SimpleCombatLogTests extends AnyFlatSpec{
 
   }
 
+  "Parser" should "get the correct number of crit abilities" in {
+    // TODO: These values are not checked
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3266932513964032 Instance ID: 28040000023320 ]")).totalDamageAbilities == 2)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3266941103898624 Instance ID: 28040000035026 ]")).totalDamageAbilities == 8)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3266932513964032 Instance ID: 28040000034858 ]")).totalDamageAbilities == 19)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: 3915326546771968 Instance ID: 28040000040093 ]")).totalDamageAbilities == 2) // this is my companion
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: Heavy Sloth Instance ID: Heavy Sloth ]")).totalDamageAbilities == 11)
+    assert(controller.getAllCombatInstances()(0).getCombatActorByIdString(("[ Type ID: Heavy Sloth Instance ID: Heavy Sloth ]")).getCritDamagePercent() == .6363636363636364)
+
+
+  }
+
 
   controller.parseLatest(parseTestLines)
 }

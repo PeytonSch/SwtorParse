@@ -124,6 +124,16 @@ class ElementLoader {
     val healingTaken = controller.getCurrentCombat().getPlayerInCombatActor().getHealingTaken()
     val threat = controller.getCurrentCombat().getPlayerInCombatActor().getThreatDone()
     val tps = controller.getCurrentCombat().getPlayerInCombatActor().getThreatDonePerSecond()
+    val crit = controller.getCurrentCombat().getPlayerInCombatActor().getCritDamagePercent() * 100
+    val apm = controller.getCurrentCombat().getPlayerInCombatActor().getApm()
+
+    def makePercentile(value: Double): String = {
+      if (value.toString.length >= 4) {
+        value.toString.dropRight(value.toString.length-4)
+      } else {
+        value.toString
+      }
+    }
 
     // TODO: All Percentile Metrics Need to be calculated somehow
 
@@ -131,7 +141,6 @@ class ElementLoader {
     tiles.percentileDps.setValue(dps * 0.03)
     tiles.personalStatsDpsValue.setText(dps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalDamageValue.setText(damage.toString.reverse.padTo(padding,' ').reverse)
-
 
     //HPS
     tiles.percentileHps.setValue(hps * 0.01)
@@ -152,9 +161,14 @@ class ElementLoader {
     tiles.percentileThreat.setValue(tps * 0.01)
     tiles.personalStatsThreatValue.setText(threat.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsThreatPerSecondValue.setText(tps.toString.reverse.padTo(padding,' ').reverse)
+
     //Crit
+    tiles.percentileCrit.setValue(crit)
+    tiles.personalStatsCritValue.setText(makePercentile(crit).reverse.padTo(padding,' ').reverse)
 
     //Apm
+    tiles.percentileApm.setValue(apm)
+    tiles.personalStatsApmValue.setText(makePercentile(apm).reverse.padTo(padding,' ').reverse)
 
     //Time
     tiles.personalStatsTimeValue.setText(time.toString.reverse.padTo(padding,' ').reverse)
