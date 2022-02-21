@@ -9,7 +9,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{Parent, PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox, Label, Menu, MenuBar, MenuItem, ScrollPane, Tab, TabPane}
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, VBox}
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, Priority, VBox}
 import scalafx.scene.paint._
 import scalafx.stage.{DirectoryChooser, FileChooser}
 import scalafx.event.ActionEvent
@@ -112,6 +112,7 @@ object Main extends JFXApp3 {
     val tabbedPane = new TabPane()
     tabbedPane.setId("tabbedPane")
     val parentPane = new VBox()
+    parentPane.fillWidth = true
     parentPane.setId("parentVbox")
     val overViewTab = new Tab
     overViewTab.setClosable(false)
@@ -136,6 +137,7 @@ object Main extends JFXApp3 {
 
     // This can be though of as like a layout
     val pane = new GridPane()
+
 
     // These variables are to make adjusting the grid easier
     val mainMenuRow = 0
@@ -165,7 +167,7 @@ object Main extends JFXApp3 {
     val combatInstanceMenu = new Menu("Combat Instances")
     var combatInstanceBuffer = new ListBuffer[MenuItem]()
     for (combatInstance <- controller.getAllCombatInstances()){
-      println(s"Got combat instance: ${combatInstance}")
+      Logger.trace(s"Got combat instance: ${combatInstance}")
       var item = new MenuItem(combatInstance.getNameFromActors)
       item.setOnAction(elementLoader.combatInstanceChangeMenuAction(controller, tiles))
       combatInstanceBuffer += item
@@ -253,9 +255,9 @@ object Main extends JFXApp3 {
     //pane.add(tiles.personalStatsBarChart, 7, mainRow1, 1, mainRowSpan + 1)
 
 //    //Main Row 2
-    pane.add(tiles.damageDoneSourceTile, 0, mainRow2, 3, 1)
-    pane.add(tiles.overviewDamageTakenSourceTile, 3, mainRow2, 3, 1)
-    pane.add(tiles.overviewDamageFromTypeIndicator, 6, mainRow2, 1, 1)
+    pane.add(tiles.damageDoneSourceTile, 1, mainRow2, 3, 1)
+    pane.add(tiles.overviewDamageTakenSourceTile, 4, mainRow2, 3, 1)
+    pane.add(tiles.overviewDamageFromTypeIndicator, 7, mainRow2, 1, 1)
 
 //    dpsTab.onSelectionChanged = (v:Event) => {
 //      dpsTab.setContent(tiles.stackedArea)
@@ -268,9 +270,15 @@ object Main extends JFXApp3 {
     pane.setVgap(5)
 
     // Set the preferred size of the window
-    pane.setPrefSize(1500, 800)
+    pane.setPrefSize(
+      config.getInt("UI.General.prefWidth"),
+      config.getInt("UI.General.prefHeight")
+    )
     pane.setBackground(tiles.background)
     tiles.overviewStackedArea.setBackground(tiles.background)
+
+    GridPane.setHgrow(pane, Priority.ALWAYS);
+    GridPane.setVgrow(pane, Priority.ALWAYS);
 
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
