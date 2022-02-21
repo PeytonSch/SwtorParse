@@ -19,16 +19,23 @@
     -fx-background-radius: 0;
 }
 
-
 .default-color0.chart-series-line {
     -fx-stroke: #48FF80;
     -fx-stroke-width: 2px;
 
 }
-.default-color0.chart-bar { -fx-stroke: #49A9FF; }
+
 .chart-bar {
     -fx-bar-fill: #49A9FF;
 }
+
+/*#damageTakenBarChart {*/
+/*    -fx-bar-fill: #ff4989;*/
+/*}*/
+/*.damageTakenBarChart {*/
+/*    -fx-bar-fill: #55ff49;*/
+/*}*/
+
 
 #tabbedPane {
     -fx-background-color: #2a2a2a;
