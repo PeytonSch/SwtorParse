@@ -8,6 +8,7 @@ import eu.hansolo.tilesfx.tools.TreeNode
 import parsing.Actors.Player
 import scalafx.event.ActionEvent
 import javafx.scene.paint.Color
+import logger.Logger
 
 /**
  * Element loader is for loading data into the UI charts and graphs etc.
@@ -57,6 +58,11 @@ class ElementLoader {
      * Update Personal Stats
      */
     updatePersonalStats(controller,tiles)
+
+    /**
+     * Damage Taken Tab Chart
+     */
+    updateDamageTakenChart(controller,tiles)
 
   }
 
@@ -138,27 +144,27 @@ class ElementLoader {
     // TODO: All Percentile Metrics Need to be calculated somehow
 
     //DPS
-    tiles.percentileDps.setValue(dps * 0.03)
+    tiles.percentileDps.setValue(dps * 0.004)
     tiles.personalStatsDpsValue.setText(dps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalDamageValue.setText(damage.toString.reverse.padTo(padding,' ').reverse)
 
     //HPS
-    tiles.percentileHps.setValue(hps * 0.01)
+    tiles.percentileHps.setValue(hps * 0.003)
     tiles.personalStatsHpsValue.setText(hps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalHealingValue.setText(healing.toString.reverse.padTo(padding,' ').reverse)
 
     //DTPS
-    tiles.percentileDtps.setValue(dtps * 0.1)
+    tiles.percentileDtps.setValue(dtps * 0.005)
     tiles.personalStatsDtpsValue.setText(dtps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalDamageTakenValue.setText(damageTaken.toString.reverse.padTo(padding,' ').reverse)
 
     //HTPS
-    tiles.percentileHtps.setValue(htps * 0.01)
+    tiles.percentileHtps.setValue(htps * 0.005)
     tiles.personalStatsHtpsValue.setText(htps.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsTotalHealingTakenValue.setText(healingTaken.toString.reverse.padTo(padding,' ').reverse)
 
     //Threat
-    tiles.percentileThreat.setValue(tps * 0.01)
+    tiles.percentileThreat.setValue(tps * 0.003)
     tiles.personalStatsThreatValue.setText(threat.toString.reverse.padTo(padding,' ').reverse)
     tiles.personalStatsThreatPerSecondValue.setText(tps.toString.reverse.padTo(padding,' ').reverse)
 
@@ -167,7 +173,7 @@ class ElementLoader {
     tiles.personalStatsCritValue.setText(makePercentile(crit).reverse.padTo(padding,' ').reverse)
 
     //Apm
-    tiles.percentileApm.setValue(apm)
+    tiles.percentileApm.setValue(apm * .04)
     tiles.personalStatsApmValue.setText(makePercentile(apm).reverse.padTo(padding,' ').reverse)
 
     //Time
@@ -184,12 +190,34 @@ class ElementLoader {
     val damageTimeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
     val damagePerSecondTimeSeries = controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecondTimeSeries()
     //      println(s"Current combat has a saved time series of ${damageTimeSeries.size} elements")
-    tiles.lineChartSeries.getData.removeAll()
-    tiles.barChartSeries.getData.removeAll()
-    tiles.barChartSeries.data = damageTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
-    tiles.lineChartSeries.data = damagePerSecondTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+    tiles.overviewLineChartSeries.getData.removeAll()
+    tiles.overviewBarChartSeries.getData.removeAll()
+    tiles.overviewBarChartSeries.data = damageTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+    tiles.overviewLineChartSeries.data = damagePerSecondTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
     //      println(s"Got max value of ${damageTimeSeries.valuesIterator.max}")
-    tiles.yAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
+    tiles.overviewChartYAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
+  }
+
+  /**
+   * Update Damage Taken Line/Bar Chart
+   */
+  def updateDamageTakenChart(controller: Controller,tiles: GuiTiles) = {
+    // clear out and add all of the combat instance data to the chart
+    val damageTimeSeries =  controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenTimeSeries()
+    val damagePerSecondTimeSeries = controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecondTimeSeries()
+    //      println(s"Current combat has a saved time series of ${damageTimeSeries.size} elements")
+    tiles.damageTakenLineChartSeries.getData.removeAll()
+    tiles.damageTakenBarChartSeries.getData.removeAll()
+    tiles.damageTakenBarChartSeries.data = damageTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+    tiles.damageTakenLineChartSeries.data = damagePerSecondTimeSeries.toSeq.map(x => (x._1.toString(),x._2)).map(tiles.toCatagoryChartData)
+    //      println(s"Got max value of ${damageTimeSeries.valuesIterator.max}")
+    try {
+      tiles.damageTakenChartYAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
+    }
+    catch {
+      case e: java.lang.UnsupportedOperationException => Logger.warn("No damage taken, unable to perform max to set axis of damageTakenChart")
+      case e: Throwable => Logger.error(s"Error trying to set damageTaken chart axis: ${e}")
+    }
   }
 
   def updateDamageDoneBySource(controller: Controller,tiles: GuiTiles) = {
@@ -278,33 +306,39 @@ class ElementLoader {
 
   def updateDamageTakenBySource(controller: Controller, tiles: GuiTiles) = {
     // remove the all old data for both tiles
-    tiles.dtpstree.removeAllNodes()
-    tiles.damageFromTypeIndicator.clearChartData()
+    tiles.overviewDtpstree.removeAllNodes()
+    tiles.overviewDamageFromTypeIndicator.clearChartData()
+    tiles.damageTakenDtpstree.removeAllNodes()
+    tiles.damageTakenDamageFromTypeIndicator.clearChartData()
 
+
+    /**
+     * Over view damage taken types
+     */
     for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTypeTaken()) {
       // TODO: Need to make sure you have ALL the damage types here or they wont show
       types._1 match {
         case "internal" => {
-          tiles.damageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,uiCodeConfig.internalColor))
-          new TreeNode(new ChartData("Internal", types._2, uiCodeConfig.internalColor), tiles.dtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,uiCodeConfig.internalColor))
+          new TreeNode(new ChartData("Internal", types._2, uiCodeConfig.internalColor), tiles.overviewDtpstree);
         }
         case "kinetic" => {
-          tiles.damageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,uiCodeConfig.kineticColor))
-          new TreeNode(new ChartData("Kinetic", types._2, uiCodeConfig.kineticColor), tiles.dtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,uiCodeConfig.kineticColor))
+          new TreeNode(new ChartData("Kinetic", types._2, uiCodeConfig.kineticColor), tiles.overviewDtpstree);
         }
         case "energy" => {
-          tiles.damageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,uiCodeConfig.energyColor))
-          new TreeNode(new ChartData("Energy", types._2, uiCodeConfig.energyColor), tiles.dtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,uiCodeConfig.energyColor))
+          new TreeNode(new ChartData("Energy", types._2, uiCodeConfig.energyColor), tiles.overviewDtpstree);
         }
         case "elemental" => {
-          tiles.damageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,uiCodeConfig.elementalColor))
-          new TreeNode(new ChartData("Elemental", types._2, uiCodeConfig.elementalColor), tiles.dtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,uiCodeConfig.elementalColor))
+          new TreeNode(new ChartData("Elemental", types._2, uiCodeConfig.elementalColor), tiles.overviewDtpstree);
         }
         case "No Type" =>
         case x => {
           println(s"Got Unknown Damage type: ${x}")
-          tiles.damageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,uiCodeConfig.regularColor))
-          new TreeNode(new ChartData("Regular", types._2, uiCodeConfig.regularColor), tiles.dtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,uiCodeConfig.regularColor))
+          new TreeNode(new ChartData("Regular", types._2, uiCodeConfig.regularColor), tiles.overviewDtpstree);
         }
       }
     }
@@ -344,6 +378,76 @@ class ElementLoader {
 
       }
     }
+
+    /**
+     * Damage Taken Tab Types Wheel
+     */
+    for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTypeTaken()) {
+      // TODO: Need to make sure you have ALL the damage types here or they wont show
+      types._1 match {
+        case "internal" => {
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,uiCodeConfig.internalColor))
+          new TreeNode(new ChartData("Internal", types._2, uiCodeConfig.internalColor), tiles.damageTakenDtpstree);
+        }
+        case "kinetic" => {
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,uiCodeConfig.kineticColor))
+          new TreeNode(new ChartData("Kinetic", types._2, uiCodeConfig.kineticColor), tiles.damageTakenDtpstree);
+        }
+        case "energy" => {
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,uiCodeConfig.energyColor))
+          new TreeNode(new ChartData("Energy", types._2, uiCodeConfig.energyColor), tiles.damageTakenDtpstree);
+        }
+        case "elemental" => {
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,uiCodeConfig.elementalColor))
+          new TreeNode(new ChartData("Elemental", types._2, uiCodeConfig.elementalColor), tiles.damageTakenDtpstree);
+        }
+        case "No Type" =>
+        case x => {
+          println(s"Got Unknown Damage type: ${x}")
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,uiCodeConfig.regularColor))
+          new TreeNode(new ChartData("Regular", types._2, uiCodeConfig.regularColor), tiles.damageTakenDtpstree);
+        }
+      }
+    }
+
+    /**
+     * Damage Taken Tab from source tile ability data
+     */
+
+    for (types <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenStats()) {
+      types._1 match {
+        case "internal" => {
+          for (ability <- types._2) {
+            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.internalColor), getCorrectChild("Internal","dtps",tiles));
+          }
+        }
+        case "kinetic" => {
+          for (ability <- types._2) {
+            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.kineticColor), getCorrectChild("Kinetic","dtps",tiles));
+          }
+        }
+        case "energy" => {
+          for (ability <- types._2) {
+            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.energyColor), getCorrectChild("Energy","dtps",tiles));
+          }
+        }
+        case "elemental" => {
+          for (ability <- types._2) {
+            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.elementalColor), getCorrectChild("Elemental","dtps",tiles));
+          }
+        }
+        case "No Type" =>
+        case x => {
+          for (ability <- types._2) {
+            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.regularColor), getCorrectChild("Regular","dtps",tiles));
+          }
+        }
+
+      }
+    }
+    
+    
+    
   }
 
   /**
@@ -353,9 +457,10 @@ class ElementLoader {
    * @param name
    * @return
    */
+    // TODO: Need to update this for the new tabs
   def getCorrectChild(name : String, from : String,tiles: GuiTiles): TreeNode[ChartData] = {
     if (from == "dtps") {
-      val root : java.util.List[TreeNode[ChartData]] = tiles.dtpstree.getAll
+      val root : java.util.List[TreeNode[ChartData]] = tiles.overviewDtpstree.getAll
       for (i <- 0 until root.size()){
         if(root.get(i).getItem.getName == name) return root.get(i)
       }
@@ -368,7 +473,7 @@ class ElementLoader {
     }
     // this is a backup, probably shouldn't happen
     println("Error, returning root tree, this should not happen")
-    tiles.dtpstree
+    tiles.overviewDtpstree
   }
 
   def updateLeaderBoard(controller: Controller, tiles: GuiTiles) = {
@@ -396,7 +501,7 @@ class ElementLoader {
       // then we need to get the damage done and order them
       val combatInstanceActor = controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
       // TODO: I cannot get this to set the name to save my life, help!
-      tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamageDone())
+      tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamagePerSecond())
       tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
       tiles.leaderBoardItems.get(index).getChartData.setName(combatInstanceActor.getActor().getName())
       tiles.leaderBoardItems.get(index).setVisible(true)

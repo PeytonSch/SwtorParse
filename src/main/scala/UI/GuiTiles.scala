@@ -90,18 +90,25 @@ class GuiTiles {
    * This will be updated to represent damage taken and damage done
    * by sources
    * */
-  val dtpstree = new TreeNode(new ChartData("ROOT"));
-  val  dtpsTreeStart1  = new TreeNode(new ChartData("Damage Taken 1", 1, Tile.BLUE), dtpstree);
-  val  dtpsTreeStart2  = new TreeNode(new ChartData("Damage Taken 2", 1, Tile.RED), dtpstree);
-  val  dtpsTreeOuter1 = new TreeNode(new ChartData("Damaging Ability", 1), dtpsTreeStart1);
-  val  dtpsTreeOuter2 = new TreeNode(new ChartData("Damaging Ability 2", 1), dtpsTreeStart2);
+  val overviewDtpstree = new TreeNode(new ChartData("ROOT"));
+  val  overviewDtpsTreeStart1  = new TreeNode(new ChartData("Damage Taken 1", 1, Tile.BLUE), overviewDtpstree);
+  val  overviewDtpsTreeStart2  = new TreeNode(new ChartData("Damage Taken 2", 1, Tile.RED), overviewDtpstree);
+  val  overviewDtpsTreeOuter1 = new TreeNode(new ChartData("Damaging Ability", 1), overviewDtpsTreeStart1);
+  val  overviewDtpsTreeOuter2 = new TreeNode(new ChartData("Damaging Ability 2", 1), overviewDtpsTreeStart2);
 
-  // Sunburst Tile 2
+  // Overview Damage Done Tile
   val  damageDoneTree   = new TreeNode(new ChartData("ROOT"));
   val  dpsTreeStart1  = new TreeNode(new ChartData("Damage Done 1", 1, Tile.BLUE), damageDoneTree);
   val  dpsTreeStart2  = new TreeNode(new ChartData("Damage Done 2", 1, Tile.RED), damageDoneTree);
   val  dpsTreeOuter1 = new TreeNode(new ChartData("Damaging Ability", 1), dpsTreeStart1);
   val  dpsTreeOuter2 = new TreeNode(new ChartData("Damaging Ability 2", 1), dpsTreeStart2);
+
+  // Damage Taken Tab By Source
+  val damageTakenDtpstree = new TreeNode(new ChartData("ROOT"));
+  val  damageTakenDtpsTreeStart1  = new TreeNode(new ChartData("Damage Taken 1", 1, Tile.BLUE), damageTakenDtpstree);
+  val  damageTakenDtpsTreeStart2  = new TreeNode(new ChartData("Damage Taken 2", 1, Tile.RED), damageTakenDtpstree);
+  val  damageTakenDtpsTreeOuter1 = new TreeNode(new ChartData("Damaging Ability", 1), damageTakenDtpsTreeStart1);
+  val  damageTakenDtpsTreeOuter2 = new TreeNode(new ChartData("Damaging Ability 2", 1), damageTakenDtpsTreeStart2);
 
 
   val statusTile = TileBuilder.create()
@@ -209,11 +216,11 @@ class GuiTiles {
 //    .decimals(0)
 //    .build();
 
-  val damageTakenSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
+  val overviewDamageTakenSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
     .prefSize(TILE_WIDTH*2, TILE_HEIGHT)
     .title("Sources: Damage Taken")
     .textVisible(true)
-    .sunburstTree(dtpstree)
+    .sunburstTree(overviewDtpstree)
     .sunburstBackgroundColor(Tile.BACKGROUND)
     .sunburstTextColor(Tile.BACKGROUND)
     .sunburstUseColorFromParent(true)
@@ -237,7 +244,7 @@ class GuiTiles {
     .sunburstInteractive(true)
     .build();
 
-  val damageFromTypeIndicator = TileBuilder.create()
+  val overviewDamageFromTypeIndicator = TileBuilder.create()
     .skinType(SkinType.DONUT_CHART)
     .prefSize(TILE_WIDTH, TILE_HEIGHT)
     .title("Fight Damage Types")
@@ -248,66 +255,54 @@ class GuiTiles {
 
 //  val xAxis = NumberAxis("Combat Time")
 //  val xAxis = NumberAxis("Values for X-Axis", 0, 3, 10)
-  val yAxis = NumberAxis("Damage & Damage/Sec")
-  yAxis.setAutoRanging(false)
-  yAxis.setTickUnit(2000)
-  yAxis.setLowerBound(0)
-  val xAxis : CategoryAxis = CategoryAxis("Combat Time")
+  val overviewChartYAxis = NumberAxis("Damage & Damage/Sec")
+  overviewChartYAxis.setAutoRanging(false)
+  overviewChartYAxis.setTickUnit(2000)
+  overviewChartYAxis.setLowerBound(0)
+  val overviewChartXAxis : CategoryAxis = CategoryAxis("Combat Time")
 
   // Helper function to convert a tuple to `XYChart.Data`
   val toNumberChartData = (xy: (Int, Int)) => XYChart.Data[Number, Number](xy._1, xy._2)
   val toCatagoryChartData = (xy: (String, Int)) => XYChart.Data[String, Number](xy._1, xy._2)
 
-  val lineChartSeries = new XYChart.Series[String, Number] {
+  val overviewLineChartSeries = new XYChart.Series[String, Number] {
     name = "Series 1"
-    //    data = Seq(
-    //      (0.0, 1.0),
-    //      (1.2, 1.4),
-    //      (2.2, 1.9),
-    //      (2.7, 2.3),
-    //      (2.9, 0.5)).map(toChartData)
     val dataSeq: Seq[(String, Int)] = for (i <- 1 to 30) yield (i.toString, random.nextInt(20))
     data = dataSeq.map(toCatagoryChartData)
   }
 
-  val barChartSeries = new XYChart.Series[String, Number] {
+  val overviewBarChartSeries = new XYChart.Series[String, Number] {
     name = "Series 2"
-//    data = Seq(
-//      ("0", 1.6),
-//      ("0.8", 0.4),
-//      ("1.4", 2.9),
-//      ("2.1", 1.3),
-//      ("2.6", 0.9)).map(toBarChartData)
     val dataSeq : Seq[(String,Int)] = for (i <- 1 to 30) yield (i.toString,random.nextInt(20)+10)
     data = dataSeq.map(toCatagoryChartData)
   }
 
-  val lineChart = new LineChart[String, Number](xAxis, yAxis, ObservableBuffer(lineChartSeries))
-  lineChart.setAnimated(true)
-  lineChart.setTitle("Damage")
-  lineChart.setCreateSymbols(false)
-  lineChart.setLegendVisible(false)
-  lineChart.setPrefSize(750,350)
-  lineChart.verticalGridLinesVisible = false
-  lineChart.horizontalGridLinesVisible = false
+  val overviewLineChart = new LineChart[String, Number](overviewChartXAxis, overviewChartYAxis, ObservableBuffer(overviewLineChartSeries))
+  overviewLineChart.setAnimated(true)
+  overviewLineChart.setTitle("Damage")
+  overviewLineChart.setCreateSymbols(false)
+  overviewLineChart.setLegendVisible(false)
+  overviewLineChart.setPrefSize(750,350)
+  overviewLineChart.verticalGridLinesVisible = false
+  overviewLineChart.horizontalGridLinesVisible = false
 //  lineChart.getXAxis.setStyle()
 
-  val barChart = new BarChart[String,Number](xAxis, yAxis, ObservableBuffer(barChartSeries))
-  barChart.setAnimated(false)
-  barChart.setTitle("Damage")
-  barChart.setLegendVisible(false)
-  barChart.setPrefSize(750,350)
-  barChart.verticalGridLinesVisible = false
-  barChart.horizontalGridLinesVisible = false
+  val overviewBarChart = new BarChart[String,Number](overviewChartXAxis, overviewChartYAxis, ObservableBuffer(overviewBarChartSeries))
+  overviewBarChart.setAnimated(false)
+  overviewBarChart.setTitle("Damage")
+  overviewBarChart.setLegendVisible(false)
+  overviewBarChart.setPrefSize(750,350)
+  overviewBarChart.verticalGridLinesVisible = false
+  overviewBarChart.horizontalGridLinesVisible = false
 //  barChart.getXAxis.setVisible(false)
 //  barChart.getYAxis.setVisible(false)
 //  barChart.getXAxis.setTickLabelsVisible(false)
 
-  val stackedArea : StackPane = new StackPane()
-  stackedArea.getChildren.addAll(barChart,lineChart)
-  yAxis.setUpperBound(45)
+  val overviewStackedArea : StackPane = new StackPane()
+  overviewStackedArea.getChildren.addAll(overviewBarChart,overviewLineChart)
+  overviewChartYAxis.setUpperBound(45)
 
-  val stackedAreaDPSTab : StackPane = new StackPane()
+//  val stackedAreaDPSTab : StackPane = new StackPane()
   //stackedAreaDPSTab.getChildren.addAll(barChart,lineChart)
 
 
@@ -412,6 +407,103 @@ class GuiTiles {
   personalStatsGridPane.setPrefWidth(200)
   personalStatsGridPane.gridLinesVisible = true
   personalStatsGridPane.setPrefWidth(200)
+
+
+  /**
+   * Damage Taken Tab
+   */
+
+  /**
+   * To Start, we want a damage taken per second graph and bar chart, damage taken by type wheel,
+   * and damage taken by ability wheel
+   */
+
+  val damageTakenGridPane = new GridPane()
+
+  /**
+   * Line and Bar Chart For Damage Taken
+   */
+
+  // Axis
+  val damageTakenChartYAxis = NumberAxis("Damage Taken & DTPS")
+  damageTakenChartYAxis.setAutoRanging(false)
+  damageTakenChartYAxis.setTickUnit(2000)
+  damageTakenChartYAxis.setLowerBound(0)
+  val damageTakenChartXAxis : CategoryAxis = CategoryAxis("Combat Time")
+
+  // Series
+  val damageTakenLineChartSeries = new XYChart.Series[String, Number] {
+    name = "Series 1"
+    val dataSeq: Seq[(String, Int)] = for (i <- 1 to 30) yield (i.toString, random.nextInt(20))
+    data = dataSeq.map(toCatagoryChartData)
+  }
+
+  val damageTakenBarChartSeries = new XYChart.Series[String, Number] {
+    name = "Series 2"
+    val dataSeq : Seq[(String,Int)] = for (i <- 1 to 30) yield (i.toString,random.nextInt(20)+10)
+    data = dataSeq.map(toCatagoryChartData)
+  }
+  val damageTakenLineChart = new LineChart[String, Number](damageTakenChartXAxis, damageTakenChartYAxis, ObservableBuffer(damageTakenLineChartSeries))
+  damageTakenLineChart.setAnimated(true)
+  damageTakenLineChart.setTitle("Damage Taken")
+  damageTakenLineChart.setCreateSymbols(false)
+  damageTakenLineChart.setLegendVisible(false)
+  damageTakenLineChart.setPrefSize(750,350)
+  damageTakenLineChart.verticalGridLinesVisible = false
+  damageTakenLineChart.horizontalGridLinesVisible = false
+  damageTakenLineChart.getStyleClass.add("damageTakenClass")
+
+  val damageTakenBarChart = new BarChart[String,Number](damageTakenChartXAxis, damageTakenChartYAxis, ObservableBuffer(damageTakenBarChartSeries))
+  damageTakenBarChart.setAnimated(false)
+  damageTakenBarChart.setTitle("Damage Taken")
+  damageTakenBarChart.setLegendVisible(false)
+  damageTakenBarChart.setPrefSize(750,350)
+  damageTakenBarChart.verticalGridLinesVisible = false
+  damageTakenBarChart.horizontalGridLinesVisible = false
+
+
+  val damageTakenStackedArea : StackPane = new StackPane()
+  damageTakenStackedArea.getChildren.addAll(damageTakenBarChart,damageTakenLineChart)
+  damageTakenChartYAxis.setUpperBound(45)
+
+  damageTakenStackedArea.setBackground(background)
+
+
+  val damageTakenDamageFromTypeIndicator = TileBuilder.create()
+    .skinType(SkinType.DONUT_CHART)
+    .prefSize(TILE_WIDTH, TILE_HEIGHT)
+    .title("Fight Damage Types")
+    .text("% of damage taken from different types")
+    .textVisible(true)
+    .sectionTextVisible(true)
+    .build();
+
+
+  val damageTakenDamageTakenSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
+    .prefSize(TILE_WIDTH*2, TILE_HEIGHT)
+    .title("Sources: Damage Taken")
+    .textVisible(true)
+    .sunburstTree(damageTakenDtpstree)
+    .sunburstBackgroundColor(Tile.BACKGROUND)
+    .sunburstTextColor(Tile.BACKGROUND)
+    .sunburstUseColorFromParent(true)
+    .sunburstTextOrientation(TextOrientation.TANGENT)
+    .sunburstAutoTextColor(false)
+    .sunburstUseChartDataTextColor(false)
+    .sunburstInteractive(true)
+    .build();
+
+
+  /**
+   * Add To Grid Pane
+   */
+
+  damageTakenGridPane.add(damageTakenStackedArea,0,0,2,1)
+  damageTakenGridPane.add(damageTakenDamageTakenSourceTile,0,1,1,1)
+  damageTakenGridPane.add(damageTakenDamageFromTypeIndicator,1,1,1,1)
+
+
+
 
 
 

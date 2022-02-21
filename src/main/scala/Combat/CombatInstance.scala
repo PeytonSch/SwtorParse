@@ -1,5 +1,6 @@
 package Combat
 
+import logger.{LogLevel, Logger}
 import parsing.Actors.{Actor, NoneActor}
 import parsing.Values.Value
 import parsing.subTypes.LogTimestamp
@@ -22,7 +23,7 @@ class CombatInstance (
   def setCombatStartTimeStamp(logInfo: LogInformation) = {
     if(startTimeStamp == null) this.startTimeStamp = logInfo.getTime()
     else {
-      println("Error, tried updating timestamp that was already set")
+      Logger.print("Error, tried updating timestamp that was already set",LogLevel.Error)
     }
   }
 

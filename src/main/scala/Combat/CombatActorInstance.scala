@@ -68,7 +68,6 @@ class CombatActorInstance {
   var totalDamageAbilities = 0
   var critDamageAbilities = 0
   def getCritDamagePercent(): Double = {
-    println(s"${critDamageAbilities}/$totalDamageAbilities")
     if (totalDamageAbilities == 0) 0
     else critDamageAbilities.toDouble/totalDamageAbilities
   }
@@ -93,6 +92,8 @@ class CombatActorInstance {
   var healingPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def gethealingPerSecondTimeSeries() = healingPerSecondTimeSeries
 
+  var damageTakenTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def getDamageTakenTimeSeries() = damageTakenTimeSeries
   var damageTakenPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def getDamageTakenPerSecondTimeSeries() = damageTakenPerSecondTimeSeries
 
@@ -214,6 +215,19 @@ class CombatActorInstance {
     // if we don't have any data for this second yet, add that key value
     else {
       damageTypeTaken(damageType) = damageAmount
+    }
+
+    /**
+     * Update damageTakenTimeSeries
+     * */
+    // check if we already have damage done in this second
+    if (damageTakenTimeSeries.contains(axisValue)){
+      val newDamageInBucket : Int = damageTakenTimeSeries.get(axisValue).get + damageAmount
+      damageTakenTimeSeries += (axisValue -> newDamageInBucket)
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      damageTakenTimeSeries(axisValue) = damageAmount
     }
 
     /**
