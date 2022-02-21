@@ -20,6 +20,8 @@ import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
 import javafx.event.{Event, EventHandler}
+import logger.Logger
+import logger.LogLevel._
 import parsing.Actors.Player
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 
@@ -35,6 +37,7 @@ import scala.collection.mutable.ListBuffer
  */
 object Main extends JFXApp3 {
 
+  val config = ConfigFactory.load()
 
   /**
    * This start() Method is essentially this start of our application, you can think of this as the main function
@@ -59,7 +62,13 @@ object Main extends JFXApp3 {
     //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
     //val files = FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
 
-    val files = FileHelper.getListOfFiles("./SampleLogs")
+    val files: List[File] = if(config.getString("RunMode.mode") == ("Staging")){
+      Logger.print("Running in Staging mode",Info)
+      FileHelper.getListOfFiles("G:\\Users\\Peyton\\Documents\\Star Wars - The Old Republic\\CombatLogs")
+    } else {
+      Logger.print("Running in developer mode",Info)
+      FileHelper.getListOfFiles("./SampleLogs")
+    }
 
     // Tiles is all of the tiles in the UI. Contained and managed in a UI.GuiTiles class
     val tiles : GuiTiles = new GuiTiles()
@@ -67,12 +76,13 @@ object Main extends JFXApp3 {
     // Set the last Timer Call to the current system time. This is a var so it can be updated. It controls the UI
     // Refresh rate, checking the time against the last time and the execution rate.
     var lastTimerCall = System.nanoTime()
-    val program_execution_rate : Long = 200_000_000L
+    val program_execution_rate : Long = config.getLong("UI.General.tickRate")
 
 
     // This parser class is used to pass logs. This is more in here as a test and not fully implemented.
     val parser : Parser = new Parser
 
+    // TODO: This needs to be initialized after the UI starts without breaking the UI
     // Init the controller
     controller.parseLatest(parser.getNewLines())
 
@@ -155,7 +165,7 @@ object Main extends JFXApp3 {
     val combatInstanceMenu = new Menu("Combat Instances")
     var combatInstanceBuffer = new ListBuffer[MenuItem]()
     for (combatInstance <- controller.getAllCombatInstances()){
-//      println(s"Got combat instance: ${combatInstance}")
+      println(s"Got combat instance: ${combatInstance}")
       var item = new MenuItem(combatInstance.getNameFromActors)
       item.setOnAction(elementLoader.combatInstanceChangeMenuAction(controller, tiles))
       combatInstanceBuffer += item
@@ -235,7 +245,7 @@ object Main extends JFXApp3 {
 
     //Main Row 1
     pane.add(tiles.leaderBoardTile, 7, mainRow1, 1, mainRowSpan)
-    pane.add(tiles.stackedArea, 1, mainRow1, 5, mainRowSpan)
+    pane.add(tiles.overviewStackedArea, 1, mainRow1, 5, mainRowSpan)
     pane.add(tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
 
 
@@ -244,8 +254,8 @@ object Main extends JFXApp3 {
 
 //    //Main Row 2
     pane.add(tiles.damageDoneSourceTile, 0, mainRow2, 3, 1)
-    pane.add(tiles.damageTakenSourceTile, 3, mainRow2, 3, 1)
-    pane.add(tiles.damageFromTypeIndicator, 6, mainRow2, 1, 1)
+    pane.add(tiles.overviewDamageTakenSourceTile, 3, mainRow2, 3, 1)
+    pane.add(tiles.overviewDamageFromTypeIndicator, 6, mainRow2, 1, 1)
 
 //    dpsTab.onSelectionChanged = (v:Event) => {
 //      dpsTab.setContent(tiles.stackedArea)
@@ -260,7 +270,7 @@ object Main extends JFXApp3 {
     // Set the preferred size of the window
     pane.setPrefSize(1500, 800)
     pane.setBackground(tiles.background)
-    tiles.stackedArea.setBackground(tiles.background)
+    tiles.overviewStackedArea.setBackground(tiles.background)
 
     val camera = new PerspectiveCamera()
     camera.setFieldOfView(10)
@@ -269,7 +279,11 @@ object Main extends JFXApp3 {
 
     // add the pane to a scene and give it a camera
     parentPane.children = List(mainMenuBar,tabbedPane)
+
+    // TABS
     overViewTab.content = pane
+    dtpsTab.content = tiles.damageTakenGridPane
+
     val scene = new Scene(parentPane)
     scene.getStylesheets().add("Chart.css")
 

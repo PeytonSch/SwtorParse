@@ -1,5 +1,7 @@
 package parser
 
+import com.typesafe.config.ConfigFactory
+import logger.{LogLevel, Logger}
 import parsing.Actions.DefaultAction
 import parsing.Actors.Actor
 import parsing.Result.Result
@@ -17,6 +19,8 @@ import scala.io.Source
  */
 class Parser {
 
+  val config = ConfigFactory.load()
+
   val factory = new FactoryClasses
 
   var lastReadLine = 0
@@ -25,18 +29,32 @@ class Parser {
     getLinesFromFile(path)
   }
   def getNewLines(): IndexedSeq[LogInformation] = {
-    //getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
-    getLinesFromFile("SampleLogs/combat_solo_2021-12-30_20_58_33_468342.txt")
+    if(config.getString("RunMode.mode") == ("Staging")) {
+      // this one is chunky chunky
+//      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_20_26_07_955458.txt")
+      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_18_37_06_264936.txt")
+    }
+    else {
+//      getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
+//      getLinesFromFile("SampleLogs/combat_solo_2021-12-30_20_58_33_468342.txt")
+      getLinesFromFile("SampleLogs/combat_2022-02-20_20_26_07_955458.txt")
+
+    }
   }
 
   def getLinesFromFile(path: String): IndexedSeq[LogInformation] = {
 
     // TODO: Can we grab only remaining lines somehow?
-    val lines = Source.fromFile(path).getLines.toList
-
+    // not sure why I need to do this and if I can remove it?
+    val lines = if(config.getString("RunMode.mode") == ("Staging")) {
+      Source.fromFile(path,"ISO-8859-1").getLines.toList
+    } else {
+      Source.fromFile(path).getLines.toList
+    }
+    Logger.trace(s"Found ${lines.size} lines to parse in file ${path}")
     // if there are no new read lines we dont need to do anything
     if (lastReadLine == lines.length-1){
-//      println("No new read lines")
+      Logger.print("No new read lines",LogLevel.Trace)
       IndexedSeq()
     } else {
       val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine,lines.length)) yield {

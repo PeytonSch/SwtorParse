@@ -1,5 +1,6 @@
 package parsing
 
+import logger.Logger
 import parsing.Actions.DefaultAction
 import parsing.Actors.{Actor, Companion, NoneActor, Npc, Player}
 import parsing.Result.{ApplyEffect, Event, RemoveEffect, Result}
@@ -35,10 +36,15 @@ class FactoryClasses {
    * @return
    */
   def actorFromActorString(actorString: String): Actor = {
+    Logger.trace(s"actorFromActorString: ${actorString}")
     // First determine if the actor is a player and companion or npc
     // a player has an @ symbol, a companion has an @ and /
     // and an npc has neither
-    val isPlayerOrComp: Boolean = actorString.contains('@')
+    val isPlayerOrComp: Boolean = if (actorString.contains("@UNKNOWN")) {
+      false
+    } else {
+      actorString.contains('@')
+    }
 
     // if it is a player it does not contain an id
     // [@Heavy Sloth#689203382607232|(-65.44,-57.60,-0.14,-83.93)|(2909/2909)]
@@ -105,10 +111,14 @@ class FactoryClasses {
 
 
   def resultFromLine(logLine: String) : Result = {
+    Logger.trace(s"resultFromLine: ${logLine}")
     val resultType = logLine.split('[')(5).split('{')(0).trim
+    Logger.trace(s"Result Type: ${resultType}")
     val effectId = logLine.split('[')(5).split('{')(1).split('}')(0)
+    Logger.trace(s"effectId: ${effectId}")
     val name = logLine.split('[')(5).split(':')(1).split('{')(0).trim
-    val nameId = logLine.split('[')(5).split(':')(1).split('{')(1).split('}')(0).trim
+    Logger.trace(s"Result Name: ${name}")
+    val nameId = logLine.split('[')(5).split('{')(2).split('}')(0).trim
 
     if (resultType == "ApplyEffect") {
       new ApplyEffect(resultType,effectId,name,nameId)
@@ -139,6 +149,7 @@ class FactoryClasses {
 
   def valueFromLine(logLine: String): Value = {
 
+    Logger.trace(s"valueFromLine: ${logLine}")
 
     // we need to handle values differently if the result is an AreaEntered
     val resultType = logLine.split('[')(5).split('{')(0).trim
@@ -152,7 +163,10 @@ class FactoryClasses {
       if (lineArray.size > 5) {
         // Dont forget to trim off threat
         val extractedValue = logLine.split(']')(5).split('<')(0).trim
-        //println("Contains a value: " + extractedValue)
+        Logger.trace("Contains a value: " + extractedValue)
+        if (extractedValue.size < 1){
+          return new NoValue
+        }
         // If it does contain a value, determine how many parts it has
 
         /**
@@ -167,7 +181,7 @@ class FactoryClasses {
 
         // Check if the value is 0
         // If it is 0, get complete negation information and return
-        if (extractedValue(1) == '0' && extractedValue(2) != ')') {
+        if (extractedValue(1) == '0' && extractedValue(2) != ')' && extractedValue != "(0 -)") {
           //println(s"Extracted: ${extractedValue} from ${logLine}")
           val negationType = extractedValue.split('-')(1).split('{')(0).trim
           val negatopmTypeId = extractedValue.split('-')(1).split('{')(1).split('}')(0).trim

@@ -1,6 +1,9 @@
 ### Companion Section
 - [ ] Who doesnt want companion stats and if they are better than that one guy in the group?
 
+### Misc
+
+Uptime on dots
 
 
 ### Parse a Live log
