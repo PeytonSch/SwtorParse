@@ -26,8 +26,8 @@ import scala.util.Random
  */
 
 class GuiTiles {
-  val     TILE_WIDTH : Double  = 250
-  val     TILE_HEIGHT : Double = 350
+  val     TILE_WIDTH : Double  = 350
+  val     TILE_HEIGHT : Double = 450
   val     menuTileSize : Double = .30
 
   val random = new Random()
