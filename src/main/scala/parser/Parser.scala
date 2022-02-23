@@ -4,12 +4,12 @@ import com.typesafe.config.ConfigFactory
 import logger.{LogLevel, Logger}
 import parsing.Actions.DefaultAction
 import parsing.Actors.Actor
-import parsing.Result.Result
+import parsing.Result.{Event, Result}
 import parsing.Threat.ThreatValue
-import parsing.Values.Value
+import parsing.Values.{NoValue, Value}
 import parsing.subTypes.LogTimestamp
 import parsing.FactoryClasses
-import patterns.Actions.Action
+import patterns.Actions.{Action, NoAction}
 import patterns.LogInformation
 
 import scala.io.Source
@@ -32,7 +32,12 @@ class Parser {
     if(config.getString("RunMode.mode") == ("Staging")) {
       // this one is chunky chunky
 //      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_20_26_07_955458.txt")
-      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_18_37_06_264936.txt")
+//      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_18_37_06_264936.txt")
+      // This is a good group one, running around with Isaac
+      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-21_15_25_12_263261.txt")
+      // this one is MASSIVE and from a raid
+//      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-21_17_21_45_757025.txt")
+
     }
     else {
 //      getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
@@ -57,31 +62,44 @@ class Parser {
       Logger.print("No new read lines",LogLevel.Trace)
       IndexedSeq()
     } else {
-      val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine,lines.length)) yield {
+      val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine,lines.length-1)) yield {
         //println(s"Extracting ling ${currentIndex} from log")
         val line = lines(currentIndex)
-        /**
-         * Extract log information
-         */
-        val time : LogTimestamp = factory.timestampFromLine(line)
-        val performer : Actor = factory.performingActorFromLogLineString(line)
-        val target : Actor = factory.targetActorFromLogLineString(line)
-        val action : Action = factory.actionFromLine(line)
-        val result : Result = factory.resultFromLine(line)
-        // See if this line has a value associated with it
-        val resultValue : Value = factory.valueFromLine(line)
-        val threatValue : ThreatValue = factory.threatFromLine(line)
+        try {
+          /**
+           * Extract log information
+           */
+          val time: LogTimestamp = factory.timestampFromLine(line)
+          val performer: Actor = factory.performingActorFromLogLineString(line)
+          val target: Actor = factory.targetActorFromLogLineString(line)
+          val action: Action = factory.actionFromLine(line)
+          val result: Result = factory.resultFromLine(line)
+          // See if this line has a value associated with it
+          val resultValue: Value = factory.valueFromLine(line)
+          val threatValue: ThreatValue = factory.threatFromLine(line)
 
-        lastReadLine = currentIndex
+          lastReadLine = currentIndex
 
-        new LogInformation(time,performer,target,action,result,resultValue,threatValue)
+          new LogInformation(time, performer, target, action, result, resultValue, threatValue)
+        }
+          // TODO: This often seems to happen where we read a partial line as the game is still writing the file, how to get only entire lines?
+        catch {
+          case e: Throwable => {
+            Logger.error(s"Failed to Parse Line: ${line} \n Caught e: ${e}")
+
+            val time: LogTimestamp = factory.timestampFromLine(line)
+            val performer: Actor = factory.performingActorFromLogLineString(line)
+            val target: Actor = factory.targetActorFromLogLineString(line)
+            new LogInformation(time, performer, target, new NoAction, new Event("","","",""), new NoValue, new ThreatValue(0))
+          }
+        }
 
 
 
 
       }
 
-      //println(s"Read ${collected.size} log lines this tick")
+      Logger.trace(s"Read ${collected.size} log lines this tick")
 
       collected
     }

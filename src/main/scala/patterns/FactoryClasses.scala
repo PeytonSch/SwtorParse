@@ -118,7 +118,14 @@ class FactoryClasses {
     Logger.trace(s"effectId: ${effectId}")
     val name = logLine.split('[')(5).split(':')(1).split('{')(0).trim
     Logger.trace(s"Result Name: ${name}")
-    val nameId = logLine.split('[')(5).split('{')(2).split('}')(0).trim
+    // TODO: Some Lines have extra [ in them, like Accuracy Reduced [Tech]
+    var nameId = "0"
+    try {
+      nameId = logLine.split('[')(5).split('{')(2).split('}')(0).trim
+    }
+    catch {
+      case e: ArrayIndexOutOfBoundsException => Logger.warn(s"Line failed to parse result nameId ${logLine}")
+    }
 
     if (resultType == "ApplyEffect") {
       new ApplyEffect(resultType,effectId,name,nameId)
@@ -212,7 +219,13 @@ class FactoryClasses {
               baseValue = part.dropRight(1).toInt
             }
             else {
-              baseValue = part.toInt
+              // TODO: This is caused by the extra brackets as well:  Accuracy Reduced [Tech]
+              try {
+                baseValue = part.toInt
+              }
+              catch {
+                case e: NumberFormatException => Logger.warn(s"Failed to parse line, number format exception: ${logLine}")
+              }
             }
           }
           var excessValue: Int = 0

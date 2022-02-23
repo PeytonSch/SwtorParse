@@ -1,4 +1,5 @@
 import Controller.Controller
+import UI.overlays.Overlays
 import UI.{ElementLoader, GuiTiles}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
@@ -11,7 +12,7 @@ import scalafx.scene.{Parent, PerspectiveCamera, Scene}
 import scalafx.scene.control.{Button, CheckBox, Label, Menu, MenuBar, MenuItem, ScrollPane, Tab, TabPane}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, Priority, VBox}
 import scalafx.scene.paint._
-import scalafx.stage.{DirectoryChooser, FileChooser}
+import scalafx.stage.{DirectoryChooser, FileChooser, Stage}
 import scalafx.event.ActionEvent
 import scalafx.Includes._
 
@@ -102,9 +103,12 @@ object Main extends JFXApp3 {
         val result = parser.getNewLines()
 
         // if there are new lines to parse
-        if (result.size != 0) controller.parseLatest(result)
+        if (result.size != 0) {
+          controller.parseLatest(result)
+          elementLoader.performTickUpdateLiveParsing(controller, tiles)
 
-        elementLoader.performTickUpdateLiveParsing(controller, tiles)
+        }
+
 
       }
     })
@@ -134,6 +138,8 @@ object Main extends JFXApp3 {
 
     // A stage is like the window we create for the GUI
     val stage = new PrimaryStage()
+//    val dpsOverlay = new PrimaryStage()
+
 
     // This can be though of as like a layout
     val pane = new GridPane()
@@ -300,7 +306,19 @@ object Main extends JFXApp3 {
     // This is the title of the window
     stage.setTitle("ELITE RAIDING PARSER")
     stage.setScene(scene)
+    Overlays.personalDpsOverlay.setScene(Overlays.dpsOverlayScene)
+    Overlays.personalHpsOverlay.setScene(Overlays.hpsOverlayScene)
+    Overlays.personalDtpsOverlay.setScene(Overlays.dtpsOverlayScene)
+    Overlays.groupDpsOverlay.setScene(Overlays.groupDpsOverlayScene)
+    Overlays.groupHpsOverlay.setScene(Overlays.groupHpsOverlayScene)
+
+
     stage.show()
+    Overlays.personalDpsOverlay.show()
+    Overlays.personalHpsOverlay.show()
+    Overlays.personalDtpsOverlay.show()
+    Overlays.groupDpsOverlay.show()
+    Overlays.groupHpsOverlay.show()
 
     // Start the timer to run the timer things, or the main program loop
     timer.start()
