@@ -53,7 +53,7 @@ class FactoryClasses {
 
       // If this happens it is a companion!
       // [@Heavy Sloth#689203382607232/Arcann {3915326546771968}:26518005410002|(-25.10,-63.50,-1.76,-142.73)|(2944/2944)]
-      if (actorString.split('#')(1).split('|')(0).contains('{')) {
+      if (actorString.contains('#') && actorString.split('#')(1).split('|')(0).contains('{')) {
         val companionName = actorString.split('/')(1).split('{')(0).trim
         val actorTypeID = actorString.split('{')(1).split('}')(0)
         val actorInstanceID = actorString.split(':')(1).split('|')(0)

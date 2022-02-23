@@ -10,11 +10,23 @@ import eu.hansolo.tilesfx.tools.TreeNode
 import parsing.Actors.{Companion, Player}
 import scalafx.event.ActionEvent
 import javafx.scene.paint.Color
+import logger.LogLevel.Info
 import logger.Logger
+import parser.Parser
 import scalafx.geometry.Pos
+import scalafx.scene.control.{Menu, MenuItem}
 import scalafx.scene.layout.StackPane
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
+
+import scala.collection.mutable.ListBuffer
+import scalafx.Includes._
+import scalafx.animation.AnimationTimer
+import scalafx.application.JFXApp3.PrimaryStage
+import scalafx.application.Platform
+import scalafx.scene.Scene
+
+import java.io.File
 
 /**
  * Element loader is for loading data into the UI charts and graphs etc.
@@ -22,10 +34,139 @@ import scalafx.scene.text.Text
  */
 class ElementLoader {
 
-  val uiCodeConfig = new UICodeConfig
+  val config = ConfigFactory.load()
 
   // This can be used to generate random numbers
   val random = scala.util.Random
+
+  /**
+   * Attempt at defining things to load asyncronously
+   */
+    def initAsynchronously(controller: Controller, parser: Parser, tiles: GuiTiles, combatInstanceMenu: Menu, timer: AnimationTimer): Unit = {
+      // we obviously want to parse asyncronously, this is the big time killer
+      Logger.trace("Initializing Lines Async")
+      controller.parseLatest(parser.getNewLinesInit())
+      // we then need to load everything after that depends on the parse results
+      loadCombatInstanceMenu(controller,tiles, combatInstanceMenu)
+
+      // Load the UI to the combat we just loaded
+      // set the current combat instance
+      controller
+        .setCurrentCombatInstance(controller.getAllCombatInstances()(0))
+
+      refreshUI(controller,tiles)
+
+      //once the UI is set, because we clicked on a past combat instance, set current combat to null
+      controller.endCombat()
+
+
+      timer.start()
+      Logger.info("Timer Started")
+    }
+
+
+  /**
+   * Attempt at defining remaining combat instances to load asyncronously
+   */
+  def initRemainingAsynchronously(controller: Controller, parser: Parser, tiles: GuiTiles, combatInstanceMenu: Menu, timer: AnimationTimer): Unit = {
+    // we obviously want to parse asyncronously, this is the big time killer
+    Logger.trace("Initializing Lines Async")
+    controller.parseLatest(parser.parseRemaining())
+    // we then need to load everything after that depends on the parse results
+    loadCombatInstanceMenu(controller,tiles, combatInstanceMenu)
+    Logger.info("Remaining Combat Instances Loaded")
+  }
+
+  /**
+   * This is refreshes the combat instances in the combat instance menu
+   */
+  def loadCombatInstanceMenu(controller: Controller, tiles: GuiTiles,combatInstanceMenu: Menu): Unit ={
+    var combatInstanceBuffer = new ListBuffer[MenuItem]()
+    for (combatInstance <- controller.getAllCombatInstances()){
+      Logger.trace(s"Got combat instance: ${combatInstance}")
+      var item = new MenuItem(combatInstance.getNameFromActors)
+      item.setOnAction(combatInstanceChangeMenuAction(controller, tiles))
+      combatInstanceBuffer += item
+    }
+    combatInstanceMenu.items = combatInstanceBuffer.toList
+  }
+
+  def loadLogFileMenu(controller: Controller, tiles: GuiTiles,parser:Parser,fileMenu: Menu,combatInstanceMenu: Menu):Unit = {
+    val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
+    var fileBuffer = new ListBuffer[MenuItem]()
+    for (i <- 0 until files.length){
+      var item = new MenuItem(files(i).getAbsolutePath().split('\\').last)
+      item.setOnAction(loadNewCombatFile(controller, tiles,parser,combatInstanceMenu))
+      fileBuffer += item
+    }
+    fileMenu.items = fileBuffer.toList.reverse
+
+  }
+
+  def clearUI(controller: Controller,tiles: GuiTiles): Unit = {
+    tiles.overviewLineChartSeries.getData.removeAll()
+    tiles.overviewBarChartSeries.getData.removeAll()
+    tiles.damageTakenLineChartSeries.getData.removeAll()
+    tiles.damageTakenBarChartSeries.getData.removeAll()
+    tiles.damageDoneTree.removeAllNodes()
+    tiles.overviewDtpstree.removeAllNodes()
+    tiles.overviewDamageFromTypeIndicator.clearChartData()
+    tiles.damageTakenDtpstree.removeAllNodes()
+    tiles.damageTakenDamageFromTypeIndicator.clearChartData()
+
+    // Overlays
+    Overlays.personalDamageOverlay.clearChartData()
+    Overlays.personalHealingOverlay.clearChartData()
+    Overlays.personalDamageTakenOverlay.clearChartData()
+    Overlays.groupDamagePane.getChildren.clear()
+    Overlays.groupHealingPane.getChildren.clear()
+
+
+    for (index <- 0 until tiles.leaderBoardItems.size()){
+      tiles.leaderBoardItems.get(index).setValue(0)
+      tiles.leaderBoardItems.get(index).setName("")
+      tiles.leaderBoardItems.get(index).setVisible(false)
+    }
+
+    /**
+     * Personal Stats
+     */
+    //DPS
+    tiles.percentileDps.setValue(0)
+    tiles.personalStatsDpsValue.setText("_")
+    tiles.personalStatsTotalDamageValue.setText("_")
+
+    //HPS
+    tiles.percentileHps.setValue(0)
+    tiles.personalStatsHpsValue.setText("_")
+    tiles.personalStatsTotalHealingValue.setText("_")
+
+    //DTPS
+    tiles.percentileDtps.setValue(0)
+    tiles.personalStatsDtpsValue.setText("_")
+    tiles.personalStatsTotalDamageTakenValue.setText("_")
+
+    //HTPS
+    tiles.percentileHtps.setValue(0)
+    tiles.personalStatsHtpsValue.setText("_")
+    tiles.personalStatsTotalHealingTakenValue.setText("_")
+
+    //Threat
+    tiles.percentileThreat.setValue(0)
+    tiles.personalStatsThreatValue.setText("_")
+    tiles.personalStatsThreatPerSecondValue.setText("_")
+
+    //Crit
+    tiles.percentileCrit.setValue(0)
+    tiles.personalStatsCritValue.setText("_")
+
+    //Apm
+    tiles.percentileApm.setValue(0)
+    tiles.personalStatsApmValue.setText("_")
+
+    //Time
+    tiles.personalStatsTimeValue.setText("_")
+  }
 
 
   def refreshUI(controller: Controller, tiles: GuiTiles): Unit = {
@@ -71,50 +212,36 @@ class ElementLoader {
    * It may need to change when we move changing combat instances out of the menu bar.
    */
   def combatInstanceChangeMenuAction(controller: Controller, tiles: GuiTiles): ActionEvent => Unit = (event: ActionEvent) => {
-    //println(s"You clicked ${event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText}")
 
     // set the current combat instance
     controller
       .setCurrentCombatInstance(controller.
         getCombatInstanceById(event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText))
 
-    // TODO: just use refresh UI here, leaving this here while I test
     refreshUI(controller,tiles)
 
     //once the UI is set, because we clicked on a past combat instance, set current combat to null
     controller.endCombat()
-//    /**
-//     * Update the main dps chart
-//     */
-//    updateMainDpsChart(controller, tiles)
-//
-//    /**
-//     * Damage Done By Source
-//     */
-//    updateDamageDoneBySource(controller, tiles)
-//
-//    /**
-//     * Update Damage Taken By Source
-//     */
-//    updateDamageTakenBySource(controller,tiles)
-//
-//
-//    /**
-//     * Update Leader Board
-//     */
-//    updateLeaderBoard(controller,tiles)
-//
-//    /**
-//     * Update Personal Stats
-//     */
-//    updatePersonalStats(controller,tiles)
-//
-//    /**
-//     * Damage Taken Tab Chart
-//     */
-//    updateDamageTakenChart(controller,tiles)
 
   }
+
+  def loadNewCombatFile(controller: Controller, tiles: GuiTiles, parser: Parser, combatInstanceMenu: Menu): ActionEvent => Unit = (event: ActionEvent) => {
+    controller.resetController()
+    parser.resetParser()
+    val file = event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText
+    val path = s"${UICodeConfig.logPath}${file}"
+    Logger.info(s"Loading new log ${path}")
+//    Platform.runLater(LoadingScreen.beginLoading())
+    Logger.debug("Begin Parsing")
+    controller.parseLatest(parser.getNewLines(path))
+    Logger.debug("End Parsing")
+
+    combatInstanceMenu.getItems.clear()
+
+    loadCombatInstanceMenu(controller,tiles, combatInstanceMenu)
+
+  }
+
 
   /**
    * This function is for updating the UI during live parsing,
@@ -298,21 +425,21 @@ class ElementLoader {
       // TODO: Need to make sure you have ALL the damage types here or they wont show
       types._1 match {
         case "internal" => {
-          new TreeNode(new ChartData("Internal", types._2, uiCodeConfig.internalColor), tiles.damageDoneTree);
+          new TreeNode(new ChartData("Internal", types._2, UICodeConfig.internalColor), tiles.damageDoneTree);
         }
         case "kinetic" => {
-          new TreeNode(new ChartData("Kinetic", types._2, uiCodeConfig.kineticColor), tiles.damageDoneTree);
+          new TreeNode(new ChartData("Kinetic", types._2, UICodeConfig.kineticColor), tiles.damageDoneTree);
         }
         case "energy" => {
-          new TreeNode(new ChartData("Energy", types._2, uiCodeConfig.energyColor), tiles.damageDoneTree);
+          new TreeNode(new ChartData("Energy", types._2, UICodeConfig.energyColor), tiles.damageDoneTree);
         }
         case "elemental" => {
-          new TreeNode(new ChartData("Elemental", types._2, uiCodeConfig.elementalColor), tiles.damageDoneTree);
+          new TreeNode(new ChartData("Elemental", types._2, UICodeConfig.elementalColor), tiles.damageDoneTree);
         }
         case "No Type" =>
         case x => {
           println(s"Got Unknown Damage type: ${x}")
-          new TreeNode(new ChartData("Regular", types._2, uiCodeConfig.regularColor), tiles.damageDoneTree);
+          new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), tiles.damageDoneTree);
         }
       }
     }
@@ -325,28 +452,28 @@ class ElementLoader {
       types._1 match {
         case "internal" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.internalColor), getCorrectChild("Internal","dps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.internalColor), getCorrectChild("Internal","dps",tiles));
           }
         }
         case "kinetic" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.kineticColor), getCorrectChild("Kinetic","dps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.kineticColor), getCorrectChild("Kinetic","dps",tiles));
           }
         }
         case "energy" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.energyColor), getCorrectChild("Energy","dps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.energyColor), getCorrectChild("Energy","dps",tiles));
           }
         }
         case "elemental" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.elementalColor), getCorrectChild("Elemental","dps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.elementalColor), getCorrectChild("Elemental","dps",tiles));
           }
         }
         case "No Type" =>
         case x => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.regularColor), getCorrectChild("Regular","dps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.regularColor), getCorrectChild("Regular","dps",tiles));
           }
         }
 
@@ -376,26 +503,26 @@ class ElementLoader {
       // TODO: Need to make sure you have ALL the damage types here or they wont show
       types._1 match {
         case "internal" => {
-          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,uiCodeConfig.internalColor))
-          new TreeNode(new ChartData("Internal", types._2, uiCodeConfig.internalColor), tiles.overviewDtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,UICodeConfig.internalColor))
+          new TreeNode(new ChartData("Internal", types._2, UICodeConfig.internalColor), tiles.overviewDtpstree);
         }
         case "kinetic" => {
-          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,uiCodeConfig.kineticColor))
-          new TreeNode(new ChartData("Kinetic", types._2, uiCodeConfig.kineticColor), tiles.overviewDtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,UICodeConfig.kineticColor))
+          new TreeNode(new ChartData("Kinetic", types._2, UICodeConfig.kineticColor), tiles.overviewDtpstree);
         }
         case "energy" => {
-          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,uiCodeConfig.energyColor))
-          new TreeNode(new ChartData("Energy", types._2, uiCodeConfig.energyColor), tiles.overviewDtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,UICodeConfig.energyColor))
+          new TreeNode(new ChartData("Energy", types._2, UICodeConfig.energyColor), tiles.overviewDtpstree);
         }
         case "elemental" => {
-          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,uiCodeConfig.elementalColor))
-          new TreeNode(new ChartData("Elemental", types._2, uiCodeConfig.elementalColor), tiles.overviewDtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,UICodeConfig.elementalColor))
+          new TreeNode(new ChartData("Elemental", types._2, UICodeConfig.elementalColor), tiles.overviewDtpstree);
         }
         case "No Type" =>
         case x => {
           println(s"Got Unknown Damage type: ${x}")
-          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,uiCodeConfig.regularColor))
-          new TreeNode(new ChartData("Regular", types._2, uiCodeConfig.regularColor), tiles.overviewDtpstree);
+          tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,UICodeConfig.regularColor))
+          new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), tiles.overviewDtpstree);
         }
       }
     }
@@ -408,28 +535,28 @@ class ElementLoader {
       types._1 match {
         case "internal" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.internalColor), getCorrectChild("Internal","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.internalColor), getCorrectChild("Internal","dtps",tiles));
           }
         }
         case "kinetic" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.kineticColor), getCorrectChild("Kinetic","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.kineticColor), getCorrectChild("Kinetic","dtps",tiles));
           }
         }
         case "energy" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.energyColor), getCorrectChild("Energy","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.energyColor), getCorrectChild("Energy","dtps",tiles));
           }
         }
         case "elemental" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.elementalColor), getCorrectChild("Elemental","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.elementalColor), getCorrectChild("Elemental","dtps",tiles));
           }
         }
         case "No Type" =>
         case x => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.regularColor), getCorrectChild("Regular","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.regularColor), getCorrectChild("Regular","dtps",tiles));
           }
         }
 
@@ -443,26 +570,26 @@ class ElementLoader {
       // TODO: Need to make sure you have ALL the damage types here or they wont show
       types._1 match {
         case "internal" => {
-          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,uiCodeConfig.internalColor))
-          new TreeNode(new ChartData("Internal", types._2, uiCodeConfig.internalColor), tiles.damageTakenDtpstree);
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Internal",types._2,UICodeConfig.internalColor))
+          new TreeNode(new ChartData("Internal", types._2, UICodeConfig.internalColor), tiles.damageTakenDtpstree);
         }
         case "kinetic" => {
-          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,uiCodeConfig.kineticColor))
-          new TreeNode(new ChartData("Kinetic", types._2, uiCodeConfig.kineticColor), tiles.damageTakenDtpstree);
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Kinetic",types._2,UICodeConfig.kineticColor))
+          new TreeNode(new ChartData("Kinetic", types._2, UICodeConfig.kineticColor), tiles.damageTakenDtpstree);
         }
         case "energy" => {
-          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,uiCodeConfig.energyColor))
-          new TreeNode(new ChartData("Energy", types._2, uiCodeConfig.energyColor), tiles.damageTakenDtpstree);
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Energy",types._2,UICodeConfig.energyColor))
+          new TreeNode(new ChartData("Energy", types._2, UICodeConfig.energyColor), tiles.damageTakenDtpstree);
         }
         case "elemental" => {
-          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,uiCodeConfig.elementalColor))
-          new TreeNode(new ChartData("Elemental", types._2, uiCodeConfig.elementalColor), tiles.damageTakenDtpstree);
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Elemental",types._2,UICodeConfig.elementalColor))
+          new TreeNode(new ChartData("Elemental", types._2, UICodeConfig.elementalColor), tiles.damageTakenDtpstree);
         }
         case "No Type" =>
         case x => {
           println(s"Got Unknown Damage type: ${x}")
-          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,uiCodeConfig.regularColor))
-          new TreeNode(new ChartData("Regular", types._2, uiCodeConfig.regularColor), tiles.damageTakenDtpstree);
+          tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,UICodeConfig.regularColor))
+          new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), tiles.damageTakenDtpstree);
         }
       }
     }
@@ -475,36 +602,36 @@ class ElementLoader {
       types._1 match {
         case "internal" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.internalColor), getCorrectChild("Internal","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.internalColor), getCorrectChild("Internal","dtps",tiles));
           }
         }
         case "kinetic" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.kineticColor), getCorrectChild("Kinetic","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.kineticColor), getCorrectChild("Kinetic","dtps",tiles));
           }
         }
         case "energy" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.energyColor), getCorrectChild("Energy","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.energyColor), getCorrectChild("Energy","dtps",tiles));
           }
         }
         case "elemental" => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.elementalColor), getCorrectChild("Elemental","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.elementalColor), getCorrectChild("Elemental","dtps",tiles));
           }
         }
         case "No Type" =>
         case x => {
           for (ability <- types._2) {
-            new TreeNode(new ChartData(ability._1, ability._2, uiCodeConfig.regularColor), getCorrectChild("Regular","dtps",tiles));
+            new TreeNode(new ChartData(ability._1, ability._2, UICodeConfig.regularColor), getCorrectChild("Regular","dtps",tiles));
           }
         }
 
       }
     }
-    
-    
-    
+
+
+
   }
 
   /**
@@ -569,14 +696,24 @@ class ElementLoader {
   def updateOverlays(controller: Controller, tiles: GuiTiles): Unit = {
 
     /**
-     * Update Overlay Your Damage Done
+     * Clear Data
      */
     Overlays.personalDamageOverlay.clearChartData()
+    Overlays.personalHealingOverlay.clearChartData()
+    Overlays.personalDamageTakenOverlay.clearChartData()
+    Overlays.groupDamagePane.getChildren.clear()
+    Overlays.groupHealingPane.getChildren.clear()
+
+
+    /**
+     * Update Overlay Your Damage Done
+     */
+
     Overlays.personalDamageOverlay.setTitle(s"Dps: ${controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond()}")
     for (damageTypeDone <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone1DStats()) {
       for (damageSource <- damageTypeDone._2.keys) {
         val value = controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone1DStats().get("").get(damageSource)
-        Overlays.personalDamageOverlay.addChartData(new ChartData(damageSource,value,uiCodeConfig.randomColor()))
+        Overlays.personalDamageOverlay.addChartData(new ChartData(damageSource,value,UICodeConfig.randomColor()))
       }
     }
 //    Overlays.personalDamageOverlay.clearChartData()
@@ -605,12 +742,12 @@ class ElementLoader {
     /**
      * Update Overlay Your Healing Done
      */
-    Overlays.personalHealingOverlay.clearChartData()
+
     Overlays.personalHealingOverlay.setTitle(s"Hps: ${controller.getCurrentCombat().getPlayerInCombatActor().getHealingDonePerSecond()}")
     for (healingTypeDone <- controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneStats()) {
       for (healSource <- healingTypeDone._2.keys) {
         val healValue = controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneStats().get("").get(healSource)
-        Overlays.personalHealingOverlay.addChartData(new ChartData(healSource,healValue,uiCodeConfig.randomColor()))
+        Overlays.personalHealingOverlay.addChartData(new ChartData(healSource,healValue,UICodeConfig.randomColor()))
       }
     }
 
@@ -618,12 +755,12 @@ class ElementLoader {
     /**
      * Update Overlay Your Damage Taken
      */
-    Overlays.personalDamageTakenOverlay.clearChartData()
+
     Overlays.personalDamageTakenOverlay.setTitle(s"Dtps: ${controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecond()}")
     for (damageTypeTaken <- controller.getCurrentCombat().getPlayerInCombatActor().getDamageTaken1DStats()) {
       for (damageSource <- damageTypeTaken._2.keys) {
         val value = controller.getCurrentCombat().getPlayerInCombatActor().getDamageTaken1DStats().get("").get(damageSource)
-        Overlays.personalDamageTakenOverlay.addChartData(new ChartData(damageSource,value,uiCodeConfig.randomColor()))
+        Overlays.personalDamageTakenOverlay.addChartData(new ChartData(damageSource,value,UICodeConfig.randomColor()))
       }
     }
 
@@ -632,7 +769,6 @@ class ElementLoader {
      * Update Overlay Group Damage Done
      */
 
-    Overlays.groupDamagePane.getChildren.clear()
     // what actor has done the most damage this tick?
     var maxDamage = 1
     var totalDamage = 1
@@ -672,7 +808,6 @@ class ElementLoader {
      * Update Overlay Group Healing Done
      */
 
-    Overlays.groupHealingPane.getChildren.clear()
     // what actor has done the most Healing this tick?
     var maxHealing = 1
     var totalHealing = 1

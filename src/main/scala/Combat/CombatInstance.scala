@@ -40,7 +40,10 @@ class CombatInstance (
   def getNameFromActors: String = {
     var str = ""
     for (a <- combatActors) {
-      str += a.getIdString()
+      if (a.getActorType() == "Other") {
+        str += a.getActor().getName()
+      }
+
     }
     str
   }
