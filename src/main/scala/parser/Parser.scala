@@ -1,17 +1,24 @@
 package parser
 
+import UI.UICodeConfig
+import UI.objects.ProgressBar.{progressBar, progressBarRect, progressBarText}
 import com.typesafe.config.ConfigFactory
 import logger.{LogLevel, Logger}
 import parsing.Actions.DefaultAction
 import parsing.Actors.Actor
-import parsing.Result.Result
+import parsing.Result.{Event, Result}
 import parsing.Threat.ThreatValue
-import parsing.Values.Value
+import parsing.Values.{NoValue, Value}
 import parsing.subTypes.LogTimestamp
 import parsing.FactoryClasses
-import patterns.Actions.Action
+import patterns.Actions.{Action, NoAction}
 import patterns.LogInformation
+import scalafx.application.Platform
+import scalafx.scene.layout.VBox
+import scalafx.scene.shape.Rectangle
+import scalafx.scene.text.Text
 
+import scala.collection.mutable
 import scala.io.Source
 
 /**
@@ -25,174 +32,264 @@ class Parser {
 
   var lastReadLine = 0
 
+  val combatInstanceLineIndexes: mutable.Map[Int,Int] = mutable.Map()
+  var lastCombatEntered = 0
+  var loginLine = 0
+
+
+  //Timer estimations for progress bar
+  var percent: Double = 0
+
+  /**
+   * Reset the parser, called when you load a new combat log
+   */
+  def resetParser(): Unit = {
+    lastReadLine = 0
+  }
+
+  /**
+   * This get new lines overrides the file path and uses unoptimized loading. It is currently used for test
+   * and when we open a new file. This will need to be changed to use optimized loading when opening a new file
+   */
   def getNewLines(path: String): IndexedSeq[LogInformation] = {
     getLinesFromFile(path)
   }
+
+  /**
+   * This getNewLines is for continually looking at a specific file
+   */
   def getNewLines(): IndexedSeq[LogInformation] = {
     if(config.getString("RunMode.mode") == ("Staging")) {
       // this one is chunky chunky
-//      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_20_26_07_955458.txt")
-      getLinesFromFile("G:/Users/Peyton/Documents/Star Wars - The Old Republic/CombatLogs/combat_2022-02-20_18_37_06_264936.txt")
+//      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_20_26_07_955458.txt")
+//      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_18_37_06_264936.txt")
+      // This is a good group one, running around with Isaac
+//      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-21_15_25_12_263261.txt")
+      // this one is MASSIVE and from a raid
+//      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-21_17_21_45_757025.txt")
+
+      // live running, can delete
+      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-22_18_38_17_983923.txt")
+
+
     }
     else {
 //      getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
 //      getLinesFromFile("SampleLogs/combat_solo_2021-12-30_20_58_33_468342.txt")
-      getLinesFromFile("SampleLogs/combat_2022-02-20_20_26_07_955458.txt")
+       getLinesFromFile("SampleLogs/combat_2022-02-20_20_26_07_955458.txt")
 
     }
   }
 
-  def getLinesFromFile(path: String): IndexedSeq[LogInformation] = {
+  /**
+   * This new lines uses the optimized loading for when we start the program, as well as ideally it gets implemented for switching files
+   * @return
+   */
+  def getNewLinesInit(): IndexedSeq[LogInformation] = {
+    if(config.getString("RunMode.mode") == ("Staging")) {
+      // this one is chunky chunky
+      //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_20_26_07_955458.txt")
+      //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_18_37_06_264936.txt")
+      // This is a good group one, running around with Isaac
+      //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-21_15_25_12_263261.txt")
+      // this one is MASSIVE and from a raid
+      //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-21_17_21_45_757025.txt")
 
+      // live running, can delete
+      getLinesFromFileOptimizedInitialization(s"${UICodeConfig.logPath}combat_2022-02-22_18_38_17_983923.txt")
+
+
+    }
+    else {
+      //      getLinesFromFile("SampleLogs/combat_group_2021-12-30_21_56_04_432352.txt")
+      //      getLinesFromFile("SampleLogs/combat_solo_2021-12-30_20_58_33_468342.txt")
+      getLinesFromFileOptimizedInitialization("SampleLogs/combat_2022-02-20_20_26_07_955458.txt")
+
+    }
+  }
+
+  def parseRemaining(): IndexedSeq[LogInformation] = {
+    parseRemaining(s"${UICodeConfig.logPath}combat_2022-02-22_18_38_17_983923.txt")
+  }
+
+  def parseRemaining(path: String): IndexedSeq[LogInformation] = {
+    val lines = if (config.getString("RunMode.mode") == ("Staging")) {
+      Source.fromFile(path, "ISO-8859-1").getLines.toList
+    } else {
+      Source.fromFile(path).getLines.toList
+    }
+
+    var instances: mutable.IndexedSeq[LogInformation] = mutable.IndexedSeq()
+    // get all the sections of the combat log with combat that we havnt parsed yet
+     for (key <- combatInstanceLineIndexes.keys.filter(_ != lastCombatEntered)) {
+       instances = instances ++ parseLineRange(key,combatInstanceLineIndexes.get(key).get,lines)
+
+     }
+
+    instances.toIndexedSeq
+
+  }
+
+  def getLinesFromFile(path: String): IndexedSeq[LogInformation] = {
     // TODO: Can we grab only remaining lines somehow?
     // not sure why I need to do this and if I can remove it?
+    val lines = if (config.getString("RunMode.mode") == ("Staging")) {
+      Source.fromFile(path, "ISO-8859-1").getLines.toList
+    } else {
+      Source.fromFile(path).getLines.toList
+    }
+    Logger.trace(s"Found ${lines.size} lines to parse in file ${path}")
+
+
+    //The timer starts right away, so we can estimate the progress bar based on the number of lines in the file
+    // update the progress bar
+    if (percent < 100) percent = percent + (lines.length.toDouble / 1000)
+//    Logger.highlight(s"Percent: ${(percent * 100).toInt}%")
+    val percentWindowLength = (percent * config.getInt("UI.General.prefWidth")).toInt
+    Platform.runLater(progressBarText.setText(s"Progress: ${(percent * 100).toInt}%"))
+    Platform.runLater(progressBarRect.setWidth(percentWindowLength))
+
+
+
+
+    // if there are no new read lines we dont need to do anything
+    if (lastReadLine == lines.length - 1) {
+      Logger.print("No new read lines", LogLevel.Trace)
+      IndexedSeq()
+    } else {
+      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length -1,lines)
+//      val collected: IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine, lines.length - 1)) yield {
+//        //println(s"Extracting ling ${currentIndex} from log")
+//
+//
+//        val line = lines(currentIndex)
+//        try {
+//          /**
+//           * Extract log information
+//           */
+//          val time: LogTimestamp = factory.timestampFromLine(line)
+//          val performer: Actor = factory.performingActorFromLogLineString(line)
+//          val target: Actor = factory.targetActorFromLogLineString(line)
+//          val action: Action = factory.actionFromLine(line)
+//          val result: Result = factory.resultFromLine(line)
+//          // See if this line has a value associated with it
+//          val resultValue: Value = factory.valueFromLine(line)
+//          val threatValue: ThreatValue = factory.threatFromLine(line)
+//
+//          lastReadLine = currentIndex
+//
+//          new LogInformation(time, performer, target, action, result, resultValue, threatValue)
+//        }
+//          // TODO: This often seems to happen where we read a partial line as the game is still writing the file, how to get only entire lines?
+//        catch {
+//          case e: Throwable => {
+//            Logger.error(s"Failed to Parse Line: ${line} \n Caught e: ${e}")
+//
+//            val time: LogTimestamp = factory.timestampFromLine(line)
+//            val performer: Actor = factory.performingActorFromLogLineString(line)
+//            val target: Actor = factory.targetActorFromLogLineString(line)
+//            new LogInformation(time, performer, target, new NoAction, new Event("", "", "", ""), new NoValue, new ThreatValue(0))
+//          }
+//        }
+//      }
+
+      Logger.trace(s"Read ${collected.size} log lines this tick")
+
+      collected
+    }
+  }
+
+
+  def getLinesFromFileOptimizedInitialization(path: String): IndexedSeq[LogInformation] = {
+
+    // TODO: Can we grab only remaining lines somehow?
+    // not sure why I need to do this and if I can remove it? Might just have been from the testing logs
     val lines = if(config.getString("RunMode.mode") == ("Staging")) {
       Source.fromFile(path,"ISO-8859-1").getLines.toList
     } else {
       Source.fromFile(path).getLines.toList
     }
     Logger.trace(s"Found ${lines.size} lines to parse in file ${path}")
-    // if there are no new read lines we dont need to do anything
+
+    /**
+     * Create a map of where combat instances occur in the log, as well as get the latest combat to parse.
+     * We also need to parse the login line to set the current player
+     */
     if (lastReadLine == lines.length-1){
       Logger.print("No new read lines",LogLevel.Trace)
       IndexedSeq()
     } else {
-      val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine,lines.length)) yield {
-        //println(s"Extracting ling ${currentIndex} from log")
-        val line = lines(currentIndex)
-        /**
-         * Extract log information
-         */
-        val time : LogTimestamp = factory.timestampFromLine(line)
-        val performer : Actor = factory.performingActorFromLogLineString(line)
-        val target : Actor = factory.targetActorFromLogLineString(line)
-        val action : Action = factory.actionFromLine(line)
-        val result : Result = factory.resultFromLine(line)
-        // See if this line has a value associated with it
-        val resultValue : Value = factory.valueFromLine(line)
-        val threatValue : ThreatValue = factory.threatFromLine(line)
-
-        lastReadLine = currentIndex
-
-        new LogInformation(time,performer,target,action,result,resultValue,threatValue)
-
-
-
-
+      for (currentIndex <- Range(lastReadLine,lines.length-1)) yield {
+        val checkLine = lines(currentIndex)
+        if (checkLine.contains("EnterCombat")){
+//          Logger.highlight(s"Enter Combat at ${currentIndex}")
+          lastCombatEntered = currentIndex
+        } else if (checkLine.contains("ExitCombat")) {
+//          Logger.highlight(s"Exit Combat at ${currentIndex}")
+          combatInstanceLineIndexes(lastCombatEntered) = currentIndex
+        } else if (loginLine == 0 && checkLine.contains("Login")) {
+          loginLine = currentIndex
+        }
       }
+    }
 
-      //println(s"Read ${collected.size} log lines this tick")
 
+    /**
+     * Parse the most recent combat instance only right away
+     * This will give the UI log information so we can start using it
+     */
+      // parse the login line first, it sets information in the controller
+      val throwAway:IndexedSeq[LogInformation]  = parseLineRange(loginLine,loginLine+1,lines)
+      val collected : IndexedSeq[LogInformation] = throwAway ++ parseLineRange(lastCombatEntered,combatInstanceLineIndexes.get(lastCombatEntered).get,lines)
+
+    collected
+  }
+
+    def parseLineRange(start: Int, stop: Int, lines:List[String]) = {
+      val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(start,stop)) yield {
+        //println(s"Extracting ling ${currentIndex} from log")
+
+        // update the progress bar
+//        if(currentIndex % 1000 == 0 || currentIndex == lines.length - 1) {
+//          val percent:Double = (currentIndex.toDouble / lines.length)
+//          val percentWindowLength = (percent * config.getInt("UI.General.prefWidth")).toInt
+//          Logger.highlight(s"Percent: ${(percent*100).toInt}%")
+//          Platform.runLater(progressBarText.setText(s"Progress: ${(percent*100).toInt}% (${currentIndex}/${lines.length-1})"))
+//          Platform.runLater(progressBarRect.setWidth(percentWindowLength))
+//        }
+
+        val line = lines(currentIndex)
+        try {
+          /**
+           * Extract log information
+           */
+          val time: LogTimestamp = factory.timestampFromLine(line)
+          val performer: Actor = factory.performingActorFromLogLineString(line)
+          val target: Actor = factory.targetActorFromLogLineString(line)
+          val action: Action = factory.actionFromLine(line)
+          val result: Result = factory.resultFromLine(line)
+          // See if this line has a value associated with it
+          val resultValue: Value = factory.valueFromLine(line)
+          val threatValue: ThreatValue = factory.threatFromLine(line)
+
+          lastReadLine = currentIndex
+
+          new LogInformation(time, performer, target, action, result, resultValue, threatValue)
+        }
+          // TODO: This often seems to happen where we read a partial line as the game is still writing the file, how to get only entire lines?
+        catch {
+          case e: Throwable => {
+            Logger.error(s"Failed to Parse Line: ${line} \n Caught e: ${e}")
+
+            val time: LogTimestamp = factory.timestampFromLine(line)
+            val performer: Actor = factory.performingActorFromLogLineString(line)
+            val target: Actor = factory.targetActorFromLogLineString(line)
+            new LogInformation(time, performer, target, new NoAction, new Event("","","",""), new NoValue, new ThreatValue(0))
+          }
+        }
+      }
       collected
     }
 
-  }
-
-  //def extractBase(line: String): BaseInformation = factory.baseInformationFromLine(line)
-
-
-//  def parseLineInformation(line: String): ValueType = {
-//
-//    // TODO: Remove this
-//    val temp:Temp = new Temp()
-//
-//    // split up the line into its parts
-//    val splitLine = line.split("[\\[\\]@\\{\\}\\(\\)<>]")
-//
-//    // filter out the parts that are just newlines, spaces, or empty
-//    val splitLineFinal: Array[String] = splitLine.filter(_ != "\n").filter(_ != " ").filter(_ != "")
-//
-//    // TODO: Remove spaces on the ends of some elements... maybe do this in the value class?
-//
-//    // Fix regex around type
-//    // simple combat lines occur at different index
-//    // [20:33:41.206] [@Ilumsharpshoota] [@Ilumsharpshoota] [] [Event {836045448945472}: LeaveCover {836045448945486}] ()
-//    try{
-//      splitLineFinal(7) = splitLineFinal(7).replace(": ","")
-//    } catch {
-//      case e =>
-//    }
-//
-//    //println(line)
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\)
-//    val simpleNoValuePattern = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\))".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d+\)
-//    val simpleRegularValue = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d+ ?-?\\))".r
-//    val simpleCriticalValue = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d+\\*\\))".r
-//    val regularValueWithThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d+ ?-?\\) <-?\\d*>)".r
-//    val criticalValueWithThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d+\\*\\) <-?\\d*>)".r
-//    val noValueModifyThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\) <-?\\d*>)".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d* \w* \{\d*\}\) <\d*>
-//    val regularDamageValue = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d* -?\\w* \\{\\d*\\}\\) <-?\\d*>)".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d*\* \w* \{\d*\}\) <\d*>
-//    val criticalDamageValue = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d*\\* -?\\w* \\{\\d*\\}\\) <-?\\d*>)".r
-//    val regularDamageNoThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d* \\w* \\{\\d* ?-?\\}\\))".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d*\* \w* \{\d*\}\)
-//    val criticalDamageNoThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d*\\* \\w* \\{\\d*\\}\\))".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\[\] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\)
-//    val simpleEvent = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\[\\] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\))".r
-//    val simpleEventWithValue = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@[^\\]]*] \\[@[^\\]]*] \\[\\] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d*\\))".r
-//    val criticalDamageWithAbsorbWithThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d*\\* \\w* \\{\\d*\\} \\(\\d* \\w* \\{\\d*\\}\\)\\) <-?\\d*>)".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d* \w* \{\d*\} \(\d* \w* \{\d*\}\)\) <\d*>
-//    val regularDamageWithAbsorbWithThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d* \\w* \\{\\d*\\} \\(\\d* \\w* \\{\\d*\\}\\)\\) <-?\\d*>)".r
-//    val criticalDamageWithAbsorbNoThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d*\\* \\w* \\{\\d*\\} \\(\\d* \\w* \\{\\d*\\}\\)\\))".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d* \w* \{\d*\} \(\d* \w* \{\d*\}\)\)
-//    val regularDamageWithAbsorbNoThreat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d* \\w* \\{\\d*\\} \\(\\d* \\w* \\{\\d*\\}\\)\\))".r
-//    // \[\d\d:\d\d:\d\d.\d{3}\] \[@?[^\]]*] \[@?[^\]]*] [^\{]*\{\d*}] \[[^\{]*\{\d*}: [^\{]* \{\d*}] \(\d* \w* \{\d*\} -? ?\(\d* \w* \{\d*\}\)\)
-//    val kineticDamageMinusAbsorb = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d* \\w* \\{\\d*\\} -? ?\\(\\d* \\w* \\{\\d*\\}\\)\\))".r
-//    val criticalKineticDamageMinusAbsorb = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\{\\d*}] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d*\\* \\w* \\{\\d*\\} -? ?\\(\\d* \\w* \\{\\d*\\}\\)\\))".r
-//    val fallDamageLike = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[\\] \\[\\] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(\\d+\\))".r
-//
-//    // careful with this one it matches more than just this
-//    val enterCombat = "(\\[\\d\\d:\\d\\d:\\d\\d.\\d{3}\\] \\[@?[^\\]]*] \\[@?[^\\]]*] [^\\{]*\\[\\] \\[[^\\{]*\\{\\d*}: [^\\{]* \\{\\d*}] \\(.*\\))".r
-//
-//    line match {
-//      /** This pattern matches things like class buffs, sprint, safe login
-//       * [18:24:20.012] [@Ilumsharpshoota] [@Ilumsharpshoota] [Coordination {881945764429824}] [ApplyEffect {836045448945477}: Hunter's Boon {881945764430104}] ()
-//       * [18:24:20.012] [@Ilumsharpshoota] [@Ilumsharpshoota] [Advanced Kyrprax Proficient Stim {4256312590336000}] [ApplyEffect {836045448945477}: Advanced Kyrprax Proficient Stim {4256312590336000}] (
-//       */
-//      case simpleNoValuePattern(c) => temp
-//
-//        /** These seem to possibly only be heals
-//         * [@Chatoz] [@Ilumsharpshoota] [Kolto Probe {814832605462528}] [ApplyEffect {836045448945477}: Heal {836045448945500}] (2624)
-//         * */
-//      case simpleRegularValue(c) => {
-//        //splitLineFinal.foreach(println)
-//        val result = new SimpleRegularValue(splitLineFinal)
-//        result
-//      }
-//      case simpleCriticalValue(c) =>temp
-//      case regularValueWithThreat(c) =>temp
-//      case criticalValueWithThreat(c) =>temp
-//      case noValueModifyThreat(c) =>temp
-//      case regularDamageValue(c) =>temp
-//      case criticalDamageValue(c) =>temp
-//      case regularDamageNoThreat(c) =>temp
-//      case criticalDamageNoThreat(c) =>temp
-//      case simpleEvent(c) =>temp
-//      case simpleEventWithValue(c) =>temp
-//      case criticalDamageWithAbsorbWithThreat(c) =>temp
-//      case regularDamageWithAbsorbWithThreat(c) =>temp
-//      case fallDamageLike(c) =>temp
-//      case enterCombat(c) =>temp
-//      case criticalDamageWithAbsorbNoThreat(c) =>temp
-//      case regularDamageWithAbsorbNoThreat(c) =>temp
-//      case kineticDamageMinusAbsorb(c) =>temp
-//      case criticalKineticDamageMinusAbsorb(c) =>temp
-//      case _ => {
-//        println("Line does not match any patterns: " + line)
-//        temp
-//      }
-//    }
-//
-//
-//    // if the effect is a heal, contains value and no threat
-//
-//    // if the effect is damage, it contains a value, type, id, and threat
-//
-//    // if the effect is ModifyThreat it contains threat but no value
-//
-//
-//  }
 
 }

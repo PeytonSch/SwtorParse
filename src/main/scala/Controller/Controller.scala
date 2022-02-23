@@ -1,12 +1,14 @@
 package Controller
 
 import Combat.CombatInstance
+import logger.Logger
 import parsing.Actors.Actor
 import parsing.Result.ApplyEffect
 import patterns.Actions.SafeLogin
 import patterns.LogInformation
 import patterns.Result.{EnterCombat, ExitCombat}
 
+// TODO: This should be an object
 class Controller () {
 
   var currentCombat : CombatInstance = null // a combat instance you are currently in
@@ -15,13 +17,22 @@ class Controller () {
 
   var playerToonIdString : String = ""
 
+  /**
+   * Reset the controller, we do this when we open a new combat file
+   */
+  def resetController(): Unit = {
+    allCombatInstances = Vector()
+    currentCombat = null
+    playerToon = ""
+    playerToonIdString = ""
+  }
+
 
   def setCurrentCombatInstance(i : CombatInstance): Unit = {
     currentCombat = i
   }
 
   def startNewCombat(logInfo : LogInformation) = {
-    //println(s"Starting new combat on ${logInfo}")
     setCurrentCombatInstance(new CombatInstance)
     this.getCurrentCombat().setPlayerInCombat(playerToonIdString)
     this.getCurrentCombat().setCombatStartTimeStamp(logInfo)
@@ -79,6 +90,8 @@ class Controller () {
    */
   def parseLatest(logLines : IndexedSeq[LogInformation]): Unit = {
 
+    Logger.trace(s"Controller received ${logLines.length} lines from parser")
+
     for (logInfo <- logLines) {
 
       /**
@@ -93,6 +106,7 @@ class Controller () {
 
       // Check for login action
       if (logInfo.getAction().isInstanceOf[SafeLogin]){
+        Logger.info("Found Login Action, setting player toon name")
         this.setPlayerToon(logInfo.getPerformer().getName())
         this.setPlayerToonIdString(logInfo.getPerformer().getId().toString)
         //println(s"Got Login of Toon: ${controller.getPlayerToonName()} from line ${logInfo}")
