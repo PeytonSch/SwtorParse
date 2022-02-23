@@ -1,8 +1,0 @@
-[13:16:02.674] [@Nathíe] [@Nathíe] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Coordination {1781346275950860}] ()
-[13:16:02.675] [@Nathíe] [@Nathíe] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Hunter's Boon {1781346275950592}] ()
-[13:16:02.676] [@Nathíe] [@Nathíe] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Unnatural Might {1781346275950868}] ()
-[13:16:02.676] [@Nathíe] [@Nathíe] [Hunter's Boon {1781346275950592}] [ApplyEffect {836045448945477}: Mark of Power {1781346275950864}] ()
-[13:16:02.676] [@Nathíe] [@Nathíe] [En Garde {4307401226321920}] [ApplyEffect {836045448945477}: En Garde {4307401226321920}] ()
-[13:16:02.676] [@Nathíe] [@Nathíe] [Safe Login {973870949466112}] [ApplyEffect {836045448945477}: Safe Login Immunity {973870949466372}] ()
-[13:16:03.536] [@Nathíe] [@Nathíe] [Sprint {810670782152704}] [ApplyEffect {836045448945477}: Sprint {810670782152704}] ()
-[13:16:23.021] [@Nathíe] [@Nathíe] [Safe Login {973870949466112}] [RemoveEffect {836045448945478}: Safe Login Immunity {973870949466372}] ()
