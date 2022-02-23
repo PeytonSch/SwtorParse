@@ -1,11 +1,12 @@
 import Controller.Controller
+import UI.objects.ProgressBar.progressBar
 import UI.overlays.Overlays
-import UI.{ElementLoader, GuiTiles}
+import UI.{ElementLoader, FileHelper, GuiTiles, UICodeConfig}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
 import parser.Parser
 import scalafx.animation.AnimationTimer
-import scalafx.application.JFXApp3
+import scalafx.application.{JFXApp3, Platform}
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.geometry.Insets
 import scalafx.scene.{Parent, PerspectiveCamera, Scene}
@@ -29,6 +30,10 @@ import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import java.util.prefs.{Preferences, PreferencesFactory}
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scalafx.Includes._
+import scalafx.scene.shape.Rectangle
+import scalafx.scene.text.Text
+
 
 
 /**
@@ -61,11 +66,11 @@ object Main extends JFXApp3 {
     //MJP
 
     //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
-    //val files = FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
+    //val files = UI.FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
 
     val files: List[File] = if(config.getString("RunMode.mode") == ("Staging")){
       Logger.print("Running in Staging mode",Info)
-      FileHelper.getListOfFiles("G:\\Users\\Peyton\\Documents\\Star Wars - The Old Republic\\CombatLogs")
+      FileHelper.getListOfFiles(UICodeConfig.logPath)
     } else {
       Logger.print("Running in developer mode",Info)
       FileHelper.getListOfFiles("./SampleLogs")
@@ -85,33 +90,8 @@ object Main extends JFXApp3 {
 
     // TODO: This needs to be initialized after the UI starts without breaking the UI
     // Init the controller
-    controller.parseLatest(parser.getNewLines())
+//    controller.parseLatest(parser.getNewLines())
 
-
-
-
-    /** Everything in here is ran on the timer interval */
-    val timer : AnimationTimer = AnimationTimer(t => {
-      val now = System.nanoTime()
-      if (now > lastTimerCall + program_execution_rate) {
-        lastTimerCall = now
-
-        /**
-         * This returns all lines from the log that are new this tick.
-         * It returns them as instances of LogInformation
-         * */
-        val result = parser.getNewLines()
-
-        // if there are new lines to parse
-        if (result.size != 0) {
-          controller.parseLatest(result)
-          elementLoader.performTickUpdateLiveParsing(controller, tiles)
-
-        }
-
-
-      }
-    })
 
     val tabbedPane = new TabPane()
     tabbedPane.setId("tabbedPane")
@@ -161,24 +141,20 @@ object Main extends JFXApp3 {
     val menu3 = new Menu("View")
     val menu4 = new Menu("Help")
 
-    // File select
-    var fileBuffer = new ListBuffer[MenuItem]()
-    for (i <- 0 until files.length){
-      fileBuffer += new MenuItem(files(i).getAbsolutePath().split('\\').last)
-    }
 
-    val fileMenu = new Menu("Log Files")
-    fileMenu.items = fileBuffer.toList
-
+    /**
+     * Select combat instance
+     */
     val combatInstanceMenu = new Menu("Combat Instances")
-    var combatInstanceBuffer = new ListBuffer[MenuItem]()
-    for (combatInstance <- controller.getAllCombatInstances()){
-      Logger.trace(s"Got combat instance: ${combatInstance}")
-      var item = new MenuItem(combatInstance.getNameFromActors)
-      item.setOnAction(elementLoader.combatInstanceChangeMenuAction(controller, tiles))
-      combatInstanceBuffer += item
-    }
-    combatInstanceMenu.items = combatInstanceBuffer.toList
+    // move to Async Loading
+//    elementLoader.loadCombatInstanceMenu(controller,tiles, combatInstanceMenu)
+
+
+    /**
+     * Select Combat File
+     */
+    val fileMenu = new Menu("Log Files")
+    elementLoader.loadLogFileMenu(controller, tiles,parser,fileMenu,combatInstanceMenu)
 
 
 
@@ -213,7 +189,10 @@ object Main extends JFXApp3 {
 
       if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
-          prefs.put("PARSE_LOG_DIR", dirPath)
+        Logger.debug(s"Selected Directory Path ${dirPath}")
+        UICodeConfig.logPath = dirPath + "/"
+        prefs.put("PARSE_LOG_DIR", dirPath)
+        elementLoader.loadLogFileMenu(controller, tiles,parser,fileMenu,combatInstanceMenu)
 //          println(s"Added the selected directory: \"$dirPath\"" + " to your user preferences.")
       }
     }
@@ -244,7 +223,6 @@ object Main extends JFXApp3 {
 //
 //    pane.add(interfacePane, 1, menuRow, 1, 1)
 
-
     /**
      * Here is where we add all the main tiles from the tiles manager class
      * */
@@ -264,6 +242,9 @@ object Main extends JFXApp3 {
     pane.add(tiles.damageDoneSourceTile, 1, mainRow2, 3, 1)
     pane.add(tiles.overviewDamageTakenSourceTile, 4, mainRow2, 3, 1)
     pane.add(tiles.overviewDamageFromTypeIndicator, 7, mainRow2, 1, 1)
+
+    // Progress bar
+    pane.add(progressBar,0,mainRow2+1,7,1)
 
 //    dpsTab.onSelectionChanged = (v:Event) => {
 //      dpsTab.setContent(tiles.stackedArea)
@@ -320,9 +301,46 @@ object Main extends JFXApp3 {
     Overlays.groupDpsOverlay.show()
     Overlays.groupHpsOverlay.show()
 
-    // Start the timer to run the timer things, or the main program loop
-    timer.start()
-    System.out.println("Timer Started")
+    /**
+     * Timer Code
+     */
+
+    /** Everything in here is ran on the timer interval */
+    val timer : AnimationTimer = AnimationTimer(t => {
+      val now = System.nanoTime()
+      if (now > lastTimerCall + program_execution_rate) {
+        lastTimerCall = now
+
+        /**
+         * This returns all lines from the log that are new this tick.
+         * It returns them as instances of LogInformation
+         * */
+        val result = parser.getNewLines()
+
+//        Logger.highlight(s"We have ${result.size} lines to parse this tick")
+
+        // if there are new lines to parse
+        if (result.size != 0) {
+          controller.parseLatest(result)
+          elementLoader.performTickUpdateLiveParsing(controller, tiles)
+
+        }
+
+
+      }
+    })
+
+    if (config.getBoolean("General.startWithLog") && config.getBoolean("Performance.performanceLoadingEnabled")) {
+      // Run the optimized initialization
+      Platform.runLater(elementLoader.initAsynchronously(controller, parser, tiles, combatInstanceMenu,timer))
+
+      // Load the remaining Combat Instances in the background
+      Platform.runLater(elementLoader.initRemainingAsynchronously(controller, parser, tiles, combatInstanceMenu,timer))
+    } else if  (config.getBoolean("General.startWithLog")) {
+      controller.parseLatest(parser.getNewLines())
+    }
+
+
 
   }
 
@@ -331,7 +349,7 @@ object Main extends JFXApp3 {
    */
   override def stopApp(): Unit = {
     println("Stopping App")
-    //timer.stop()
+//    timer.stop()
   }
 
 }

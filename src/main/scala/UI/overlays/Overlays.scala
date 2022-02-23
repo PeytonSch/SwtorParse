@@ -1,12 +1,12 @@
 package UI.overlays
 
 import eu.hansolo.tilesfx.Tile.SkinType
-import eu.hansolo.tilesfx.TileBuilder
+import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import javafx.event.EventHandler
 import logger.Logger
 import scalafx.scene.Scene
 import scalafx.scene.input.MouseEvent
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, StackPane, VBox}
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, HBox, StackPane, VBox}
 import scalafx.stage.{Stage, StageStyle}
 import scalafx.Includes._
 import scalafx.application.JFXApp
@@ -18,6 +18,7 @@ import scalafx.scene.paint.{Color, Paint}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import scalafx.stage.{StageStyle, WindowEvent}
+import scalafx.Includes._
 
 import scala.util.Random
 
@@ -29,7 +30,7 @@ object Overlays {
   val backgroundFillArray = Array(backgroundFill)
   val background = new Background(backgroundFillArray)
 
-  
+
   
   /**
    * Create Windows
@@ -157,6 +158,15 @@ object Overlays {
   val groupHpsOverlayScene = new Scene(groupHealingPane)
   groupHpsOverlay.setTitle("Group Hps")
   groupHpsOverlay.setAlwaysOnTop(true)
+
+  initMovableVBox(groupDamagePane,groupDpsOverlay)
+  initMovableVBox(groupHealingPane,groupHpsOverlay)
+  initMovableVBox(personalDamageTakenPane,personalDtpsOverlay)
+  initMovableVBox(personalDamagePane,personalDpsOverlay)
+  initMovableVBox(personalHealingPane,personalHpsOverlay)
+
+  initMovableScene(personalDamageOverlay.getScene)
+  initMovableScene(personalHealingOverlay.getScene)
   
 
 
@@ -168,13 +178,13 @@ object Overlays {
   private var anchorPt: Point2D = null
   private var previousLocation: Point2D = null
 
-  initMovablePlayer(dpsOverlayScene)
+  initMovableScene(dpsOverlayScene)
 //  initMovablePlayer(dpsPane.getScene)
 //  initMovablePlayer(dpsPercentageOverlay.getScene)
 
 
 
-    private def initMovablePlayer(scene:Scene): Unit = {
+    private def initMovableScene(scene:Scene): Unit = {
       scene.onMousePressed = (event: MouseEvent) => anchorPt = new Point2D(event.screenX, event.screenY)
 
       scene.onMouseDragged = (event: MouseEvent) =>
@@ -187,6 +197,66 @@ object Overlays {
 
       personalDpsOverlay.onShown = (event: WindowEvent) => previousLocation = new Point2D(personalDpsOverlay.getX, personalDpsOverlay.getY)
     }
+
+  private def initMovableVBox(box:VBox, overlay: Stage ): Unit = {
+
+    box.setOnMouseClicked(new EventHandler[javafx.scene.input.MouseEvent] {
+      override def handle(event: javafx.scene.input.MouseEvent): Unit = {
+        anchorPt = new Point2D(event.screenX, event.screenY)
+      }
+      })
+
+    box.setOnMouseDragged(new EventHandler[javafx.scene.input.MouseEvent] {
+      override def handle(event: javafx.scene.input.MouseEvent): Unit = {
+        if (anchorPt != null && previousLocation != null) {
+          overlay.x = previousLocation.x + event.screenX - anchorPt.x
+          overlay.y = previousLocation.y + event.screenY - anchorPt.y
+        }
+      }
+    })
+
+    box.setOnMouseReleased(new EventHandler[javafx.scene.input.MouseEvent] {
+      override def handle(event: javafx.scene.input.MouseEvent): Unit = {
+        previousLocation = new Point2D(overlay.getX, overlay.getY)
+      }
+    })
+
+
+
+//    scene.setOnMouseDragged() = (event: MouseEvent) =>
+//      if (anchorPt != null && previousLocation != null) {
+//        personalDpsOverlay.x = previousLocation.x + event.screenX - anchorPt.x
+//        personalDpsOverlay.y = previousLocation.y + event.screenY - anchorPt.y
+//      }
+//
+//    scene.setOnMouseReleased() = (event: MouseEvent) => previousLocation = new Point2D(personalDpsOverlay.getX, personalDpsOverlay.getY)
+//
+//    personalDpsOverlay.onShown = (event: WindowEvent) => previousLocation = new Point2D(personalDpsOverlay.getX, personalDpsOverlay.getY)
+  }
+
+
+//  private def initMovableTile(box:VBox, overlay: Tile ): Unit = {
+//
+//    box.setOnMouseClicked(new EventHandler[javafx.scene.input.MouseEvent] {
+//      override def handle(event: javafx.scene.input.MouseEvent): Unit = {
+//        anchorPt = new Point2D(event.screenX, event.screenY)
+//      }
+//    })
+//
+//    box.setOnMouseDragged(new EventHandler[javafx.scene.input.MouseEvent] {
+//      override def handle(event: javafx.scene.input.MouseEvent): Unit = {
+//        if (anchorPt != null && previousLocation != null) {
+//          overlay.getSc = previousLocation.x + event.screenX - anchorPt.x
+//          overlay.y = previousLocation.y + event.screenY - anchorPt.y
+//        }
+//      }
+//    })
+//
+//    box.setOnMouseReleased(new EventHandler[javafx.scene.input.MouseEvent] {
+//      override def handle(event: javafx.scene.input.MouseEvent): Unit = {
+//        previousLocation = new Point2D(overlay.getX, overlay.getY)
+//      }
+//    })
 
 
 

@@ -11,10 +11,13 @@ import javafx.scene.paint.Color
  *
  * Additionally, we want to use MJPs java preferences so users can set colors anyways, so...
  */
-class UICodeConfig {
+object UICodeConfig {
 
   val config = ConfigFactory.load()
   val random = scala.util.Random
+
+  var logPath = config.getString("Paths.combatLogDir")
+
 
   def randomColor(): javafx.scene.paint.Color = {
     val select = random.nextInt(5)
