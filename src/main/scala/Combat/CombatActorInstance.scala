@@ -1,7 +1,8 @@
 package Combat
 
 import eu.hansolo.tilesfx.chart.ChartData
-import parsing.Actors.Actor
+import logger.Logger
+import parsing.Actors.{Actor, Companion, Player}
 import parsing.subTypes.ActorId
 import patterns.LogInformation
 
@@ -31,6 +32,8 @@ class CombatActorInstance {
    */
   var actor : Actor = null
 
+  var actorType : String = null
+
   def getActor() = actor
 
   /**
@@ -41,6 +44,8 @@ class CombatActorInstance {
   var actorId : ActorId = null
 
   def getIdString() = actorIdString
+
+  def getActorType():String = actorType
 
   /**
    * Stat Values
@@ -111,11 +116,15 @@ class CombatActorInstance {
    */
   var damageDoneStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
   def getDamageDoneStats() = damageDoneStats
+  var damageDone1DStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
+  def getDamageDone1DStats() = damageDone1DStats
   var damageTypeDone : mutable.Map[String,Int] = mutable.Map()
   def getDamageTypeDone() = damageTypeDone
 
   var damageTakenStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
   def getDamageTakenStats() = damageTakenStats
+  var damageTaken1DStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
+  def getDamageTaken1DStats() = damageTaken1DStats
 
   var healingTakenStats : mutable.Map[String,mutable.Map[String,Int]] = mutable.Map()
   def gethealingTakenStats() = healingTakenStats
@@ -195,6 +204,29 @@ class CombatActorInstance {
       damageDoneStats(damageType) = mutable.Map(damageSource -> damageAmount)
     }
 
+
+    /**
+     * for a 1d approach, always add all damage to an empty damage type.
+     * This supports our overlays that only have 1 ring
+     */
+    // see if we have seen this type
+    if (damageDone1DStats.contains("")){
+      // if we have seen this type, check the inner key and see if we have this ability
+      if (damageDone1DStats("").contains(damageSource)) {
+        // if we have the ability update the damage amount for that ability
+        val newDamageValue = damageDone1DStats("")(damageSource) + damageAmount
+        damageDone1DStats("") += (damageSource -> newDamageValue)
+      } else {
+        // if we dont have that ability add it to the inner map
+        damageDone1DStats("")(damageSource) = damageAmount
+      }
+    }
+    // if we have nothing for this damage type, we know we can just add the stats
+    else {
+      damageDone1DStats("") = mutable.Map(damageSource -> damageAmount)
+    }
+
+
   }
 
 
@@ -262,6 +294,26 @@ class CombatActorInstance {
       damageTakenStats(damageType) = mutable.Map(damageSource -> damageAmount)
     }
 
+    /**
+     * for a 1d approach, always add all damage to an empty damage type.
+     * This supports our overlays that only have 1 ring
+     */
+    // see if we have seen this type
+    if (damageTaken1DStats.contains("")){
+      // if we have seen this type, check the inner key and see if we have this ability
+      if (damageTaken1DStats("").contains(damageSource)) {
+        // if we have the ability update the damage amount for that ability
+        val newDamageValue = damageTaken1DStats("")(damageSource) + damageAmount
+        damageTaken1DStats("") += (damageSource -> newDamageValue)
+      } else {
+        // if we dont have that ability add it to the inner map
+        damageTaken1DStats("")(damageSource) = damageAmount
+      }
+    }
+    // if we have nothing for this damage type, we know we can just add the stats
+    else {
+      damageTaken1DStats("") = mutable.Map(damageSource -> damageAmount)
+    }
   }
 
   // TODO: Add fancy pie charts for heal taken and done on healing tab
@@ -296,6 +348,7 @@ class CombatActorInstance {
     /**
      * Healing Done Stats, can we combine this and get rid of the above?
      */
+    Logger.highlight(healType)
     // see if we have seen this type, note, most (all?) heals are of no type
     if (healingDoneStats.contains(healType)){
       // if we have seen this type, check the inner key and see if we have this ability
@@ -422,6 +475,16 @@ class CombatActorInstance {
     actor = a
     actorIdString = a.getId().toString
     actorId = a.getId()
+
+    if (a.isInstanceOf[Player]){
+      actorType = "Player"
+    }
+    else if (a.isInstanceOf[Companion]){
+      actorType = "Companion"
+    }
+    else {
+      actorType = "Other"
+    }
   }
 
 }

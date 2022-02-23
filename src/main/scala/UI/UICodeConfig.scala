@@ -14,7 +14,21 @@ import javafx.scene.paint.Color
 class UICodeConfig {
 
   val config = ConfigFactory.load()
+  val random = scala.util.Random
 
+  def randomColor(): javafx.scene.paint.Color = {
+    val select = random.nextInt(5)
+
+    select match {
+      case 0 => Tile.LIGHT_GREEN
+      case 1 => Tile.ORANGE
+      case 2 => Tile.BLUE
+      case 3 => Tile.LIGHT_RED
+      case 4 => Tile.GRAY
+      case _ => println(s"Random Color Error: ${select} is out of range"); Tile.GREEN
+    }
+
+  }
 
   def colorLoader(color: String): javafx.scene.paint.Color = {
     color match {

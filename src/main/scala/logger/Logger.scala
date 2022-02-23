@@ -82,5 +82,9 @@ object Logger {
     }
   }
 
+  def highlight(statement:String):Unit = {
+    println(Console.GREEN + statement)
+  }
+
 
 }

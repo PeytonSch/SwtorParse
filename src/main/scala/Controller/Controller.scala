@@ -7,6 +7,7 @@ import patterns.Actions.SafeLogin
 import patterns.LogInformation
 import patterns.Result.{EnterCombat, ExitCombat}
 
+// TODO: This should be an object
 class Controller () {
 
   var currentCombat : CombatInstance = null // a combat instance you are currently in
