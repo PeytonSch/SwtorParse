@@ -45,6 +45,9 @@ object Parser {
    */
   def resetParser(): Unit = {
     lastReadLine = 0
+    loginLine = 0
+    lastCombatEntered = 0
+    combatInstanceLineIndexes.clear()
   }
 
   /**
@@ -144,11 +147,11 @@ object Parser {
 
     //The timer starts right away, so we can estimate the progress bar based on the number of lines in the file
     // update the progress bar
-    if (percent < 100) percent = percent + (lines.length.toDouble / 1000)
-//    Logger.highlight(s"Percent: ${(percent * 100).toInt}%")
-    val percentWindowLength = (percent * config.getInt("UI.General.prefWidth")).toInt
-    Platform.runLater(progressBarText.setText(s"Progress: ${(percent * 100).toInt}%"))
-    Platform.runLater(progressBarRect.setWidth(percentWindowLength))
+//    if (percent < 100) percent = percent + (lines.length.toDouble / 1000)
+////    Logger.highlight(s"Percent: ${(percent * 100).toInt}%")
+//    val percentWindowLength = (percent * config.getInt("UI.General.prefWidth")).toInt
+//    progressBarText.setText(s"Progress: ${(percent * 100).toInt}%")
+//    progressBarRect.setWidth(percentWindowLength)
 
 
 
@@ -158,7 +161,7 @@ object Parser {
       Logger.trace("No new read lines")
       IndexedSeq()
     } else {
-      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length -1,lines)
+      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length,lines)
 //      val collected: IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine, lines.length - 1)) yield {
 //        //println(s"Extracting ling ${currentIndex} from log")
 //
