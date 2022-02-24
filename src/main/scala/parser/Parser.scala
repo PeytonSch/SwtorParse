@@ -24,7 +24,7 @@ import scala.io.Source
 /**
  * This parser.Parser Class is intended to handle extracting data from logs. It is a WIP
  */
-class Parser {
+object Parser {
 
   val config = ConfigFactory.load()
 

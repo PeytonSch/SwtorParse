@@ -11,11 +11,7 @@ import patterns.Result.{EnterCombat, ExitCombat}
 
 class ControllerIterativeTests extends AnyFlatSpec{
 
-  val controller : Controller = new Controller()
-
-  val parser : Parser = new Parser()
-
-  val parseTestLines = parser.getNewLines("SampleLogs/ForTests/SingleCombat.txt")
+  val parseTestLines = Parser.getNewLines("SampleLogs/ForTests/SingleCombat.txt")
 
 
   /**
@@ -31,40 +27,40 @@ class ControllerIterativeTests extends AnyFlatSpec{
      */
     // Check to see if we entered or exit combat
     if(logInfo.getResult().isInstanceOf[EnterCombat]) {
-      controller.startNewCombat(logInfo)
-      assert(controller.getCurrentCombat() != null)
-      assert(controller.getCurrentCombat().isInstanceOf[CombatInstance])
+      Controller.startNewCombat(logInfo)
+      assert(Controller.getCurrentCombat() != null)
+      assert(Controller.getCurrentCombat().isInstanceOf[CombatInstance])
 
     } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
-      controller.endCombat()
-      assert(controller.getCurrentCombat() == null)
-      assert(controller.getAllCombatInstances().size == 1)
+      Controller.endCombat()
+      assert(Controller.getCurrentCombat() == null)
+      assert(Controller.getAllCombatInstances().size == 1)
     }
 
     // Check for login action
     if (logInfo.getAction().isInstanceOf[SafeLogin]){
-      controller.setPlayerToon(logInfo.getPerformer().getName())
-      assert(controller.getPlayerToonName() != "")
+      Controller.setPlayerToon(logInfo.getPerformer().getName())
+      assert(Controller.getPlayerToonName() != "")
     }
 
     // if we are currently in combat
-    if (controller.currentCombat != null) {
+    if (Controller.currentCombat != null) {
 
       // Make sure the actor and target are in the combat actors set
-      controller.appendToCombatActors(logInfo.getPerformer())
+      Controller.appendToCombatActors(logInfo.getPerformer())
       if (!logInfo.getPerformer().isInstanceOf[NoneActor]){
         // This test no longer is all that applicable with the introduciton of CombatActorInstances
-        //  assert(controller.getLastCurrentCombatActor().toString() == logInfo.getPerformer().toString)
+        //  assert(Controller.getLastCurrentCombatActor().toString() == logInfo.getPerformer().toString)
       }
-      controller.appendToCombatActors(logInfo.getTarget())
+      Controller.appendToCombatActors(logInfo.getTarget())
       if (!logInfo.getTarget().isInstanceOf[NoneActor]){
         // This test no longer is all that applicable with the introduciton of CombatActorInstances
-//        assert(controller.getLastCurrentCombatActor().toString() == logInfo.getTarget().toString)
+//        assert(Controller.getLastCurrentCombatActor().toString() == logInfo.getTarget().toString)
       }
 
       // see if the Result is an ApplyEffect and see if its name is Damage
       if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Damage") {
-        controller.getCurrentCombat().addDamageToCurrentCombat(logInfo)
+        Controller.getCurrentCombat().addDamageToCurrentCombat(logInfo)
       }
 
     }
