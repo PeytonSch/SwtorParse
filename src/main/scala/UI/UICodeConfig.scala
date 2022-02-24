@@ -17,6 +17,8 @@ object UICodeConfig {
   val random = scala.util.Random
 
   var logPath = config.getString("Paths.combatLogDir")
+  // TODO: I'm going to make this empty to start, it should somehow get set to the most recent file on startup
+  var logFile = config.getString("Paths.combatLogPath")
 
 
   def randomColor(): javafx.scene.paint.Color = {
