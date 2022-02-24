@@ -28,33 +28,33 @@ object Logger {
    * @param statement
    * @param level
    */
-  def print(statement: String, level: LogLevel): Unit = {
-    // if level is info we always print
-    if (level == Info) {
-      println(Console.WHITE + statement)
-    }
-    // always print warn
-    else if (level == Warn) {
-      println(Console.YELLOW + statement)
-    }
-    // always print Error
-    else if (level == Error) {
-      println(Console.RED + statement)
-    }
-    // print debug on trace and debug
-    else if (level == Debug && (configuredLogLevel == Debug || configuredLogLevel == Trace) ) {
-      println(Console.CYAN + statement)
-    }
-    // print trace on trace only
-    else if (level == Trace && configuredLogLevel == Trace) {
-      println(Console.BLUE + statement)
-    }
-    // print test on test only
-    else if (level == Test && configuredLogLevel == Test) {
-      println(Console.BLUE + statement)
-    }
-
-  }
+//  def print(statement: String, level: LogLevel): Unit = {
+//    // if level is info we always print
+//    if (level == Info) {
+//      println(Console.WHITE + statement)
+//    }
+//    // always print warn
+//    else if (level == Warn) {
+//      println(Console.YELLOW + statement)
+//    }
+//    // always print Error
+//    else if (level == Error) {
+//      println(Console.RED + statement)
+//    }
+//    // print debug on trace and debug
+//    else if (level == Debug && (configuredLogLevel == Debug || configuredLogLevel == Trace) ) {
+//      println(Console.CYAN + statement)
+//    }
+//    // print trace on trace only
+//    else if (level == Trace && configuredLogLevel == Trace) {
+//      println(Console.BLUE + statement)
+//    }
+//    // print test on test only
+//    else if (level == Test && configuredLogLevel == Test) {
+//      println(Console.BLUE + statement)
+//    }
+//
+//  }
 
   def error(statement: String): Unit = {
     println(Console.RED + statement)
@@ -67,7 +67,7 @@ object Logger {
     println(Console.WHITE + statement)
   }
   def debug(statement: String): Unit = {
-    if (configuredLogLevel == Debug || configuredLogLevel == Trace) {
+    if (configuredLogLevel == Debug || configuredLogLevel == Trace || configuredLogLevel == Micro) {
       println(Console.CYAN + statement)
     }
   }
@@ -77,7 +77,7 @@ object Logger {
     }
   }
   def trace(statement: String): Unit = {
-    if (configuredLogLevel == Trace) {
+    if (configuredLogLevel == Trace || configuredLogLevel == Micro) {
       println(Console.BLUE + statement)
     }
   }
@@ -85,6 +85,13 @@ object Logger {
   def highlight(statement:String):Unit = {
     println(Console.GREEN + statement)
   }
+
+  def micro(statement: String): Unit = {
+    if (configuredLogLevel == Micro) {
+      println(Console.BLUE + statement)
+    }
+  }
+
 
 
 }

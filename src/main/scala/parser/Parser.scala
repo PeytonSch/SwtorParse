@@ -24,7 +24,7 @@ import scala.io.Source
 /**
  * This parser.Parser Class is intended to handle extracting data from logs. It is a WIP
  */
-class Parser {
+object Parser {
 
   val config = ConfigFactory.load()
 
@@ -45,6 +45,9 @@ class Parser {
    */
   def resetParser(): Unit = {
     lastReadLine = 0
+    loginLine = 0
+    lastCombatEntered = 0
+    combatInstanceLineIndexes.clear()
   }
 
   /**
@@ -69,7 +72,8 @@ class Parser {
 //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-21_17_21_45_757025.txt")
 
       // live running, can delete
-      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-22_18_38_17_983923.txt")
+      Logger.trace(s"Getting lines from file: ${UICodeConfig.logPath}${UICodeConfig.logFile}")
+      getLinesFromFile(s"${UICodeConfig.logPath}${UICodeConfig.logFile}")
 
 
     }
@@ -96,7 +100,7 @@ class Parser {
       //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-21_17_21_45_757025.txt")
 
       // live running, can delete
-      getLinesFromFileOptimizedInitialization(s"${UICodeConfig.logPath}combat_2022-02-22_18_38_17_983923.txt")
+      getLinesFromFileOptimizedInitialization(s"${UICodeConfig.logPath}${UICodeConfig.logFile}")
 
 
     }
@@ -109,7 +113,7 @@ class Parser {
   }
 
   def parseRemaining(): IndexedSeq[LogInformation] = {
-    parseRemaining(s"${UICodeConfig.logPath}combat_2022-02-22_18_38_17_983923.txt")
+    parseRemaining(s"${UICodeConfig.logPath}${UICodeConfig.logFile}")
   }
 
   def parseRemaining(path: String): IndexedSeq[LogInformation] = {
@@ -143,21 +147,21 @@ class Parser {
 
     //The timer starts right away, so we can estimate the progress bar based on the number of lines in the file
     // update the progress bar
-    if (percent < 100) percent = percent + (lines.length.toDouble / 1000)
-//    Logger.highlight(s"Percent: ${(percent * 100).toInt}%")
-    val percentWindowLength = (percent * config.getInt("UI.General.prefWidth")).toInt
-    Platform.runLater(progressBarText.setText(s"Progress: ${(percent * 100).toInt}%"))
-    Platform.runLater(progressBarRect.setWidth(percentWindowLength))
+//    if (percent < 100) percent = percent + (lines.length.toDouble / 1000)
+////    Logger.highlight(s"Percent: ${(percent * 100).toInt}%")
+//    val percentWindowLength = (percent * config.getInt("UI.General.prefWidth")).toInt
+//    progressBarText.setText(s"Progress: ${(percent * 100).toInt}%")
+//    progressBarRect.setWidth(percentWindowLength)
 
 
 
 
     // if there are no new read lines we dont need to do anything
     if (lastReadLine == lines.length - 1) {
-      Logger.print("No new read lines", LogLevel.Trace)
+      Logger.trace("No new read lines")
       IndexedSeq()
     } else {
-      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length -1,lines)
+      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length,lines)
 //      val collected: IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine, lines.length - 1)) yield {
 //        //println(s"Extracting ling ${currentIndex} from log")
 //
@@ -193,7 +197,7 @@ class Parser {
 //        }
 //      }
 
-      Logger.trace(s"Read ${collected.size} log lines this tick")
+      Logger.trace(s"Read ${collected.size-1} log lines this tick")
 
       collected
     }
@@ -216,7 +220,7 @@ class Parser {
      * We also need to parse the login line to set the current player
      */
     if (lastReadLine == lines.length-1){
-      Logger.print("No new read lines",LogLevel.Trace)
+      Logger.trace("No new read lines")
       IndexedSeq()
     } else {
       for (currentIndex <- Range(lastReadLine,lines.length-1)) yield {

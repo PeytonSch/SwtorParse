@@ -25,7 +25,7 @@ import scala.util.Random
  * out how to go about updating this etc.
  */
 
-class GuiTiles {
+object Tiles {
   val     TILE_WIDTH : Double  = 350
   val     TILE_HEIGHT : Double = 450
   val     menuTileSize : Double = .30

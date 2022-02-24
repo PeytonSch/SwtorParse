@@ -9,18 +9,15 @@ import java.time.{LocalDate, LocalTime}
 
 class CombatTimeStampTests extends AnyFlatSpec{
 
-  val controller : Controller = new Controller()
+  
+  val parseTestLines = Parser.getNewLines("SampleLogs/ForTests/SingleCombat.txt")
 
-  val parser : Parser = new Parser()
-
-  val parseTestLines = parser.getNewLines("SampleLogs/ForTests/SingleCombat.txt")
-
-  controller.parseLatest(parseTestLines)
+  Controller.parseLatest(parseTestLines)
 
 
   /**
    * As of creating this test file, it has to do with some more finite features of combat instances that
-   * do not go through the controller. This will probably be pretty minimal, I am initially using it
+   * do not go through the Controller. This will probably be pretty minimal, I am initially using it
    * to do some timestamp testing.
    */
 

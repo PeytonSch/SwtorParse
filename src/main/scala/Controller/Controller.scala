@@ -1,6 +1,7 @@
 package Controller
 
 import Combat.CombatInstance
+import UI.ElementLoader
 import logger.Logger
 import parsing.Actors.Actor
 import parsing.Result.ApplyEffect
@@ -9,7 +10,7 @@ import patterns.LogInformation
 import patterns.Result.{EnterCombat, ExitCombat}
 
 // TODO: This should be an object
-class Controller () {
+object Controller {
 
   var currentCombat : CombatInstance = null // a combat instance you are currently in
   var playerToon : String = "" // The name of the character the user is currently logged into
@@ -102,6 +103,8 @@ class Controller () {
         this.startNewCombat(logInfo)
       } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
         this.endCombat()
+        // when we end combat, have the UI refresh the combat instance menu
+        ElementLoader.loadCombatInstanceMenu()
       }
 
       // Check for login action
