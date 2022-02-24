@@ -36,7 +36,7 @@ class FactoryClasses {
    * @return
    */
   def actorFromActorString(actorString: String): Actor = {
-    Logger.trace(s"actorFromActorString: ${actorString}")
+    Logger.micro(s"actorFromActorString: ${actorString}")
     // First determine if the actor is a player and companion or npc
     // a player has an @ symbol, a companion has an @ and /
     // and an npc has neither
@@ -111,13 +111,13 @@ class FactoryClasses {
 
 
   def resultFromLine(logLine: String) : Result = {
-    Logger.trace(s"resultFromLine: ${logLine}")
+    Logger.micro(s"resultFromLine: ${logLine}")
     val resultType = logLine.split('[')(5).split('{')(0).trim
-    Logger.trace(s"Result Type: ${resultType}")
+    Logger.micro(s"Result Type: ${resultType}")
     val effectId = logLine.split('[')(5).split('{')(1).split('}')(0)
-    Logger.trace(s"effectId: ${effectId}")
+    Logger.micro(s"effectId: ${effectId}")
     val name = logLine.split('[')(5).split(':')(1).split('{')(0).trim
-    Logger.trace(s"Result Name: ${name}")
+    Logger.micro(s"Result Name: ${name}")
     // TODO: Some Lines have extra [ in them, like Accuracy Reduced [Tech]
     var nameId = "0"
     try {
@@ -156,7 +156,7 @@ class FactoryClasses {
 
   def valueFromLine(logLine: String): Value = {
 
-    Logger.trace(s"valueFromLine: ${logLine}")
+    Logger.micro(s"valueFromLine: ${logLine}")
 
     // we need to handle values differently if the result is an AreaEntered
     val resultType = logLine.split('[')(5).split('{')(0).trim
@@ -170,7 +170,7 @@ class FactoryClasses {
       if (lineArray.size > 5) {
         // Dont forget to trim off threat
         val extractedValue = logLine.split(']')(5).split('<')(0).trim
-        Logger.trace("Contains a value: " + extractedValue)
+        Logger.micro("Contains a value: " + extractedValue)
         if (extractedValue.size < 1){
           return new NoValue
         }

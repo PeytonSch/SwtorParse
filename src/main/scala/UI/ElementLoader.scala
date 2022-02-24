@@ -230,6 +230,7 @@ class ElementLoader {
     parser.resetParser()
     val file = event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText
     val path = s"${UICodeConfig.logPath}${file}"
+    UICodeConfig.logFile = file
     Logger.info(s"Loading new log ${path}")
 //    Platform.runLater(LoadingScreen.beginLoading())
     Logger.debug("Begin Parsing")

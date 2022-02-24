@@ -23,7 +23,7 @@ class CombatInstance (
   def setCombatStartTimeStamp(logInfo: LogInformation) = {
     if(startTimeStamp == null) this.startTimeStamp = logInfo.getTime()
     else {
-      Logger.print("Error, tried updating timestamp that was already set",LogLevel.Error)
+      Logger.error("Error, tried updating timestamp that was already set")
     }
   }
 

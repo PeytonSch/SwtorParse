@@ -102,6 +102,8 @@ class Controller () {
         this.startNewCombat(logInfo)
       } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
         this.endCombat()
+        // when we end combat, have the UI refresh the combat instance menu
+        
       }
 
       // Check for login action

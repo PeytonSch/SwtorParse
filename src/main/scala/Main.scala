@@ -69,10 +69,10 @@ object Main extends JFXApp3 {
     //val files = UI.FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
 
     val files: List[File] = if(config.getString("RunMode.mode") == ("Staging")){
-      Logger.print("Running in Staging mode",Info)
+      Logger.info("Running in Staging mode")
       FileHelper.getListOfFiles(UICodeConfig.logPath)
     } else {
-      Logger.print("Running in developer mode",Info)
+      Logger.info("Running in developer mode")
       FileHelper.getListOfFiles("./SampleLogs")
     }
 
@@ -308,7 +308,7 @@ object Main extends JFXApp3 {
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
-      if (now > lastTimerCall + program_execution_rate) {
+      if (now > lastTimerCall + program_execution_rate && UICodeConfig.logFile != "") {
         lastTimerCall = now
 
         /**
@@ -320,7 +320,9 @@ object Main extends JFXApp3 {
 //        Logger.highlight(s"We have ${result.size} lines to parse this tick")
 
         // if there are new lines to parse
-        if (result.size != 0) {
+        // TODO: This might need to be > 1, I think we get a result of 1 often and we do an update when we dont need to
+        if (result.size > 1) {
+          Logger.trace(s"Timer Loop: Result size == ${result.length}, performing parseLatest result and live parsing tick update")
           controller.parseLatest(result)
           elementLoader.performTickUpdateLiveParsing(controller, tiles)
 
@@ -331,13 +333,22 @@ object Main extends JFXApp3 {
     })
 
     if (config.getBoolean("General.startWithLog") && config.getBoolean("Performance.performanceLoadingEnabled")) {
+      Logger.debug("Running Asynchronous Initialization")
       // Run the optimized initialization
       Platform.runLater(elementLoader.initAsynchronously(controller, parser, tiles, combatInstanceMenu,timer))
 
       // Load the remaining Combat Instances in the background
       Platform.runLater(elementLoader.initRemainingAsynchronously(controller, parser, tiles, combatInstanceMenu,timer))
     } else if  (config.getBoolean("General.startWithLog")) {
+      Logger.debug("Running None - Asynchronous Initialization, start with logging")
       controller.parseLatest(parser.getNewLines())
+      timer.start()
+    }
+    // TODO: This is a placeholder, need to keep the timer from parsing and start it later
+    else {
+      Logger.debug("Running Non - Asynchronous Initialization, start without logging")
+      Logger.trace("Timer starting")
+      timer.start()
     }
 
 
@@ -348,7 +359,7 @@ object Main extends JFXApp3 {
    * This method is called when you close the program.
    */
   override def stopApp(): Unit = {
-    println("Stopping App")
+    Logger.debug("Stopping App")
 //    timer.stop()
   }
 

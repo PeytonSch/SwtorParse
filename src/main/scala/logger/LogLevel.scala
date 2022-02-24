@@ -10,5 +10,5 @@ package logger
  */
 object LogLevel extends Enumeration {
   type LogLevel = Value
-  val Error, Warn, Info, Debug, Test, Trace, Highlight = Value
+  val Error, Warn, Info, Debug, Test, Trace, Micro, Highlight = Value
 }
