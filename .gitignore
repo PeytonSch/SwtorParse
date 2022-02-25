@@ -68,3 +68,7 @@ project/**/metals.sbt
 
 # This doesnt seem necessary
 .bsp/sbt.json
+
+# Release Binaries
+/EliteRaidParser.zip
+/EliteRaidParser/Packaged/
