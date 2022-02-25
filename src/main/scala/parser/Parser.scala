@@ -161,7 +161,9 @@ object Parser {
       Logger.trace("No new read lines")
       IndexedSeq()
     } else {
-      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length,lines)
+      // we read to the 2nd to last line so that we avoid errors where we read a line that hasnt been completely written yet
+      // TODO: Maybe add a check to see if the last line ends with newline? And if so read it entirely?
+      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length-2,lines)
 //      val collected: IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine, lines.length - 1)) yield {
 //        //println(s"Extracting ling ${currentIndex} from log")
 //

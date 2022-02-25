@@ -440,7 +440,7 @@ object ElementLoader {
         }
         case "No Type" =>
         case x => {
-          println(s"Got Unknown Damage type: ${x}")
+          Logger.warn(s"Got Unknown Damage type: ${x}")
           new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), Tiles.damageDoneTree);
         }
       }
@@ -522,7 +522,7 @@ object ElementLoader {
         }
         case "No Type" =>
         case x => {
-          println(s"Got Unknown Damage type: ${x}")
+          Logger.warn(s"Got Unknown Damage type: ${x}")
           Tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,UICodeConfig.regularColor))
           new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), Tiles.overviewDtpstree);
         }
@@ -589,7 +589,7 @@ object ElementLoader {
         }
         case "No Type" =>
         case x => {
-          println(s"Got Unknown Damage type: ${x}")
+          Logger.warn(s"Got Unknown Damage type: ${x}")
           Tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,UICodeConfig.regularColor))
           new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), Tiles.damageTakenDtpstree);
         }
@@ -658,7 +658,7 @@ object ElementLoader {
       }
     }
     // this is a backup, probably shouldn't happen
-    println("Error, returning root tree, this should not happen")
+      Logger.error("Error, returning root tree, this should not happen")
     Tiles.overviewDtpstree
   }
 
