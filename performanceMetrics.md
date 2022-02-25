@@ -49,7 +49,7 @@ Timer: Parse 1 Line: : 2.39E-5seconds
 Timer: Parser Parse Line Range with 39501 lines: 11.4091527seconds
 ```
 
-```aidl
+```
 Timer: Parse 1 Line: : 1.59E-5seconds
 Timer: Parse 1 Line: : 1.27E-5seconds
 Timer: Parse 1 Line: : 5.05E-5seconds
@@ -64,7 +64,7 @@ Timer: Parse 1 Line: : 1.03E-5seconds
 Timer: Parser Parse Line Range with 39501 lines: 0.3683339seconds
 ```
 
-```aidl
+```
 Timer: Parser Parse Line Range with 39501 lines: 0.6250174seconds
 Timer: Parser Parse Line Range with 39501 lines: 0.4451265seconds
 Timer: Parser Parse Line Range with 39501 lines: 0.4271823seconds
@@ -77,7 +77,7 @@ Timer: Parser Parse Line Range with 39501 lines: 0.3683339seconds
 ```
 
 
-```aidl
+```
 Timer: Parse 1 Line: : 2.57E-5seconds
 Timer: Parse 1 Line: : 1.8599E-5seconds
 Timer: Parse 1 Line: : 2.01E-5seconds
