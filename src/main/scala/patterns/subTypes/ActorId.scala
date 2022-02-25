@@ -1,5 +1,7 @@
 package parsing.subTypes
 
+import logger.Logger
+
 class ActorId( // These IDs are too Long to be Ints or Longs, they need to be strings
                typeId : String,
                instanceId : String
@@ -27,7 +29,7 @@ class ActorId( // These IDs are too Long to be Ints or Longs, they need to be st
     catch {
       case e:NullPointerException => false //do nothing
       case e:Throwable => {
-        println(e)
+        Logger.error(s"Error comparing actor IDs ${e}")
         false
       }
     }

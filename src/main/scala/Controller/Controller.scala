@@ -2,6 +2,7 @@ package Controller
 
 import Combat.CombatInstance
 import UI.ElementLoader
+import Utils.Timer
 import logger.Logger
 import parsing.Actors.Actor
 import parsing.Result.ApplyEffect
@@ -92,7 +93,6 @@ object Controller {
   def parseLatest(logLines : IndexedSeq[LogInformation]): Unit = {
 
     Logger.trace(s"Controller received ${logLines.length} lines from parser")
-
     for (logInfo <- logLines) {
 
       /**
@@ -109,7 +109,7 @@ object Controller {
 
       // Check for login action
       if (logInfo.getAction().isInstanceOf[SafeLogin]){
-        Logger.debug("Found Login Action, setting player toon name")
+        Logger.trace("Found Login Action, setting player toon name")
         this.setPlayerToon(logInfo.getPerformer().getName())
         this.setPlayerToonIdString(logInfo.getPerformer().getId().toString)
         //println(s"Got Login of Toon: ${controller.getPlayerToonName()} from line ${logInfo}")
@@ -142,7 +142,6 @@ object Controller {
 
 
     }
-
   }
 
 }

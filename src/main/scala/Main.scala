@@ -1,7 +1,7 @@
 import Controller.Controller
 import UI.objects.ProgressBar.progressBar
 import UI.overlays.Overlays
-import UI.{ElementLoader, FileHelper, Tiles, UICodeConfig}
+import UI.{ElementLoader, Tiles, UICodeConfig}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
 import scalafx.animation.AnimationTimer
@@ -33,6 +33,7 @@ import scalafx.Includes._
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import UI.objects.Menus._
+import Utils.FileHelper
 import parser.Parser
 
 
@@ -64,7 +65,7 @@ object Main extends JFXApp3 {
     //MJP
 
     //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
-    //val files = UI.FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
+    //val files = Utils.FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
 
     val files: List[File] = if(config.getString("RunMode.mode") == ("Staging")){
       Logger.info("Running in Staging mode")
@@ -316,7 +317,9 @@ object Main extends JFXApp3 {
         if (result.size > 1) {
           Logger.trace(s"Timer Loop: Result size == ${result.length}, performing parseLatest result and live parsing tick update")
           Controller.parseLatest(result)
+          Logger.debug("Finished Controller Parsing, performing tick update for element loader")
           ElementLoader.performTickUpdateLiveParsing()
+          Logger.debug("Finished element loaded tick update")
 
         }
 

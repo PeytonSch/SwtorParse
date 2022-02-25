@@ -1,10 +1,6 @@
-package UI
+package Utils
 
 import java.io.File
-
-class FileHelper{
-    
-}
 
 object FileHelper{
     def getListOfFiles(dir: String):List[File] = {

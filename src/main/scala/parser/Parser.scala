@@ -2,6 +2,7 @@ package parser
 
 import UI.UICodeConfig
 import UI.objects.ProgressBar.{progressBar, progressBarRect, progressBarText}
+import Utils.Timer
 import com.typesafe.config.ConfigFactory
 import logger.{LogLevel, Logger}
 import parsing.Actions.DefaultAction
@@ -118,9 +119,9 @@ object Parser {
 
   def parseRemaining(path: String): IndexedSeq[LogInformation] = {
     val lines = if (config.getString("RunMode.mode") == ("Staging")) {
-      Source.fromFile(path, "ISO-8859-1").getLines.toList
+      Source.fromFile(path, "ISO-8859-1").getLines.toIndexedSeq
     } else {
-      Source.fromFile(path).getLines.toList
+      Source.fromFile(path).getLines.toIndexedSeq
     }
 
     var instances: mutable.IndexedSeq[LogInformation] = mutable.IndexedSeq()
@@ -134,13 +135,13 @@ object Parser {
 
   }
 
-  def getLinesFromFile(path: String): IndexedSeq[LogInformation] = {
+  def getLinesFromFile(path: String): Vector[LogInformation] = {
     // TODO: Can we grab only remaining lines somehow?
     // not sure why I need to do this and if I can remove it?
     val lines = if (config.getString("RunMode.mode") == ("Staging")) {
-      Source.fromFile(path, "ISO-8859-1").getLines.toList
+      Source.fromFile(path, "ISO-8859-1").getLines.toIndexedSeq
     } else {
-      Source.fromFile(path).getLines.toList
+      Source.fromFile(path).getLines.toIndexedSeq
     }
     Logger.trace(s"Found ${lines.size} lines to parse in file ${path}")
 
@@ -159,11 +160,11 @@ object Parser {
     // if there are no new read lines we dont need to do anything
     if (lastReadLine == lines.length - 1) {
       Logger.trace("No new read lines")
-      IndexedSeq()
+      Vector()
     } else {
       // we read to the 2nd to last line so that we avoid errors where we read a line that hasnt been completely written yet
       // TODO: Maybe add a check to see if the last line ends with newline? And if so read it entirely?
-      val collected: IndexedSeq[LogInformation] = parseLineRange(lastReadLine,lines.length-2,lines)
+      val collected: Vector[LogInformation] = parseLineRange(lastReadLine,lines.length-2,lines)
 //      val collected: IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine, lines.length - 1)) yield {
 //        //println(s"Extracting ling ${currentIndex} from log")
 //
@@ -211,9 +212,9 @@ object Parser {
     // TODO: Can we grab only remaining lines somehow?
     // not sure why I need to do this and if I can remove it? Might just have been from the testing logs
     val lines = if(config.getString("RunMode.mode") == ("Staging")) {
-      Source.fromFile(path,"ISO-8859-1").getLines.toList
+      Source.fromFile(path,"ISO-8859-1").getLines.toIndexedSeq
     } else {
-      Source.fromFile(path).getLines.toList
+      Source.fromFile(path).getLines.toIndexedSeq
     }
     Logger.trace(s"Found ${lines.size} lines to parse in file ${path}")
 
@@ -245,19 +246,20 @@ object Parser {
      * This will give the UI log information so we can start using it
      */
       // parse the login line first, it sets information in the controller
-      val throwAway:IndexedSeq[LogInformation]  = parseLineRange(loginLine,loginLine+1,lines)
-      val collected : IndexedSeq[LogInformation] = throwAway ++ parseLineRange(lastCombatEntered,combatInstanceLineIndexes.get(lastCombatEntered).get,lines)
+      val throwAway:Vector[LogInformation]  = parseLineRange(loginLine,loginLine+1,lines)
+      val collected : Vector[LogInformation] = throwAway ++ parseLineRange(lastCombatEntered,combatInstanceLineIndexes.get(lastCombatEntered).get,lines)
 
     collected
   }
 
-    def parseLineRange(start: Int, stop: Int, lines:List[String]) = {
-
+    def parseLineRange(start: Int, stop: Int, lines:IndexedSeq[String]): Vector[LogInformation] = {
+      val range = Range(start,stop).toVector
+      Timer.time(s"Parser Parse Line Range with ${stop-start} lines", {
       if (start == 0) {
         Logger.highlight(s"Loading Log File With ${stop+1} lines. Please note, at the moment, large files take awhile to initialize")
       }
 
-      val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(start,stop)) yield {
+      val collected : Vector[LogInformation] = for (currentIndex <- range) yield {
 
         if (currentIndex % 1000 ==0) {
           Logger.highlight(s"Progress: ${((currentIndex.toDouble/stop)*100).toInt}")
@@ -288,6 +290,15 @@ object Parser {
           val resultValue: Value = factory.valueFromLine(line)
           val threatValue: ThreatValue = factory.threatFromLine(line)
 
+//          val time: LogTimestamp = Timer.time("Parser Extract Timestamp",{factory.timestampFromLine(line)})
+//          val performer: Actor = Timer.time("Parser Extract Performer",{factory.performingActorFromLogLineString(line)})
+//          val target: Actor = Timer.time("Parser Extract Target",{factory.targetActorFromLogLineString(line)})
+//          val action: Action = Timer.time("Parser Extract Action",{factory.actionFromLine(line)})
+//          val result: Result = Timer.time("Parser Extract Result",{factory.resultFromLine(line)})
+//          // See if this line has a value associated with it
+//          val resultValue: Value = Timer.time("Parser Extract Result Value",{factory.valueFromLine(line)})
+//          val threatValue: ThreatValue = Timer.time("Parser Extract Threat Value",{factory.threatFromLine(line)})
+
           lastReadLine = currentIndex
 
           new LogInformation(time, performer, target, action, result, resultValue, threatValue)
@@ -305,6 +316,7 @@ object Parser {
         }
       }
       collected
+      }) // end timer
     }
 
 

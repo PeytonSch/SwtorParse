@@ -25,6 +25,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
+import Utils.FileHelper
 import parser.Parser
 
 import java.io.File
