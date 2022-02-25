@@ -252,7 +252,17 @@ object Parser {
   }
 
     def parseLineRange(start: Int, stop: Int, lines:List[String]) = {
+
+      if (start == 0) {
+        Logger.highlight(s"Loading Log File With ${stop+1} lines. Please note, at the moment, large files take awhile to initialize")
+      }
+
       val collected : IndexedSeq[LogInformation] = for (currentIndex <- Range(start,stop)) yield {
+
+        if (currentIndex % 1000 ==0) {
+          Logger.highlight(s"Progress: ${((currentIndex.toDouble/stop)*100).toInt}")
+        }
+
         //println(s"Extracting ling ${currentIndex} from log")
 
         // update the progress bar

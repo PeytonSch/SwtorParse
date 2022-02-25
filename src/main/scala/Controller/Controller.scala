@@ -109,7 +109,7 @@ object Controller {
 
       // Check for login action
       if (logInfo.getAction().isInstanceOf[SafeLogin]){
-        Logger.info("Found Login Action, setting player toon name")
+        Logger.debug("Found Login Action, setting player toon name")
         this.setPlayerToon(logInfo.getPerformer().getName())
         this.setPlayerToonIdString(logInfo.getPerformer().getId().toString)
         //println(s"Got Login of Toon: ${controller.getPlayerToonName()} from line ${logInfo}")

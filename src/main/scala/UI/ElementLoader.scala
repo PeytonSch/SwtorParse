@@ -379,7 +379,7 @@ object ElementLoader {
       Tiles.overviewChartYAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
     }
     catch {
-      case e: java.lang.UnsupportedOperationException => Logger.warn("No damage done, unable to perform max to set axis of damageTakenChart")
+      case e: java.lang.UnsupportedOperationException => Logger.debug("No damage done, unable to perform max to set axis of damageTakenChart")
       case e: Throwable => Logger.error(s"Error trying to set damageTaken chart axis: ${e}")
     }
   }
@@ -401,7 +401,7 @@ object ElementLoader {
       Tiles.damageTakenChartYAxis.setUpperBound(damageTimeSeries.valuesIterator.max)
     }
     catch {
-      case e: java.lang.UnsupportedOperationException => Logger.warn("No damage taken, unable to perform max to set axis of damageTakenChart")
+      case e: java.lang.UnsupportedOperationException => Logger.debug("No damage taken, unable to perform max to set axis of damageTakenChart")
       case e: Throwable => Logger.error(s"Error trying to set damageTaken chart axis: ${e}")
     }
   }
@@ -440,7 +440,7 @@ object ElementLoader {
         }
         case "No Type" =>
         case x => {
-          Logger.warn(s"Got Unknown Damage type: ${x}")
+          if (x != "-)") Logger.warn(s"Got Unknown Damage type: ${x}")
           new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), Tiles.damageDoneTree);
         }
       }
@@ -522,7 +522,7 @@ object ElementLoader {
         }
         case "No Type" =>
         case x => {
-          Logger.warn(s"Got Unknown Damage type: ${x}")
+          if (x != "-)") Logger.warn(s"Got Unknown Damage type: ${x}")
           Tiles.overviewDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,UICodeConfig.regularColor))
           new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), Tiles.overviewDtpstree);
         }
@@ -589,7 +589,7 @@ object ElementLoader {
         }
         case "No Type" =>
         case x => {
-          Logger.warn(s"Got Unknown Damage type: ${x}")
+          if (x != "-)") Logger.warn(s"Got Unknown Damage type: ${x}")
           Tiles.damageTakenDamageFromTypeIndicator.addChartData(new ChartData("Regular",types._2,UICodeConfig.regularColor))
           new TreeNode(new ChartData("Regular", types._2, UICodeConfig.regularColor), Tiles.damageTakenDtpstree);
         }
