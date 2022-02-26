@@ -2,7 +2,7 @@ package parser
 
 import UI.UICodeConfig
 import UI.objects.ProgressBar.{progressBar, progressBarRect, progressBarText}
-import Utils.Timer
+import Utils.{Config, Timer}
 import com.typesafe.config.ConfigFactory
 import logger.{LogLevel, Logger}
 import parsing.Actions.DefaultAction
@@ -26,8 +26,6 @@ import scala.io.Source
  * This parser.Parser Class is intended to handle extracting data from logs. It is a WIP
  */
 object Parser {
-
-  val config = ConfigFactory.load()
 
   val factory = new FactoryClasses
 
@@ -63,7 +61,7 @@ object Parser {
    * This getNewLines is for continually looking at a specific file
    */
   def getNewLines(): IndexedSeq[LogInformation] = {
-    if(config.getString("RunMode.mode") == ("Staging")) {
+    if(Config.config.getString("RunMode.mode") == ("Staging")) {
       // this one is chunky chunky
 //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_20_26_07_955458.txt")
 //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_18_37_06_264936.txt")
@@ -91,7 +89,7 @@ object Parser {
    * @return
    */
   def getNewLinesInit(): IndexedSeq[LogInformation] = {
-    if(config.getString("RunMode.mode") == ("Staging")) {
+    if(Config.config.getString("RunMode.mode") == ("Staging")) {
       // this one is chunky chunky
       //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_20_26_07_955458.txt")
       //      getLinesFromFile(s"${UICodeConfig.logPath}combat_2022-02-20_18_37_06_264936.txt")
@@ -118,7 +116,8 @@ object Parser {
   }
 
   def parseRemaining(path: String): IndexedSeq[LogInformation] = {
-    val lines = if (config.getString("RunMode.mode") == ("Staging")) {
+    if (UICodeConfig.logFile == "") return IndexedSeq()
+    val lines = if (Config.config.getString("RunMode.mode") == ("Staging")) {
       Source.fromFile(path, "ISO-8859-1").getLines.toIndexedSeq
     } else {
       Source.fromFile(path).getLines.toIndexedSeq
@@ -138,7 +137,7 @@ object Parser {
   def getLinesFromFile(path: String): Vector[LogInformation] = {
     // TODO: Can we grab only remaining lines somehow?
     // not sure why I need to do this and if I can remove it?
-    val lines = if (config.getString("RunMode.mode") == ("Staging")) {
+    val lines = if (Config.config.getString("RunMode.mode") == ("Staging")) {
       Source.fromFile(path, "ISO-8859-1").getLines.toIndexedSeq
     } else {
       Source.fromFile(path).getLines.toIndexedSeq
@@ -211,7 +210,7 @@ object Parser {
 
     // TODO: Can we grab only remaining lines somehow?
     // not sure why I need to do this and if I can remove it? Might just have been from the testing logs
-    val lines = if(config.getString("RunMode.mode") == ("Staging")) {
+    val lines = if(Config.config.getString("RunMode.mode") == ("Staging")) {
       Source.fromFile(path,"ISO-8859-1").getLines.toIndexedSeq
     } else {
       Source.fromFile(path).getLines.toIndexedSeq

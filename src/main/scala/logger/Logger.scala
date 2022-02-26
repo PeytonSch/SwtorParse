@@ -1,5 +1,6 @@
 package logger
 
+import Utils.Config
 import com.typesafe.config.ConfigFactory
 import logger.LogLevel._
 
@@ -9,9 +10,8 @@ import logger.LogLevel._
  */
 object Logger {
 
-  val config = ConfigFactory.load()
 
-  val configuredLogLevel = config.getString("Logging.level") match {
+  val configuredLogLevel = Config.config.getString("Logging.level") match {
       case "Info" => Info
       case "Debug" => Debug
       case "Test" => Test

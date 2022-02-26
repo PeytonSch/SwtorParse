@@ -33,7 +33,7 @@ import scalafx.Includes._
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import UI.objects.Menus._
-import Utils.FileHelper
+import Utils.{Config, FileHelper}
 import parser.Parser
 
 
@@ -44,8 +44,6 @@ import parser.Parser
  * then executes body of its constructor when javafx.application.Application.start(primaryStage:Stage) is called
  */
 object Main extends JFXApp3 {
-
-  val config = ConfigFactory.load()
 
 
   /**
@@ -67,7 +65,7 @@ object Main extends JFXApp3 {
     //Example code for getting directory from preferences instead. ("./SampleLogs") is a default value if key: "PARSE_LOG_DIR" is not found
     //val files = Utils.FileHelper.getListOfFiles(prefs.get("PARSE_LOG_DIR", "./SampleLogs"))
 
-    val files: List[File] = if(config.getString("RunMode.mode") == ("Staging")){
+    val files: List[File] = if(Config.config.getString("RunMode.mode") == ("Staging")){
       Logger.info("Running in Staging mode")
       FileHelper.getListOfFiles(UICodeConfig.logPath)
     } else {
@@ -78,7 +76,7 @@ object Main extends JFXApp3 {
     // Set the last Timer Call to the current system time. This is a var so it can be updated. It controls the UI
     // Refresh rate, checking the time against the last time and the execution rate.
     var lastTimerCall = System.nanoTime()
-    val program_execution_rate : Long = config.getLong("UI.General.tickRate")
+    val program_execution_rate : Long = Config.config.getLong("UI.General.tickRate")
 
 
     // This Parser class is used to pass logs. This is more in here as a test and not fully implemented.
@@ -176,17 +174,11 @@ object Main extends JFXApp3 {
     //open file explorer when MenuItem("Choose Log File...") is clicked
     //Not exactly sure how we want to handle userData at the moment, just printing out the chosen directory for now
     menu1.items(0).onActionProperty() = (e: ActionEvent) => {
-
       val selectedDirectory: File = directoryChooser.showDialog(stage)
-
-
       if (selectedDirectory != null) {
           val dirPath = selectedDirectory.getAbsolutePath()
-        Logger.debug(s"Selected Directory Path ${dirPath}")
-        UICodeConfig.logPath = dirPath + "/"
-        prefs.put("PARSE_LOG_DIR", dirPath)
-        ElementLoader.loadLogFileMenu()
-//          println(s"Added the selected directory: \"$dirPath\"" + " to your user preferences.")
+          ElementLoader.loadNewDirectory(dirPath)
+
       }
     }
 
@@ -251,8 +243,8 @@ object Main extends JFXApp3 {
 
     // Set the preferred size of the window
     pane.setPrefSize(
-      config.getInt("UI.General.prefWidth"),
-      config.getInt("UI.General.prefHeight")
+      Config.config.getInt("UI.General.prefWidth"),
+      Config.config.getInt("UI.General.prefHeight")
     )
     pane.setBackground(Tiles.background)
     Tiles.overviewStackedArea.setBackground(Tiles.background)
@@ -327,14 +319,14 @@ object Main extends JFXApp3 {
       }
     })
 
-    if (config.getBoolean("General.startWithLog") && config.getBoolean("Performance.performanceLoadingEnabled")) {
+    if (Config.config.getBoolean("General.startWithLog") && Config.config.getBoolean("Performance.performanceLoadingEnabled")) {
       Logger.debug("Running Asynchronous Initialization")
       // Run the optimized initialization
       Platform.runLater(ElementLoader.initAsynchronously(timer))
 
       // Load the remaining Combat Instances in the background
       Platform.runLater(ElementLoader.initRemainingAsynchronously(timer))
-    } else if  (config.getBoolean("General.startWithLog")) {
+    } else if  (Config.config.getBoolean("General.startWithLog")) {
       Logger.debug("Running None - Asynchronous Initialization, start with logging")
       Controller.parseLatest(Parser.getNewLines())
       timer.start()

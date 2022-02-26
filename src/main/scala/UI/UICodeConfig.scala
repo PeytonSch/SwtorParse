@@ -1,5 +1,6 @@
 package UI
 
+import Utils.Config
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
 import javafx.scene.paint.Color
@@ -13,12 +14,11 @@ import javafx.scene.paint.Color
  */
 object UICodeConfig {
 
-  val config = ConfigFactory.load()
   val random = scala.util.Random
 
-  var logPath = config.getString("Paths.combatLogDir")
+  var logPath = Config.config.getString("Paths.combatLogDir")
   // TODO: I'm going to make this empty to start, it should somehow get set to the most recent file on startup
-  var logFile = config.getString("Paths.combatLogPath")
+  var logFile = Config.config.getString("Paths.combatLogPath")
 
 
   def randomColor(): javafx.scene.paint.Color = {
@@ -48,20 +48,20 @@ object UICodeConfig {
   }
 
   // Colors by type from config
-  val internalColor: Color = if (config.hasPath("UI.Colors.DamageTypes.internal")){
-    colorLoader(config.getString("UI.Colors.DamageTypes.internal"))
+  val internalColor: Color = if (Config.config.hasPath("UI.Colors.DamageTypes.internal")){
+    colorLoader(Config.config.getString("UI.Colors.DamageTypes.internal"))
   } else {colorLoader("")}
-  val kineticColor: Color = if (config.hasPath("UI.Colors.DamageTypes.kinetic")){
-    colorLoader(config.getString("UI.Colors.DamageTypes.kinetic"))
+  val kineticColor: Color = if (Config.config.hasPath("UI.Colors.DamageTypes.kinetic")){
+    colorLoader(Config.config.getString("UI.Colors.DamageTypes.kinetic"))
   } else {colorLoader("")}
-  val energyColor: Color = if (config.hasPath("UI.Colors.DamageTypes.energy")){
-    colorLoader(config.getString("UI.Colors.DamageTypes.energy"))
+  val energyColor: Color = if (Config.config.hasPath("UI.Colors.DamageTypes.energy")){
+    colorLoader(Config.config.getString("UI.Colors.DamageTypes.energy"))
   } else {colorLoader("")}
-  val elementalColor: Color = if (config.hasPath("UI.Colors.DamageTypes.elemental")){
-    colorLoader(config.getString("UI.Colors.DamageTypes.elemental"))
+  val elementalColor: Color = if (Config.config.hasPath("UI.Colors.DamageTypes.elemental")){
+    colorLoader(Config.config.getString("UI.Colors.DamageTypes.elemental"))
   } else {colorLoader("")}
-  val regularColor: Color = if (config.hasPath("UI.Colors.DamageTypes.regular")){
-    colorLoader(config.getString("UI.Colors.DamageTypes.regular"))
+  val regularColor: Color = if (Config.config.hasPath("UI.Colors.DamageTypes.regular")){
+    colorLoader(Config.config.getString("UI.Colors.DamageTypes.regular"))
   } else {colorLoader("")}
 
 }

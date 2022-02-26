@@ -1,6 +1,7 @@
 package UI
 
 import Controller.Controller
+import UI.objects.Menus
 import UI.overlays.Overlays
 import UI.overlays.Overlays.{groupDamagePane, groupHealingPane}
 import com.typesafe.config.ConfigFactory
@@ -25,7 +26,7 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
-import Utils.FileHelper
+import Utils.{FileHelper, PathLoader}
 import parser.Parser
 
 import java.io.File
@@ -36,7 +37,6 @@ import java.io.File
  */
 object ElementLoader {
 
-  val config = ConfigFactory.load()
 
   // This can be used to generate random numbers
   val random = scala.util.Random
@@ -91,6 +91,23 @@ object ElementLoader {
       combatInstanceBuffer += item
     }
     combatInstanceMenu.items = combatInstanceBuffer.toList
+  }
+
+  def loadNewDirectory(dirPath: String): Unit = {
+    Logger.debug(s"Selected Directory Path ${dirPath}")
+    UICodeConfig.logPath = dirPath + "/"
+    // reset the log file so we stop parsing until we select one
+    UICodeConfig.logFile = ""
+    ElementLoader.loadLogFileMenu()
+    PathLoader.addPath(dirPath)
+  }
+
+  def loadNewDirectoryActionEvent(dirPath: String): ActionEvent => Unit = (event: ActionEvent) => {
+    loadNewDirectory(dirPath)
+  }
+
+  def loadRecentDirectoryMenu(): Unit = {
+    Menus.loadRecentDirMenu()
   }
 
   def loadLogFileMenu():Unit = {
@@ -213,7 +230,7 @@ object ElementLoader {
    * This function is called from the menu item when a new combat instance is selected.
    * It may need to change when we move changing combat instances out of the menu bar.
    */
-  def combatInstanceChangeMenuAction( ): ActionEvent => Unit = (event: ActionEvent) => {
+  def combatInstanceChangeMenuAction(): ActionEvent => Unit = (event: ActionEvent) => {
 
     // set the current combat instance
     Controller
