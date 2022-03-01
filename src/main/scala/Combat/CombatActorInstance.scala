@@ -348,7 +348,6 @@ class CombatActorInstance {
     /**
      * Healing Done Stats, can we combine this and get rid of the above?
      */
-    Logger.highlight(healType)
     // see if we have seen this type, note, most (all?) heals are of no type
     if (healingDoneStats.contains(healType)){
       // if we have seen this type, check the inner key and see if we have this ability

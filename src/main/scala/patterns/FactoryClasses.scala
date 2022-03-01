@@ -9,7 +9,7 @@ import parsing.Values.{CompleteNegation, NoValue, PartialNegation, RegularValue,
 import parsing.subTypes.{ActorId, Health, LogTimestamp, Position}
 import parsing.Result.AreaEntered
 import patterns.Actions.{Action, NoAction, SafeLogin}
-import patterns.Result.{EnterCombat, ExitCombat}
+import patterns.Result.{EnterCombat, ExitCombat, GenericResult}
 
 class FactoryClasses {
 
@@ -127,6 +127,7 @@ class FactoryClasses {
       case e: ArrayIndexOutOfBoundsException => Logger.warn(s"Line failed to parse result nameId ${logLine}")
     }
 
+    // TODO: We may be able to get rid of these and just go to the else case
     if (resultType == "ApplyEffect") {
       new ApplyEffect(resultType,effectId,name,nameId)
     }
@@ -147,8 +148,7 @@ class FactoryClasses {
       new AreaEntered(resultType,effectId,name,nameId)
     }
     else {
-      // TODO: This is wrong, just a place holder
-      new ApplyEffect("ERROR","Err","Else Case Hit","Err")
+      new GenericResult(resultType,effectId)
     }
 
 
@@ -224,7 +224,7 @@ class FactoryClasses {
                 baseValue = part.toInt
               }
               catch {
-                case e: NumberFormatException => Logger.warn(s"Failed to parse line, number format exception: ${logLine}")
+                case e: NumberFormatException => Logger.error(s"Failed to parse line, number format exception: ${logLine} + ${e}")
               }
             }
           }
@@ -238,7 +238,7 @@ class FactoryClasses {
             containsExcess = extractedValue.split(' ')(1).contains('~')
           } catch {
             case e: ArrayIndexOutOfBoundsException => // this happens on simple values like (861)
-            case e: Throwable => println(s"Error: ${e}")
+            case e: Throwable => Logger.error(s"Error parsing excess: ${e}")
           }
 
           if (containsExcess) {
@@ -247,7 +247,12 @@ class FactoryClasses {
               excessValue = extractedValue.split('~')(1).split(' ')(0).dropRight(1).toInt
             }
             else {
-              excessValue = extractedValue.split('~')(1).split(' ')(0).toInt
+              try {
+                excessValue = extractedValue.split('~')(1).split(' ')(0).toInt
+              }
+              catch {
+                case e: Throwable => Logger.error(s"Failed to parse excess part from value in line ${logLine} ${e}")
+              }
             }
             //println(s"Extracted Excess Value: ${excessValue} from ${extractedValue}")
           }
@@ -285,7 +290,8 @@ class FactoryClasses {
           // Check for partial negation
           // at this point a - will only exist if there is a partial negation
           // for some reason there is this case with a random -) though as in this line: (51 ~0 energy {836045448940874} -)"
-          if (extractedValue.contains('-') && !extractedValue.contains("-)")) {
+          // furthermore, excess heals show may show with a - as in Heal {836045448945500}] (5090 ~-3755)
+          if (extractedValue.contains('-') && !extractedValue.contains("-)") && !extractedValue.contains("~-")) {
             val negationType = extractedValue.split('-')(1).split(' ')(0).trim
             val negationId = extractedValue.split('-')(1).split('{')(1).split('}')(0).trim
             val negationAmount = extractedValue.split('-')(1).split('(')(1).split(' ')(0).toInt
