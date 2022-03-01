@@ -23,7 +23,9 @@ object PathLoader {
 
   def getPaths(): List[String] = {
     // TODO: What path should this be in when running from exe?
-    Source.fromFile("src/main/resources/paths.txt").getLines.toList
+    val loaded = Source.fromFile("src/main/resources/paths.txt").getLines.toList
+    loaded.foreach(s => paths.add(s))
+    loaded
   }
   def addPath(recentDir: String): Unit = {
     if (!paths.contains(recentDir)) {

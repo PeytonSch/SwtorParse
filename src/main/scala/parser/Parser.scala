@@ -252,28 +252,28 @@ object Parser {
             performer = factory.performingActorFromLogLineString(line)
           }
           catch {
-            case e: Throwable => Logger.error(s"Failed extracting performer from line ${line}")
+            case e: Throwable => Logger.error(s"Failed extracting performer from line ${line} ${e}")
           }
           var target: Actor = new NoneActor
           try {
             target = factory.targetActorFromLogLineString(line)
           }
           catch {
-            case e: Throwable => Logger.error(s"Failed extracting target from line ${line}")
+            case e: Throwable => Logger.error(s"Failed extracting target from line ${line} ${e}")
           }
           var action: Action = new NoAction()
           try {
             action = factory.actionFromLine(line)
           }
           catch {
-            case e: Throwable => Logger.error(s"Failed extracting action from line ${line}")
+            case e: Throwable => Logger.error(s"Failed extracting action from line ${line} ${e}")
           }
           var result: Result = new GenericResult("","")
           try {
             result = factory.resultFromLine(line)
           }
           catch {
-            case e: Throwable => Logger.error(s"Failed extracting result from line ${line}")
+            case e: Throwable => Logger.error(s"Failed extracting result from line ${line} ${e}")
           }
           // See if this line has a value associated with it
           var resultValue: Value =  new NoValue()
@@ -281,14 +281,14 @@ object Parser {
             resultValue = factory.valueFromLine(line)
           }
           catch {
-            case e: Throwable => Logger.error(s"Failed extracting value from line ${line}")
+            case e: Throwable => Logger.error(s"Failed extracting value from line ${line} ${e}")
           }
           var threatValue: ThreatValue = new ThreatValue(0)
           try {
             threatValue = factory.threatFromLine(line)
           }
           catch {
-            case e: Throwable => Logger.error(s"Failed extracting threat value from line ${line}")
+            case e: Throwable => Logger.error(s"Failed extracting threat value from line ${line} ${e}")
           }
 
           //          val time: LogTimestamp = Timer.time("Parser Extract Timestamp",{factory.timestampFromLine(line)})
