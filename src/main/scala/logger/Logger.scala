@@ -4,6 +4,8 @@ import Utils.Config
 import com.typesafe.config.ConfigFactory
 import logger.LogLevel._
 
+import java.io.FileWriter
+
 /**
  * Custom build logging class, there are libraries that probably do this way better
  * but I wanted to make one and all I need is something simple so
@@ -58,6 +60,14 @@ object Logger {
 
   def error(statement: String): Unit = {
     println(Console.RED + statement)
+
+    val fw = new FileWriter("ErrorLog.txt", true)
+    try {
+      fw.write(statement)
+      fw.write("\n")
+    }
+    finally fw.close()
+
   }
   def warn(statement: String): Unit = {
     println(Console.YELLOW + statement)
@@ -91,6 +101,7 @@ object Logger {
       println(Console.BLUE + statement)
     }
   }
+
 
 
 

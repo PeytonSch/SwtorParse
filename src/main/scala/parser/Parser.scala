@@ -6,7 +6,7 @@ import Utils.{Config, Timer}
 import com.typesafe.config.ConfigFactory
 import logger.{LogLevel, Logger}
 import parsing.Actions.DefaultAction
-import parsing.Actors.Actor
+import parsing.Actors.{Actor, NoneActor}
 import parsing.Result.{Event, Result}
 import parsing.Threat.ThreatValue
 import parsing.Values.{NoValue, Value}
@@ -14,6 +14,7 @@ import parsing.subTypes.LogTimestamp
 import parsing.FactoryClasses
 import patterns.Actions.{Action, NoAction}
 import patterns.LogInformation
+import patterns.Result.GenericResult
 import scalafx.application.Platform
 import scalafx.scene.layout.VBox
 import scalafx.scene.shape.Rectangle
@@ -54,7 +55,9 @@ object Parser {
    * and when we open a new file. This will need to be changed to use optimized loading when opening a new file
    */
   def getNewLines(path: String): IndexedSeq[LogInformation] = {
-    getLinesFromFile(path)
+    Timer.time(s"Parsing new file", {
+      getLinesFromFile(path)
+    })
   }
 
   /**
@@ -164,41 +167,6 @@ object Parser {
       // we read to the 2nd to last line so that we avoid errors where we read a line that hasnt been completely written yet
       // TODO: Maybe add a check to see if the last line ends with newline? And if so read it entirely?
       val collected: Vector[LogInformation] = parseLineRange(lastReadLine,lines.length-2,lines)
-//      val collected: IndexedSeq[LogInformation] = for (currentIndex <- Range(lastReadLine, lines.length - 1)) yield {
-//        //println(s"Extracting ling ${currentIndex} from log")
-//
-//
-//        val line = lines(currentIndex)
-//        try {
-//          /**
-//           * Extract log information
-//           */
-//          val time: LogTimestamp = factory.timestampFromLine(line)
-//          val performer: Actor = factory.performingActorFromLogLineString(line)
-//          val target: Actor = factory.targetActorFromLogLineString(line)
-//          val action: Action = factory.actionFromLine(line)
-//          val result: Result = factory.resultFromLine(line)
-//          // See if this line has a value associated with it
-//          val resultValue: Value = factory.valueFromLine(line)
-//          val threatValue: ThreatValue = factory.threatFromLine(line)
-//
-//          lastReadLine = currentIndex
-//
-//          new LogInformation(time, performer, target, action, result, resultValue, threatValue)
-//        }
-//          // TODO: This often seems to happen where we read a partial line as the game is still writing the file, how to get only entire lines?
-//        catch {
-//          case e: Throwable => {
-//            Logger.error(s"Failed to Parse Line: ${line} \n Caught e: ${e}")
-//
-//            val time: LogTimestamp = factory.timestampFromLine(line)
-//            val performer: Actor = factory.performingActorFromLogLineString(line)
-//            val target: Actor = factory.targetActorFromLogLineString(line)
-//            new LogInformation(time, performer, target, new NoAction, new Event("", "", "", ""), new NoValue, new ThreatValue(0))
-//          }
-//        }
-//      }
-
       Logger.trace(s"Read ${collected.size-1} log lines this tick")
 
       collected
@@ -253,7 +221,6 @@ object Parser {
 
     def parseLineRange(start: Int, stop: Int, lines:IndexedSeq[String]): Vector[LogInformation] = {
       val range = Range(start,stop).toVector
-      Timer.time(s"Parser Parse Line Range with ${stop-start} lines", {
       if (start == 0) {
         Logger.highlight(s"Loading Log File With ${stop+1} lines. Please note, at the moment, large files take awhile to initialize")
       }
@@ -276,20 +243,55 @@ object Parser {
 //        }
 
         val line = lines(currentIndex)
-        try {
           /**
            * Extract log information
            */
           val time: LogTimestamp = factory.timestampFromLine(line)
-          val performer: Actor = factory.performingActorFromLogLineString(line)
-          val target: Actor = factory.targetActorFromLogLineString(line)
-          val action: Action = factory.actionFromLine(line)
-          val result: Result = factory.resultFromLine(line)
+          var performer: Actor = new NoneActor
+          try {
+            performer = factory.performingActorFromLogLineString(line)
+          }
+          catch {
+            case e: Throwable => Logger.error(s"Failed extracting performer from line ${line}")
+          }
+          var target: Actor = new NoneActor
+          try {
+            target = factory.targetActorFromLogLineString(line)
+          }
+          catch {
+            case e: Throwable => Logger.error(s"Failed extracting target from line ${line}")
+          }
+          var action: Action = new NoAction()
+          try {
+            action = factory.actionFromLine(line)
+          }
+          catch {
+            case e: Throwable => Logger.error(s"Failed extracting action from line ${line}")
+          }
+          var result: Result = new GenericResult("","")
+          try {
+            result = factory.resultFromLine(line)
+          }
+          catch {
+            case e: Throwable => Logger.error(s"Failed extracting result from line ${line}")
+          }
           // See if this line has a value associated with it
-          val resultValue: Value = factory.valueFromLine(line)
-          val threatValue: ThreatValue = factory.threatFromLine(line)
+          var resultValue: Value =  new NoValue()
+          try {
+            resultValue = factory.valueFromLine(line)
+          }
+          catch {
+            case e: Throwable => Logger.error(s"Failed extracting value from line ${line}")
+          }
+          var threatValue: ThreatValue = new ThreatValue(0)
+          try {
+            threatValue = factory.threatFromLine(line)
+          }
+          catch {
+            case e: Throwable => Logger.error(s"Failed extracting threat value from line ${line}")
+          }
 
-//          val time: LogTimestamp = Timer.time("Parser Extract Timestamp",{factory.timestampFromLine(line)})
+          //          val time: LogTimestamp = Timer.time("Parser Extract Timestamp",{factory.timestampFromLine(line)})
 //          val performer: Actor = Timer.time("Parser Extract Performer",{factory.performingActorFromLogLineString(line)})
 //          val target: Actor = Timer.time("Parser Extract Target",{factory.targetActorFromLogLineString(line)})
 //          val action: Action = Timer.time("Parser Extract Action",{factory.actionFromLine(line)})
@@ -301,21 +303,11 @@ object Parser {
           lastReadLine = currentIndex
 
           new LogInformation(time, performer, target, action, result, resultValue, threatValue)
-        }
-          // TODO: This often seems to happen where we read a partial line as the game is still writing the file, how to get only entire lines?
-        catch {
-          case e: Throwable => {
-            Logger.error(s"Failed to Parse Line: ${line} \n Caught e: ${e}")
 
-            val time: LogTimestamp = factory.timestampFromLine(line)
-            val performer: Actor = factory.performingActorFromLogLineString(line)
-            val target: Actor = factory.targetActorFromLogLineString(line)
-            new LogInformation(time, performer, target, new NoAction, new Event("","","",""), new NoValue, new ThreatValue(0))
-          }
-        }
+          // TODO: This often seems to happen where we read a partial line as the game is still writing the file, how to get only entire lines?
+
       }
       collected
-      }) // end timer
     }
 
 
