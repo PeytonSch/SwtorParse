@@ -1,6 +1,6 @@
 package UI
 
-import Utils.Config
+import Utils.{Config, FileHelper, PathLoader}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
 import javafx.scene.paint.Color
@@ -16,7 +16,12 @@ object UICodeConfig {
 
   val random = scala.util.Random
 
-  var logPath = Config.config.getString("Paths.combatLogDir")
+  var logPath = if (PathLoader.getPaths().length >0) {
+    PathLoader.getPaths()(0)+"/"
+  }
+  else {
+    Config.config.getString("Paths.combatLogDir")
+  }
   // TODO: I'm going to make this empty to start, it should somehow get set to the most recent file on startup
   var logFile = Config.config.getString("Paths.combatLogPath")
 

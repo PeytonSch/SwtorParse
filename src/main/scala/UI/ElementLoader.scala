@@ -41,6 +41,10 @@ object ElementLoader {
   // This can be used to generate random numbers
   val random = scala.util.Random
 
+  // This tells us if we want to display everyone, just players, players + companions, or players + bosses
+  var overlayDisplayModeDPS: String = "player"
+  var overlayDisplayModeHPS: String = "player"
+
   /**
    * Attempt at defining things to load asyncronously
    */
@@ -189,6 +193,15 @@ object ElementLoader {
 
 
   def refreshUI( ): Unit = {
+
+    var wentBack = false
+
+    // if the current combat is null, this doesnt work. So check that first.
+    if (Controller.getCurrentCombat() == null) {
+      Controller.returnToPreviousCombatInstance()
+      wentBack = true
+    }
+
     /**
      * Update the main dps chart
      */
@@ -224,6 +237,11 @@ object ElementLoader {
      * Update Overlays
      */
     updateOverlays()
+
+    // if we had to return to previouse combat instance, set back to no combat instance
+    if (wentBack) {
+      Controller.endCombat()
+    }
   }
 
   /**
@@ -800,7 +818,20 @@ object ElementLoader {
 
     val sortedByDamageDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getDamageDone() > _.getDamageDone()).filter(_.getDamageDone() > 0)
 
-    for (actor <- sortedByDamageDone) {
+    // only display the toggled mode
+    val filterDamageByMode = overlayDisplayModeDPS match {
+      case "player" => sortedByDamageDone.filter(x => (x.getActorType() == "Player"))
+      case "boss" => sortedByDamageDone.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
+      case "comp" => sortedByDamageDone.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
+      case "all" => sortedByDamageDone
+      case _ => {
+        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDPS} unexpected. Setting to \"player\" and continuing.")
+        overlayDisplayModeDPS = "player"
+        sortedByDamageDone.filter(_.getActorType() == "Player")
+      }
+    }
+
+    for (actor <- filterDamageByMode) {
       val stacked = new StackPane()
       val text = new Text()
       val percentMaxFill: Int = ((actor.getDamageDone().toDouble / maxDamage) * 200).toInt
@@ -839,7 +870,20 @@ object ElementLoader {
 
     val sortedByHealingDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getHealingDone() > _.getHealingDone()).filter(_.getHealingDone() > 0)
 
-    for (actor <- sortedByHealingDone) {
+    // only display the toggled mode
+    val filterHealingByMode = overlayDisplayModeHPS match {
+      case "player" => sortedByHealingDone.filter(x => (x.getActorType() == "Player"))
+      case "boss" => sortedByHealingDone.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
+      case "comp" => sortedByHealingDone.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
+      case "all" => sortedByHealingDone
+      case _ => {
+        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDPS} unexpected. Setting to \"player\" and continuing.")
+        overlayDisplayModeDPS = "player"
+        sortedByHealingDone.filter(_.getActorType() == "Player")
+      }
+    }
+
+    for (actor <- filterHealingByMode) {
       val stacked = new StackPane()
       val text = new Text()
       val percentMaxFill: Int = ((actor.getHealingDone().toDouble / maxHealing) * 200).toInt
