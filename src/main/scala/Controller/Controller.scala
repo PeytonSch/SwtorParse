@@ -14,6 +14,7 @@ import patterns.Result.{EnterCombat, ExitCombat}
 object Controller {
 
   var currentCombat : CombatInstance = null // a combat instance you are currently in
+  var previousCombat: CombatInstance = null // the last combat you were in. This is used for some UI refreshing when not in combat
   var playerToon : String = "" // The name of the character the user is currently logged into
   var allCombatInstances : Vector[CombatInstance] = Vector()
 
@@ -25,12 +26,14 @@ object Controller {
   def resetController(): Unit = {
     allCombatInstances = Vector()
     currentCombat = null
+    previousCombat = null
     playerToon = ""
     playerToonIdString = ""
   }
 
 
   def setCurrentCombatInstance(i : CombatInstance): Unit = {
+    previousCombat = currentCombat
     currentCombat = i
   }
 
@@ -46,6 +49,10 @@ object Controller {
 
   def endCombat() = {
     setCurrentCombatInstance(null)
+  }
+
+  def returnToPreviousCombatInstance(): Unit = {
+    currentCombat = previousCombat
   }
 
   // companions get login lines as well so only set it the first time

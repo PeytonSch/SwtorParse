@@ -227,7 +227,7 @@ object Parser {
 
       val collected : Vector[LogInformation] = for (currentIndex <- range) yield {
 
-        if (currentIndex % 1000 ==0) {
+        if (currentIndex % 1000 == 0) {
           Logger.highlight(s"Progress: ${((currentIndex.toDouble/stop)*100).toInt}%")
         }
 
