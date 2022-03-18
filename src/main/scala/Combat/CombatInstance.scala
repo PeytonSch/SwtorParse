@@ -34,7 +34,7 @@ class CombatInstance (
 
   def getPlayerInCombatId() = playerInCombat
 
-  def getPlayerInCombatActor() = this.getCombatActorByIdString(playerInCombat)
+  def getPlayerInCombatActor() = this.getCombatActorByNameOrID(playerInCombat)
 
   // make a combat instance name from actors
   def getNameFromActors: String = {
@@ -145,11 +145,35 @@ class CombatInstance (
 
   }
 
+  def getCombatActorByNameOrID(lookingFor: String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    result = getCombatActorByIdString(lookingFor)
+    if (result == null) {
+      result = getCombatActorByNameString(lookingFor)
+    }
+
+    if (result == null) {
+      Logger.error(s"Could not find combat actor ${lookingFor}")
+    }
+
+    result
+
+  }
 
   def getCombatActorByIdString(id:String): CombatActorInstance = {
     var result : CombatActorInstance = null
     for (actor <- combatActors) {
       if (actor.getIdString() == id) {
+        result = actor
+      }
+    }
+    result
+  }
+
+  def getCombatActorByNameString(name:String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    for (actor <- combatActors) {
+      if (actor.getActor().getName() == name) {
         result = actor
       }
     }

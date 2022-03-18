@@ -213,9 +213,10 @@ object Main extends JFXApp3 {
      * */
 
     pane.add(Tiles.statusTile, 2, menuRow, 5, 1)
+    pane.add(Tiles.actorMenuBar,6,menuRow,1,1)
 
     //Main Row 1
-    pane.add(Tiles.leaderBoardTile, 7, mainRow1, 1, mainRowSpan)
+    pane.add(Tiles.leaderBoardStacked, 7, mainRow1, 1, mainRowSpan)
     pane.add(Tiles.overviewStackedArea, 1, mainRow1, 5, mainRowSpan)
     pane.add(Tiles.radarChartTile2, 6, mainRow1, 1, mainRowSpan)
 

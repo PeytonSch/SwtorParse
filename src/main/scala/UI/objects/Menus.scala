@@ -2,11 +2,13 @@ package UI.objects
 
 import UI.{ElementLoader, UICodeConfig}
 import Utils.{FileHelper, PathLoader}
+import javafx.event.{ActionEvent, EventHandler}
 import scalafx.scene.control.{Menu, MenuItem}
-
 import scalafx.Includes._
 
 object Menus {
+
+  import scalafx.Includes._
 
   val combatInstanceMenu = new Menu("Combat Instances")
 
@@ -30,6 +32,13 @@ object Menus {
   val menu4 = new Menu("Help")
 
   val fileMenu = new Menu("Log Files")
+
+//  fileMenu.setOnAction(new EventHandler[ActionEvent] {
+//    override def handle(event: ActionEvent): Unit = {
+//      println("Clicked Menu")
+//      //ElementLoader.loadLogFileMenu()
+//    }
+//  })
 
 
   def loadRecentDirMenu(): Unit = {
