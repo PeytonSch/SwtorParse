@@ -17,9 +17,9 @@ class CombatActorInstanceHealingDoneTests extends AnyFlatSpec{
   }
 
   "Combat Actors" should "update healing maps accordingly" in {
-    testCombatActor.updateHealingDone(10,1, "", "Source1")
-    testCombatActor.updateHealingDone(10,1, "", "Source2")
-    testCombatActor.updateHealingDone(10,2, "","Source3")
+    testCombatActor.updateHealingDone(10,1, "", "Source1",true,"target")
+    testCombatActor.updateHealingDone(10,1, "", "Source2",true,"target")
+    testCombatActor.updateHealingDone(10,2, "","Source3",true,"target")
 
     assert(testCombatActor.gethealingDoneTimeSeries().size == 2)
     assert(testCombatActor.gethealingDoneTimeSeries()(1) == 20)

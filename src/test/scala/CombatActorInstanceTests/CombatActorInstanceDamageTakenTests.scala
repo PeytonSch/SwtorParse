@@ -23,9 +23,9 @@ class CombatActorInstanceDamageTakenTests extends AnyFlatSpec{
   }
 
   "Combat Actors" should "update damage taken maps accordingly" in {
-    testCombatActor.updateDamageTaken(10,1,"Internal","Source1")
-    testCombatActor.updateDamageTaken(10,1,"Physical","Source2")
-    testCombatActor.updateDamageTaken(10,2,"Internal","Source3")
+    testCombatActor.updateDamageTaken(10,1,"Internal","Source1",true,"target")
+    testCombatActor.updateDamageTaken(10,1,"Physical","Source2",true,"target")
+    testCombatActor.updateDamageTaken(10,2,"Internal","Source3",true,"target")
 
     assert(testCombatActor.getDamageTypeTaken().size == 2)
     assert(testCombatActor.getDamageTypeTaken()("Internal") == 20)

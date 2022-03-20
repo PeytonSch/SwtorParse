@@ -23,9 +23,9 @@ class CombatActorInstanceHealingTakenTests extends AnyFlatSpec{
   }
 
   "Combat Actors" should "update damage taken maps accordingly" in {
-    testCombatActor.updateHealingTaken(10,1,"","Source1")
-    testCombatActor.updateHealingTaken(10,1,"","Source2")
-    testCombatActor.updateHealingTaken(10,2,"","Source3")
+    testCombatActor.updateHealingTaken(10,1,"","Source1", true, "target")
+    testCombatActor.updateHealingTaken(10,1,"","Source2", true, "target")
+    testCombatActor.updateHealingTaken(10,2,"","Source3", true, "target")
 
     assert(testCombatActor.getHealingTaken() == 30)
 

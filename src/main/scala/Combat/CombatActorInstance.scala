@@ -1,10 +1,12 @@
 package Combat
 
+import UI.GraphicFactory.SpreadSheetRow
 import eu.hansolo.tilesfx.chart.ChartData
 import logger.Logger
 import parsing.Actors.{Actor, Companion, Player}
 import parsing.subTypes.ActorId
 import patterns.LogInformation
+import scalafx.collections.ObservableBuffer
 
 import scala.collection.mutable
 
@@ -91,7 +93,6 @@ class CombatActorInstance {
   var damagePerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def getDamageDoneTimeSeries() = damageDoneTimeSeries
   def getDamagePerSecondTimeSeries() = damagePerSecondTimeSeries
-  // TODO: Most of these time series are not implemented in the UI yet, though we have the data ready
   var healingDoneTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def gethealingDoneTimeSeries() = healingDoneTimeSeries
   var healingPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
@@ -102,6 +103,8 @@ class CombatActorInstance {
   var damageTakenPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def getDamageTakenPerSecondTimeSeries() = damageTakenPerSecondTimeSeries
 
+  var healingTakenTimeSeries : mutable.Map[Int,Int] = mutable.Map()
+  def gethealingTakenTimeSeries() = healingTakenTimeSeries
   var healingTakenPerSecondTimeSeries : mutable.Map[Int,Int] = mutable.Map()
   def getHealingTakenPerSecondTimeSeries() = healingTakenPerSecondTimeSeries
 
@@ -140,9 +143,40 @@ class CombatActorInstance {
   var damageTypeTaken : mutable.Map[String,Int] = mutable.Map()
   def getDamageTypeTaken() = damageTypeTaken
 
+  /**
+   * Spreadsheet Data
+   */
+  // TODO: Thinking that dps and total % should be calculated at the end
+  // Key: Ability, Target
+  // Value hits,norm,crit,avg,miss,dps,total,total %
+  var damageDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  var damageTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  var healingDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  var healingTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
 
 
-  def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String,crit:Boolean): Unit = {
+  private def getSpreadSheetData(dataSheetMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] ):ObservableBuffer[SpreadSheetRow] = {
+    // create an observable buffer
+    val buf = ObservableBuffer[SpreadSheetRow]()
+    // add data to buffer
+    for (entry <- dataSheetMap) {
+      buf +=
+        new SpreadSheetRow(
+          entry._1._1, entry._1._2,entry._2._1,entry._2._2,entry._2._3,entry._2._4,entry._2._5,entry._2._6,entry._2._7,entry._2._8
+        )
+    }
+    buf
+  }
+
+  def getDamageDoneSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(damageDoneSheetDataMap)
+  def getDamageTakenSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(damageTakenSheetDataMap)
+  def getHealingDoneSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(healingDoneSheetDataMap)
+  def getHealingTakenSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(healingTakenSheetDataMap)
+
+
+
+
+  def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String, crit : Boolean, target: String): Unit = {
     damageDone += damageAmount
     damagePerSecond = damageDone / (axisValue+1)
     totalDamageAbilities += 1
@@ -227,6 +261,43 @@ class CombatActorInstance {
     }
 
 
+    /**
+     * Update Spreadsheet data
+     */
+    if (damageDoneSheetDataMap.contains((damageSource,target))){
+      val current = damageDoneSheetDataMap((damageSource,target))
+      val hits = current._1 + 1
+      val norm = if (crit) {
+        current._2
+      } else {
+        (current._2 + damageAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._3 + damageAmount
+      } else {
+        current._3
+      }
+      val avg = (current._4 + damageAmount) / hits
+      val miss = 0
+      val dps = 0
+      val total = current._7 + damageAmount
+      val totalPercent = 0
+
+      damageDoneSheetDataMap((damageSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+
+    } else {
+      val hits = 1
+      val norm = if (crit) 0 else damageAmount
+      val critVal = if (crit) damageAmount else 0
+      val avg = damageAmount
+      val miss = 0
+      val dps = 0
+      val total = damageAmount
+      val totalPercent = 0
+      damageDoneSheetDataMap((damageSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+    }
+
+
   }
 
 
@@ -236,7 +307,7 @@ class CombatActorInstance {
   // TODO: Can we get rid of damageTypeTaken and make this all based off of damageTakenStats
   // damage taken stats: Map(DamageType -> (Ability -> Amount)
   // TODO: Add DTPS graph functionality, make it toggleable in the UI
-  def updateDamageTaken(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String): Unit = {
+  def updateDamageTaken(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String, crit:Boolean, performer: String): Unit = {
     damageTaken += damageAmount
     damageTakenPerSecond = damageTaken / (axisValue+1)
     // update damage Types
@@ -314,10 +385,49 @@ class CombatActorInstance {
     else {
       damageTaken1DStats("") = mutable.Map(damageSource -> damageAmount)
     }
+
+
+
+    /**
+     * Update Spreadsheet data
+     */
+    if (damageTakenSheetDataMap.contains((damageSource,performer))){
+      val current = damageTakenSheetDataMap((damageSource,performer))
+      val hits = current._1 + 1
+      val norm = if (crit) {
+        current._2
+      } else {
+        (current._2 + damageAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._3 + damageAmount
+      } else {
+        current._3
+      }
+      val avg = (current._4 + damageAmount) / hits
+      val miss = 0
+      val dps = 0
+      val total = current._7 + damageAmount
+      val totalPercent = 0
+
+      damageTakenSheetDataMap((damageSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+
+    } else {
+      val hits = 1
+      val norm = if (crit) 0 else damageAmount
+      val critVal = if (crit) damageAmount else 0
+      val avg = damageAmount
+      val miss = 0
+      val dps = 0
+      val total = damageAmount
+      val totalPercent = 0
+      damageTakenSheetDataMap((damageSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+    }
+
   }
 
   // TODO: Add fancy pie charts for heal taken and done on healing tab
-  def updateHealingDone(healAmount: Int, axisValue : Int, healType : String, healSource : String): Unit = {
+  def updateHealingDone(healAmount: Int, axisValue : Int, healType : String, healSource : String,crit:Boolean,target:String): Unit = {
     healingDone += healAmount
     healingDonePerSecond = healingDone / (axisValue+1)
 
@@ -365,11 +475,65 @@ class CombatActorInstance {
       healingDoneStats(healType) = mutable.Map(healSource -> healAmount)
     }
 
+
+    /**
+     * Update Spreadsheet data
+     */
+    // TODO: Abstract spreadsheet data to a function
+    if (healingDoneSheetDataMap.contains((healSource,target))){
+      val current = healingDoneSheetDataMap((healSource,target))
+      val hits = current._1 + 1
+      val norm = if (crit) {
+        current._2
+      } else {
+        // TODO: This needs to be normal hits not total hits
+        (current._2 + healAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._3 + healAmount
+      } else {
+        current._3
+      }
+      val avg = (current._4 + healAmount) / hits
+      val miss = 0
+      val dps = 0
+      val total = current._7 + healAmount
+      val totalPercent = 0
+
+      healingDoneSheetDataMap((healSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+
+    } else {
+      val hits = 1
+      val norm = if (crit) 0 else healAmount
+      val critVal = if (crit) healAmount else 0
+      val avg = healAmount
+      val miss = 0
+      val dps = 0
+      val total = healAmount
+      val totalPercent = 0
+      healingDoneSheetDataMap((healSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+    }
+
   }
 
-  def updateHealingTaken(healAmount: Int, axisValue : Int, healType : String, healSource : String): Unit = {
+  def updateHealingTaken(healAmount: Int, axisValue : Int, healType : String, healSource : String, crit: Boolean, performer: String): Unit = {
     healingTaken += healAmount
     healingTakenPerSecond = healingTaken / (axisValue+1)
+
+
+    /**
+     * Update healingTakenTimeSeries
+     * */
+    // check if we already have damage done in this second
+    if (healingTakenTimeSeries.contains(axisValue)){
+      val newHealingInBucket : Int = healingTakenTimeSeries.get(axisValue).get + healAmount
+      healingTakenTimeSeries += (axisValue -> newHealingInBucket)
+    }
+    // if we don't have any data for this second yet, add that key value
+    else {
+      healingTakenTimeSeries(axisValue) = healAmount
+    }
+
 
     /**
      * Update healingTakenPerSecondTimeSeries
@@ -401,6 +565,44 @@ class CombatActorInstance {
     // if we have nothing for this heal type, we know we can just add the stats
     else {
       healingTakenStats(healType) = mutable.Map(healSource -> healAmount)
+    }
+
+    /**
+     * Update Spreadsheet data
+     */
+    // TODO: Abstract spreadsheet data to a function
+    if (healingTakenSheetDataMap.contains((healSource,performer))){
+      val current = healingTakenSheetDataMap((healSource,performer))
+      val hits = current._1 + 1
+      val norm = if (crit) {
+        current._2
+      } else {
+        // TODO: This needs to be normal hits not total hits
+        (current._2 + healAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._3 + healAmount
+      } else {
+        current._3
+      }
+      val avg = (current._4 + healAmount) / hits
+      val miss = 0
+      val dps = 0
+      val total = current._7 + healAmount
+      val totalPercent = 0
+
+      healingTakenSheetDataMap((healSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+
+    } else {
+      val hits = 1
+      val norm = if (crit) 0 else healAmount
+      val critVal = if (crit) healAmount else 0
+      val avg = healAmount
+      val miss = 0
+      val dps = 0
+      val total = healAmount
+      val totalPercent = 0
+      healingTakenSheetDataMap((healSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
     }
 
   }

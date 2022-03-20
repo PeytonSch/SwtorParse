@@ -2,6 +2,7 @@ package UI
 
 import Combat.CombatActorInstance
 import Controller.Controller
+import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.Menus
 import UI.overlays.Overlays
 import UI.overlays.Overlays.{groupDamagePane, groupHealingPane}
@@ -27,8 +28,11 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
+import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken}
 import Utils.{FileHelper, PathLoader}
 import parser.Parser
+import scalafx.collections.ObservableBuffer
+import scalafx.scene.chart.{BarChart, LineChart}
 
 import java.io.File
 
@@ -218,6 +222,21 @@ object ElementLoader {
     updateMainDpsChart()
 
     /**
+     * Update the main healing done chart
+     */
+    updateMainHealingDoneChart()
+
+    /**
+     * Update the main healing taken chart
+     */
+    updateMainHealingTakenChart()
+
+    /**
+     * Update the main damage done chart
+     */
+    updateMainDamageDoneChart()
+
+    /**
      * Damage Done By Source
      */
     updateDamageDoneBySource()
@@ -242,6 +261,7 @@ object ElementLoader {
      * Damage Taken Tab Chart
      */
     updateDamageTakenChart()
+    updateMainDamageTakenChart()
 
     /**
      * Update Overlays
@@ -252,6 +272,14 @@ object ElementLoader {
      * Actor Perspective Drop Down
      */
     updateActorPerspectives()
+
+    /**
+     * Update Spreadsheets
+     */
+    updateDamageDoneSpreadSheet()
+    updateHealingDoneSpreadSheet()
+    updateHealingTakenSpreadSheet()
+    updateDamageTakenSpreadSheet()
 
     // if we had to return to previouse combat instance, set back to no combat instance
     if (wentBack) {
@@ -374,6 +402,24 @@ object ElementLoader {
 
   }
 
+  def updateDamageDoneSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneSpreadSheetData()
+    DamageDone.spreadSheet.getTable.setItems(data)
+  }
+  def updateDamageTakenSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenSpreadSheetData()
+    DamageTaken.spreadSheet.getTable.setItems(data)
+  }
+
+  def updateHealingDoneSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneSpreadSheetData()
+    HealingDone.spreadSheet.getTable.setItems(data)
+  }
+  def updateHealingTakenSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenSpreadSheetData()
+    HealingTaken.spreadSheet.getTable.setItems(data)
+  }
+
   def updateActorPerspectives(): Unit = {
     // get actors
     val actors: Seq[CombatActorInstance] = Controller.getCurrentCombat().getCombatActors()
@@ -479,6 +525,58 @@ object ElementLoader {
       case e: Throwable => Logger.error(s"Error trying to set damageTaken chart axis: ${e}")
     }
   }
+
+
+  /**
+   * Main Healing Done Chart
+   */
+  def updateMainHealingDoneChart() = {
+    // time series
+    val healingTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().gethealingDoneTimeSeries()
+    val healingPerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().gethealingPerSecondTimeSeries()
+
+    HealingDone.mainChart.resetData()
+    HealingDone.mainChart.updateData(healingTimeSeries,healingPerSecondTimeSeries)
+
+  }
+
+  def updateMainHealingTakenChart() = {
+    // time series
+    val healingTakenTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().gethealingTakenTimeSeries()
+    val healingTakenPerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenPerSecondTimeSeries()
+
+    HealingTaken.mainChart.resetData()
+    HealingTaken.mainChart.updateData(healingTakenTimeSeries,healingTakenPerSecondTimeSeries)
+  }
+
+  /**
+   * Main damage Done Chart
+   */
+  def updateMainDamageDoneChart() = {
+    // time series
+    val damageTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
+    val damagePerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecondTimeSeries()
+
+    DamageDone.mainChart.resetData()
+    DamageDone.mainChart.updateData(damageTimeSeries,damagePerSecondTimeSeries)
+
+  }
+
+
+  /**
+   * Main damage Taken Chart
+   */
+  def updateMainDamageTakenChart() = {
+    // time series
+    val damageTakenTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenTimeSeries()
+    val damageTakenPerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecondTimeSeries()
+
+    DamageTaken.mainChart.resetData()
+    DamageTaken.mainChart.updateData(damageTakenTimeSeries,damageTakenPerSecondTimeSeries)
+
+  }
+
+  // TODO: The below updateDamageTakenChart() method is out dated and removed
 
   /**
    * Update Damage Taken Line/Bar Chart

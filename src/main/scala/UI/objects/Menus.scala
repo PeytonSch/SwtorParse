@@ -3,7 +3,7 @@ package UI.objects
 import UI.{ElementLoader, UICodeConfig}
 import Utils.{FileHelper, PathLoader}
 import javafx.event.{ActionEvent, EventHandler}
-import scalafx.scene.control.{Menu, MenuItem}
+import scalafx.scene.control.{Menu, MenuBar, MenuItem}
 import scalafx.Includes._
 
 object Menus {
@@ -48,6 +48,14 @@ object Menus {
       item
     }
   }
+
+
+
+  //Create blank menubar
+  val mainMenuBar = new MenuBar()
+
+  //add the menus to the menubar
+  mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu, combatInstanceMenu)
 
 
 }
