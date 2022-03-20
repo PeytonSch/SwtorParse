@@ -1,3 +1,7 @@
+.hps-bar {
+    -fx-bar-fill: #48FF80;
+}
+
 .chart-plot-background {
     -fx-background-color: transparent;
     /*-fx-background-color: #2a2a2a; */
@@ -28,6 +32,7 @@
 .chart-bar {
     -fx-bar-fill: #49A9FF;
 }
+
 
 /*#damageTakenBarChart {*/
 /*    -fx-bar-fill: #ff4989;*/
@@ -100,3 +105,53 @@
     -fx-smooth: true;
 }
 
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #404040);
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+}
+
+.table-row-cell: odd{
+    -fx-background-color: #404040;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    -fx-text-background-color: #ecec7a;
+}
+
+.table-row-cell: even{
+    -fx-background-color: #2a2a2a;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    -fx-text-background-color: #C4BFAE;
+}
+
+.table-row-cell: hover {
+    -fx-background-color: #544F49;
+    -fx-text-background-color: red;
+}

@@ -34,7 +34,7 @@ class CombatInstance (
 
   def getPlayerInCombatId() = playerInCombat
 
-  def getPlayerInCombatActor() = this.getCombatActorByIdString(playerInCombat)
+  def getPlayerInCombatActor() = this.getCombatActorByNameOrID(playerInCombat)
 
   // make a combat instance name from actors
   def getNameFromActors: String = {
@@ -78,7 +78,9 @@ class CombatInstance (
   def addDamageToCurrentCombat(logInfo : LogInformation): Unit = {
     // check which actor is performing the damage and add it to their damage
     val performerId: String = logInfo.getPerformer().getId().toString
+    val performerName: String = logInfo.getPerformer().getName()
     val targetId: String = logInfo.getTarget().getId().toString
+    val targetName: String = logInfo.getTarget().getName()
     val totalValue : Int = logInfo.getResulValue().getFullValue()
     val damageType : String = logInfo.getResulValue().getValueType()
     val damageSource : String = logInfo.getAction().getName()
@@ -88,14 +90,14 @@ class CombatInstance (
     // find the combatActor to add damage to
     for (actor <- combatActors) {
       if (actor.getIdString() == performerId) {
-        actor.updateDamageDone(totalValue,durationMarkFromStart,damageType,damageSource,crit)
+        actor.updateDamageDone(totalValue,durationMarkFromStart,damageType,damageSource,crit,targetName)
       }
     }
 
     // find the combatActor to add damage taken to
     for (actor <- combatActors) {
       if (actor.getIdString() == targetId) {
-        actor.updateDamageTaken(totalValue,durationMarkFromStart,damageType,damageSource)
+        actor.updateDamageTaken(totalValue,durationMarkFromStart,damageType,damageSource,crit,performerName)
       }
     }
 
@@ -105,24 +107,27 @@ class CombatInstance (
     // check which actor is performing the damage and add it to their damage
     // performers can be none in healing lines
     val performerId: String = logInfo.getPerformer().getId().toString
+    val performerName: String = logInfo.getPerformer().getName()
     val targetId: String = logInfo.getTarget().getId().toString
+    val targetName: String = logInfo.getTarget().getName()
     val totalValue : Int = logInfo.getResulValue().getFullValue()
     // heals never seem to have a type but we'll leave this here anyways
     val damageType : String = logInfo.getResulValue().getValueType()
     val damageSource : String = logInfo.getAction().getName()
     val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
+    val crit = logInfo.getResulValue().getCrit()
 
     // find the combatActor to add healing to
     for (actor <- combatActors) {
       if (actor.getIdString() == performerId) {
-        actor.updateHealingDone(totalValue,durationMarkFromStart,damageType,damageSource)
+        actor.updateHealingDone(totalValue,durationMarkFromStart,damageType,damageSource,crit,targetName)
       }
     }
 
     // find the combatActor to add healing taken to
     for (actor <- combatActors) {
       if (actor.getIdString() == targetId) {
-        actor.updateHealingTaken(totalValue,durationMarkFromStart,damageType,damageSource)
+        actor.updateHealingTaken(totalValue,durationMarkFromStart,damageType,damageSource, crit, performerName)
       }
     }
 
@@ -145,11 +150,35 @@ class CombatInstance (
 
   }
 
+  def getCombatActorByNameOrID(lookingFor: String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    result = getCombatActorByIdString(lookingFor)
+    if (result == null) {
+      result = getCombatActorByNameString(lookingFor)
+    }
+
+    if (result == null) {
+      Logger.error(s"Could not find combat actor ${lookingFor}")
+    }
+
+    result
+
+  }
 
   def getCombatActorByIdString(id:String): CombatActorInstance = {
     var result : CombatActorInstance = null
     for (actor <- combatActors) {
       if (actor.getIdString() == id) {
+        result = actor
+      }
+    }
+    result
+  }
+
+  def getCombatActorByNameString(name:String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    for (actor <- combatActors) {
+      if (actor.getActor().getName() == name) {
         result = actor
       }
     }

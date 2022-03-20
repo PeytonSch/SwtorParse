@@ -1,6 +1,8 @@
 package UI
 
+import Combat.CombatActorInstance
 import Controller.Controller
+import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.Menus
 import UI.overlays.Overlays
 import UI.overlays.Overlays.{groupDamagePane, groupHealingPane}
@@ -26,8 +28,11 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
+import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken}
 import Utils.{FileHelper, PathLoader}
 import parser.Parser
+import scalafx.collections.ObservableBuffer
+import scalafx.scene.chart.{BarChart, LineChart}
 
 import java.io.File
 
@@ -108,6 +113,10 @@ object ElementLoader {
 
   def loadNewDirectoryActionEvent(dirPath: String): ActionEvent => Unit = (event: ActionEvent) => {
     loadNewDirectory(dirPath)
+  }
+
+  def loadLogFileMenuActionEvent(dirPath: String): ActionEvent => Unit = (event: ActionEvent) => {
+    loadLogFileMenu()
   }
 
   def loadRecentDirectoryMenu(): Unit = {
@@ -194,6 +203,11 @@ object ElementLoader {
 
   def refreshUI( ): Unit = {
 
+    /**
+     * this is for refreshing the overlays when we select a combat instance in the past.
+     * For example, when you complete a combat, then select to show only players in an overlay. You have
+     * to set yourself in a combat to refresh the ui then back out of combat.
+     */
     var wentBack = false
 
     // if the current combat is null, this doesnt work. So check that first.
@@ -206,6 +220,21 @@ object ElementLoader {
      * Update the main dps chart
      */
     updateMainDpsChart()
+
+    /**
+     * Update the main healing done chart
+     */
+    updateMainHealingDoneChart()
+
+    /**
+     * Update the main healing taken chart
+     */
+    updateMainHealingTakenChart()
+
+    /**
+     * Update the main damage done chart
+     */
+    updateMainDamageDoneChart()
 
     /**
      * Damage Done By Source
@@ -232,11 +261,25 @@ object ElementLoader {
      * Damage Taken Tab Chart
      */
     updateDamageTakenChart()
+    updateMainDamageTakenChart()
 
     /**
      * Update Overlays
      */
     updateOverlays()
+
+    /**
+     * Actor Perspective Drop Down
+     */
+    updateActorPerspectives()
+
+    /**
+     * Update Spreadsheets
+     */
+    updateDamageDoneSpreadSheet()
+    updateHealingDoneSpreadSheet()
+    updateHealingTakenSpreadSheet()
+    updateDamageTakenSpreadSheet()
 
     // if we had to return to previouse combat instance, set back to no combat instance
     if (wentBack) {
@@ -261,6 +304,36 @@ object ElementLoader {
     Controller.endCombat()
 
   }
+
+  /**
+   * This function is called when you select a different actor in the perspective menu.
+   */
+    def changeUIPerspective(): ActionEvent => Unit = (event: ActionEvent) => {
+
+      // Check if we need to load the last combat if we aren't in one right now
+
+      var wentBack = false
+
+      // if the current combat is null, this doesnt work. So check that first.
+      if (Controller.getCurrentCombat() == null) {
+        Controller.returnToPreviousCombatInstance()
+        wentBack = true
+      }
+
+      Controller.getCurrentCombat().setPlayerInCombat(
+        event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText
+      )
+
+      refreshUI()
+
+      // if we had to return to previouse combat instance, set back to no combat instance
+      if (wentBack) {
+        Controller.endCombat()
+      }
+
+
+
+    }
 
   def loadNewCombatFile(): ActionEvent => Unit = (event: ActionEvent) => {
     Controller.resetController()
@@ -327,6 +400,39 @@ object ElementLoader {
     //Tiles.barChartTile.getBarChartItems().get(2).setValue(5000)
 
 
+  }
+
+  def updateDamageDoneSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneSpreadSheetData()
+    DamageDone.spreadSheet.getTable.setItems(data)
+  }
+  def updateDamageTakenSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenSpreadSheetData()
+    DamageTaken.spreadSheet.getTable.setItems(data)
+  }
+
+  def updateHealingDoneSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneSpreadSheetData()
+    HealingDone.spreadSheet.getTable.setItems(data)
+  }
+  def updateHealingTakenSpreadSheet(): Unit = {
+    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenSpreadSheetData()
+    HealingTaken.spreadSheet.getTable.setItems(data)
+  }
+
+  def updateActorPerspectives(): Unit = {
+    // get actors
+    val actors: Seq[CombatActorInstance] = Controller.getCurrentCombat().getCombatActors()
+
+    // create a list of menu items from their names
+    val newMenuItems: Seq[MenuItem] = for (actor <- actors) yield {
+      val item = new MenuItem(actor.getActor().getName())
+      item.setOnAction(changeUIPerspective())
+      item
+    }
+
+    // set menu to those items
+    Tiles.actorMenu.items = newMenuItems
   }
 
 
@@ -419,6 +525,58 @@ object ElementLoader {
       case e: Throwable => Logger.error(s"Error trying to set damageTaken chart axis: ${e}")
     }
   }
+
+
+  /**
+   * Main Healing Done Chart
+   */
+  def updateMainHealingDoneChart() = {
+    // time series
+    val healingTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().gethealingDoneTimeSeries()
+    val healingPerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().gethealingPerSecondTimeSeries()
+
+    HealingDone.mainChart.resetData()
+    HealingDone.mainChart.updateData(healingTimeSeries,healingPerSecondTimeSeries)
+
+  }
+
+  def updateMainHealingTakenChart() = {
+    // time series
+    val healingTakenTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().gethealingTakenTimeSeries()
+    val healingTakenPerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenPerSecondTimeSeries()
+
+    HealingTaken.mainChart.resetData()
+    HealingTaken.mainChart.updateData(healingTakenTimeSeries,healingTakenPerSecondTimeSeries)
+  }
+
+  /**
+   * Main damage Done Chart
+   */
+  def updateMainDamageDoneChart() = {
+    // time series
+    val damageTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneTimeSeries()
+    val damagePerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecondTimeSeries()
+
+    DamageDone.mainChart.resetData()
+    DamageDone.mainChart.updateData(damageTimeSeries,damagePerSecondTimeSeries)
+
+  }
+
+
+  /**
+   * Main damage Taken Chart
+   */
+  def updateMainDamageTakenChart() = {
+    // time series
+    val damageTakenTimeSeries =  Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenTimeSeries()
+    val damageTakenPerSecondTimeSeries = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecondTimeSeries()
+
+    DamageTaken.mainChart.resetData()
+    DamageTaken.mainChart.updateData(damageTakenTimeSeries,damageTakenPerSecondTimeSeries)
+
+  }
+
+  // TODO: The below updateDamageTakenChart() method is out dated and removed
 
   /**
    * Update Damage Taken Line/Bar Chart
@@ -702,32 +860,155 @@ object ElementLoader {
     /**
      * Update the leaderboard tile with all player damage
      *
+     *
+     * OLD COMMENT::
      *  we do not clear leaderboard items, and create new items, instead we iterate through them setting new values
      * there are 24 by default, for the max swtor group size. Only set the number visible that
      * correspond to the number of players in this combat. We have to do it this way because of something
      * with how the leaderboard tile works
      */
 
-    for (index <- 0 until Tiles.leaderBoardItems.size()){
-      Tiles.leaderBoardItems.get(index).setValue(0)
-      Tiles.leaderBoardItems.get(index).setName("")
-      Tiles.leaderBoardItems.get(index).setVisible(false)
+    // Clear Data
+    Tiles.dpsLeaderBoardPane.getChildren.clear()
+    Tiles.hpsLeaderBoardPane.getChildren.clear()
+
+
+    /**
+     * Update Damage Section
+     */
+
+    // what actor has done the most damage this tick?
+    var maxDamage = 1
+    var totalDamage = 1
+    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
+      totalDamage = totalDamage + actor.getDamageDone()
+      if (actor.getDamageDone() > maxDamage) maxDamage = actor.getDamageDone()
+    }
+    if (totalDamage > 1) totalDamage = totalDamage - 1
+
+    val sortedByDamageDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getDamageDone() > _.getDamageDone()).filter(_.getDamageDone() > 0)
+
+    // TODO: Add in toggles for what we want to view
+    // only display the toggled mode
+//    val filterDamageByMode = overlayDisplayModeDPS match {
+//      case "player" => sortedByDamageDone.filter(x => (x.getActorType() == "Player"))
+//      case "boss" => sortedByDamageDone.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
+//      case "comp" => sortedByDamageDone.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
+//      case "all" => sortedByDamageDone
+//      case _ => {
+//        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDPS} unexpected. Setting to \"player\" and continuing.")
+//        overlayDisplayModeDPS = "player"
+//        sortedByDamageDone.filter(_.getActorType() == "Player")
+//      }
+//    }
+
+    for (actor <- sortedByDamageDone) {
+      val stacked = new StackPane()
+      val text = new Text()
+      val percentMaxFill: Int = ((actor.getDamageDone().toDouble / maxDamage) * 550).toInt
+      val percentMax: Int = ((actor.getDamageDone().toDouble / totalDamage) * 100).toInt
+      text.setText("  " + actor.getActor().getName() + ": " + actor.getDamagePerSecond() + " (" + percentMax + "%)")
+      val rect = Rectangle(percentMaxFill,30)
+      val backgroundRect = Rectangle(550, 30)
+      if(actor.getActorType() == "Player"){
+        rect.setStyle("-fx-fill: #FF3633; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      else if (actor.getActorType() == "Companion") {
+        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      else {
+        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
+      stacked.getChildren.addAll(backgroundRect,rect,text)
+      stacked.setAlignment(Pos.CenterLeft)
+      Tiles.dpsLeaderBoardPane.getChildren.add(stacked)
     }
 
-    // get all the combat Actors
-    val combatActors = Controller.getCurrentCombat().getCombatActors()
-    val players = (for (actor <- combatActors) yield actor.getActor()).filter(_.isInstanceOf[Player])
-    var lastUpdatedIndex = 0
-    for (index <- 0 until players.length){
-      // need to relate the player actor instance to the combat actor instance
-      // then we need to get the damage done and order them
-      val combatInstanceActor = Controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
-      // TODO: I cannot get this to set the name to save my life, help!
-      Tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamagePerSecond())
-      Tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
-      Tiles.leaderBoardItems.get(index).getChartData.setName(combatInstanceActor.getActor().getName())
-      Tiles.leaderBoardItems.get(index).setVisible(true)
+
+    /**
+     * Update Healing Section
+     */
+
+    var maxHealing = 1
+    var totalHealing = 1
+    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
+      totalHealing = totalHealing + actor.getHealingDone()
+      if (actor.getHealingDone() > maxHealing) maxHealing = actor.getHealingDone()
     }
+    if(totalHealing > 1) totalHealing = totalHealing - 1
+
+    val sortedByHealingDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getHealingDone() > _.getHealingDone()).filter(_.getHealingDone() > 0)
+
+    // TODO: Add toggles to this part of UI
+    // only display the toggled mode
+//    val filterHealingByMode = overlayDisplayModeHPS match {
+//      case "player" => sortedByHealingDone.filter(x => (x.getActorType() == "Player"))
+//      case "boss" => sortedByHealingDone.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
+//      case "comp" => sortedByHealingDone.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
+//      case "all" => sortedByHealingDone
+//      case _ => {
+//        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDPS} unexpected. Setting to \"player\" and continuing.")
+//        overlayDisplayModeDPS = "player"
+//        sortedByHealingDone.filter(_.getActorType() == "Player")
+//      }
+//    }
+
+    for (actor <- sortedByHealingDone) {
+      val stacked = new StackPane()
+      val text = new Text()
+      val percentMaxFill: Int = ((actor.getHealingDone().toDouble / maxHealing) * 550).toInt
+      val percentMax: Int = ((actor.getHealingDone().toDouble / totalHealing) * 100).toInt
+      text.setText("  " + actor.getActor().getName() + ": " + actor.getHealingDonePerSecond() + " (" + percentMax + "%)")
+      val rect = Rectangle(percentMaxFill,30)
+      val backgroundRect = Rectangle(550, 30)
+      backgroundRect.setStyle("-fx-fill: #48FF80; -fx-stroke: black; -fx-stroke-width: 2;")
+      if(actor.getActorType() == "Player"){
+        rect.setStyle("-fx-fill: #5CFF47; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      else if (actor.getActorType() == "Companion") {
+        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      else {
+        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      stacked.getChildren.addAll(backgroundRect,rect,text)
+      stacked.setAlignment(Pos.CenterLeft)
+      Tiles.hpsLeaderBoardPane.getChildren.add(stacked)
+    }
+
+    /**
+     * Set the sizes to be equal
+     */
+
+    Tiles.dpsLeaderboardScrollPane.setPrefHeight(Tiles.leaderBoardStacked.getHeight / 2)
+    Tiles.hpsLeaderboardScrollPane.setPrefHeight(Tiles.leaderBoardStacked.getHeight / 2)
+
+
+    /**
+     * Old Tiles Leaderboard
+     */
+
+    //    for (index <- 0 until Tiles.leaderBoardItems.size()){
+//      Tiles.leaderBoardItems.get(index).setValue(0)
+//      Tiles.leaderBoardItems.get(index).setName("")
+//      Tiles.leaderBoardItems.get(index).setVisible(false)
+//    }
+//
+//    // get all the combat Actors
+//    val combatActors = Controller.getCurrentCombat().getCombatActors()
+//    val players = (for (actor <- combatActors) yield actor.getActor()).filter(_.isInstanceOf[Player])
+//    var lastUpdatedIndex = 0
+//    for (index <- 0 until players.length){
+//      // need to relate the player actor instance to the combat actor instance
+//      // then we need to get the damage done and order them
+//      val combatInstanceActor = Controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
+//      // TODO: I cannot get this to set the name to save my life, help!
+//      Tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamagePerSecond())
+//      Tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
+//      Tiles.leaderBoardItems.get(index).getChartData.setName(combatInstanceActor.getActor().getName())
+//      Tiles.leaderBoardItems.get(index).setVisible(true)
+//    }
   }
 
 

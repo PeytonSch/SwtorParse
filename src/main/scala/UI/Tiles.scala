@@ -1,5 +1,6 @@
 package UI
 
+import UI.overlays.Overlays.{background, createMovableTopWithToggles}
 import eu.hansolo.tilesfx.Tile.SkinType
 import eu.hansolo.tilesfx.addons.Indicator
 import eu.hansolo.tilesfx.chart.SunburstChart.TextOrientation
@@ -10,12 +11,16 @@ import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import javafx.scene.paint.Stop
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.Scene
 import scalafx.scene.chart._
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
-import scalafx.scene.control.{Label, ScrollPane}
+import scalafx.scene.control.{Label, Menu, MenuBar, MenuItem, ScrollPane}
 import scalafx.scene.layout.GridPane.getColumnIndex
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, StackPane}
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, StackPane, VBox}
 import scalafx.scene.paint.Color
+import scalafx.scene.shape.Rectangle
+import scalafx.scene.text.Text
+import scalafx.stage.{Stage, StageStyle}
 
 import scala.util.Random
 
@@ -503,8 +508,96 @@ object Tiles {
   damageTakenGridPane.add(damageTakenDamageFromTypeIndicator,1,1,1,1)
 
 
+  /**
+   * Custom Leaderboard is a VBOX with stacked damage and heal leaderboards
+   */
 
 
+  val dpsLeaderboardOuter = new VBox()
+  dpsLeaderboardOuter.setBackground(Tiles.background)
+  val dpsLeaderBoardPane = new VBox()
+  val dpsLeaderboardScrollPane = new ScrollPane()
+
+  dpsLeaderBoardPane.setBackground(Tiles.background)
+
+  dpsLeaderboardScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+  dpsLeaderboardScrollPane.setBackground(Tiles.background)
+
+  dpsLeaderboardOuter.getChildren.addAll(dpsLeaderboardScrollPane)
+
+//  // this populates some test data on start
+//    for (i <- Range(0,16)) {
+//      val stacked = new StackPane()
+//      val text = new Text()
+//      text.setText("This is my text!!")
+//      val rect = Rectangle((i-8)*(-25),30)
+//      val backgroundRect = Rectangle(400, 30)
+//      backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
+//      rect.setStyle("-fx-fill: #FF3633; -fx-stroke: black; -fx-stroke-width: 2;");
+//      stacked.getChildren.addAll(backgroundRect,rect,text)
+//      stacked.setAlignment(Pos.CenterLeft)
+//      dpsLeaderBoardPane.getChildren.add(stacked)
+//    }
+
+  dpsLeaderBoardPane.setBackground(background)
+  dpsLeaderboardScrollPane.setContent(dpsLeaderBoardPane)
+
+
+  val hpsLeaderboardOuter = new VBox()
+  hpsLeaderboardOuter.setBackground(Tiles.background)
+  val hpsLeaderBoardPane = new VBox()
+  val hpsLeaderboardScrollPane = new ScrollPane()
+
+  hpsLeaderBoardPane.setBackground(Tiles.background)
+
+  hpsLeaderboardScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+  hpsLeaderboardScrollPane.setBackground(Tiles.background)
+
+  hpsLeaderboardOuter.getChildren.addAll(hpsLeaderboardScrollPane)
+
+  // this populates some test data on start
+//  for (i <- Range(0,16)) {
+//    val stacked = new StackPane()
+//    val text = new Text()
+//    text.setText("This is my text!!")
+//    val rect = Rectangle((i-8)*(-25),30)
+//    val backgroundRect = Rectangle(400, 30)
+//    backgroundRect.setStyle("-fx-fill: #48FF80; -fx-stroke: black; -fx-stroke-width: 2;")
+//    rect.setStyle("-fx-fill: #5CFF47; -fx-stroke: black; -fx-stroke-width: 2;");
+//    stacked.getChildren.addAll(backgroundRect,rect,text)
+//    stacked.setAlignment(Pos.CenterLeft)
+//    hpsLeaderBoardPane.getChildren.add(stacked)
+//  }
+
+  hpsLeaderBoardPane.setBackground(background)
+  hpsLeaderboardScrollPane.setContent(hpsLeaderBoardPane)
+
+  val leaderBoardStacked = new VBox()
+  leaderBoardStacked.setBackground(Tiles.background)
+  val damageLabel = new Label("Group Damage Leader Board")
+  val healingLabel = new Label("Group Healing Leader Board")
+  leaderBoardStacked.getChildren.addAll(damageLabel,dpsLeaderboardScrollPane,healingLabel,hpsLeaderboardScrollPane)
+
+
+  /**
+   * Perspective Drop Down Menu
+   */
+
+
+  // recent dir menus
+  var actorMenuItems: List[MenuItem] = List(
+    new MenuItem("No Combat Selected")
+  )
+
+  //Make all the menus
+  val actorMenu = new Menu("Select Perspective")
+  actorMenu.items = actorMenuItems
+
+  //Create blank menubar
+  val actorMenuBar = new MenuBar()
+
+  //add the menus to the menubar
+  actorMenuBar.getMenus().addAll(actorMenu)
 
 
 
