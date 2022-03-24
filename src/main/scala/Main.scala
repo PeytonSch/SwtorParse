@@ -33,6 +33,7 @@ import scalafx.Includes._
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import UI.objects.Menus._
+import UI.tabs.Settings
 import UI.tabs.Tabs.tabbedPane
 import Utils.{Config, FileHelper}
 import parser.Parser
@@ -200,11 +201,6 @@ object Main extends JFXApp3 {
 
 
     stage.show()
-    Overlays.personalDpsOverlay.show()
-    Overlays.personalHpsOverlay.show()
-    Overlays.personalDtpsOverlay.show()
-    Overlays.groupDpsOverlay.show()
-    Overlays.groupHpsOverlay.show()
 
     /**
      * Timer Code
