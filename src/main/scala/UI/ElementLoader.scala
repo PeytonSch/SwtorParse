@@ -353,6 +353,23 @@ object ElementLoader {
 
   }
 
+  def loadLatestCombatFile(): Unit = {
+    loadNewDirectoryActionEvent(PathLoader.getPaths()(0))
+    Controller.resetController()
+    Parser.resetParser()
+    val path = FileHelper.getListOfFiles(PathLoader.getPaths()(0))
+    val file = path(path.length - 1)
+    UICodeConfig.logFile = file.getAbsolutePath.split('\\').last
+    Logger.info(s"Loading new log ${file.getAbsolutePath}")
+    //    Platform.runLater(LoadingScreen.beginLoading())
+    Logger.debug("Begin Parsing")
+    Controller.parseLatest(Parser.getNewLines(file.getAbsolutePath))
+    Logger.debug("End Parsing")
+    combatInstanceMenu.getItems.clear()
+
+    loadCombatInstanceMenu()
+  }
+
 
   /**
    * This function is for updating the UI during live parsing,
