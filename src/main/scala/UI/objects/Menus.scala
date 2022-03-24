@@ -15,9 +15,14 @@ object Menus {
   val recentDirMenu = new Menu("Open Recent Log Directory...")
   loadRecentDirMenu()
 
+  val loadLatest = new MenuItem("Load Latest Log")
+
+  loadLatest.onAction = (event: ActionEvent) => {
+    ElementLoader.loadLatestCombatFile()
+  }
 
   // recent dir menus
-  var fileMenuItems: List[MenuItem] = List(new MenuItem("Choose Log Directory..."))
+  var fileMenuItems: List[MenuItem] = List(new MenuItem("Choose Log Directory..."), loadLatest )
   fileMenuItems = fileMenuItems :+ recentDirMenu
 
   //Make all the menus
