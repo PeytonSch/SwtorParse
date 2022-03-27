@@ -5,7 +5,7 @@ import Controller.Controller
 import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.Menus
 import UI.overlays.Overlays
-import UI.overlays.Overlays.{groupDamagePane, groupHealingPane}
+import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupHealingPane}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.BarChartItem
@@ -1039,6 +1039,7 @@ object ElementLoader {
     Overlays.personalDamageTakenOverlay.clearChartData()
     Overlays.groupDamagePane.getChildren.clear()
     Overlays.groupHealingPane.getChildren.clear()
+    Overlays.entitiesInCombatPane.getChildren.clear()
 
 
     /**
@@ -1202,6 +1203,43 @@ object ElementLoader {
       stacked.getChildren.addAll(backgroundRect,rect,text)
       stacked.setAlignment(Pos.CenterLeft)
       groupHealingPane.getChildren.add(stacked)
+    }
+
+
+    /**
+     * Update Entities in Combat Health
+     */
+
+    val sortedActorsByHealth = Controller.getCurrentCombat().getCombatActors()
+      .filter(_.getActorType() != "Player")
+      .filter(_.getActorType() != "Companion")
+      .filter(_.getActor().getHealth().getCurrent() > 0)
+      .sortWith(_.getActor().getHealth().getMax() > _.getActor().getHealth().getMax())
+
+    for (actor <- sortedActorsByHealth) {
+      val stacked = new StackPane()
+      val text = new Text()
+      val percentMaxFill: Int = ((actor.getActor().getHealth().getCurrent().toDouble / actor.getActor().getHealth().getMax()) * 350).toInt
+      val percentMax: Double = ((actor.getActor().getHealth().getCurrent().toDouble / actor.getActor().getHealth().getMax()) * 100).toInt
+      text.setText(actor.getActor().getName() + ": " + " (" + percentMax + "%)")
+      val rect = Rectangle(percentMaxFill,30)
+      val backgroundRect = Rectangle(600, 30)
+      backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
+      rect.setStyle("-fx-fill: #FF3633; -fx-stroke: black; -fx-stroke-width: 2;")
+
+      // TODO: Make Boss vs Adds Different Colors
+//      if(actor.getActorType() == "Player"){
+//        rect.setStyle("-fx-fill: #5CFF47; -fx-stroke: black; -fx-stroke-width: 2;")
+//      }
+//      else if (actor.getActorType() == "Companion") {
+//        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+//      }
+//      else {
+//        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+//      }
+      stacked.getChildren.addAll(backgroundRect,rect,text)
+      stacked.setAlignment(Pos.CenterLeft)
+      entitiesInCombatPane.getChildren.add(stacked)
     }
 
 

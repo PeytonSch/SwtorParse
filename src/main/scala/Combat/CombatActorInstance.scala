@@ -154,6 +154,23 @@ class CombatActorInstance {
   var healingDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
   var healingTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
 
+  // TODO: Reflect Leaderboard Stuff
+  /**
+   * Dont Forget Pub Toons
+   *
+   * // True Reflects
+   * Operative: Blow for blow
+   * Scoundral:
+   * Jug: Saber Reflect
+   * Guardian:
+   * Merc:
+   * PT: Rebounder
+   *
+   * // Retaliatory Damage
+   * Cloak of Pain
+   * Pt one (close and personal)
+   */
+
 
   private def getSpreadSheetData(dataSheetMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] ):ObservableBuffer[SpreadSheetRow] = {
     // create an observable buffer

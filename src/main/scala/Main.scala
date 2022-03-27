@@ -193,11 +193,6 @@ object Main extends JFXApp3 {
     // This is the title of the window
     stage.setTitle("ELITE RAIDING PARSER")
     stage.setScene(scene)
-    Overlays.personalDpsOverlay.setScene(Overlays.dpsOverlayScene)
-    Overlays.personalHpsOverlay.setScene(Overlays.hpsOverlayScene)
-    Overlays.personalDtpsOverlay.setScene(Overlays.dtpsOverlayScene)
-    Overlays.groupDpsOverlay.setScene(Overlays.groupDpsOverlayScene)
-    Overlays.groupHpsOverlay.setScene(Overlays.groupHpsOverlayScene)
 
 
     stage.show()
