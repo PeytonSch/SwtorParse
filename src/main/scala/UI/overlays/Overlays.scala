@@ -140,7 +140,7 @@ object Overlays {
   val dpsOverlayScene = new Scene(personalDamagePane)
   personalDpsOverlay.setTitle("Damage Done")
   personalDpsOverlay.setAlwaysOnTop(true)
-
+  personalDpsOverlay.setScene(Overlays.dpsOverlayScene)
 
   /**
    * Personal Healing Overlay
@@ -164,7 +164,7 @@ object Overlays {
   val hpsOverlayScene = new Scene(personalHealingPane)
   personalHpsOverlay.setTitle("Healing Done")
   personalHpsOverlay.setAlwaysOnTop(true)
-
+  personalHpsOverlay.setScene(Overlays.hpsOverlayScene)
 
   /**
    * Personal Damage Taken Overlay
@@ -188,7 +188,7 @@ object Overlays {
   val dtpsOverlayScene = new Scene(personalDamageTakenPane)
   personalDtpsOverlay.setTitle("Damage Taken")
   personalDtpsOverlay.setAlwaysOnTop(true)
-
+  personalDtpsOverlay.setScene(Overlays.dtpsOverlayScene)
   
   
   /**
@@ -227,7 +227,7 @@ object Overlays {
   val groupDpsOverlayScene = new Scene(groupDamageOuter)
   groupDpsOverlay.setTitle("Group DPS")
   groupDpsOverlay.setAlwaysOnTop(true)
-
+  groupDpsOverlay.setScene(Overlays.groupDpsOverlayScene)
 
   /**
    * Group Healing Overlay
@@ -236,7 +236,7 @@ object Overlays {
   groupHealingOuter.setBackground(Tiles.background)
   val groupHealingPane = new VBox()
   val groupHealingTop = createMovableTopWithToggles("heal")
-  groupHealingPane.getChildren.add(groupHealingTop)
+//  groupHealingPane.getChildren.add(groupHealingTop)
 
   val groupHealingScrollPane = new ScrollPane()
   groupHealingScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
@@ -266,6 +266,31 @@ object Overlays {
   val groupHpsOverlayScene = new Scene(groupHealingOuter)
   groupHpsOverlay.setTitle("Group Hps")
   groupHpsOverlay.setAlwaysOnTop(true)
+  groupHpsOverlay.setScene(Overlays.groupHpsOverlayScene)
+
+  /**
+   * Non Player Entities in Combat
+   */
+  val entitiesInCombatOuter = new VBox() //holds top and scroll pane
+  entitiesInCombatOuter.setBackground(Tiles.background)
+  val entitiesInCombatPane = new VBox() // goes in scrollpane with health bars
+  val entitiesInCombatTop = createMovableTop()
+
+  val entitiesInCombatScrollPane = new ScrollPane()
+  entitiesInCombatScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+  entitiesInCombatScrollPane.setBackground(Tiles.background)
+
+  entitiesInCombatOuter.getChildren.addAll(entitiesInCombatTop,entitiesInCombatScrollPane)
+
+  entitiesInCombatPane.setBackground(background)
+  entitiesInCombatPane.setPrefSize(350,150)
+  val entitiesInCombatOverlay = new Stage()
+  entitiesInCombatOverlay.initStyle(StageStyle.Undecorated)
+  entitiesInCombatScrollPane.setContent(entitiesInCombatPane)
+  val entitiesInCombatOverlayScene = new Scene(entitiesInCombatOuter)
+  entitiesInCombatOverlay.setTitle("Entities In Combat")
+  entitiesInCombatOverlay.setAlwaysOnTop(true)
+  entitiesInCombatOverlay.setScene(entitiesInCombatOverlayScene)
 
 
   // ARRAY of Anchor Points so everything has its own point data stored
@@ -278,6 +303,7 @@ object Overlays {
   initMovableVBox(personalDamageTakenTop,personalDtpsOverlay,2)
   initMovableVBox(personalDamageTop,personalDpsOverlay,3)
   initMovableVBox(personalHealingTop,personalHpsOverlay,4)
+  initMovableVBox(entitiesInCombatTop,entitiesInCombatOverlay,5)
 
 //  initMovableScene(personalDamageOverlay.getScene,5)
 //  initMovableScene(personalHealingOverlay.getScene,6)

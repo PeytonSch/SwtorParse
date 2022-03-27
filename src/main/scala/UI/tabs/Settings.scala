@@ -50,6 +50,8 @@ object Settings extends UITab {
   setCheckboxAction(personalHpsCheckbox, Overlays.personalHpsOverlay)
   val personalDtpsCheckbox = new CheckBox("Personal Damage Taken")
   setCheckboxAction(personalDtpsCheckbox, Overlays.personalDtpsOverlay)
+  val combatEntitiesCheckbox = new CheckBox("Combat Entities")
+  setCheckboxAction(combatEntitiesCheckbox, Overlays.entitiesInCombatOverlay)
 
   val overlayLabel = new Label("OVERLAYS")
   overlayLabel.setStyle("-fx-font-size: 20;")
@@ -60,7 +62,8 @@ object Settings extends UITab {
     hpsCheckbox,
     personalDpsCheckbox,
     personalHpsCheckbox,
-    personalDtpsCheckbox
+    personalDtpsCheckbox,
+    combatEntitiesCheckbox
   )
 
 
