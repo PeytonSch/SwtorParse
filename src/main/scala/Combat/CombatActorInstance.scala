@@ -159,17 +159,21 @@ class CombatActorInstance {
    * Dont Forget Pub Toons
    *
    * // True Reflects
-   * Operative: Blow for blow
-   * Scoundral:
-   * Jug: Saber Reflect
-   * Guardian:
-   * Merc:
-   * PT: Rebounder
+   * Operative: Blow for blow | Back At Ya
+   * Jug: Saber Reflect | Saber Reflect
+   * Merc: Responsive Safeguards | Echoing Deterrence
+   * PT: Sonic Rebounder | Sonic Rebounder
    *
+   * TODO: Add option for retaliatory damage
    * // Retaliatory Damage
    * Cloak of Pain
    * Pt one (close and personal)
    */
+
+  var reflectDamage: Int = 0 // To store total reflect damage done
+  var rebounderDamage: Int = 0 // To store just the reflect damage from rebounders
+  // if the ability source is in this list, add it to reflect damage
+  val reflectAbilityList:List[String] = List("Saber Reflect", "Sonic Rebounder","Responsive Safeguards","Blow for Blow","Back At Ya", "Echoing Deterrence")
 
 
   private def getSpreadSheetData(dataSheetMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] ):ObservableBuffer[SpreadSheetRow] = {
@@ -312,6 +316,16 @@ class CombatActorInstance {
       val total = damageAmount
       val totalPercent = 0
       damageDoneSheetDataMap((damageSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+    }
+
+    /**
+     * Reflect Damage
+     */
+    if (reflectAbilityList.contains(damageSource)){
+      reflectDamage = reflectDamage + damageAmount
+      if (damageSource == "Sonic Rebounder") {
+        rebounderDamage = rebounderDamage + damageAmount
+      }
     }
 
 

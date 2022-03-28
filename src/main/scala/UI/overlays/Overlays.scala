@@ -293,6 +293,33 @@ object Overlays {
   entitiesInCombatOverlay.setScene(entitiesInCombatOverlayScene)
 
 
+  /**
+   * Reflect Leaderboard
+   */
+  val reflectDamageOuter = new VBox() //holds top and scroll pane
+  reflectDamageOuter.setBackground(Tiles.background)
+  val reflectDamagePane = new VBox() // goes in scrollpane with health bars
+  val reflectDamageTop = createMovableTop()
+
+  val reflectDamageScrollPane = new ScrollPane()
+  reflectDamageScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+  reflectDamageScrollPane.setBackground(Tiles.background)
+
+  reflectDamageOuter.getChildren.addAll(reflectDamageTop,reflectDamageScrollPane)
+
+  reflectDamagePane.setBackground(background)
+  reflectDamagePane.setPrefSize(200,200)
+  val reflectDamageOverlay = new Stage()
+  reflectDamageOverlay.initStyle(StageStyle.Undecorated)
+  reflectDamageScrollPane.setContent(reflectDamagePane)
+  val reflectDamageOverlayScene = new Scene(reflectDamageOuter)
+  reflectDamageOverlay.setTitle("Entities In Combat")
+  reflectDamageOverlay.setAlwaysOnTop(true)
+  reflectDamageOverlay.setScene(reflectDamageOverlayScene)
+
+
+
+
   // ARRAY of Anchor Points so everything has its own point data stored
   // TODO: Write these points to a file and read them in so that we save the last location so they go there on startup
   private var anchors: mutable.ArrayBuffer[Point2D] = mutable.ArrayBuffer(null,null,null,null,null,null,null,null)
@@ -304,6 +331,7 @@ object Overlays {
   initMovableVBox(personalDamageTop,personalDpsOverlay,3)
   initMovableVBox(personalHealingTop,personalHpsOverlay,4)
   initMovableVBox(entitiesInCombatTop,entitiesInCombatOverlay,5)
+  initMovableVBox(reflectDamageTop,reflectDamageOverlay,6)
 
 //  initMovableScene(personalDamageOverlay.getScene,5)
 //  initMovableScene(personalHealingOverlay.getScene,6)

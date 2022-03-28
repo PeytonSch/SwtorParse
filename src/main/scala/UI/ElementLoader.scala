@@ -5,7 +5,7 @@ import Controller.Controller
 import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.Menus
 import UI.overlays.Overlays
-import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupHealingPane}
+import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupHealingPane, reflectDamagePane}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.BarChartItem
@@ -1040,6 +1040,7 @@ object ElementLoader {
     Overlays.groupDamagePane.getChildren.clear()
     Overlays.groupHealingPane.getChildren.clear()
     Overlays.entitiesInCombatPane.getChildren.clear()
+    Overlays.reflectDamagePane.getChildren.clear()
 
 
     /**
@@ -1111,7 +1112,7 @@ object ElementLoader {
     var totalDamage = 1
     for (actor <- Controller.getCurrentCombat().getCombatActors()) {
       totalDamage = totalDamage + actor.getDamageDone()
-      if (actor.getDamageDone() > maxDamage) maxDamage = actor.getDamageDone()
+      if (actor.getDamageDone() > maxDamage && actor.getActorType() == "Player") maxDamage = actor.getDamageDone()
     }
     if (totalDamage > 1) totalDamage = totalDamage - 1
 
@@ -1163,7 +1164,7 @@ object ElementLoader {
     var totalHealing = 1
     for (actor <- Controller.getCurrentCombat().getCombatActors()) {
       totalHealing = totalHealing + actor.getHealingDone()
-      if (actor.getHealingDone() > maxHealing) maxHealing = actor.getHealingDone()
+      if (actor.getHealingDone() > maxHealing && actor.getActorType() == "Player") maxHealing = actor.getHealingDone()
     }
     if(totalHealing > 1) totalHealing = totalHealing - 1
 
@@ -1240,6 +1241,37 @@ object ElementLoader {
       stacked.getChildren.addAll(backgroundRect,rect,text)
       stacked.setAlignment(Pos.CenterLeft)
       entitiesInCombatPane.getChildren.add(stacked)
+    }
+
+
+
+    /**
+     * Update Reflect Leaderboard
+     */
+
+    var maxReflectDamage = 1
+    var totalReflectDamage = 1
+    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
+      totalReflectDamage = totalReflectDamage + actor.reflectDamage
+      if (actor.reflectDamage > maxReflectDamage && actor.getActorType() == "Player") maxReflectDamage = actor.reflectDamage
+    }
+    if(totalReflectDamage > 1) totalReflectDamage = totalReflectDamage - 1
+
+    val sortedByReflectDamageDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.reflectDamage > _.reflectDamage).filter(_.reflectDamage > 0)
+
+    for (actor <- sortedByReflectDamageDone) {
+      val stacked = new StackPane()
+      val text = new Text()
+      val percentMaxFill: Int = (actor.reflectDamage.toDouble / maxReflectDamage * 200).toInt
+      val percentMax: Double = ((actor.reflectDamage.toDouble / totalReflectDamage) * 100).toInt
+      text.setText(actor.getActor().getName() + ": " + actor.reflectDamage + " (" + percentMax + "%)")
+      val rect = Rectangle(percentMaxFill,30)
+      val backgroundRect = Rectangle(600, 30)
+      backgroundRect.setStyle("-fx-fill: #FFBE55; -fx-stroke: black; -fx-stroke-width: 2;")
+      rect.setStyle("-fx-fill: #FF8900; -fx-stroke: black; -fx-stroke-width: 2;")
+      stacked.getChildren.addAll(backgroundRect,rect,text)
+      stacked.setAlignment(Pos.CenterLeft)
+      reflectDamagePane.getChildren.add(stacked)
     }
 
 
