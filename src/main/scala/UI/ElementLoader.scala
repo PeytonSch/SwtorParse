@@ -28,7 +28,9 @@ import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
+import UI.tabs.Settings.logDirTextField
 import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken}
+import Utils.Config.settings
 import Utils.{FileHelper, PathLoader}
 import parser.Parser
 import scalafx.collections.ObservableBuffer
@@ -105,6 +107,8 @@ object ElementLoader {
   def loadNewDirectory(dirPath: String): Unit = {
     Logger.debug(s"Selected Directory Path ${dirPath}")
     UICodeConfig.logPath = dirPath + "/"
+    settings.put("logDirectory",dirPath + "/")
+    logDirTextField.setText(settings.get("logDirectory","Log Directory Not Set: Use File -> Choose Log Dir"))
     // reset the log file so we stop parsing until we select one
     UICodeConfig.logFile = ""
     ElementLoader.loadLogFileMenu()
@@ -1174,6 +1178,7 @@ object ElementLoader {
       backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
       stacked.getChildren.addAll(backgroundRect,rect,text)
       stacked.setAlignment(Pos.CenterLeft)
+      stacked.setStyle("-fx-background-color: rgba(0,255,0,0)")
       groupDamagePane.getChildren.add(stacked)
     }
 
