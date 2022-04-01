@@ -201,6 +201,30 @@ object ElementLoader {
   }
 
 
+  /**
+   * These two methods are to abstract checking / setting / restoring from a combat
+   * instance. Most element updates require there to be a current combat, so to update
+   * parts of the UI after the fact we have to go back and select the last combat
+   */
+  var wentBack = false
+
+  def rollBackCombatIfNeeded() = {
+    wentBack = false
+    // if the current combat is null, this doesnt work. So check that first.
+    if (Controller.getCurrentCombat() == null) {
+      Controller.returnToPreviousCombatInstance()
+      wentBack = true
+    }
+  }
+
+  def restorCombatIfRolledBack() = {
+    // if we had to return to previouse combat instance, set back to no combat instance
+    if (wentBack) {
+      Controller.endCombat()
+    }
+  }
+
+
   def refreshUI( ): Unit = {
 
     /**
@@ -420,21 +444,17 @@ object ElementLoader {
   }
 
   def updateDamageDoneSpreadSheet(): Unit = {
-    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneSpreadSheetData()
-    DamageDone.spreadSheet.getTable.setItems(data)
+    DamageDone.spreadSheet.updateAsDamageDone()
   }
   def updateDamageTakenSpreadSheet(): Unit = {
-    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenSpreadSheetData()
-    DamageTaken.spreadSheet.getTable.setItems(data)
+    DamageTaken.spreadSheet.updateAsDamageTaken()
   }
 
   def updateHealingDoneSpreadSheet(): Unit = {
-    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneSpreadSheetData()
-    HealingDone.spreadSheet.getTable.setItems(data)
+    HealingDone.spreadSheet.updateAsHealingDone()
   }
   def updateHealingTakenSpreadSheet(): Unit = {
-    val data = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenSpreadSheetData()
-    HealingTaken.spreadSheet.getTable.setItems(data)
+    HealingTaken.spreadSheet.updateAsHealingTaken()
   }
 
   def updateActorPerspectives(): Unit = {
@@ -1110,11 +1130,14 @@ object ElementLoader {
     // what actor has done the most damage this tick?
     var maxDamage = 1
     var totalDamage = 1
+    // TODO: Adjust the percentages to show based on mode
+    var totalPlayerDamage = 1
     for (actor <- Controller.getCurrentCombat().getCombatActors()) {
       totalDamage = totalDamage + actor.getDamageDone()
       if (actor.getDamageDone() > maxDamage && actor.getActorType() == "Player") maxDamage = actor.getDamageDone()
     }
     if (totalDamage > 1) totalDamage = totalDamage - 1
+    if (totalPlayerDamage > 1) totalPlayerDamage = totalPlayerDamage - 1
 
     val sortedByDamageDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getDamageDone() > _.getDamageDone()).filter(_.getDamageDone() > 0)
 

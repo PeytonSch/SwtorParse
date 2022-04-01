@@ -148,13 +148,14 @@ class CombatActorInstance {
    */
   // TODO: Thinking that dps and total % should be calculated at the end
   // Key: Ability, Target
-  // Value hits,norm,crit,avg,miss,dps,total,total %
-  var damageDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
-  var damageTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
-  var healingDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
-  var healingTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  // Value hits,normal hits, crit hits,norm,crit,avg,miss,dps,total,total %
+  var damageDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  var damageTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  var healingDoneSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
+  var healingTakenSheetDataMap: mutable.Map[(String,String),(Int,Int,Int,Int,Int,Int,Double,Int,Int,Double)] = mutable.Map()
 
-  // TODO: Reflect Leaderboard Stuff
+
+
   /**
    * Dont Forget Pub Toons
    *
@@ -176,23 +177,20 @@ class CombatActorInstance {
   val reflectAbilityList:List[String] = List("Saber Reflect", "Sonic Rebounder","Responsive Safeguards","Blow for Blow","Back At Ya", "Echoing Deterrence")
 
 
-  private def getSpreadSheetData(dataSheetMap: mutable.Map[(String,String),(Int,Int,Int,Int,Double,Int,Int,Double)] ):ObservableBuffer[SpreadSheetRow] = {
-    // create an observable buffer
-    val buf = ObservableBuffer[SpreadSheetRow]()
-    // add data to buffer
-    for (entry <- dataSheetMap) {
-      buf +=
-        new SpreadSheetRow(
-          entry._1._1, entry._1._2,entry._2._1,entry._2._2,entry._2._3,entry._2._4,entry._2._5,entry._2._6,entry._2._7,entry._2._8
-        )
-    }
-    buf
-  }
-
+  import SpreadSheetCalculators._
   def getDamageDoneSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(damageDoneSheetDataMap)
   def getDamageTakenSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(damageTakenSheetDataMap)
   def getHealingDoneSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(healingDoneSheetDataMap)
   def getHealingTakenSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetData(healingTakenSheetDataMap)
+  
+  def getDamageDoneByAbilitySpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataByAbility(aggregateOnAbility(damageDoneSheetDataMap))
+  def getDamageDoneToTargetTypeSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataToTarget(aggregateOnTargetType(damageDoneSheetDataMap))
+  def getDamageTakenByAbilitySpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataByAbility(aggregateOnAbility(damageTakenSheetDataMap))
+  def getDamageTakenToTargetTypeSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataToTarget(aggregateOnTargetType(damageTakenSheetDataMap))
+  def getHealingDoneByAbilitySpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataByAbility(aggregateOnAbility(healingDoneSheetDataMap))
+  def getHealingDoneToTargetTypeSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataToTarget(aggregateOnTargetType(healingDoneSheetDataMap))
+  def getHealingTakenByAbilitySpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataByAbility(aggregateOnAbility(healingTakenSheetDataMap))
+  def getHealingTakenToTargetTypeSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataToTarget(aggregateOnTargetType(healingTakenSheetDataMap))
 
 
 
@@ -288,26 +286,38 @@ class CombatActorInstance {
     if (damageDoneSheetDataMap.contains((damageSource,target))){
       val current = damageDoneSheetDataMap((damageSource,target))
       val hits = current._1 + 1
-      val norm = if (crit) {
+      val normHits = if (crit) {
         current._2
       } else {
-        (current._2 + damageAmount) / hits
+        current._2 + 1
       }
-      val critVal = if (crit) {
-        current._3 + damageAmount
+      val critHits = if (crit) {
+        current._3 + 1
       } else {
         current._3
       }
-      val avg = (current._4 + damageAmount) / hits
+      val norm = if (crit) {
+        current._4
+      } else {
+        (current._4 + damageAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._5 + damageAmount
+      } else {
+        current._5
+      }
+      val avg = (current._6 + damageAmount) / hits
       val miss = 0
       val dps = 0
-      val total = current._7 + damageAmount
+      val total = current._9 + damageAmount
       val totalPercent = 0
 
-      damageDoneSheetDataMap((damageSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      damageDoneSheetDataMap((damageSource,target)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
 
     } else {
       val hits = 1
+      val normHits = if (crit) 0 else 1
+      val critHits = if (crit) 1 else 0
       val norm = if (crit) 0 else damageAmount
       val critVal = if (crit) damageAmount else 0
       val avg = damageAmount
@@ -315,7 +325,7 @@ class CombatActorInstance {
       val dps = 0
       val total = damageAmount
       val totalPercent = 0
-      damageDoneSheetDataMap((damageSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      damageDoneSheetDataMap((damageSource,target)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
     }
 
     /**
@@ -425,26 +435,38 @@ class CombatActorInstance {
     if (damageTakenSheetDataMap.contains((damageSource,performer))){
       val current = damageTakenSheetDataMap((damageSource,performer))
       val hits = current._1 + 1
-      val norm = if (crit) {
+      val normHits = if (crit) {
         current._2
       } else {
-        (current._2 + damageAmount) / hits
+        current._2 + 1
       }
-      val critVal = if (crit) {
-        current._3 + damageAmount
+      val critHits = if (crit) {
+        current._3 + 1
       } else {
         current._3
       }
-      val avg = (current._4 + damageAmount) / hits
+      val norm = if (crit) {
+        current._4
+      } else {
+        (current._4 + damageAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._5 + damageAmount
+      } else {
+        current._5
+      }
+      val avg = (current._6 + damageAmount) / hits
       val miss = 0
       val dps = 0
-      val total = current._7 + damageAmount
+      val total = current._9 + damageAmount
       val totalPercent = 0
 
-      damageTakenSheetDataMap((damageSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      damageTakenSheetDataMap((damageSource,performer)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
 
     } else {
       val hits = 1
+      val normHits = if (crit) 0 else 1
+      val critHits = if (crit) 1 else 0
       val norm = if (crit) 0 else damageAmount
       val critVal = if (crit) damageAmount else 0
       val avg = damageAmount
@@ -452,7 +474,7 @@ class CombatActorInstance {
       val dps = 0
       val total = damageAmount
       val totalPercent = 0
-      damageTakenSheetDataMap((damageSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      damageTakenSheetDataMap((damageSource,performer)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
     }
 
   }
@@ -514,27 +536,39 @@ class CombatActorInstance {
     if (healingDoneSheetDataMap.contains((healSource,target))){
       val current = healingDoneSheetDataMap((healSource,target))
       val hits = current._1 + 1
-      val norm = if (crit) {
+      val normHits = if (crit) {
         current._2
       } else {
-        // TODO: This needs to be normal hits not total hits
-        (current._2 + healAmount) / hits
+        current._2 + 1
       }
-      val critVal = if (crit) {
-        current._3 + healAmount
+      val critHits = if (crit) {
+        current._3 + 1
       } else {
         current._3
       }
-      val avg = (current._4 + healAmount) / hits
+      val norm = if (crit) {
+        current._4
+      } else {
+        // TODO: This needs to be normal hits not total hits
+        (current._4 + healAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._5 + healAmount
+      } else {
+        current._5
+      }
+      val avg = (current._6 + healAmount) / hits
       val miss = 0
       val dps = 0
-      val total = current._7 + healAmount
+      val total = current._9 + healAmount
       val totalPercent = 0
 
-      healingDoneSheetDataMap((healSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      healingDoneSheetDataMap((healSource,target)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
 
     } else {
       val hits = 1
+      val normHits = if (crit) 0 else 1
+      val critHits = if (crit) 1 else 0
       val norm = if (crit) 0 else healAmount
       val critVal = if (crit) healAmount else 0
       val avg = healAmount
@@ -542,7 +576,7 @@ class CombatActorInstance {
       val dps = 0
       val total = healAmount
       val totalPercent = 0
-      healingDoneSheetDataMap((healSource,target)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      healingDoneSheetDataMap((healSource,target)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
     }
 
   }
@@ -605,27 +639,39 @@ class CombatActorInstance {
     if (healingTakenSheetDataMap.contains((healSource,performer))){
       val current = healingTakenSheetDataMap((healSource,performer))
       val hits = current._1 + 1
-      val norm = if (crit) {
+      val normHits = if (crit) {
         current._2
       } else {
-        // TODO: This needs to be normal hits not total hits
-        (current._2 + healAmount) / hits
+        current._2 + 1
       }
-      val critVal = if (crit) {
-        current._3 + healAmount
+      val critHits = if (crit) {
+        current._3 + 1
       } else {
         current._3
       }
-      val avg = (current._4 + healAmount) / hits
+      val norm = if (crit) {
+        current._4
+      } else {
+        // TODO: This needs to be normal hits not total hits
+        (current._4 + healAmount) / hits
+      }
+      val critVal = if (crit) {
+        current._5 + healAmount
+      } else {
+        current._5
+      }
+      val avg = (current._6 + healAmount) / hits
       val miss = 0
       val dps = 0
-      val total = current._7 + healAmount
+      val total = current._9 + healAmount
       val totalPercent = 0
 
-      healingTakenSheetDataMap((healSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      healingTakenSheetDataMap((healSource,performer)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
 
     } else {
       val hits = 1
+      val normHits = if (crit) 0 else 1
+      val critHits = if (crit) 1 else 0
       val norm = if (crit) 0 else healAmount
       val critVal = if (crit) healAmount else 0
       val avg = healAmount
@@ -633,7 +679,7 @@ class CombatActorInstance {
       val dps = 0
       val total = healAmount
       val totalPercent = 0
-      healingTakenSheetDataMap((healSource,performer)) = (hits,norm,critVal,avg,miss,dps,total,totalPercent)
+      healingTakenSheetDataMap((healSource,performer)) = (hits,normHits,critHits,norm,critVal,avg,miss,dps,total,totalPercent)
     }
 
   }

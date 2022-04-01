@@ -1,19 +1,25 @@
 package UI.GraphicFactory
 
+import UI.ElementLoader
 import javafx.scene.control.cell.PropertyValueFactory
+import logger.Logger
 import scalafx.beans.property.{DoubleProperty, IntegerProperty, ObjectProperty, StringProperty}
 import scalafx.collections.ObservableBuffer
-import scalafx.scene.control.{TableColumn, TableView}
-import scalafx.scene.layout.VBox
+import scalafx.event.ActionEvent
+import scalafx.scene.control.{CheckBox, Label, TableColumn, TableView}
+import scalafx.scene.layout.{HBox, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.shape.Circle
+import scalafx.Includes._
 
 
-class SpreadSheetRow(_ability: String, _targetName:String, _hits: Int, _norm:Int, _crit:Int, _avg:Int, _miss:Double, _dps:Int, _total:Int, _totalPercent:Double) {
+class SpreadSheetRow(_ability: String, _targetName:String, _hits:Int,_normHits:Int,_critHits:Int, _norm:Int, _crit:Int, _avg:Int, _miss:Double, _dps:Int, _total:Int, _totalPercent:Double) {
     val ability      = new StringProperty(this, "Ability", _ability)
     val targetName   = new StringProperty(this, "Target Name", _targetName)
     val hits         = new ObjectProperty(this, "Hits", _hits)
-    val norm         = new ObjectProperty(this, "Nrom", _norm)
+    val normHits         = new ObjectProperty(this, "Norm Hits", _normHits)
+    val critHits         = new ObjectProperty(this, "Crit Hits", _critHits)
+    val norm         = new ObjectProperty(this, "Norm", _norm)
     val crit         = new ObjectProperty(this, "Crit", _crit)
     val avg          = new ObjectProperty(this, "AVG", _avg)
     val miss         = new ObjectProperty(this, "Miss", _miss)
@@ -27,13 +33,6 @@ class SpreadSheetRow(_ability: String, _targetName:String, _hits: Int, _norm:Int
 object SpreadSheetFactory {
 
   def create(spreadSheetType:String): SpreadSheet = {
-    /**
-     * Layout Summary:
-     * Parent layout if going to be a vbox,
-     * first element is the header section which whill be an hbox,
-     * next element will be a vbox that will contain rows of data,
-     * each row will be an hbox
-     */
 
     /**
      * Mock Data
@@ -48,6 +47,7 @@ object SpreadSheetFactory {
     val parent = new VBox()
 
     val prefWidthValue = 150
+    val prefSmallColWidth = 75
 
     // create a table
     val table = new TableView[SpreadSheetRow](data) {
@@ -65,7 +65,19 @@ object SpreadSheetFactory {
         new TableColumn[SpreadSheetRow, Int] {
           text = "# of Hits"
           cellValueFactory = _.value.hits
-          prefWidth = prefWidthValue
+          prefWidth = prefSmallColWidth
+          style = "-fx-alignment: CENTER"
+        },
+        new TableColumn[SpreadSheetRow, Int] {
+          text = "Norm Hits"
+          cellValueFactory = _.value.normHits
+          prefWidth = prefSmallColWidth
+          style = "-fx-alignment: CENTER"
+        },
+        new TableColumn[SpreadSheetRow, Int] {
+          text = "Crit Hits"
+          cellValueFactory = _.value.critHits
+          prefWidth = prefSmallColWidth
           style = "-fx-alignment: CENTER"
         },
         new TableColumn[SpreadSheetRow, Int]() {
@@ -113,11 +125,66 @@ object SpreadSheetFactory {
       )
     }
 
+    /**
+     * Create Filter toggles
+     */
+    val filterBox = new HBox()
+    val aggregateLabel = new Label("Aggregate Data by: ")
+    val abilityCheckbox = new CheckBox("Ability")
+    setCheckboxAction(abilityCheckbox,spreadSheetType)
+    val targetTypeCheckbox = new CheckBox("Target Type")
+    setCheckboxAction(targetTypeCheckbox,spreadSheetType)
+    // TODO: Target instance hasn't been set up yet!
+    val targetInstanceCheckbox = new CheckBox("Target Instance")
+    setCheckboxAction(targetInstanceCheckbox,spreadSheetType)
 
-    parent.getChildren.addAll(table)
+    val checkBoxStyle = "-fx-font-size: 12;"
+    abilityCheckbox.setStyle(checkBoxStyle)
+    targetTypeCheckbox.setStyle(checkBoxStyle)
+    targetInstanceCheckbox.setStyle(checkBoxStyle)
 
-    new SpreadSheet(parent,table)
+    // By default, we show data by target instance and ability
+    abilityCheckbox.selected = true
+    targetTypeCheckbox.selected = true
+    targetInstanceCheckbox.selected = false
 
+    filterBox.getChildren.addAll(aggregateLabel,abilityCheckbox,targetTypeCheckbox)
+
+    parent.getChildren.addAll(filterBox,table)
+
+    new SpreadSheet(parent,table,abilityCheckbox,targetTypeCheckbox,targetInstanceCheckbox)
+
+
+  }
+
+  def setCheckboxAction(c:CheckBox, sheetType: String): Unit = {
+    if (sheetType == "Damage"){
+      c.onAction = (event: ActionEvent) => {
+        ElementLoader.rollBackCombatIfNeeded()
+        ElementLoader.updateDamageDoneSpreadSheet()
+        ElementLoader.restorCombatIfRolledBack()
+      }
+    } else if (sheetType == "Damage Taken"){
+      c.onAction = (event: ActionEvent) => {
+        ElementLoader.rollBackCombatIfNeeded()
+        ElementLoader.updateDamageTakenSpreadSheet()
+        ElementLoader.restorCombatIfRolledBack()
+      }
+    } else if (sheetType == "Healing"){
+      c.onAction = (event: ActionEvent) => {
+        ElementLoader.rollBackCombatIfNeeded()
+        ElementLoader.updateHealingDoneSpreadSheet()
+        ElementLoader.restorCombatIfRolledBack()
+      }
+    } else if (sheetType == "Healing Taken"){
+      c.onAction = (event: ActionEvent) => {
+        ElementLoader.rollBackCombatIfNeeded()
+        ElementLoader.updateHealingTakenSpreadSheet()
+        ElementLoader.restorCombatIfRolledBack()
+      }
+    } else {
+      Logger.error(s"Sheet type not recognized: ${sheetType}")
+    }
 
   }
 
@@ -126,9 +193,126 @@ object SpreadSheetFactory {
 class SpreadSheet(
                    parent: VBox,
                    table: TableView[SpreadSheetRow],
+                   abilityCheckbox: CheckBox,
+                   targetTypeCheckbox: CheckBox,
+                   targetInstanceCheckbox: CheckBox
                  ) {
 
   def getParent = parent
   def getTable = table
+
+  def updateAsDamageDone() = {
+    // Aggregate by ability only
+    if (
+        abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == false
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneByAbilitySpreadSheetData()
+      table.setItems(data)
+    }
+      // the default view, aggregate on (ability, target)
+      // dont care about what targetType box is set to because target instance overrides it
+    else if(
+        abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneSpreadSheetData()
+      table.setItems(data)
+    }
+    // Aggregate by target type
+    else if(
+      abilityCheckbox.selected.value == false &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDoneToTargetTypeSpreadSheetData()
+      table.setItems(data)
+    }
+  }
+
+  def updateAsDamageTaken() = {
+    // Aggregate by ability only
+    if (
+      abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == false
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenByAbilitySpreadSheetData()
+      table.setItems(data)
+    }
+    // the default view, aggregate on (ability, target)
+    // dont care about what targetType box is set to because target instance overrides it
+    else if(
+      abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenSpreadSheetData()
+      table.setItems(data)
+    }
+    // Aggregate by target type
+    else if(
+      abilityCheckbox.selected.value == false &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenToTargetTypeSpreadSheetData()
+      table.setItems(data)
+    }
+  }
+
+
+  def updateAsHealingDone() = {
+    // Aggregate by ability only
+    if (
+      abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == false
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneByAbilitySpreadSheetData()
+      table.setItems(data)
+    }
+    // the default view, aggregate on (ability, target)
+    // dont care about what targetType box is set to because target instance overrides it
+    else if(
+      abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneSpreadSheetData()
+      table.setItems(data)
+    }
+    // Aggregate by target type
+    else if(
+      abilityCheckbox.selected.value == false &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneToTargetTypeSpreadSheetData()
+      table.setItems(data)
+    }
+  }
+
+  def updateAsHealingTaken() = {
+    // Aggregate by ability only
+    if (
+      abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == false
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenByAbilitySpreadSheetData()
+      table.setItems(data)
+    }
+    // the default view, aggregate on (ability, target)
+    // dont care about what targetType box is set to because target instance overrides it
+    else if(
+      abilityCheckbox.selected.value == true &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenSpreadSheetData()
+      table.setItems(data)
+    }
+    // Aggregate by target type
+    else if(
+      abilityCheckbox.selected.value == false &&
+        targetTypeCheckbox.selected.value == true
+    ) {
+      val data = Controller.Controller.getCurrentCombat().getPlayerInCombatActor().getHealingTakenToTargetTypeSpreadSheetData()
+      table.setItems(data)
+    }
+  }
+
 
 }
