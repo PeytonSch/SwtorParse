@@ -1,6 +1,7 @@
 package UI.overlays
 
 import UI.{ElementLoader, Tiles}
+import Utils.Config.settings
 import eu.hansolo.tilesfx.Tile.SkinType
 import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import javafx.event.EventHandler
@@ -23,6 +24,7 @@ import scalafx.Includes._
 import scalafx.event.ActionEvent
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import scalafx.scene.control.{Button, Label, ScrollPane}
+import scalafx.stage.StageStyle.Transparent
 
 import scala.collection.mutable
 import scala.util.Random
@@ -132,6 +134,7 @@ object Overlays {
 
   val personalDamagePane = new VBox()
   val personalDamageTop = createMovableTop()
+  personalDamageTop.setId("personalDamageTop")
   personalDamagePane.setBackground(background)
   val personalDpsOverlay = new Stage()
   personalDamagePane.getChildren.addAll(personalDamageTop,personalDamageOverlay)
@@ -156,6 +159,7 @@ object Overlays {
 
   val personalHealingPane = new VBox()
   val personalHealingTop = createMovableTop()
+  personalHealingTop.setId("personalHealingTop")
   personalHealingPane.setBackground(background)
   personalHealingPane.getChildren.addAll(personalHealingTop,personalHealingOverlay)
   personalHealingPane.setPrefSize(200,200)
@@ -180,6 +184,7 @@ object Overlays {
 
   val personalDamageTakenPane = new VBox()
   val personalDamageTakenTop = createMovableTop()
+  personalDamageTakenTop.setId("personalDamageTakenTop")
   personalDamageTakenPane.setBackground(background)
   personalDamageTakenPane.getChildren.addAll(personalDamageTakenTop,personalDamageTakenOverlay)
   personalDamageTakenPane.setPrefSize(200,200)
@@ -195,13 +200,18 @@ object Overlays {
    * Group Damage Overlay
    */
   val groupDamageOuter = new VBox()
-  groupDamageOuter.setBackground(Tiles.background)
+//  groupDamageOuter.setBackground(Tiles.background)
+  groupDamageOuter.setStyle("-fx-background-color: rgba(104,103,103,1)")
   val groupDamagePane = new VBox()
+  groupDamagePane.setStyle("-fx-background-color: rgba(104,103,103,1)")
   val groupDamageTop = createMovableTopWithToggles("dps")
+  groupDamageTop.setId("groupDamageTop")
 
   val groupDamageScrollPane = new ScrollPane()
+  groupDamageScrollPane.setStyle("-fx-background-color: rgba(104,103,103,1)")
+//  groupDamageScrollPane.setStyle("-fx-background-color: transparent")
   groupDamageScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  groupDamageScrollPane.setBackground(Tiles.background)
+//  groupDamageScrollPane.setBackground(Tiles.background)
 
   groupDamageOuter.getChildren.addAll(groupDamageTop,groupDamageScrollPane)
 
@@ -219,12 +229,14 @@ object Overlays {
 //    groupDamagePane.getChildren.add(stacked)
 //  }
 
-  groupDamagePane.setBackground(background)
+//  groupDamagePane.setBackground(background)
   groupDamagePane.setPrefSize(200,200)
   val groupDpsOverlay = new Stage()
-  groupDpsOverlay.initStyle(StageStyle.Undecorated)
+  groupDpsOverlay.initStyle(StageStyle.Transparent)
+//  groupDpsOverlay.initStyle(StageStyle.Undecorated)
   groupDamageScrollPane.setContent(groupDamagePane)
   val groupDpsOverlayScene = new Scene(groupDamageOuter)
+  groupDpsOverlayScene.setFill(Color.Transparent)
   groupDpsOverlay.setTitle("Group DPS")
   groupDpsOverlay.setAlwaysOnTop(true)
   groupDpsOverlay.setScene(Overlays.groupDpsOverlayScene)
@@ -236,6 +248,7 @@ object Overlays {
   groupHealingOuter.setBackground(Tiles.background)
   val groupHealingPane = new VBox()
   val groupHealingTop = createMovableTopWithToggles("heal")
+  groupHealingTop.setId("groupHealingTop")
 //  groupHealingPane.getChildren.add(groupHealingTop)
 
   val groupHealingScrollPane = new ScrollPane()
@@ -275,7 +288,7 @@ object Overlays {
   entitiesInCombatOuter.setBackground(Tiles.background)
   val entitiesInCombatPane = new VBox() // goes in scrollpane with health bars
   val entitiesInCombatTop = createMovableTop()
-
+  entitiesInCombatTop.setId("entitiesInCombatTop")
   val entitiesInCombatScrollPane = new ScrollPane()
   entitiesInCombatScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
   entitiesInCombatScrollPane.setBackground(Tiles.background)
@@ -300,6 +313,7 @@ object Overlays {
   reflectDamageOuter.setBackground(Tiles.background)
   val reflectDamagePane = new VBox() // goes in scrollpane with health bars
   val reflectDamageTop = createMovableTop()
+  reflectDamageTop.setId("reflectDamageTop")
 
   val reflectDamageScrollPane = new ScrollPane()
   reflectDamageScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
@@ -386,6 +400,9 @@ object Overlays {
     box.setOnMouseReleased(new EventHandler[javafx.scene.input.MouseEvent] {
       override def handle(event: javafx.scene.input.MouseEvent): Unit = {
         previousLocations(index) = new Point2D(overlay.getX, overlay.getY)
+//        Logger.highlight(s"Released HBOX ${box.getId} at position ${overlay.getX},${overlay.getY}")
+        settings.putDouble(box.getId+"_X",overlay.getX)
+        settings.putDouble(box.getId+"_Y",overlay.getY)
       }
     })
 

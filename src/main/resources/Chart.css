@@ -1,3 +1,9 @@
+.root {
+    -fx-background-color: Green;
+    -fx-fill: Red;
+
+}
+
 .hps-bar {
     -fx-bar-fill: #48FF80;
 }

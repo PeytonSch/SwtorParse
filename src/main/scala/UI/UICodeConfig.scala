@@ -1,5 +1,6 @@
 package UI
 
+import Utils.Config.settings
 import Utils.{Config, FileHelper, PathLoader}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
@@ -16,12 +17,16 @@ object UICodeConfig {
 
   val random = scala.util.Random
 
-  var logPath = if (PathLoader.getPaths().length >0) {
-    PathLoader.getPaths()(0)+"/"
-  }
+  var logPath = settings.get("logDirectory",
+    if (PathLoader.getPaths().length >0) {
+      val path = PathLoader.getPaths()(0) + "/"
+      settings.put("logDirectory", path)
+      path
+    }
   else {
     Config.config.getString("Paths.combatLogDir")
   }
+  )
   // TODO: I'm going to make this empty to start, it should somehow get set to the most recent file on startup
   var logFile = Config.config.getString("Paths.combatLogPath")
 
