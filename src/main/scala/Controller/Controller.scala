@@ -5,7 +5,7 @@ import UI.ElementLoader
 import Utils.Timer
 import logger.Logger
 import parsing.Actors.Actor
-import parsing.Result.ApplyEffect
+import parsing.Result.{ApplyEffect, Event}
 import patterns.Actions.SafeLogin
 import patterns.LogInformation
 import patterns.Result.{EnterCombat, ExitCombat}
@@ -143,6 +143,10 @@ object Controller {
         // Check healing
         if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Heal") {
           this.getCurrentCombat().addHealingToCurrentCombat(logInfo)
+        }
+
+        if (logInfo.getResult().isInstanceOf[Event]) {
+          this.getCurrentCombat().addEventToCombat(logInfo)
         }
 
       }

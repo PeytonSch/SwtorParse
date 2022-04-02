@@ -27,7 +27,12 @@ object Tabs {
   val settingsTab = new Tab
   settingsTab.setClosable(false)
   settingsTab.setText("SETTINGS")
-  tabbedPane.tabs = List(overViewTab,dpsTab,hpsTab,dtpsTab,htpsTab,settingsTab)
+
+  val timersTab = new Tab
+  timersTab.setClosable(false)
+  timersTab.setText("TIMERS")
+
+  tabbedPane.tabs = List(overViewTab,dpsTab,hpsTab,dtpsTab,htpsTab,settingsTab,timersTab)
 
 
   // TABS - these add objects that extend from the UITab Trait
@@ -37,5 +42,6 @@ object Tabs {
   dpsTab.content = DamageDone.addToUI()
   htpsTab.content = HealingTaken.addToUI()
   settingsTab.content = Settings.addToUI()
+  timersTab.content = Timers.addToUI()
 
 }

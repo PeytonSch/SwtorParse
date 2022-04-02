@@ -193,8 +193,6 @@ class CombatActorInstance {
   def getHealingTakenToTargetTypeSpreadSheetData():ObservableBuffer[SpreadSheetRow] = getSpreadSheetDataToTarget(aggregateOnTargetType(healingTakenSheetDataMap))
 
 
-
-
   def updateDamageDone(damageAmount: Int, axisValue : Int, damageType : String, damageSource : String, crit : Boolean, target: String): Unit = {
     damageDone += damageAmount
     damagePerSecond = damageDone / (axisValue+1)

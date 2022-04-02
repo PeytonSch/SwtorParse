@@ -1,17 +1,16 @@
 package UI.tabs
 
+import UI.Tiles
 import UI.overlays.Overlays
-import UI.overlays.Overlays.{groupDamageOuter, groupDamagePane, groupDamageScrollPane}
 import Utils.Config.settings
-import javafx.collections.FXCollections
 import logger.Logger
-import scalafx.event.ActionEvent
-import scalafx.scene.control.{Button, CheckBox, ComboBox, Label, Slider, TextField}
-import scalafx.scene.layout.{GridPane, HBox, StackPane, VBox}
 import scalafx.Includes._
+import scalafx.event.ActionEvent
+import scalafx.scene.control._
+import scalafx.scene.layout.{GridPane, HBox, VBox}
 import scalafx.stage.Stage
 
-object Settings extends UITab {
+object Timers extends UITab {
 
   // This can be though of as like a layout
   val pane = new GridPane()
@@ -32,6 +31,16 @@ object Settings extends UITab {
   right.setStyle(boarderStyle)
   right.setPrefSize(800,1000)
 
+  val rightTop = new VBox()
+  rightTop.setStyle(boarderStyle)
+  rightTop.setPrefSize(750,490)
+
+  val rightBottom = new VBox()
+  rightBottom.setStyle(boarderStyle)
+  rightBottom.setPrefSize(750,490)
+
+  right.getChildren.addAll(rightTop,rightBottom)
+
   parent.getChildren.addAll(left,right)
 
   pane.add(parent,0,0)
@@ -40,190 +49,98 @@ object Settings extends UITab {
   override def addToUI(): GridPane = pane
 
 
+  val existingTimersLabel = new Label("Existing Timers")
+  existingTimersLabel.setStyle("-fx-font-size: 20;")
+  val createTimersLabel = new Label("Create Timers")
+  createTimersLabel.setStyle("-fx-font-size: 20;")
+
+  left.getChildren.add(existingTimersLabel)
+
+
   /**
-   * Interface Checkboxes
+   * Create timers
    */
 
-  val dpsCheckbox = new CheckBox("Group Damage")
-  setCheckboxAction(dpsCheckbox, Overlays.groupDpsOverlay,"groupDpsOverlayEnabled","groupDamageTop")
-  if (settings.getBoolean("groupDpsOverlayEnabled",false)) {
-    dpsCheckbox.setSelected(true)
-    Overlays.groupDpsOverlay.setX(settings.getDouble("groupDamageTop_X",500))
-    Overlays.groupDpsOverlay.setY(settings.getDouble("groupDamageTop_Y",500))
-    Overlays.groupDpsOverlay.show()
+    val labelStyle = "-fx-font-size: 20;"
+
+  // labels
+  val nameLabel = new Label {
+    text = "Name"
+    prefWidth = 350
+    style = labelStyle
+  }
+  val sourceLabel = new Label {
+    text ="Source"
+    prefWidth = 350
+    style = labelStyle
   }
 
-  val hpsCheckbox = new CheckBox("Group Healing")
-  setCheckboxAction(hpsCheckbox, Overlays.groupHpsOverlay,"groupHpsOverlayEnabled","groupHealingTop")
-  if (settings.getBoolean("groupHpsOverlayEnabled",false)) {
-    hpsCheckbox.setSelected(true)
-    Overlays.groupHpsOverlay.setX(settings.getDouble("groupHealingTop_X",500))
-    Overlays.groupHpsOverlay.setY(settings.getDouble("groupHealingTop_Y",500))
-    Overlays.groupHpsOverlay.show()
+  val triggerOnLabel = new Label{
+    text = "Trigger On"
+    prefWidth = 350
+    style = labelStyle
+  }
+  val durationLabel = new Label{
+    text = "Duration"
+    prefWidth = 350
+    style = labelStyle
+  }
+  val repeatLabel = new Label{
+    text ="Repeat"
+    prefWidth = 350
+    style = labelStyle
+  }
+  val cancelOnLabel = new Label{
+    text = "Cancel On"
+    prefWidth = 350
+    style = labelStyle
+  }
+  
+  val nameText = new TextField{
+    prefWidth = 450
+  }
+  val sourceText = new TextField{
+    prefWidth = 450
+  }
+  val triggerOnText = new TextField{
+    prefWidth = 450
+  }
+  val durationText = new TextField{
+    prefWidth = 450
+  }
+  val repeatText = new TextField{
+    prefWidth = 450
+  }
+  val cancelOnText = new TextField{
+    prefWidth = 450
   }
 
-  val personalDpsCheckbox = new CheckBox("Personal Damage Done")
-  setCheckboxAction(personalDpsCheckbox, Overlays.personalDpsOverlay,"personalDpsOverlayEnabled","personalDamageTop")
-  if (settings.getBoolean("personalDpsOverlayEnabled",false)) {
-    personalDpsCheckbox.setSelected(true)
-    Overlays.personalDpsOverlay.setX(settings.getDouble("personalDamageTop_X",500))
-    Overlays.personalDpsOverlay.setY(settings.getDouble("personalDamageTop_Y",500))
-    Overlays.personalDpsOverlay.show()
-  }
+  val nameBox = new HBox()
+  val sourceBox = new HBox()
+  val triggerOnBox = new HBox()
+  val durationBox = new HBox()
+  val repeatBox = new HBox()
+  val cancelOnBox = new HBox()
+  
+  nameBox.getChildren.addAll(nameLabel,nameText)
+  sourceBox.getChildren.addAll(sourceLabel,sourceText)
+  triggerOnBox.getChildren.addAll(triggerOnLabel,triggerOnText)
+  durationBox.getChildren.addAll(durationLabel,durationText)
+  repeatBox.getChildren.addAll(repeatLabel,repeatText)
+  cancelOnBox.getChildren.addAll(cancelOnLabel,cancelOnText)
 
-  val personalHpsCheckbox = new CheckBox("Personal Healing Done")
-  setCheckboxAction(personalHpsCheckbox, Overlays.personalHpsOverlay,"personalHpsOverlayEnabled","personalHealingTop")
-  if (settings.getBoolean("personalHpsOverlayEnabled",false)) {
-    personalHpsCheckbox.setSelected(true)
-    Overlays.personalHpsOverlay.setX(settings.getDouble("personalHealingTop_X",500))
-    Overlays.personalHpsOverlay.setY(settings.getDouble("personalHealingTop_Y",500))
-    Overlays.personalHpsOverlay.show()
-  }
-
-  val personalDtpsCheckbox = new CheckBox("Personal Damage Taken")
-  setCheckboxAction(personalDtpsCheckbox, Overlays.personalDtpsOverlay,"personalDtpsOverlayEnabled","personalDamageTakenTop")
-  if (settings.getBoolean("personalDtpsOverlayEnabled",false)) {
-    personalDtpsCheckbox.setSelected(true)
-    Overlays.personalDtpsOverlay.setX(settings.getDouble("personalDamageTakenTop_X",500))
-    Overlays.personalDtpsOverlay.setY(settings.getDouble("personalDamageTakenTop_Y",500))
-    Overlays.personalDtpsOverlay.show()
-  }
-
-  val combatEntitiesCheckbox = new CheckBox("Combat Entities")
-  setCheckboxAction(combatEntitiesCheckbox, Overlays.entitiesInCombatOverlay,"combatEntitiesOverlayEnabled","entitiesInCombatTop")
-  if (settings.getBoolean("combatEntitiesOverlayEnabled",false)) {
-    combatEntitiesCheckbox.setSelected(true)
-    Overlays.entitiesInCombatOverlay.setX(settings.getDouble("entitiesInCombatTop_X",500))
-    Overlays.entitiesInCombatOverlay.setY(settings.getDouble("entitiesInCombatTop_Y",500))
-    Overlays.entitiesInCombatOverlay.show()
-  }
-
-  val reflectDamageCheckbox = new CheckBox("Reflect Leaderboard")
-  setCheckboxAction(reflectDamageCheckbox, Overlays.reflectDamageOverlay,"reflectOverlayEnabled","reflectDamageTop")
-  if (settings.getBoolean("reflectOverlayEnabled",false)) {
-    reflectDamageCheckbox.setSelected(true)
-    Overlays.reflectDamageOverlay.setX(settings.getDouble("reflectDamageTop_X",500))
-    Overlays.reflectDamageOverlay.setY(settings.getDouble("reflectDamageTop_Y",500))
-    Overlays.reflectDamageOverlay.show()
-  }
-
-  val overlayLabel = new Label("OVERLAYS")
-  overlayLabel.setStyle("-fx-font-size: 20;")
-
-  left.getChildren.addAll(
-    overlayLabel,
-    dpsCheckbox,
-    hpsCheckbox,
-    personalDpsCheckbox,
-    personalHpsCheckbox,
-    personalDtpsCheckbox,
-    combatEntitiesCheckbox,
-    reflectDamageCheckbox
+  rightTop.getChildren.addAll(
+    nameBox,sourceBox,triggerOnBox,
+    durationBox,repeatBox,cancelOnBox
   )
 
-
-  /**
-   * Checkbox actions
-   */
-
-  def setCheckboxAction(c:CheckBox, overlay: Stage, settingName: String,posSetting: String): Unit = {
-    c.onAction = (event: ActionEvent) => {
-      if (c.selectedProperty().value == true) {
-        overlay.setX(settings.getDouble(posSetting+"_X",500))
-        overlay.setY(settings.getDouble(posSetting+"_Y",500))
-        overlay.show()
-        settings.putBoolean(settingName,true)
-      }
-      else {
-        overlay.hide()
-        settings.putBoolean(settingName,false)
-      }
-    }
+  val suggestions = new VBox()
+  val rightBottomScrollPane = new ScrollPane{
+    content = suggestions
+    background = Tiles.background
   }
 
-  /**
-   * Right Settings
-   */
-  val guildLabel = new Label("Guild:")
-  val guildTextField = new TextField()
-  guildTextField.promptText = settings.get("guild","Guild")
-  guildTextField.setText(settings.get("guild",""))
-  val raidTeamLabel = new Label("Raid Team:")
-  val raidTeamTextField = new TextField()
-  raidTeamTextField.promptText = settings.get("raidTeam","Raid Team Name")
-  raidTeamTextField.setText(settings.get("raidTeam",""))
-  val serverLabel = new Label("Server:")
-  val serverDropDown = new ComboBox(Seq[String]("Satele Shan","Star Forge","Tulak Hord","Darth Malgus","The Leviathan"))
-
-  val logDirLabel = new Label("Configured Log Directory")
-  val logDirTextField = new TextField()
-  logDirTextField.setEditable(false)
-  logDirTextField.setText(settings.get("logDirectory","Log Directory Not Set: Use File -> Choose Log Dir"))
-
-  serverDropDown.setValue((settings.get("server","Select Server")))
-
-  right.getChildren.addAll(
-    guildLabel,guildTextField,
-    raidTeamLabel, raidTeamTextField,
-    serverLabel, serverDropDown,
-    logDirLabel, logDirTextField
-  )
-
-
-  val overlayOpacity = new Slider()
-  overlayOpacity.setMin(0)
-  overlayOpacity.setMax(1)
-  overlayOpacity.setValue(settings.getDouble("overlayOpacity",1))
-  val overLayOpacityLabel = new Label(s"Overlay Opacity: ${(overlayOpacity.value.value * 100).toInt} %")
-
-  right.getChildren.addAll(overLayOpacityLabel,overlayOpacity)
-
-  val applyButton = new Button("Apply")
-
-  right.getChildren.addAll(applyButton)
-
-  applyButton.onAction = (event: ActionEvent) => {
-    // Save Settings
-    val guild = guildTextField.getText
-    val raidTeam = raidTeamTextField.getText
-    val server = serverDropDown.getValue
-    if (guild != null) settings.put("guild", guild)
-    if (raidTeam != null) settings.put("raidTeam",raidTeam)
-    if (server != null) settings.put("server", server)
-
-    Logger.highlight(s"Saved Data: ${guild}, ${raidTeam}, ${server} ")
-  }
-
-
-
-  overlayOpacity.valueProperty.addListener{ (o: javafx.beans.value.ObservableValue[_ <: Number], oldVal: Number, newVal: Number) =>
-
-    overLayOpacityLabel.text = s"Overlay Opacity: ${(newVal.doubleValue() * 100).toInt} %"
-    settings.putDouble("overlayOpacity",newVal.doubleValue())
-
-//    Logger.highlight(s"Opacity: ${newVal.doubleValue()}")
-    Overlays.groupDamageScrollPane.setOpacity(newVal.doubleValue())
-    Overlays.groupHealingScrollPane.setOpacity(newVal.doubleValue())
-
-
-//    groupDamageOuter.setStyle(s"-fx-background-color: rgba(104,103,103,${newVal.doubleValue()})")
-//    groupDamagePane.setStyle(s"-fx-background-color: rgba(104,103,103,${newVal.doubleValue()})")
-//    groupDamageScrollPane.setStyle(s"-fx-background-color: rgba(104,103,103,${newVal.doubleValue()})")
-//
-//    for (child <- groupDamagePane.getChildren.toSeq) {
-//      for (littleChild <- child.asInstanceOf[javafx.scene.layout.StackPane].getChildren.toSeq) {
-//        Logger.highlight(s"${littleChild}")
-//        littleChild.setStyle("-fx-background-color: rgba(104,255,103,1)")
-//      }
-//    }
-
-
-
-    //    Overlays.groupDamagePane.setOpacity(newVal.doubleValue())
-//    Overlays.groupDamageOuter.setOpacity(newVal.doubleValue())
-//    Overlays.groupDamagePane.setStyle(s"-fx-background-color: rgba(0,0,255,${newVal.doubleValue()})")
-//    Overlays.groupHealingPane.setStyle(s"-fx-background-color: rgba(0,0,255,${newVal.doubleValue()})")
-  }
+  rightBottom.getChildren.addAll(rightBottomScrollPane)
 
 
 

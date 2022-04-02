@@ -2,7 +2,7 @@ import sbt.Keys.libraryDependencies
 
 name := "SwtorParseScala"
 
-version := "alpha.1.0.3"
+version := "alpha.1.0.5"
 
 scalaVersion := "2.13.7"
 

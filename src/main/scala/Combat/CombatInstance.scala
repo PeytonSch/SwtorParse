@@ -1,13 +1,14 @@
 package Combat
 
 import logger.{LogLevel, Logger}
-import parsing.Actors.{Actor, NoneActor}
+import parsing.Actors.{Actor, NoneActor, Player}
 import parsing.Values.Value
-import parsing.subTypes.LogTimestamp
+import parsing.subTypes.{Health, LogTimestamp}
 import patterns.LogInformation
 
 import java.time.{LocalDate, LocalTime}
 import scala.collection.IterableOnce.iterableOnceExtensionMethods
+import scala.collection.mutable
 
 class CombatInstance (
 
@@ -46,6 +47,43 @@ class CombatInstance (
 
     }
     str
+  }
+
+  /**
+   * Timer Suggested Abilities
+   */
+  // TODO: These need to be keyed off performer ID, otherwise things like bestia monsters with the same name mess it up
+  // Key: (Ability Name, Performer)
+  // Value: List[Time Activated At], List[Health % Activated At]
+  var timerSuggestionMap: mutable.Map[(String,String),(List[Double],List[Double])] = mutable.Map()
+
+  def getTimerSuggestionMap = timerSuggestionMap
+
+  // add Event to Combat
+  def addEventToCombat(logInfo : LogInformation): Unit = {
+    val performerId: String = logInfo.getPerformer().getId().toString
+    val performerName: String = logInfo.getPerformer().getName()
+    val performerHealth: Health = logInfo.getPerformer().getHealth()
+    val healthPercent: Int = if (performerHealth.getMax() != 0) ((performerHealth.getCurrent() / performerHealth.getMax().toDouble) * 100).toInt else 0
+    val ability : String = logInfo.getAction().getName()
+    val durationMarkFromStart = logInfo.getTime() - this.startTimeStamp
+
+    // we only care about non players for suggestions
+    if (!logInfo.getPerformer().isInstanceOf[Player] && ability != "No Action"){
+//      Logger.highlight(s"Got ${performerId}, ${performerName}, ${performerHealth}, ${ability}")
+      if(timerSuggestionMap.contains((ability,performerName))){
+        val timeList: List[Double] = timerSuggestionMap(ability,performerName)._1 :+ (durationMarkFromStart)
+        val healthList: List[Double] = timerSuggestionMap(ability,performerName)._2 :+ (healthPercent)
+        timerSuggestionMap((ability,performerName)) = (timeList,healthList)
+      }
+      else {
+        val timeList: List[Double] = List(durationMarkFromStart)
+        val healthList: List[Double] = List(healthPercent)
+        timerSuggestionMap((ability,performerName)) = (timeList,healthList)
+      }
+
+    }
+
   }
 
   def appendToCombatActors(a:Actor): Unit = {

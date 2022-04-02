@@ -16,8 +16,8 @@ import javafx.scene.paint.Color
 import logger.LogLevel.Info
 import logger.Logger
 import scalafx.geometry.Pos
-import scalafx.scene.control.{Menu, MenuItem}
-import scalafx.scene.layout.StackPane
+import scalafx.scene.control.{Label, Menu, MenuItem}
+import scalafx.scene.layout.{HBox, StackPane}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 
@@ -29,6 +29,7 @@ import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
 import UI.tabs.Settings.logDirTextField
+import UI.tabs.Timers.suggestions
 import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken}
 import Utils.Config.settings
 import Utils.{FileHelper, PathLoader}
@@ -308,6 +309,12 @@ object ElementLoader {
     updateHealingDoneSpreadSheet()
     updateHealingTakenSpreadSheet()
     updateDamageTakenSpreadSheet()
+
+    /**
+     * Timer Suggestions
+     */
+    loadTimerSugestions()
+
 
     // if we had to return to previouse combat instance, set back to no combat instance
     if (wentBack) {
@@ -1303,6 +1310,46 @@ object ElementLoader {
     }
 
 
+  }
+
+
+  def loadTimerSugestions(): Unit = {
+    // remove data
+    suggestions.getChildren.clear()
+
+//    Logger.highlight(s"Found ${Controller.getCurrentCombat().getTimerSuggestionMap.keys.size} keys for combat")
+    for (key <- Controller.getCurrentCombat().getTimerSuggestionMap.keys){
+      val abilityName = key._1
+      val source = key._2
+      val times: List[Double] = Controller.getCurrentCombat().getTimerSuggestionMap(key)._1
+      val healths: List[Double] = Controller.getCurrentCombat().getTimerSuggestionMap(key)._2
+
+      var timeDifferenceCount = 0.0
+      for (index <- Range(1,times.length)){
+        timeDifferenceCount = timeDifferenceCount + (times(index) - times(index-1))
+      }
+
+      val averageTimeDifference = timeDifferenceCount / (times.length).toDouble
+
+      var healthDifferenceCount = 0.0
+      for (index <- Range(1,healths.length)){
+        healthDifferenceCount = healthDifferenceCount + (healths(index) - healths(index-1))
+      }
+
+      val averageHealthDifference = healthDifferenceCount / (healths.length).toDouble
+
+      val box = new HBox()
+      val l1 = new Label(abilityName + " | ")
+      val l2 = new Label(source + " | ")
+      val l3 = new Label(averageTimeDifference.toString + " | ")
+      val l4 = new Label(averageHealthDifference.toString)
+
+      box.getChildren.addAll(l1,l2,l3,l4)
+      suggestions.getChildren.addAll(box)
+
+
+
+    }
   }
 
 
