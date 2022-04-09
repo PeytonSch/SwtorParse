@@ -62,6 +62,15 @@ object Settings extends UITab {
     Overlays.groupHpsOverlay.show()
   }
 
+  val dtpsCheckbox = new CheckBox("Group Damage Taken")
+  setCheckboxAction(dtpsCheckbox, Overlays.groupDtpsOverlay,"groupDtpsOverlayEnabled","groupDtpsTop")
+  if (settings.getBoolean("groupDtpsOverlayEnabled",false)) {
+    dtpsCheckbox.setSelected(true)
+    Overlays.groupDtpsOverlay.setX(settings.getDouble("groupDtpsTop_X",500))
+    Overlays.groupDtpsOverlay.setY(settings.getDouble("groupDtpsTop_Y",500))
+    Overlays.groupDtpsOverlay.show()
+  }
+
   val personalDpsCheckbox = new CheckBox("Personal Damage Done")
   setCheckboxAction(personalDpsCheckbox, Overlays.personalDpsOverlay,"personalDpsOverlayEnabled","personalDamageTop")
   if (settings.getBoolean("personalDpsOverlayEnabled",false)) {
@@ -114,6 +123,7 @@ object Settings extends UITab {
     overlayLabel,
     dpsCheckbox,
     hpsCheckbox,
+    dtpsCheckbox,
     personalDpsCheckbox,
     personalHpsCheckbox,
     personalDtpsCheckbox,

@@ -5,7 +5,7 @@ import Controller.Controller
 import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.{Menus, TimerSuggestionsTable}
 import UI.overlays.Overlays
-import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupHealingPane, reflectDamagePane}
+import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupDtpsPane, groupHealingPane, reflectDamagePane}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.BarChartItem
@@ -50,6 +50,7 @@ object ElementLoader {
   // This tells us if we want to display everyone, just players, players + companions, or players + bosses
   var overlayDisplayModeDPS: String = "player"
   var overlayDisplayModeHPS: String = "player"
+  var overlayDisplayModeDtps: String = "player"
 
   /**
    * Attempt at defining things to load asyncronously
@@ -1072,6 +1073,7 @@ object ElementLoader {
     Overlays.groupHealingPane.getChildren.clear()
     Overlays.entitiesInCombatPane.getChildren.clear()
     Overlays.reflectDamagePane.getChildren.clear()
+    Overlays.groupDtpsPane.getChildren.clear()
 
 
     /**
@@ -1307,6 +1309,62 @@ object ElementLoader {
       stacked.getChildren.addAll(backgroundRect,rect,text)
       stacked.setAlignment(Pos.CenterLeft)
       reflectDamagePane.getChildren.add(stacked)
+    }
+
+
+    /**
+     * Update Overlay Group Damage Taken
+     */
+
+    // what actor has done the most damage this tick?
+    var maxDamageTaken = 1
+    var totalDamageTaken = 1
+    // TODO: Adjust the percentages to show based on mode
+    var totalPlayerDamageTaken = 1
+    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
+      totalDamageTaken = totalDamageTaken + actor.getDamageTaken()
+      if (actor.getDamageTaken() > maxDamageTaken && actor.getActorType() == "Player") maxDamageTaken = actor.getDamageTaken()
+    }
+    if (totalDamageTaken > 1) totalDamageTaken = totalDamageTaken - 1
+    if (totalPlayerDamageTaken > 1) totalPlayerDamageTaken = totalPlayerDamageTaken - 1
+
+    val sortedByDamageTaken = Controller.getCurrentCombat().getCombatActors().sortWith(_.getDamageTaken() > _.getDamageTaken()).filter(_.getDamageTaken() > 0)
+
+    // only display the toggled mode
+    val filterDamageTakenByMode = overlayDisplayModeDtps match {
+      case "player" => sortedByDamageTaken.filter(x => (x.getActorType() == "Player"))
+      case "boss" => sortedByDamageTaken.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
+      case "comp" => sortedByDamageTaken.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
+      case "all" => sortedByDamageTaken
+      case _ => {
+        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDtps} unexpected. Setting to \"player\" and continuing.")
+        overlayDisplayModeDtps = "player"
+        sortedByDamageTaken.filter(_.getActorType() == "Player")
+      }
+    }
+
+    for (actor <- filterDamageTakenByMode) {
+      val stacked = new StackPane()
+      val text = new Text()
+      val percentMaxFill: Int = ((actor.getDamageTaken().toDouble / maxDamageTaken) * 200).toInt
+      val percentMax: Int = ((actor.getDamageTaken().toDouble / totalDamageTaken) * 100).toInt
+      text.setText(actor.getActor().getName() + ": " + actor.getDamageTakenPerSecond() + " (" + percentMax + "%)")
+      val rect = Rectangle(percentMaxFill,30)
+      val backgroundRect = Rectangle(600, 30)
+      if(actor.getActorType() == "Player"){
+        rect.setStyle("-fx-fill: #FFE410; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      else if (actor.getActorType() == "Companion") {
+        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      else {
+        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
+      }
+      backgroundRect.setStyle("-fx-fill: #FFDF99; -fx-stroke: black; -fx-stroke-width: 2;")
+      stacked.getChildren.addAll(backgroundRect,rect,text)
+      stacked.setAlignment(Pos.CenterLeft)
+      stacked.setStyle("-fx-background-color: rgba(0,255,0,0)")
+      groupDtpsPane.getChildren.add(stacked)
     }
 
 

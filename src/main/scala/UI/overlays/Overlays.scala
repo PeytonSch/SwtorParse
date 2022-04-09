@@ -59,6 +59,12 @@ object Overlays {
         ElementLoader.refreshUI()
       }
     }
+    else if (actions == "dtps") {
+      players.onAction = (event: ActionEvent) =>  {
+        ElementLoader.overlayDisplayModeDtps = "player"
+        ElementLoader.refreshUI()
+      }
+    }
     val boss = new Button("Boss")
     boss.setStyle(overlayButtonStyle)
     if (actions == "dps") {
@@ -69,6 +75,12 @@ object Overlays {
     } else if (actions == "heal") {
       boss.onAction = (event: ActionEvent) =>  {
         ElementLoader.overlayDisplayModeHPS = "boss"
+        ElementLoader.refreshUI()
+      }
+    }
+    else if (actions == "dtps") {
+      boss.onAction = (event: ActionEvent) =>  {
+        ElementLoader.overlayDisplayModeDtps = "boss"
         ElementLoader.refreshUI()
       }
     }
@@ -85,6 +97,12 @@ object Overlays {
         ElementLoader.refreshUI()
       }
     }
+    else if (actions == "dtps") {
+      companion.onAction = (event: ActionEvent) =>  {
+        ElementLoader.overlayDisplayModeDtps = "comp"
+        ElementLoader.refreshUI()
+      }
+    }
     val all = new Button("All")
     all.setStyle(overlayButtonStyle)
     if (actions == "dps") {
@@ -96,6 +114,12 @@ object Overlays {
     } else if (actions == "heal") {
       all.onAction = (event: ActionEvent) =>  {
         ElementLoader.overlayDisplayModeHPS = "all"
+        ElementLoader.refreshUI()
+      }
+    }
+    else if (actions == "dtps") {
+      all.onAction = (event: ActionEvent) =>  {
+        ElementLoader.overlayDisplayModeDtps = "all"
         ElementLoader.refreshUI()
       }
     }
@@ -334,6 +358,33 @@ object Overlays {
 
 
 
+  /**
+   * Group Dtps Overlay
+   */
+  val groupDtpsOuter = new VBox()
+  groupDtpsOuter.setBackground(Tiles.background)
+  val groupDtpsPane = new VBox()
+  val groupDtpsTop = createMovableTopWithToggles("dtps")
+  groupDtpsTop.setId("groupDtpsTop")
+  val groupDtpsScrollPane = new ScrollPane()
+  groupDtpsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+  groupDtpsScrollPane.setBackground(Tiles.background)
+
+  groupDtpsOuter.getChildren.addAll(groupDtpsTop,groupDtpsScrollPane)
+
+  groupDtpsPane.setBackground(background)
+  groupDtpsPane.setPrefSize(200,200)
+  val groupDtpsOverlay = new Stage()
+  groupDtpsOverlay.initStyle(StageStyle.Undecorated)
+  groupDtpsScrollPane.setContent(groupDtpsPane)
+  val groupDtpsOverlayScene = new Scene(groupDtpsOuter)
+  groupDtpsOverlay.setTitle("Group DTPS")
+  groupDtpsOverlay.setAlwaysOnTop(true)
+  groupDtpsOverlay.setScene(Overlays.groupDtpsOverlayScene)
+
+
+
+
   // ARRAY of Anchor Points so everything has its own point data stored
   // TODO: Write these points to a file and read them in so that we save the last location so they go there on startup
   private var anchors: mutable.ArrayBuffer[Point2D] = mutable.ArrayBuffer(null,null,null,null,null,null,null,null)
@@ -346,6 +397,7 @@ object Overlays {
   initMovableVBox(personalHealingTop,personalHpsOverlay,4)
   initMovableVBox(entitiesInCombatTop,entitiesInCombatOverlay,5)
   initMovableVBox(reflectDamageTop,reflectDamageOverlay,6)
+  initMovableVBox(groupDtpsTop,groupDtpsOverlay,7)
 
 //  initMovableScene(personalDamageOverlay.getScene,5)
 //  initMovableScene(personalHealingOverlay.getScene,6)
