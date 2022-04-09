@@ -3,7 +3,7 @@ package UI
 import Combat.CombatActorInstance
 import Controller.Controller
 import UI.GraphicFactory.SpreadSheetRow
-import UI.objects.Menus
+import UI.objects.{Menus, TimerSuggestionsTable}
 import UI.overlays.Overlays
 import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupHealingPane, reflectDamagePane}
 import com.typesafe.config.ConfigFactory
@@ -29,14 +29,12 @@ import scalafx.application.Platform
 import scalafx.scene.Scene
 import UI.objects.Menus._
 import UI.tabs.Settings.logDirTextField
-import UI.tabs.Timers.suggestions
-import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken}
+import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken, Timers}
 import Utils.Config.settings
 import Utils.{FileHelper, PathLoader}
 import parser.Parser
 import scalafx.collections.ObservableBuffer
 import scalafx.scene.chart.{BarChart, LineChart}
-
 import java.io.File
 
 /**
@@ -131,8 +129,10 @@ object ElementLoader {
   def loadLogFileMenu():Unit = {
     val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
     var fileBuffer = new ListBuffer[MenuItem]()
+    var del: String = settings.get("pathDelimiter","")
     for (i <- 0 until files.length){
-      var item = new MenuItem(files(i).getAbsolutePath().split('\\').last)
+      // TODO: On Windows we .split('\\') but on mac we need to split on /
+      var item = new MenuItem(files(i).getAbsolutePath().split(del).last)
       item.setOnAction(loadNewCombatFile())
       fileBuffer += item
     }
@@ -1314,42 +1314,7 @@ object ElementLoader {
 
 
   def loadTimerSugestions(): Unit = {
-    // remove data
-    suggestions.getChildren.clear()
-
-//    Logger.highlight(s"Found ${Controller.getCurrentCombat().getTimerSuggestionMap.keys.size} keys for combat")
-    for (key <- Controller.getCurrentCombat().getTimerSuggestionMap.keys){
-      val abilityName = key._1
-      val source = key._2
-      val times: List[Double] = Controller.getCurrentCombat().getTimerSuggestionMap(key)._1
-      val healths: List[Double] = Controller.getCurrentCombat().getTimerSuggestionMap(key)._2
-
-      var timeDifferenceCount = 0.0
-      for (index <- Range(1,times.length)){
-        timeDifferenceCount = timeDifferenceCount + (times(index) - times(index-1))
-      }
-
-      val averageTimeDifference = timeDifferenceCount / (times.length).toDouble
-
-      var healthDifferenceCount = 0.0
-      for (index <- Range(1,healths.length)){
-        healthDifferenceCount = healthDifferenceCount + (healths(index) - healths(index-1))
-      }
-
-      val averageHealthDifference = healthDifferenceCount / (healths.length).toDouble
-
-      val box = new HBox()
-      val l1 = new Label(abilityName + " | ")
-      val l2 = new Label(source + " | ")
-      val l3 = new Label(averageTimeDifference.toString + " | ")
-      val l4 = new Label(averageHealthDifference.toString)
-
-      box.getChildren.addAll(l1,l2,l3,l4)
-      suggestions.getChildren.addAll(box)
-
-
-
-    }
+    Timers.timerSuggestions.refresh()
   }
 
 

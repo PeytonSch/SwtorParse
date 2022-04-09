@@ -17,6 +17,8 @@ object UICodeConfig {
 
   val random = scala.util.Random
 
+//  var pathDelimiter:String = settings.get("pathDelimiter","\\")
+
   var logPath = settings.get("logDirectory",
     if (PathLoader.getPaths().length >0) {
       val path = PathLoader.getPaths()(0) + "/"

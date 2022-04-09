@@ -1,6 +1,7 @@
 package UI.tabs
 
 import UI.Tiles
+import UI.objects.TimerSuggestionsTable
 import UI.overlays.Overlays
 import Utils.Config.settings
 import logger.Logger
@@ -81,7 +82,7 @@ object Timers extends UITab {
     style = labelStyle
   }
   val durationLabel = new Label{
-    text = "Duration"
+    text = "Cool Down"
     prefWidth = 350
     style = labelStyle
   }
@@ -102,18 +103,32 @@ object Timers extends UITab {
   val sourceText = new TextField{
     prefWidth = 450
   }
-  val triggerOnText = new TextField{
-    prefWidth = 450
-  }
+//  val triggerOnText = new TextField{
+//    prefWidth = 450
+//  }
+  val triggerOn = new ComboBox(
+  Seq[String](
+  "Ability Activate","Combat Start", "Actor Enter Combat"
+))
+  triggerOn.setPrefWidth(450)
+  triggerOn.value="Ability Activate"
+
   val durationText = new TextField{
     prefWidth = 450
   }
   val repeatText = new TextField{
     prefWidth = 450
+    text = "999"
   }
-  val cancelOnText = new TextField{
-    prefWidth = 450
-  }
+//  val cancelOnText = new TextField{
+//    prefWidth = 450
+//  }
+val cancelOn = new ComboBox(Seq[String](
+  "Ability Activate","Combat End", "Actor Death"
+))
+  cancelOn.setPrefWidth(450)
+  cancelOn.value = "Combat End"
+
 
   val nameBox = new HBox()
   val sourceBox = new HBox()
@@ -124,23 +139,27 @@ object Timers extends UITab {
   
   nameBox.getChildren.addAll(nameLabel,nameText)
   sourceBox.getChildren.addAll(sourceLabel,sourceText)
-  triggerOnBox.getChildren.addAll(triggerOnLabel,triggerOnText)
+  triggerOnBox.getChildren.addAll(triggerOnLabel,triggerOn)
   durationBox.getChildren.addAll(durationLabel,durationText)
   repeatBox.getChildren.addAll(repeatLabel,repeatText)
-  cancelOnBox.getChildren.addAll(cancelOnLabel,cancelOnText)
+  cancelOnBox.getChildren.addAll(cancelOnLabel,cancelOn)
 
   rightTop.getChildren.addAll(
     nameBox,sourceBox,triggerOnBox,
     durationBox,repeatBox,cancelOnBox
   )
 
-  val suggestions = new VBox()
-  val rightBottomScrollPane = new ScrollPane{
-    content = suggestions
-    background = Tiles.background
-  }
+  // Old suggestions, removed in favor of spreadsheet
 
-  rightBottom.getChildren.addAll(rightBottomScrollPane)
+//  val suggestions = new VBox()
+//  val rightBottomScrollPane = new ScrollPane{
+//    content = suggestions
+//    background = Tiles.background
+//  }
+
+  val timerSuggestions = TimerSuggestionsTable.create()
+
+  rightBottom.getChildren.addAll(timerSuggestions.getParent)
 
 
 
