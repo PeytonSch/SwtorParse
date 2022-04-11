@@ -1,7 +1,6 @@
 package UI.tabs
 
-import UI.overlays.Overlays
-import UI.overlays.Overlays.{groupDamageOuter, groupDamagePane, groupDamageScrollPane}
+import UI.overlays.{CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import Utils.Config.settings
 import javafx.collections.FXCollections
 import logger.Logger
@@ -40,116 +39,27 @@ object Settings extends UITab {
   override def addToUI(): GridPane = pane
 
 
-  /**
-   * Interface Checkboxes
-   */
-
-  val dpsCheckbox = new CheckBox("Group Damage")
-  setCheckboxAction(dpsCheckbox, Overlays.groupDpsOverlay,"groupDpsOverlayEnabled","groupDamageTop")
-  if (settings.getBoolean("groupDpsOverlayEnabled",false)) {
-    dpsCheckbox.setSelected(true)
-    Overlays.groupDpsOverlay.setX(settings.getDouble("groupDamageTop_X",500))
-    Overlays.groupDpsOverlay.setY(settings.getDouble("groupDamageTop_Y",500))
-    Overlays.groupDpsOverlay.show()
-  }
-
-  val hpsCheckbox = new CheckBox("Group Healing")
-  setCheckboxAction(hpsCheckbox, Overlays.groupHpsOverlay,"groupHpsOverlayEnabled","groupHealingTop")
-  if (settings.getBoolean("groupHpsOverlayEnabled",false)) {
-    hpsCheckbox.setSelected(true)
-    Overlays.groupHpsOverlay.setX(settings.getDouble("groupHealingTop_X",500))
-    Overlays.groupHpsOverlay.setY(settings.getDouble("groupHealingTop_Y",500))
-    Overlays.groupHpsOverlay.show()
-  }
-
-  val dtpsCheckbox = new CheckBox("Group Damage Taken")
-  setCheckboxAction(dtpsCheckbox, Overlays.groupDtpsOverlay,"groupDtpsOverlayEnabled","groupDtpsTop")
-  if (settings.getBoolean("groupDtpsOverlayEnabled",false)) {
-    dtpsCheckbox.setSelected(true)
-    Overlays.groupDtpsOverlay.setX(settings.getDouble("groupDtpsTop_X",500))
-    Overlays.groupDtpsOverlay.setY(settings.getDouble("groupDtpsTop_Y",500))
-    Overlays.groupDtpsOverlay.show()
-  }
-
-  val personalDpsCheckbox = new CheckBox("Personal Damage Done")
-  setCheckboxAction(personalDpsCheckbox, Overlays.personalDpsOverlay,"personalDpsOverlayEnabled","personalDamageTop")
-  if (settings.getBoolean("personalDpsOverlayEnabled",false)) {
-    personalDpsCheckbox.setSelected(true)
-    Overlays.personalDpsOverlay.setX(settings.getDouble("personalDamageTop_X",500))
-    Overlays.personalDpsOverlay.setY(settings.getDouble("personalDamageTop_Y",500))
-    Overlays.personalDpsOverlay.show()
-  }
-
-  val personalHpsCheckbox = new CheckBox("Personal Healing Done")
-  setCheckboxAction(personalHpsCheckbox, Overlays.personalHpsOverlay,"personalHpsOverlayEnabled","personalHealingTop")
-  if (settings.getBoolean("personalHpsOverlayEnabled",false)) {
-    personalHpsCheckbox.setSelected(true)
-    Overlays.personalHpsOverlay.setX(settings.getDouble("personalHealingTop_X",500))
-    Overlays.personalHpsOverlay.setY(settings.getDouble("personalHealingTop_Y",500))
-    Overlays.personalHpsOverlay.show()
-  }
-
-  val personalDtpsCheckbox = new CheckBox("Personal Damage Taken")
-  setCheckboxAction(personalDtpsCheckbox, Overlays.personalDtpsOverlay,"personalDtpsOverlayEnabled","personalDamageTakenTop")
-  if (settings.getBoolean("personalDtpsOverlayEnabled",false)) {
-    personalDtpsCheckbox.setSelected(true)
-    Overlays.personalDtpsOverlay.setX(settings.getDouble("personalDamageTakenTop_X",500))
-    Overlays.personalDtpsOverlay.setY(settings.getDouble("personalDamageTakenTop_Y",500))
-    Overlays.personalDtpsOverlay.show()
-  }
-
-  val combatEntitiesCheckbox = new CheckBox("Combat Entities")
-  setCheckboxAction(combatEntitiesCheckbox, Overlays.entitiesInCombatOverlay,"combatEntitiesOverlayEnabled","entitiesInCombatTop")
-  if (settings.getBoolean("combatEntitiesOverlayEnabled",false)) {
-    combatEntitiesCheckbox.setSelected(true)
-    Overlays.entitiesInCombatOverlay.setX(settings.getDouble("entitiesInCombatTop_X",500))
-    Overlays.entitiesInCombatOverlay.setY(settings.getDouble("entitiesInCombatTop_Y",500))
-    Overlays.entitiesInCombatOverlay.show()
-  }
-
-  val reflectDamageCheckbox = new CheckBox("Reflect Leaderboard")
-  setCheckboxAction(reflectDamageCheckbox, Overlays.reflectDamageOverlay,"reflectOverlayEnabled","reflectDamageTop")
-  if (settings.getBoolean("reflectOverlayEnabled",false)) {
-    reflectDamageCheckbox.setSelected(true)
-    Overlays.reflectDamageOverlay.setX(settings.getDouble("reflectDamageTop_X",500))
-    Overlays.reflectDamageOverlay.setY(settings.getDouble("reflectDamageTop_Y",500))
-    Overlays.reflectDamageOverlay.show()
-  }
-
   val overlayLabel = new Label("OVERLAYS")
   overlayLabel.setStyle("-fx-font-size: 20;")
 
+  /**
+   * Add Overlay Checkboxes
+   */
+
   left.getChildren.addAll(
     overlayLabel,
-    dpsCheckbox,
-    hpsCheckbox,
-    dtpsCheckbox,
-    personalDpsCheckbox,
-    personalHpsCheckbox,
-    personalDtpsCheckbox,
-    combatEntitiesCheckbox,
-    reflectDamageCheckbox
+    GroupDamage.createSettingsCheckbox(),
+    GroupHealing.createSettingsCheckbox(),
+    GroupDTPS.createSettingsCheckbox(),
+    PersonalDamage.createSettingsCheckbox(),
+    PersonalHealing.createSettingsCheckbox(),
+    PersonalDamageTaken.createSettingsCheckbox(),
+    CombatEntities.createSettingsCheckbox(),
+    Reflect.createSettingsCheckbox()
   )
 
 
-  /**
-   * Checkbox actions
-   */
 
-  def setCheckboxAction(c:CheckBox, overlay: Stage, settingName: String,posSetting: String): Unit = {
-    c.onAction = (event: ActionEvent) => {
-      if (c.selectedProperty().value == true) {
-        overlay.setX(settings.getDouble(posSetting+"_X",500))
-        overlay.setY(settings.getDouble(posSetting+"_Y",500))
-        overlay.show()
-        settings.putBoolean(settingName,true)
-      }
-      else {
-        overlay.hide()
-        settings.putBoolean(settingName,false)
-      }
-    }
-  }
 
   /**
    * Right Settings
@@ -237,8 +147,8 @@ object Settings extends UITab {
     settings.putDouble("overlayOpacity",newVal.doubleValue())
 
 //    Logger.highlight(s"Opacity: ${newVal.doubleValue()}")
-    Overlays.groupDamageScrollPane.setOpacity(newVal.doubleValue())
-    Overlays.groupHealingScrollPane.setOpacity(newVal.doubleValue())
+    GroupDamage.groupDamageScrollPane.setOpacity(newVal.doubleValue())
+    GroupHealing.groupHealingScrollPane.setOpacity(newVal.doubleValue())
 
 
 //    groupDamageOuter.setStyle(s"-fx-background-color: rgba(104,103,103,${newVal.doubleValue()})")

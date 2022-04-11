@@ -4,9 +4,7 @@ import Combat.CombatActorInstance
 import Controller.Controller
 import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.{Menus, TimerSuggestionsTable}
-import UI.overlays.Overlays
-import UI.overlays.Overlays.{entitiesInCombatPane, groupDamagePane, groupDtpsPane, groupHealingPane, reflectDamagePane}
-import com.typesafe.config.ConfigFactory
+import UI.overlays.{CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.BarChartItem
 import eu.hansolo.tilesfx.tools.TreeNode
@@ -153,11 +151,14 @@ object ElementLoader {
     Tiles.damageTakenDamageFromTypeIndicator.clearChartData()
 
     // Overlays
-    Overlays.personalDamageOverlay.clearChartData()
-    Overlays.personalHealingOverlay.clearChartData()
-    Overlays.personalDamageTakenOverlay.clearChartData()
-    Overlays.groupDamagePane.getChildren.clear()
-    Overlays.groupHealingPane.getChildren.clear()
+    CombatEntities.clear()
+    GroupDamage.clear()
+    GroupDTPS.clear()
+    GroupHealing.clear()
+    PersonalDamage.clear()
+    PersonalDamageTaken.clear()
+    PersonalHealing.clear()
+    Reflect.clear()
 
 
     for (index <- 0 until Tiles.leaderBoardItems.size()){
@@ -1033,341 +1034,18 @@ object ElementLoader {
     Tiles.dpsLeaderboardScrollPane.setPrefHeight(Tiles.leaderBoardStacked.getHeight / 2)
     Tiles.hpsLeaderboardScrollPane.setPrefHeight(Tiles.leaderBoardStacked.getHeight / 2)
 
-
-    /**
-     * Old Tiles Leaderboard
-     */
-
-    //    for (index <- 0 until Tiles.leaderBoardItems.size()){
-//      Tiles.leaderBoardItems.get(index).setValue(0)
-//      Tiles.leaderBoardItems.get(index).setName("")
-//      Tiles.leaderBoardItems.get(index).setVisible(false)
-//    }
-//
-//    // get all the combat Actors
-//    val combatActors = Controller.getCurrentCombat().getCombatActors()
-//    val players = (for (actor <- combatActors) yield actor.getActor()).filter(_.isInstanceOf[Player])
-//    var lastUpdatedIndex = 0
-//    for (index <- 0 until players.length){
-//      // need to relate the player actor instance to the combat actor instance
-//      // then we need to get the damage done and order them
-//      val combatInstanceActor = Controller.getCurrentCombat().getCombatActorByIdString(players(index).getId().toString)
-//      // TODO: I cannot get this to set the name to save my life, help!
-//      Tiles.leaderBoardItems.get(index).setValue(combatInstanceActor.getDamagePerSecond())
-//      Tiles.leaderBoardItems.get(index).setName(combatInstanceActor.getActor().getName())
-//      Tiles.leaderBoardItems.get(index).getChartData.setName(combatInstanceActor.getActor().getName())
-//      Tiles.leaderBoardItems.get(index).setVisible(true)
-//    }
   }
 
 
   def updateOverlays( ): Unit = {
-
-    /**
-     * Clear Data
-     */
-    Overlays.personalDamageOverlay.clearChartData()
-    Overlays.personalHealingOverlay.clearChartData()
-    Overlays.personalDamageTakenOverlay.clearChartData()
-    Overlays.groupDamagePane.getChildren.clear()
-    Overlays.groupHealingPane.getChildren.clear()
-    Overlays.entitiesInCombatPane.getChildren.clear()
-    Overlays.reflectDamagePane.getChildren.clear()
-    Overlays.groupDtpsPane.getChildren.clear()
-
-
-    /**
-     * Update Overlay Your Damage Done
-     */
-
-    Overlays.personalDamageOverlay.setTitle(s"Dps: ${Controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond()}")
-    for (damageTypeDone <- Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone1DStats()) {
-      for (damageSource <- damageTypeDone._2.keys) {
-        val value = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageDone1DStats().get("").get(damageSource)
-        Overlays.personalDamageOverlay.addChartData(new ChartData(damageSource,value,UICodeConfig.randomColor()))
-      }
-    }
-//    Overlays.personalDamageOverlay.clearChartData()
-//    Overlays.personalDamageOverlay.setTitle(s"DPS: ${Controller.getCurrentCombat().getPlayerInCombatActor().getDamagePerSecond()}")
-//    for (damageTypeDone <- Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTypeDone()) {
-//      damageTypeDone._1 match {
-//        case "internal" => {
-//          Overlays.personalDamageOverlay.addChartData(new ChartData(damageTypeDone._1,damageTypeDone._2,uiCodeConfig.internalColor))        }
-//        case "kinetic" => {
-//          Overlays.personalDamageOverlay.addChartData(new ChartData(damageTypeDone._1,damageTypeDone._2,uiCodeConfig.kineticColor))
-//        }
-//        case "energy" => {
-//          Overlays.personalDamageOverlay.addChartData(new ChartData(damageTypeDone._1,damageTypeDone._2,uiCodeConfig.energyColor))
-//        }
-//        case "elemental" => {
-//          Overlays.personalDamageOverlay.addChartData(new ChartData(damageTypeDone._1,damageTypeDone._2,uiCodeConfig.elementalColor))
-//        }
-//        case "No Type" =>
-//        case x => {
-//          println(s"Got Unknown Damage type: ${x}")
-//          Overlays.personalDamageOverlay.addChartData(new ChartData(damageTypeDone._1,damageTypeDone._2,uiCodeConfig.internalColor))
-//        }
-//      }
-//    }
-
-    /**
-     * Update Overlay Your Healing Done
-     */
-
-    Overlays.personalHealingOverlay.setTitle(s"Hps: ${Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDonePerSecond()}")
-    for (healingTypeDone <- Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneStats()) {
-      for (healSource <- healingTypeDone._2.keys) {
-        val healValue = Controller.getCurrentCombat().getPlayerInCombatActor().getHealingDoneStats().get("").get(healSource)
-        Overlays.personalHealingOverlay.addChartData(new ChartData(healSource,healValue,UICodeConfig.randomColor()))
-      }
-    }
-
-
-    /**
-     * Update Overlay Your Damage Taken
-     */
-
-    Overlays.personalDamageTakenOverlay.setTitle(s"Dtps: ${Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTakenPerSecond()}")
-    for (damageTypeTaken <- Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTaken1DStats()) {
-      for (damageSource <- damageTypeTaken._2.keys) {
-        val value = Controller.getCurrentCombat().getPlayerInCombatActor().getDamageTaken1DStats().get("").get(damageSource)
-        Overlays.personalDamageTakenOverlay.addChartData(new ChartData(damageSource,value,UICodeConfig.randomColor()))
-      }
-    }
-
-
-    /**
-     * Update Overlay Group Damage Done
-     */
-
-    // what actor has done the most damage this tick?
-    var maxDamage = 1
-    var totalDamage = 1
-    // TODO: Adjust the percentages to show based on mode
-    var totalPlayerDamage = 1
-    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
-      totalDamage = totalDamage + actor.getDamageDone()
-      if (actor.getDamageDone() > maxDamage && actor.getActorType() == "Player") maxDamage = actor.getDamageDone()
-    }
-    if (totalDamage > 1) totalDamage = totalDamage - 1
-    if (totalPlayerDamage > 1) totalPlayerDamage = totalPlayerDamage - 1
-
-    val sortedByDamageDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getDamageDone() > _.getDamageDone()).filter(_.getDamageDone() > 0)
-
-    // only display the toggled mode
-    val filterDamageByMode = overlayDisplayModeDPS match {
-      case "player" => sortedByDamageDone.filter(x => (x.getActorType() == "Player"))
-      case "boss" => sortedByDamageDone.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
-      case "comp" => sortedByDamageDone.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
-      case "all" => sortedByDamageDone
-      case _ => {
-        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDPS} unexpected. Setting to \"player\" and continuing.")
-        overlayDisplayModeDPS = "player"
-        sortedByDamageDone.filter(_.getActorType() == "Player")
-      }
-    }
-
-    for (actor <- filterDamageByMode) {
-      val stacked = new StackPane()
-      val text = new Text()
-      val percentMaxFill: Int = ((actor.getDamageDone().toDouble / maxDamage) * 200).toInt
-      val percentMax: Int = ((actor.getDamageDone().toDouble / totalDamage) * 100).toInt
-      text.setText(actor.getActor().getName() + ": " + actor.getDamagePerSecond() + " (" + percentMax + "%)")
-      val rect = Rectangle(percentMaxFill,30)
-      val backgroundRect = Rectangle(600, 30)
-      if(actor.getActorType() == "Player"){
-        rect.setStyle("-fx-fill: #FF3633; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      else if (actor.getActorType() == "Companion") {
-        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      else {
-        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
-      stacked.getChildren.addAll(backgroundRect,rect,text)
-      stacked.setAlignment(Pos.CenterLeft)
-      stacked.setStyle("-fx-background-color: rgba(0,255,0,0)")
-      groupDamagePane.getChildren.add(stacked)
-    }
-
-
-    /**
-     * Update Overlay Group Healing Done
-     */
-
-    // what actor has done the most Healing this tick?
-    var maxHealing = 1
-    var totalHealing = 1
-    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
-      totalHealing = totalHealing + actor.getHealingDone()
-      if (actor.getHealingDone() > maxHealing && actor.getActorType() == "Player") maxHealing = actor.getHealingDone()
-    }
-    if(totalHealing > 1) totalHealing = totalHealing - 1
-
-    val sortedByHealingDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.getHealingDone() > _.getHealingDone()).filter(_.getHealingDone() > 0)
-
-    // only display the toggled mode
-    val filterHealingByMode = overlayDisplayModeHPS match {
-      case "player" => sortedByHealingDone.filter(x => (x.getActorType() == "Player"))
-      case "boss" => sortedByHealingDone.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
-      case "comp" => sortedByHealingDone.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
-      case "all" => sortedByHealingDone
-      case _ => {
-        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDPS} unexpected. Setting to \"player\" and continuing.")
-        overlayDisplayModeDPS = "player"
-        sortedByHealingDone.filter(_.getActorType() == "Player")
-      }
-    }
-
-    for (actor <- filterHealingByMode) {
-      val stacked = new StackPane()
-      val text = new Text()
-      val percentMaxFill: Int = ((actor.getHealingDone().toDouble / maxHealing) * 200).toInt
-      val percentMax: Int = ((actor.getHealingDone().toDouble / totalHealing) * 100).toInt
-      text.setText(actor.getActor().getName() + ": " + actor.getHealingDonePerSecond() + " (" + percentMax + "%)")
-      val rect = Rectangle(percentMaxFill,30)
-      val backgroundRect = Rectangle(600, 30)
-      backgroundRect.setStyle("-fx-fill: #48FF80; -fx-stroke: black; -fx-stroke-width: 2;")
-      if(actor.getActorType() == "Player"){
-        rect.setStyle("-fx-fill: #5CFF47; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      else if (actor.getActorType() == "Companion") {
-        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      else {
-        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      stacked.getChildren.addAll(backgroundRect,rect,text)
-      stacked.setAlignment(Pos.CenterLeft)
-      groupHealingPane.getChildren.add(stacked)
-    }
-
-
-    /**
-     * Update Entities in Combat Health
-     */
-
-    val sortedActorsByHealth = Controller.getCurrentCombat().getCombatActors()
-      .filter(_.getActorType() != "Player")
-      .filter(_.getActorType() != "Companion")
-      .filter(_.getActor().getHealth().getCurrent() > 0)
-      .sortWith(_.getActor().getHealth().getMax() > _.getActor().getHealth().getMax())
-
-    for (actor <- sortedActorsByHealth) {
-      val stacked = new StackPane()
-      val text = new Text()
-      val percentMaxFill: Int = ((actor.getActor().getHealth().getCurrent().toDouble / actor.getActor().getHealth().getMax()) * 350).toInt
-      val percentMax: Double = ((actor.getActor().getHealth().getCurrent().toDouble / actor.getActor().getHealth().getMax()) * 100).toInt
-      text.setText(actor.getActor().getName() + ": " + " (" + percentMax + "%)")
-      val rect = Rectangle(percentMaxFill,30)
-      val backgroundRect = Rectangle(600, 30)
-      backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
-      rect.setStyle("-fx-fill: #FF3633; -fx-stroke: black; -fx-stroke-width: 2;")
-
-      // TODO: Make Boss vs Adds Different Colors
-//      if(actor.getActorType() == "Player"){
-//        rect.setStyle("-fx-fill: #5CFF47; -fx-stroke: black; -fx-stroke-width: 2;")
-//      }
-//      else if (actor.getActorType() == "Companion") {
-//        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-//      }
-//      else {
-//        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-//      }
-      stacked.getChildren.addAll(backgroundRect,rect,text)
-      stacked.setAlignment(Pos.CenterLeft)
-      entitiesInCombatPane.getChildren.add(stacked)
-    }
-
-
-
-    /**
-     * Update Reflect Leaderboard
-     */
-
-    var maxReflectDamage = 1
-    var totalReflectDamage = 1
-    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
-      totalReflectDamage = totalReflectDamage + actor.reflectDamage
-      if (actor.reflectDamage > maxReflectDamage && actor.getActorType() == "Player") maxReflectDamage = actor.reflectDamage
-    }
-    if(totalReflectDamage > 1) totalReflectDamage = totalReflectDamage - 1
-
-    val sortedByReflectDamageDone = Controller.getCurrentCombat().getCombatActors().sortWith(_.reflectDamage > _.reflectDamage).filter(_.reflectDamage > 0)
-
-    for (actor <- sortedByReflectDamageDone) {
-      val stacked = new StackPane()
-      val text = new Text()
-      val percentMaxFill: Int = (actor.reflectDamage.toDouble / maxReflectDamage * 200).toInt
-      val percentMax: Double = ((actor.reflectDamage.toDouble / totalReflectDamage) * 100).toInt
-      text.setText(actor.getActor().getName() + ": " + actor.reflectDamage + " (" + percentMax + "%)")
-      val rect = Rectangle(percentMaxFill,30)
-      val backgroundRect = Rectangle(600, 30)
-      backgroundRect.setStyle("-fx-fill: #FFBE55; -fx-stroke: black; -fx-stroke-width: 2;")
-      rect.setStyle("-fx-fill: #FF8900; -fx-stroke: black; -fx-stroke-width: 2;")
-      stacked.getChildren.addAll(backgroundRect,rect,text)
-      stacked.setAlignment(Pos.CenterLeft)
-      reflectDamagePane.getChildren.add(stacked)
-    }
-
-
-    /**
-     * Update Overlay Group Damage Taken
-     */
-
-    // what actor has done the most damage this tick?
-    var maxDamageTaken = 1
-    var totalDamageTaken = 1
-    // TODO: Adjust the percentages to show based on mode
-    var totalPlayerDamageTaken = 1
-    for (actor <- Controller.getCurrentCombat().getCombatActors()) {
-      totalDamageTaken = totalDamageTaken + actor.getDamageTaken()
-      if (actor.getDamageTaken() > maxDamageTaken && actor.getActorType() == "Player") maxDamageTaken = actor.getDamageTaken()
-    }
-    if (totalDamageTaken > 1) totalDamageTaken = totalDamageTaken - 1
-    if (totalPlayerDamageTaken > 1) totalPlayerDamageTaken = totalPlayerDamageTaken - 1
-
-    val sortedByDamageTaken = Controller.getCurrentCombat().getCombatActors().sortWith(_.getDamageTaken() > _.getDamageTaken()).filter(_.getDamageTaken() > 0)
-
-    // only display the toggled mode
-    val filterDamageTakenByMode = overlayDisplayModeDtps match {
-      case "player" => sortedByDamageTaken.filter(x => (x.getActorType() == "Player"))
-      case "boss" => sortedByDamageTaken.filter(x => !(x.getActorType() == "Companion")) // TODO: Implement a Boss type for bosses
-      case "comp" => sortedByDamageTaken.filter(x => (x.getActorType() == "Player" || (x.getActorType() == "Companion")))
-      case "all" => sortedByDamageTaken
-      case _ => {
-        Logger.warn(s"Variable error for filtered overlays. Variable value ${overlayDisplayModeDtps} unexpected. Setting to \"player\" and continuing.")
-        overlayDisplayModeDtps = "player"
-        sortedByDamageTaken.filter(_.getActorType() == "Player")
-      }
-    }
-
-    for (actor <- filterDamageTakenByMode) {
-      val stacked = new StackPane()
-      val text = new Text()
-      val percentMaxFill: Int = ((actor.getDamageTaken().toDouble / maxDamageTaken) * 200).toInt
-      val percentMax: Int = ((actor.getDamageTaken().toDouble / totalDamageTaken) * 100).toInt
-      text.setText(actor.getActor().getName() + ": " + actor.getDamageTakenPerSecond() + " (" + percentMax + "%)")
-      val rect = Rectangle(percentMaxFill,30)
-      val backgroundRect = Rectangle(600, 30)
-      if(actor.getActorType() == "Player"){
-        rect.setStyle("-fx-fill: #FFE410; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      else if (actor.getActorType() == "Companion") {
-        rect.setStyle("-fx-fill: #B93DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      else {
-        rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
-      }
-      backgroundRect.setStyle("-fx-fill: #FFDF99; -fx-stroke: black; -fx-stroke-width: 2;")
-      stacked.getChildren.addAll(backgroundRect,rect,text)
-      stacked.setAlignment(Pos.CenterLeft)
-      stacked.setStyle("-fx-background-color: rgba(0,255,0,0)")
-      groupDtpsPane.getChildren.add(stacked)
-    }
-
-
+    CombatEntities.refresh()
+    GroupDamage.refresh()
+    GroupDTPS.refresh()
+    GroupHealing.refresh()
+    PersonalDamage.refresh()
+    PersonalDamageTaken.refresh()
+    PersonalHealing.refresh()
+    Reflect.refresh()
   }
 
 
