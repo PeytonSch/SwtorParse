@@ -1,6 +1,6 @@
 package UI.tabs
 
-import UI.overlays.{CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
+import UI.overlays.{BasicTimers, CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import Utils.Config.settings
 import javafx.collections.FXCollections
 import logger.Logger
@@ -55,7 +55,8 @@ object Settings extends UITab {
     PersonalHealing.createSettingsCheckbox(),
     PersonalDamageTaken.createSettingsCheckbox(),
     CombatEntities.createSettingsCheckbox(),
-    Reflect.createSettingsCheckbox()
+    Reflect.createSettingsCheckbox(),
+    BasicTimers.createSettingsCheckbox()
   )
 
 

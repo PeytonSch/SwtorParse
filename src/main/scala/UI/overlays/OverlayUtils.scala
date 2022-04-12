@@ -128,8 +128,8 @@ object OverlayUtils {
 
 
   // ARRAY of Anchor Points so everything has its own point data stored
-  private val anchors: mutable.ArrayBuffer[Point2D] = mutable.ArrayBuffer(null,null,null,null,null,null,null,null)
-  private val previousLocations: mutable.ArrayBuffer[Point2D] = mutable.ArrayBuffer(null,null,null,null,null,null,null,null)
+  private val anchors: mutable.ArrayBuffer[Point2D] = mutable.ArrayBuffer(null,null,null,null,null,null,null,null,null,null,null)
+  private val previousLocations: mutable.ArrayBuffer[Point2D] = mutable.ArrayBuffer(null,null,null,null,null,null,null,null,null,null,null)
 
 
   def initMovableVBox(box:HBox, overlay: Stage, index:Int): Unit = {

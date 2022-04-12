@@ -19,6 +19,8 @@ object UICodeConfig {
 
 //  var pathDelimiter:String = settings.get("pathDelimiter","\\")
 
+  val existingTimerWidthHeight = (800,1000)
+
   var logPath = settings.get("logDirectory",
     if (PathLoader.getPaths().length >0) {
       val path = PathLoader.getPaths()(0) + "/"

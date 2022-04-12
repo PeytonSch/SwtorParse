@@ -102,7 +102,8 @@ object TimerSuggestionsTable {
         //      Logger.highlight(s"Clicked: ${row.ability.value}, ${row.source.value}")
         Timers.nameText.setText(s"${row.source.value}:${row.ability.value}")
         Timers.durationText.setText(s"${row.time.value}")
-        Timers.sourceText.setText(s"${row.source.value}")
+        Timers.sourceActorText.setText(s"${row.source.value}")
+        Timers.sourceAbilityText.setText(s"${row.ability.value}")
       }
       catch {
         case e:Throwable => Logger.debug("Failed to populate timer suggestions field. Generally happens with a null value, nothing to worry about.")

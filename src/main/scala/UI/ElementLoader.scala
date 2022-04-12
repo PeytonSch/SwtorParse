@@ -4,7 +4,7 @@ import Combat.CombatActorInstance
 import Controller.Controller
 import UI.GraphicFactory.SpreadSheetRow
 import UI.objects.{Menus, TimerSuggestionsTable}
-import UI.overlays.{CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
+import UI.overlays.{BasicTimers, CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.BarChartItem
 import eu.hansolo.tilesfx.tools.TreeNode
@@ -1046,6 +1046,7 @@ object ElementLoader {
     PersonalDamageTaken.refresh()
     PersonalHealing.refresh()
     Reflect.refresh()
+    BasicTimers.refresh()
   }
 
 

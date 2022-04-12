@@ -2,6 +2,7 @@ package Controller
 
 import Combat.CombatInstance
 import UI.ElementLoader
+import UI.timers.ActiveTimers
 import Utils.Timer
 import logger.Logger
 import parsing.Actors.Actor
@@ -128,12 +129,17 @@ object Controller {
         // update combat time
         this.getCurrentCombat().combatTimeSeconds = logInfo.getTime() - this.getCurrentCombat().startTimeStamp
 
-        // Update Threat To actors
-        this.getCurrentCombat().addThreatToCurrentCombat(logInfo)
+        // check for timers, but only if we are live logging
+        if (logLines.length < 1000000){
+          ActiveTimers.checkAbility(logInfo)
+        }
 
         // Make sure the actor and target are in the combat actors set
         this.appendToCombatActors(logInfo.getPerformer())
         this.appendToCombatActors(logInfo.getTarget())
+
+        // Update Threat To actors
+        this.getCurrentCombat().addThreatToCurrentCombat(logInfo)
 
         // see if the Result is an ApplyEffect and see if its name is Damage
         if (logInfo.getResult().isInstanceOf[ApplyEffect] && logInfo.getResult().asInstanceOf[ApplyEffect].getName() == "Damage") {

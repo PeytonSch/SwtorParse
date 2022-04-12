@@ -1,6 +1,6 @@
 import Controller.Controller
 import UI.objects.ProgressBar.progressBar
-import UI.overlays.Overlays
+import UI.overlays.{BasicTimers}
 import UI.{ElementLoader, Tiles, UICodeConfig}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
@@ -15,8 +15,8 @@ import scalafx.scene.paint._
 import scalafx.stage.{DirectoryChooser, FileChooser, Stage}
 import scalafx.event.ActionEvent
 import scalafx.Includes._
-
 import java.io.File
+
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.skins.LeaderBoardItem
 import eu.hansolo.tilesfx.tools.TreeNode
@@ -25,8 +25,8 @@ import logger.Logger
 import logger.LogLevel._
 import parsing.Actors.Player
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
-
 import java.util.prefs.{Preferences, PreferencesFactory}
+
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
@@ -65,6 +65,7 @@ object Main extends JFXApp3 {
     // Refresh rate, checking the time against the last time and the execution rate.
     var lastTimerCall = System.nanoTime()
     val program_execution_rate : Long = Config.config.getLong("UI.General.tickRate")
+    val timerRate : Long = Config.config.getLong("UI.General.timerRate")
 
 
     // This Parser class is used to pass logs. This is more in here as a test and not fully implemented.
@@ -190,6 +191,13 @@ object Main extends JFXApp3 {
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
+
+      // TODO: This may need to be removed, it is originally made for testing timers
+      // we may want to keep this so we can make timers smoother though
+      if (now > lastTimerCall + timerRate && UICodeConfig.logFile != "") {
+        BasicTimers.refresh()
+      }
+
       if (now > lastTimerCall + program_execution_rate && UICodeConfig.logFile != "") {
         lastTimerCall = now
 

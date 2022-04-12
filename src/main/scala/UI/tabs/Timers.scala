@@ -1,15 +1,18 @@
 package UI.tabs
 
-import UI.Tiles
+import UI.GraphicFactory.TimerRowFactory
+import UI.{Tiles, UICodeConfig}
 import UI.objects.TimerSuggestionsTable
-import UI.overlays.Overlays
 import Utils.Config.settings
 import logger.Logger
 import scalafx.Includes._
 import scalafx.event.ActionEvent
+import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import scalafx.scene.control._
 import scalafx.scene.layout.{GridPane, HBox, VBox}
 import scalafx.stage.Stage
+
+import scala.collection.immutable.Range
 
 object Timers extends UITab {
 
@@ -27,10 +30,10 @@ object Timers extends UITab {
 
   val left = new VBox()
   left.setStyle(boarderStyle)
-  left.setPrefSize(800,1000)
+  left.setPrefSize(UICodeConfig.existingTimerWidthHeight._1,UICodeConfig.existingTimerWidthHeight._2)
   val right = new VBox()
   right.setStyle(boarderStyle)
-  right.setPrefSize(800,1000)
+  right.setPrefSize(UICodeConfig.existingTimerWidthHeight._1,UICodeConfig.existingTimerWidthHeight._2)
 
   val rightTop = new VBox()
   rightTop.setStyle(boarderStyle)
@@ -46,6 +49,13 @@ object Timers extends UITab {
 
   pane.add(parent,0,0)
 
+  val timerVbox = new VBox()
+
+  val timerScrollPane = new ScrollPane{
+    content = timerVbox
+    background = Tiles.background
+    hbarPolicy = ScrollBarPolicy.Never
+  }
 
   override def addToUI(): GridPane = pane
 
@@ -56,6 +66,7 @@ object Timers extends UITab {
   createTimersLabel.setStyle("-fx-font-size: 20;")
 
   left.getChildren.add(existingTimersLabel)
+  left.getChildren.addAll(timerScrollPane)
 
 
   /**
@@ -70,8 +81,14 @@ object Timers extends UITab {
     prefWidth = 350
     style = labelStyle
   }
-  val sourceLabel = new Label {
-    text ="Source"
+  val sourceActorLabel = new Label {
+    text ="Source Actor"
+    prefWidth = 350
+    style = labelStyle
+  }
+
+  val sourceAbilityLabel = new Label {
+    text ="Ability"
     prefWidth = 350
     style = labelStyle
   }
@@ -96,11 +113,22 @@ object Timers extends UITab {
     prefWidth = 350
     style = labelStyle
   }
-  
+  val areaLabel = new Label {
+    text ="Area"
+    prefWidth = 350
+    style = labelStyle
+  }
+
   val nameText = new TextField{
     prefWidth = 450
   }
-  val sourceText = new TextField{
+  val sourceActorText = new TextField{
+    prefWidth = 450
+  }
+  val sourceAbilityText = new TextField{
+    prefWidth = 450
+  }
+  val areaText = new TextField{
     prefWidth = 450
   }
 //  val triggerOnText = new TextField{
@@ -131,22 +159,50 @@ val cancelOn = new ComboBox(Seq[String](
 
 
   val nameBox = new HBox()
-  val sourceBox = new HBox()
+  val sourceActorBox = new HBox()
+  val sourceAbilityBox = new HBox()
   val triggerOnBox = new HBox()
   val durationBox = new HBox()
   val repeatBox = new HBox()
   val cancelOnBox = new HBox()
-  
+  val areaBox = new HBox()
+
   nameBox.getChildren.addAll(nameLabel,nameText)
-  sourceBox.getChildren.addAll(sourceLabel,sourceText)
+  sourceActorBox.getChildren.addAll(sourceActorLabel,sourceActorText)
+  sourceAbilityBox.getChildren.addAll(sourceAbilityLabel,sourceAbilityText)
   triggerOnBox.getChildren.addAll(triggerOnLabel,triggerOn)
   durationBox.getChildren.addAll(durationLabel,durationText)
   repeatBox.getChildren.addAll(repeatLabel,repeatText)
   cancelOnBox.getChildren.addAll(cancelOnLabel,cancelOn)
+  areaBox.getChildren.addAll(areaLabel,areaText)
+
+  /**
+   * Save with apply button
+   */
+
+  val applyButton = new Button("Add Timer")
+
+  applyButton.onAction = (event: ActionEvent) => {
+    val name = nameText.getText
+    val source = sourceActorText.getText
+    val area = areaText.getText
+    val ability = sourceAbilityText.getText
+    val cooldown = durationText.getText.toDouble
+
+    timerVbox.getChildren.add(
+      TimerRowFactory.createRow(name,source,area,ability,cooldown).addToUI
+    )
+
+    Logger.highlight(s"Saved Timer: ${name},${source},${area},${ability},${cooldown}")
+  }
+
+
+
 
   rightTop.getChildren.addAll(
-    nameBox,sourceBox,triggerOnBox,
-    durationBox,repeatBox,cancelOnBox
+    nameBox,sourceActorBox,sourceAbilityBox,triggerOnBox,
+    durationBox,repeatBox,cancelOnBox,areaBox,
+    applyButton
   )
 
   // Old suggestions, removed in favor of spreadsheet
@@ -161,6 +217,23 @@ val cancelOn = new ComboBox(Seq[String](
 
   rightBottom.getChildren.addAll(timerSuggestions.getParent)
 
+
+  /**
+   * Left Side Timer Display
+   */
+
+  // Create Test Timers
+  val testTimers = for (i <- 0 to 5) yield {
+    TimerRowFactory.createRow(
+      "Test Timer","Brontes","Dread Fortress","Kephess",5.0
+    )
+  }
+  val testTimer = TimerRowFactory.createRow(
+    "Test Timer","Predation Spam","Dread Fortress","Unnatural Might", 15
+  )
+
+  testTimers.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
+  timerVbox.getChildren.add(testTimer.addToUI)
 
 
 
