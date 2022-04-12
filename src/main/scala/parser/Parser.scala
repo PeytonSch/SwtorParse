@@ -227,8 +227,9 @@ object Parser {
 
       val collected : Vector[LogInformation] = for (currentIndex <- range) yield {
 
-        if (currentIndex % (lines.length / 10) == 0) {
-          Logger.highlight(s"Progress: ${((currentIndex.toDouble/stop)*100).toInt+1}%")
+        val progressPercent = ((currentIndex.toDouble/stop)*100).toInt+1
+        if (currentIndex % (lines.length / 10) == 0 && progressPercent < 100) {
+          Logger.highlight(s"Progress: ${progressPercent}%")
         }
 
         //println(s"Extracting ling ${currentIndex} from log")

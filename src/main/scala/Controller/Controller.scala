@@ -11,6 +11,8 @@ import patterns.Actions.SafeLogin
 import patterns.LogInformation
 import patterns.Result.{EnterCombat, ExitCombat}
 
+import scala.collection.mutable
+
 // TODO: This should be an object
 object Controller {
 
@@ -90,7 +92,6 @@ object Controller {
     null
   }
 
-
   /**
    * This function takes the output from parser.getLines and puts the information
    * into combat instances, collects values, etc. It was originally in main but I
@@ -129,11 +130,6 @@ object Controller {
         // update combat time
         this.getCurrentCombat().combatTimeSeconds = logInfo.getTime() - this.getCurrentCombat().startTimeStamp
 
-        // check for timers, but only if we are live logging
-        if (logLines.length < 1000000){
-          ActiveTimers.checkAbility(logInfo)
-        }
-
         // Make sure the actor and target are in the combat actors set
         this.appendToCombatActors(logInfo.getPerformer())
         this.appendToCombatActors(logInfo.getTarget())
@@ -153,6 +149,14 @@ object Controller {
 
         if (logInfo.getResult().isInstanceOf[Event]) {
           this.getCurrentCombat().addEventToCombat(logInfo)
+
+          // if event is ability activate
+          if (logInfo.getResult().asInstanceOf[Event].getName == "AbilityActivate") {
+            // check for timers, but only if we are live logging
+            if (logLines.length < 1000000){
+              ActiveTimers.checkAbility(logInfo)
+            }
+          }
         }
 
       }

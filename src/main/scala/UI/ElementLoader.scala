@@ -126,7 +126,7 @@ object ElementLoader {
   }
 
   def loadLogFileMenu():Unit = {
-    Logger.highlight(s"Configured Log Path: ${UICodeConfig.logPath}")
+//    Logger.highlight(s"Configured Log Path: ${UICodeConfig.logPath}")
     val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
     var fileBuffer = new ListBuffer[MenuItem]()
     // TODO: Get this working on windows too
@@ -134,7 +134,7 @@ object ElementLoader {
     var del = '\\'
     for (i <- 0 until files.length){
       // TODO: On Windows we .split('\\') but on mac we need to split on /
-      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")
+//      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")
       val item = new MenuItem(files(i).getAbsolutePath().split(del).last)
       item.setOnAction(loadNewCombatFile())
       fileBuffer += item

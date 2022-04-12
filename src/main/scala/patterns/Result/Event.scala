@@ -7,4 +7,5 @@ class Event (
               nameId : String
             ) extends Result {
    override def toString: String = s"[ Type: ${resultType} Name: ${name} ]"
+  def getName = name
 }

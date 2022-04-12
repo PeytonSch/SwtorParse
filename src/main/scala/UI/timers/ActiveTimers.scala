@@ -20,13 +20,13 @@ object ActiveTimers {
   def enableTimer(timer: Timer) = {
     // add the ability to the abilities to monitor list
     enabledTimers = enabledTimers :+ timer
-    Logger.highlight(s"${enabledTimers.mkString(",")}")
+//    Logger.highlight(s"${enabledTimers.mkString(",")}")
   }
 
   def denableTimer(timer: Timer) = {
     // add the ability to the abilities to monitor list
     enabledTimers = enabledTimers.filter(_ != timer)
-    Logger.highlight(s"${enabledTimers.mkString(",")}")
+//    Logger.highlight(s"${enabledTimers.mkString(",")}")
   }
 
   def deactivatTimer(timer: Timer): Unit = {
@@ -40,7 +40,7 @@ object ActiveTimers {
     for (timer <- (enabledTimers.filter(
       _.getAbility == logInfo.getAction().getName()
     ))) {
-      Logger.highlight(s"Found Timer for Ability ${timer.getAbility}")
+//      Logger.highlight(s"Found Timer for Ability ${timer.getAbility} from log ${logInfo.toString}")
       timer.trigger
       activeTimers = activeTimers :+ timer
     }
