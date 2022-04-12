@@ -1,6 +1,5 @@
 package UI
 
-import UI.overlays.Overlays.{background, createMovableTopWithToggles}
 import eu.hansolo.tilesfx.Tile.SkinType
 import eu.hansolo.tilesfx.addons.Indicator
 import eu.hansolo.tilesfx.chart.SunburstChart.TextOrientation

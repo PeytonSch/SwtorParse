@@ -1,6 +1,7 @@
 package Utils
 
 import UI.ElementLoader
+import logger.Logger
 
 import java.io.{File, FileWriter}
 import scala.collection.mutable
@@ -8,6 +9,7 @@ import scala.io.Source
 
 object FileHelper{
     def getListOfFiles(dir: String):List[File] = {
+      Logger.highlight(s"Getting list of files from dir ${dir}")
       val d = new File(dir)
       if (d.exists && d.isDirectory) {
         d.listFiles.filter(_.isFile).toList

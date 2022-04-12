@@ -103,7 +103,7 @@ object ElementLoader {
   }
 
   def loadNewDirectory(dirPath: String): Unit = {
-    Logger.debug(s"Selected Directory Path ${dirPath}")
+    Logger.highlight(s"Selected Directory Path ${dirPath}")
     UICodeConfig.logPath = dirPath + "/"
     settings.put("logDirectory",dirPath + "/")
     logDirTextField.setText(settings.get("logDirectory","Log Directory Not Set: Use File -> Choose Log Dir"))
@@ -126,12 +126,16 @@ object ElementLoader {
   }
 
   def loadLogFileMenu():Unit = {
+    Logger.highlight(s"Configured Log Path: ${UICodeConfig.logPath}")
     val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
     var fileBuffer = new ListBuffer[MenuItem]()
-    var del: String = settings.get("pathDelimiter","")
+    // TODO: Get this working on windows too
+//    var del: String = settings.get("pathDelimiter","")
+    var del = '\\'
     for (i <- 0 until files.length){
       // TODO: On Windows we .split('\\') but on mac we need to split on /
-      var item = new MenuItem(files(i).getAbsolutePath().split(del).last)
+      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")
+      val item = new MenuItem(files(i).getAbsolutePath().split(del).last)
       item.setOnAction(loadNewCombatFile())
       fileBuffer += item
     }
