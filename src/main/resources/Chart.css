@@ -4,6 +4,10 @@
 
 }
 
+#hoverable:hover {
+    -fx-background-color: #262626;
+}
+
 .hps-bar {
     -fx-bar-fill: #48FF80;
 }

@@ -130,8 +130,8 @@ object ElementLoader {
     val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
     var fileBuffer = new ListBuffer[MenuItem]()
     // TODO: Get this working on windows too
-//    var del: String = settings.get("pathDelimiter","")
-    var del = '\\'
+    var del: String = settings.get("pathDelimiter","")
+//    var del = '\\'
     for (i <- 0 until files.length){
       // TODO: On Windows we .split('\\') but on mac we need to split on /
 //      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")

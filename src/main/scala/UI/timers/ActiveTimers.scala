@@ -42,7 +42,8 @@ object ActiveTimers {
     ))) {
 //      Logger.highlight(s"Found Timer for Ability ${timer.getAbility} from log ${logInfo.toString}")
       timer.trigger
-      activeTimers = activeTimers :+ timer
+      // if the timer is already in the list don't duplicate it, though we do want the updated time
+      activeTimers = activeTimers.filter(_ != timer) :+ timer
     }
   }
 

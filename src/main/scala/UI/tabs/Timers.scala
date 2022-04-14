@@ -1,7 +1,7 @@
 package UI.tabs
 
-import UI.GraphicFactory.TimerRowFactory
-import UI.{Tiles, UICodeConfig}
+import UI.GraphicFactory.{TimerCategoryFactory, TimerRowFactory}
+import UI.{Tiles, UICodeConfig, UIStyle}
 import UI.objects.TimerSuggestionsTable
 import Utils.Config.settings
 import logger.Logger
@@ -53,8 +53,8 @@ object Timers extends UITab {
 
   val timerScrollPane = new ScrollPane{
     content = timerVbox
-    background = Tiles.background
     hbarPolicy = ScrollBarPolicy.Never
+    style = UIStyle.mainBackgroundObject
   }
 
   override def addToUI(): GridPane = pane
@@ -232,8 +232,16 @@ val cancelOn = new ComboBox(Seq[String](
     "Test Timer","Predation Spam","Dread Fortress","Unnatural Might", 15
   )
 
-  testTimers.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
-  timerVbox.getChildren.add(testTimer.addToUI)
+  val testCategories = Seq(TimerCategoryFactory.create("> Dread Palace"),TimerCategoryFactory.create("> Dread Fortress"),
+  TimerCategoryFactory.create("> Explosive Conflict"),TimerCategoryFactory.create("> Terror From Beyond"),
+  TimerCategoryFactory.create("> Temple of Sacrifice"))
+
+  testCategories.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
+
+  def getCategories = testCategories
+
+//  testTimers.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
+//  timerVbox.getChildren.add(testTimer.addToUI)
 
 
 
