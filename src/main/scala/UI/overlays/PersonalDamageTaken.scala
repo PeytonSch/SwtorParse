@@ -2,7 +2,7 @@ package UI.overlays
 
 import Controller.Controller
 import UI.UICodeConfig
-import UI.overlays.OverlayUtils.{background, createMovableTop, initMovableVBox, setCheckboxAction}
+import UI.overlays.OverlayUtils.{createMovableTop, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import eu.hansolo.tilesfx.Tile.SkinType
 import eu.hansolo.tilesfx.TileBuilder
@@ -11,6 +11,8 @@ import scalafx.scene.Scene
 import scalafx.scene.control.CheckBox
 import scalafx.scene.layout.VBox
 import scalafx.stage.{Stage, StageStyle}
+import UI.UIStyle._
+
 
 object PersonalDamageTaken extends Overlay {
 

@@ -36,11 +36,6 @@ object Tiles {
 
   val random = new Random()
 
-  // Things should be in dark-mode always
-  val backgroundFill = new BackgroundFill(Color.web("#2a2a2a"), CornerRadii.Empty, Insets.Empty)
-  val backgroundFillArray = Array(backgroundFill)
-  val background = new Background(backgroundFillArray)
-
   /** These indicators are for the status tile */
   val leftGraphics : Indicator = new Indicator(Tile.RED);
   leftGraphics.setOn(true)
@@ -127,6 +122,7 @@ object Tiles {
     .middleGraphics(middleGraphics)
     .rightGraphics(rightGraphics)
     .text("Log file loaded: /User/Documents/swtor/logfile")
+    .backgroundColor(UIStyle.tileBackground)
     .build()
 
   //This particular RAID switch is not currently being used in the GUI. Keeping this
@@ -204,6 +200,7 @@ object Tiles {
       new Stop(0.90909, Color.web("#ef9850")),
       new Stop(1.00000, Color.web("#ef6050")))
     .text("")
+    .backgroundColor(UIStyle.tileBackground)
     .chartData(percentileDps, percentileHps, percentileDtps, percentileHtps,
       percentileThreat, percentileCrit, percentileApm, percentileTime)
     .tooltipText("")
@@ -225,13 +222,14 @@ object Tiles {
     .title("Sources: Damage Taken")
     .textVisible(true)
     .sunburstTree(overviewDtpstree)
-    .sunburstBackgroundColor(Tile.BACKGROUND)
-    .sunburstTextColor(Tile.BACKGROUND)
+    .sunburstBackgroundColor(UIStyle.tileBackground)
+    .sunburstTextColor(UIStyle.tileBackground)
     .sunburstUseColorFromParent(true)
     .sunburstTextOrientation(TextOrientation.TANGENT)
     .sunburstAutoTextColor(false)
     .sunburstUseChartDataTextColor(false)
     .sunburstInteractive(true)
+    .backgroundColor(UIStyle.tileBackground)
     .build();
 
   val damageDoneSourceTile = TileBuilder.create().skinType(SkinType.SUNBURST)
@@ -239,13 +237,14 @@ object Tiles {
     .title("Sources: Damage Done")
     .textVisible(true)
     .sunburstTree(damageDoneTree)
-    .sunburstBackgroundColor(Tile.BACKGROUND)
-    .sunburstTextColor(Tile.BACKGROUND)
+    .sunburstBackgroundColor(UIStyle.tileBackground)
+    .sunburstTextColor(UIStyle.tileBackground)
     .sunburstUseColorFromParent(true)
     .sunburstTextOrientation(TextOrientation.TANGENT)
     .sunburstAutoTextColor(false)
     .sunburstUseChartDataTextColor(false)
     .sunburstInteractive(true)
+    .backgroundColor(UIStyle.tileBackground)
     .build();
 
   val overviewDamageFromTypeIndicator = TileBuilder.create()
@@ -255,6 +254,7 @@ object Tiles {
     .text("% of damage taken from different types")
     .textVisible(true)
     .sectionTextVisible(true)
+    .backgroundColor(UIStyle.tileBackground)
     .build();
 
 //  val xAxis = NumberAxis("Combat Time")
@@ -403,8 +403,8 @@ object Tiles {
    * Some Container Settings
    */
   personalStatsScrollPane.setContent(personalStatsGridPane)
-  personalStatsScrollPane.setBackground(background)
-  personalStatsGridPane.setBackground(background)
+  personalStatsScrollPane.setBackground(UIStyle.background)
+  personalStatsGridPane.setBackground(UIStyle.background)
   personalStatsScrollPane.setFitToWidth(true)
 //  personalStatsScrollPane.setFitToHeight(true)
   personalStatsScrollPane.setVbarPolicy(ScrollBarPolicy.Never)
@@ -470,7 +470,7 @@ object Tiles {
   damageTakenStackedArea.getChildren.addAll(damageTakenBarChart,damageTakenLineChart)
   damageTakenChartYAxis.setUpperBound(45)
 
-  damageTakenStackedArea.setBackground(background)
+  damageTakenStackedArea.setBackground(UIStyle.background)
 
 
   val damageTakenDamageFromTypeIndicator = TileBuilder.create()
@@ -488,8 +488,8 @@ object Tiles {
     .title("Sources: Damage Taken")
     .textVisible(true)
     .sunburstTree(damageTakenDtpstree)
-    .sunburstBackgroundColor(Tile.BACKGROUND)
-    .sunburstTextColor(Tile.BACKGROUND)
+    .sunburstBackgroundColor(UIStyle.tileBackground)
+    .sunburstTextColor(UIStyle.tileBackground)
     .sunburstUseColorFromParent(true)
     .sunburstTextOrientation(TextOrientation.TANGENT)
     .sunburstAutoTextColor(false)
@@ -513,14 +513,14 @@ object Tiles {
 
 
   val dpsLeaderboardOuter = new VBox()
-  dpsLeaderboardOuter.setBackground(Tiles.background)
+  dpsLeaderboardOuter.setBackground(UIStyle.background)
   val dpsLeaderBoardPane = new VBox()
   val dpsLeaderboardScrollPane = new ScrollPane()
 
-  dpsLeaderBoardPane.setBackground(Tiles.background)
+  dpsLeaderBoardPane.setBackground(UIStyle.background)
 
   dpsLeaderboardScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  dpsLeaderboardScrollPane.setBackground(Tiles.background)
+  dpsLeaderboardScrollPane.setBackground(UIStyle.background)
 
   dpsLeaderboardOuter.getChildren.addAll(dpsLeaderboardScrollPane)
 
@@ -538,19 +538,19 @@ object Tiles {
 //      dpsLeaderBoardPane.getChildren.add(stacked)
 //    }
 
-  dpsLeaderBoardPane.setBackground(background)
+  dpsLeaderBoardPane.setBackground(UIStyle.background)
   dpsLeaderboardScrollPane.setContent(dpsLeaderBoardPane)
 
 
   val hpsLeaderboardOuter = new VBox()
-  hpsLeaderboardOuter.setBackground(Tiles.background)
+  hpsLeaderboardOuter.setBackground(UIStyle.background)
   val hpsLeaderBoardPane = new VBox()
   val hpsLeaderboardScrollPane = new ScrollPane()
 
-  hpsLeaderBoardPane.setBackground(Tiles.background)
+  hpsLeaderBoardPane.setBackground(UIStyle.background)
 
   hpsLeaderboardScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  hpsLeaderboardScrollPane.setBackground(Tiles.background)
+  hpsLeaderboardScrollPane.setBackground(UIStyle.background)
 
   hpsLeaderboardOuter.getChildren.addAll(hpsLeaderboardScrollPane)
 
@@ -568,11 +568,11 @@ object Tiles {
 //    hpsLeaderBoardPane.getChildren.add(stacked)
 //  }
 
-  hpsLeaderBoardPane.setBackground(background)
+  hpsLeaderBoardPane.setBackground(UIStyle.background)
   hpsLeaderboardScrollPane.setContent(hpsLeaderBoardPane)
 
   val leaderBoardStacked = new VBox()
-  leaderBoardStacked.setBackground(Tiles.background)
+  leaderBoardStacked.setBackground(UIStyle.background)
   val damageLabel = new Label("Group Damage Leader Board")
   val healingLabel = new Label("Group Healing Leader Board")
   leaderBoardStacked.getChildren.addAll(damageLabel,dpsLeaderboardScrollPane,healingLabel,hpsLeaderboardScrollPane)

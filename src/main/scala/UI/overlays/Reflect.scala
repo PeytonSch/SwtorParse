@@ -1,8 +1,9 @@
 package UI.overlays
 
 import Controller.Controller
-import UI.Tiles
-import UI.overlays.OverlayUtils.{background, createMovableTop, initMovableVBox, setCheckboxAction}
+import UI.{Tiles, UIStyle}
+import UI.UIStyle.background
+import UI.overlays.OverlayUtils.{createMovableTop, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
@@ -58,14 +59,14 @@ object Reflect extends Overlay {
    * Reflect Leaderboard
    */
   val reflectDamageOuter = new VBox() //holds top and scroll pane
-  reflectDamageOuter.setBackground(Tiles.background)
+  reflectDamageOuter.setBackground(UIStyle.background)
   val reflectDamagePane = new VBox() // goes in scrollpane with health bars
   val reflectDamageTop = createMovableTop()
   reflectDamageTop.setId("reflectDamageTop")
 
   val reflectDamageScrollPane = new ScrollPane()
   reflectDamageScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  reflectDamageScrollPane.setBackground(Tiles.background)
+  reflectDamageScrollPane.setBackground(UIStyle.background)
 
   reflectDamageOuter.getChildren.addAll(reflectDamageTop,reflectDamageScrollPane)
 

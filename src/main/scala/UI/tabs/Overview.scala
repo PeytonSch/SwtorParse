@@ -1,6 +1,7 @@
 package UI.tabs
 
 import UI.Tiles
+import UI.UIStyle.background
 import UI.objects.ProgressBar.progressBar
 import Utils.Config
 import scalafx.scene.layout.{GridPane, Priority}
@@ -27,7 +28,7 @@ object Overview extends UITab {
    * Here is where we add all the main tiles from the tiles manager class
    * */
 
-  pane.add(Tiles.statusTile, 2, menuRow, 5, 1)
+//  pane.add(Tiles.statusTile, 2, menuRow, 5, 1)
   pane.add(Tiles.actorMenuBar,6,menuRow,1,1)
 
   //Main Row 1
@@ -62,8 +63,8 @@ object Overview extends UITab {
     Config.config.getInt("UI.General.prefWidth"),
     Config.config.getInt("UI.General.prefHeight")
   )
-  pane.setBackground(Tiles.background)
-  Tiles.overviewStackedArea.setBackground(Tiles.background)
+  pane.setBackground(background)
+  Tiles.overviewStackedArea.setBackground(background)
 
   GridPane.setHgrow(pane, Priority.ALWAYS);
   GridPane.setVgrow(pane, Priority.ALWAYS);

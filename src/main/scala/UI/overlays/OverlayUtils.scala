@@ -1,6 +1,6 @@
 package UI.overlays
 
-import UI.{ElementLoader, Tiles}
+import UI.{ElementLoader, Tiles, UIStyle}
 import Utils.Config.settings
 import javafx.event.EventHandler
 import logger.Logger
@@ -17,16 +17,6 @@ import scala.collection.mutable
 
 object OverlayUtils {
 
-  val backgroundFill = new BackgroundFill(Color.web("#585858"), CornerRadii.Empty, Insets.Empty)
-  //  val damageBackgroundFill = new BackgroundFill(Color.web("#FF908D"), CornerRadii.Empty, Insets.Empty)
-  //  val healBackgroundFill = new BackgroundFill(Color.web("#FF908D"), CornerRadii.Empty, Insets.Empty)
-  val backgroundFillArray = Array(backgroundFill)
-  val background = new Background(backgroundFillArray)
-
-  val overlayButtonStyle = "-fx-background-color: #2a2a2a;" +
-    "-fx-text-fill: #ecec7a;" +
-    "-fx-font-size: 12px;"
-
 
   def createMovableTop(): HBox = {
     val box = new HBox()
@@ -39,9 +29,9 @@ object OverlayUtils {
   def createMovableTopWithToggles(actions:String): HBox = {
     val box = new HBox()
     val label = new Label("")
-    label.setStyle(overlayButtonStyle)
+    label.setStyle(UIStyle.overlayButtonStyle)
     val players = new Button("Player")
-    players.setStyle(overlayButtonStyle)
+    players.setStyle(UIStyle.overlayButtonStyle)
     if (actions == "dps") {
       players.onAction = (event: ActionEvent) =>  {
         ElementLoader.overlayDisplayModeDPS = "player"
@@ -60,7 +50,7 @@ object OverlayUtils {
       }
     }
     val boss = new Button("Boss")
-    boss.setStyle(overlayButtonStyle)
+    boss.setStyle(UIStyle.overlayButtonStyle)
     if (actions == "dps") {
       boss.onAction = (event: ActionEvent) =>  {
         ElementLoader.overlayDisplayModeDPS = "boss"
@@ -79,7 +69,7 @@ object OverlayUtils {
       }
     }
     val companion = new Button("Comp")
-    companion.setStyle(overlayButtonStyle)
+    companion.setStyle(UIStyle.overlayButtonStyle)
     if (actions == "dps") {
       companion.onAction = (event: ActionEvent) =>  {
         ElementLoader.overlayDisplayModeDPS = "comp"
@@ -98,7 +88,7 @@ object OverlayUtils {
       }
     }
     val all = new Button("All")
-    all.setStyle(overlayButtonStyle)
+    all.setStyle(UIStyle.overlayButtonStyle)
     if (actions == "dps") {
       all.onAction = (event: ActionEvent) =>  {
         ElementLoader.overlayDisplayModeDPS = "all"
@@ -118,10 +108,10 @@ object OverlayUtils {
       }
     }
     val move = new Label(" | ↔↕ | ")
-    move.setStyle(overlayButtonStyle)
+    move.setStyle(UIStyle.overlayButtonStyle)
 
     box.getChildren.addAll(players,boss,companion,all,label,move)
-    box.setBackground(Tiles.background)
+    box.setBackground(UIStyle.background)
     box
   }
 

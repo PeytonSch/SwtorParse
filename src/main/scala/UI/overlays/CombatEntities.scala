@@ -2,7 +2,7 @@ package UI.overlays
 
 import Controller.Controller
 import UI.Tiles
-import UI.overlays.OverlayUtils.{background, initMovableVBox, setCheckboxAction}
+import UI.overlays.OverlayUtils.{initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import scalafx.geometry.Pos
 import scalafx.scene.Scene
@@ -12,6 +12,8 @@ import scalafx.scene.layout.{StackPane, VBox}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import scalafx.stage.{Stage, StageStyle}
+
+import UI.UIStyle._
 
 object CombatEntities extends Overlay {
 
@@ -65,13 +67,13 @@ object CombatEntities extends Overlay {
    * Non Player Entities in Combat
    */
   val entitiesInCombatOuter = new VBox() //holds top and scroll pane
-  entitiesInCombatOuter.setBackground(Tiles.background)
+  entitiesInCombatOuter.setBackground(background)
   val entitiesInCombatPane = new VBox() // goes in scrollpane with health bars
   val entitiesInCombatTop = OverlayUtils.createMovableTop()
   entitiesInCombatTop.setId("entitiesInCombatTop")
   val entitiesInCombatScrollPane = new ScrollPane()
   entitiesInCombatScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  entitiesInCombatScrollPane.setBackground(Tiles.background)
+  entitiesInCombatScrollPane.setBackground(background)
 
   entitiesInCombatOuter.getChildren.addAll(entitiesInCombatTop,entitiesInCombatScrollPane)
 

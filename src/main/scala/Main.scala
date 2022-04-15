@@ -1,6 +1,6 @@
 import Controller.Controller
 import UI.objects.ProgressBar.progressBar
-import UI.overlays.{BasicTimers}
+import UI.overlays.BasicTimers
 import UI.{ElementLoader, Tiles, UICodeConfig}
 import com.typesafe.config.ConfigFactory
 import eu.hansolo.tilesfx.Tile
@@ -33,8 +33,7 @@ import scalafx.Includes._
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import UI.objects.Menus._
-import UI.tabs.Settings
-import UI.tabs.Tabs.tabbedPane
+import UI.tabs.{CustomTabs, Settings}
 import Utils.{Config, FileHelper}
 import parser.Parser
 
@@ -168,7 +167,7 @@ object Main extends JFXApp3 {
     //val root : javafx.scene.Parent = FXMLLoader.load(getClass().getResource("/Application.fxml"))
 
     // add the pane to a scene and give it a camera
-    parentPane.children = List(mainMenuBar,tabbedPane)
+    parentPane.children = List(mainMenuBar,CustomTabs.addToUI)
 
 
 

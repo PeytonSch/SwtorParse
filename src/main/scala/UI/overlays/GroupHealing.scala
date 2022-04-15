@@ -3,7 +3,7 @@ package UI.overlays
 import Controller.Controller
 import UI.ElementLoader.{overlayDisplayModeDPS, overlayDisplayModeHPS}
 import UI.Tiles
-import UI.overlays.OverlayUtils.{background, createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
+import UI.overlays.OverlayUtils.{createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import logger.Logger
 import scalafx.geometry.Pos
@@ -14,6 +14,8 @@ import scalafx.scene.layout.{StackPane, VBox}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import scalafx.stage.{Stage, StageStyle}
+import UI.UIStyle._
+
 
 object GroupHealing extends Overlay {
 
@@ -85,7 +87,7 @@ object GroupHealing extends Overlay {
    * Group Healing Overlay
    */
   val groupHealingOuter = new VBox()
-  groupHealingOuter.setBackground(Tiles.background)
+  groupHealingOuter.setBackground(background)
   val groupHealingPane = new VBox()
   val groupHealingTop = createMovableTopWithToggles("heal")
   groupHealingTop.setId("groupHealingTop")
@@ -93,7 +95,7 @@ object GroupHealing extends Overlay {
 
   val groupHealingScrollPane = new ScrollPane()
   groupHealingScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  groupHealingScrollPane.setBackground(Tiles.background)
+  groupHealingScrollPane.setBackground(background)
 
   groupHealingOuter.getChildren.addAll(groupHealingTop,groupHealingScrollPane)
 

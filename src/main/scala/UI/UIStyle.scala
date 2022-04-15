@@ -1,21 +1,30 @@
 package UI
 
+import scalafx.geometry.Insets
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii}
+import scalafx.scene.paint.Color
+
 object UIStyle {
 
   // TODO: Font isn't being recognized
   private val mainFont = "HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif";
 
-  private val mainBackgroundColor = "#404040"
-  private val darkBackgroundColor = "#2B2B2B"
-//  private val lightBackgroundColor = ""
-  private val mouseOverHighlightColor = ""
+  private val mainBackgroundColor = "#2B2B2B"
+  private val darkBackgroundColor = "#232323"
+  private val lightBackgroundColor = "#404040"
+  // right now this is in the css file and needs the #hoverable id
+  private val mouseOverHighlightColor = "#262626"
 
   private val faintBlueTextColor = "#60737F"
   private val faintGreyTextColor = "#6B6B6B"
   private val lightTextColor = "#D9D9D9"
+  private val yellowTextColor = "#ecec7a"
+
+  private val orangeBarColor = "#EE8525"
 
   private val baseTextSize = 18
 
+  private val overlayFontSize = "12"
   private val extraSmallSize = (baseTextSize -4).toString
   private val smallSize = (baseTextSize - 2).toString
   private val mediumSize = (baseTextSize).toString
@@ -33,6 +42,12 @@ object UIStyle {
        |-fx-padding: 10;
        |""".stripMargin
   }
+
+  private val backgroundFill = new BackgroundFill(Color.web(mainBackgroundColor), CornerRadii.Empty, Insets.Empty)
+  private val backgroundFillArray = Array(backgroundFill)
+  val background = new Background(backgroundFillArray)
+
+  val tileBackground = Color.web(mainBackgroundColor)
 
   val mainBackgroundObject: String =
     s"""
@@ -69,5 +84,44 @@ object UIStyle {
   val largeFaintGreyLabel: String = createLabelStyle(faintGreyTextColor,largeSize)
 
   val largeFaintBlueLabel: String = createLabelStyle(faintBlueTextColor,largeSize)
+
+  val tabLabelStyle: String = createLabelStyle(faintGreyTextColor,extraLargeSize)
+
+  val tabLabelStyleSelected: String = createLabelStyle(lightTextColor,extraLargeSize)
+
+  val overlayButtonStyle: String =
+    s"""
+       |-fx-background-color: ${darkBackgroundColor};
+       |-fx-text-fill: ${yellowTextColor};
+       |-fx-font-size: ${overlayFontSize};
+       |""".stripMargin
+
+  val tabStyle: String =
+    s"""
+       |-fx-background-color: ${mainBackgroundColor};
+       |-fx-border-color: ${darkBackgroundColor};
+       |-fx-border-width: 0 1;
+       |-fx-padding: 5 110;
+       |""".stripMargin
+
+  val customTabUnselected: String =
+    s"""
+       |-fx-border-style: solid inside;
+       |-fx-border-width: 0 0 0 0;
+       |-fx-border-insets: 1;
+       |-fx-border-color: ${lightTextColor};
+       |""".stripMargin
+
+  val customTabHover: String =
+    s"""
+      |-fx-border-width: 0 0 1 0;
+      |-fx-border-color: ${lightTextColor};
+      |""".stripMargin
+
+  val customTabSelected: String =
+    s"""
+       |-fx-border-width: 0 0 1 0;
+       |-fx-border-color: ${orangeBarColor};
+       |""".stripMargin
 
 }

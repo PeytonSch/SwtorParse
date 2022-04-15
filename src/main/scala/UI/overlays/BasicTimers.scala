@@ -1,8 +1,8 @@
 package UI.overlays
 
 import Controller.Controller
-import UI.Tiles
-import UI.overlays.OverlayUtils.{background, createMovableTop, createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
+import UI.{Tiles, UIStyle}
+import UI.overlays.OverlayUtils.{createMovableTop, createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
 import UI.timers.ActiveTimers
 import Utils.Config.settings
 import logger.Logger
@@ -52,17 +52,17 @@ object BasicTimers extends Overlay {
    * Basic Timer Overlay
    */
   val basicTimerOuter = new VBox()
-  basicTimerOuter.setBackground(Tiles.background)
+  basicTimerOuter.setBackground(UIStyle.background)
   val basicTimerPane = new VBox()
   val basicTimerTop = createMovableTop()
   basicTimerTop.setId("basicTimerTop")
   val basicTimerScrollPane = new ScrollPane()
   basicTimerScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  basicTimerScrollPane.setBackground(Tiles.background)
+  basicTimerScrollPane.setBackground(UIStyle.background)
 
   basicTimerOuter.getChildren.addAll(basicTimerTop,basicTimerScrollPane)
 
-  basicTimerPane.setBackground(background)
+  basicTimerPane.setBackground(UIStyle.background)
   basicTimerPane.setPrefSize(200,200)
   val basicTimerOverlay = new Stage()
   basicTimerOverlay.initStyle(StageStyle.Undecorated)

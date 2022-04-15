@@ -3,7 +3,7 @@ package UI.overlays
 import Controller.Controller
 import UI.ElementLoader.overlayDisplayModeDtps
 import UI.Tiles
-import UI.overlays.OverlayUtils.{background, createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
+import UI.overlays.OverlayUtils.{createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import logger.Logger
 import scalafx.geometry.Pos
@@ -14,6 +14,9 @@ import scalafx.scene.layout.{StackPane, VBox}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import scalafx.stage.{Stage, StageStyle}
+
+import UI.UIStyle._
+
 
 object GroupDTPS extends Overlay {
 
@@ -84,13 +87,13 @@ object GroupDTPS extends Overlay {
    * Group Dtps Overlay
    */
   val groupDtpsOuter = new VBox()
-  groupDtpsOuter.setBackground(Tiles.background)
+  groupDtpsOuter.setBackground(background)
   val groupDtpsPane = new VBox()
   val groupDtpsTop = createMovableTopWithToggles("dtps")
   groupDtpsTop.setId("groupDtpsTop")
   val groupDtpsScrollPane = new ScrollPane()
   groupDtpsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-  groupDtpsScrollPane.setBackground(Tiles.background)
+  groupDtpsScrollPane.setBackground(background)
 
   groupDtpsOuter.getChildren.addAll(groupDtpsTop,groupDtpsScrollPane)
 
