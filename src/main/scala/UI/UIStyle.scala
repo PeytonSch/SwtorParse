@@ -123,6 +123,16 @@ object UIStyle {
 
   val menuLabelStyleSelected: String = createLabelStyle(lightTextColor,mediumSize)
 
+  val loadingScreenMessage =
+    s"""
+       |-fx-background-color: transparent;
+       |-fx-text-fill: ${lightBlueHoverColor};
+       |-fx-font-size: 92;
+       |-fx-font-family: ${mainFont};
+       |-fx-font-weight: 300;
+       |-fx-padding: ${10};
+       |""".stripMargin
+
   val overlayButtonStyle: String =
     s"""
        |-fx-background-color: ${darkBackgroundColor};

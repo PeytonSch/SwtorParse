@@ -1,6 +1,8 @@
 package UI.tabs
 
-import UI.UIStyle
+import java.io.File
+
+import UI.{ElementLoader, MainStage, UIStyle}
 import UI.overlays.{BasicTimers, CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import Utils.Config.settings
 import javafx.collections.FXCollections
@@ -10,7 +12,7 @@ import scalafx.scene.control.{Button, CheckBox, ComboBox, Label, Slider, TextFie
 import scalafx.scene.layout.{GridPane, HBox, Priority, StackPane, VBox}
 import scalafx.Includes._
 import scalafx.geometry.Pos
-import scalafx.stage.Stage
+import scalafx.stage.{DirectoryChooser, Stage}
 
 import scala.reflect.internal.util.Position
 
@@ -80,7 +82,7 @@ object Settings extends UITab {
   val serverLabel = new Label("Server:")
   val serverDropDown = new ComboBox(Seq[String]("Satele Shan","Star Forge","Tulak Hord","Darth Malgus","The Leviathan"))
 
-  val logDirLabel = new Label("Configured Log Directory")
+  val logDirLabel = new Label("Configured Log Directory:")
   val logDirTextField = new TextField()
   logDirTextField.setEditable(false)
   logDirTextField.setText(settings.get("logDirectory","Log Directory Not Set: Use File -> Choose Log Dir"))
@@ -161,7 +163,7 @@ object Settings extends UITab {
 
   // Path delimiter setting
 
-  val delimiterLabel = new Label("Path Delimiter")
+  val delimiterLabel = new Label("Path Delimiter:")
 
   delimiterLabel.setStyle(labelStyle)
 
@@ -180,6 +182,28 @@ object Settings extends UITab {
 
   right.getChildren.addAll(delimiterHbox)
 
+  /**
+   * Select new log directory button
+   */
+  val dirButton = new Button("Select Log Directory")
+  dirButton.setStyle(UIStyle.uiButtonStyle)
+  UIStyle.setHoverable(dirButton,UIStyle.uiButtonHoverStyle)
+
+  right.getChildren.addAll(dirButton)
+
+  dirButton.onAction = event => {
+    //create a DirectoryChooser object
+    val directoryChooser = new DirectoryChooser {
+      title = "Open Combat Log Directory"
+    }
+    //open file explorer when MenuItem("Choose Log File...") is clicked
+    val stage = new Stage()
+      val selectedDirectory: File = directoryChooser.showDialog(stage)
+      if (selectedDirectory != null) {
+        val dirPath = selectedDirectory.getAbsolutePath()
+        ElementLoader.loadNewDirectory(dirPath)
+    }
+  }
 
 
   /**

@@ -28,13 +28,7 @@ import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import java.util.prefs.{Preferences, PreferencesFactory}
 
 import UI.MainStage.mainStage
-
-import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
-import scalafx.Includes._
-import scalafx.scene.shape.Rectangle
-import scalafx.scene.text.Text
-import UI.objects.Menus._
+import UI.MenuBar.CustomMenuBar
 import UI.tabs.{CustomTabs, Settings}
 import Utils.{Config, FileHelper}
 import parser.Parser
@@ -132,21 +126,21 @@ object Main extends JFXApp3 {
     //menu3.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
     //menu4.setStyle("-fx-font-size: 2.4em; -fx-background-color: #2a2a2a; -fx-text-fill: white")
 
-    //create a DirectoryChooser object
-    val directoryChooser = new DirectoryChooser {
-      title = "Open Resource File"
-    }
-
-    //open file explorer when MenuItem("Choose Log File...") is clicked
-    //Not exactly sure how we want to handle userData at the moment, just printing out the chosen directory for now
-    menu1.items(0).onActionProperty() = (e: ActionEvent) => {
-      val selectedDirectory: File = directoryChooser.showDialog(stage)
-      if (selectedDirectory != null) {
-          val dirPath = selectedDirectory.getAbsolutePath()
-          ElementLoader.loadNewDirectory(dirPath)
-
-      }
-    }
+//    //create a DirectoryChooser object
+//    val directoryChooser = new DirectoryChooser {
+//      title = "Open Resource File"
+//    }
+//
+//    //open file explorer when MenuItem("Choose Log File...") is clicked
+//    //Not exactly sure how we want to handle userData at the moment, just printing out the chosen directory for now
+//    menu1.items(0).onActionProperty() = (e: ActionEvent) => {
+//      val selectedDirectory: File = directoryChooser.showDialog(stage)
+//      if (selectedDirectory != null) {
+//          val dirPath = selectedDirectory.getAbsolutePath()
+//          ElementLoader.loadNewDirectory(dirPath)
+//
+//      }
+//    }
 
     //End of Main Menu Bar code
 
@@ -177,7 +171,7 @@ object Main extends JFXApp3 {
     //val root : javafx.scene.Parent = FXMLLoader.load(getClass().getResource("/Application.fxml"))
 
     // add the pane to a scene and give it a camera
-    parentPane.children = List(mainMenuBar,CustomTabs.addToUI)
+    parentPane.children = List(CustomMenuBar.addToUI,CustomTabs.addToUI)
 
 
     mainStage.show()
@@ -185,14 +179,15 @@ object Main extends JFXApp3 {
     /**
      * Timer Code
      */
-
+    var lastTimerOverlayTimerCall = System.nanoTime()
     /** Everything in here is ran on the timer interval */
     val timer : AnimationTimer = AnimationTimer(t => {
       val now = System.nanoTime()
 
       // TODO: This may need to be removed, it is originally made for testing timers
       // we may want to keep this so we can make timers smoother though
-      if (now > lastTimerCall + timerRate && UICodeConfig.logFile != "") {
+      if (now > lastTimerOverlayTimerCall + timerRate && UICodeConfig.logFile != "") {
+        lastTimerOverlayTimerCall = now
         BasicTimers.refresh()
       }
 

@@ -113,7 +113,7 @@ object CustomTabs {
   
   tabs.foreach(tab => tabBox.getChildren.add(tab))
 
-  parent.getChildren.addAll(CustomMenuBar.addToUI,tabBox,contentBox)
+  parent.getChildren.addAll(tabBox,contentBox)
 
   def addToUI = parent
 

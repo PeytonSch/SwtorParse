@@ -40,7 +40,7 @@ object FileMenu extends MenuItem {
     // spawn the stage in the center of the screen
     val centerOfStage = MainStage.getCenterOfStage()
     val pos = (centerOfStage._1 - (fileMenuStage.getWidth / 2.0), centerOfStage._2 - (fileMenuStage.getHeight / 2.0))
-    Logger.highlight(s"${pos._1}, ${pos._2}")
+//    Logger.highlight(s"${pos._1}, ${pos._2}")
     fileMenuStage.setX(pos._1)
     fileMenuStage.setY(pos._2)
     CustomTabs.addToUI.setOpacity(.20)

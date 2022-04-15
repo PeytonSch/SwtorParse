@@ -2,16 +2,12 @@ package UI
 
 import Combat.CombatActorInstance
 import Controller.Controller
-import UI.GraphicFactory.SpreadSheetRow
-import UI.objects.{Menus, TimerSuggestionsTable}
+
 import UI.overlays.{BasicTimers, CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import eu.hansolo.tilesfx.chart.ChartData
-import eu.hansolo.tilesfx.skins.BarChartItem
 import eu.hansolo.tilesfx.tools.TreeNode
-import parsing.Actors.{Companion, Player}
 import scalafx.event.ActionEvent
-import javafx.scene.paint.Color
-import logger.LogLevel.Info
+
 import logger.Logger
 import scalafx.geometry.Pos
 import scalafx.scene.control.{Label, Menu, MenuItem}
@@ -22,18 +18,17 @@ import scalafx.scene.text.Text
 import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
 import scalafx.animation.AnimationTimer
-import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.application.Platform
-import scalafx.scene.Scene
-import UI.objects.Menus._
+
 import UI.tabs.Settings.logDirTextField
-import UI.tabs.{DamageDone, DamageTaken, HealingDone, HealingTaken, Timers}
+import UI.tabs.{CustomTabs, DamageDone, DamageTaken, HealingDone, HealingTaken, Timers}
 import Utils.Config.settings
 import Utils.{FileHelper, PathLoader}
 import parser.Parser
-import scalafx.collections.ObservableBuffer
-import scalafx.scene.chart.{BarChart, LineChart}
+
 import java.io.File
+
+import UI.MenuBar.LoadingScreen
 
 /**
  * Element loader is for loading data into the UI charts and graphs etc.
@@ -91,19 +86,20 @@ object ElementLoader {
   /**
    * This is refreshes the combat instances in the combat instance menu
    */
+    // TODO: Remove this
   def loadCombatInstanceMenu(): Unit ={
-    var combatInstanceBuffer = new ListBuffer[MenuItem]()
-    for (combatInstance <- Controller.getAllCombatInstances()){
-      Logger.trace(s"Got combat instance: ${combatInstance}")
-      var item = new MenuItem(combatInstance.getNameFromActors)
-      item.setOnAction(combatInstanceChangeMenuAction())
-      combatInstanceBuffer += item
-    }
-    combatInstanceMenu.items = combatInstanceBuffer.toList
+//    var combatInstanceBuffer = new ListBuffer[MenuItem]()
+//    for (combatInstance <- Controller.getAllCombatInstances()){
+//      Logger.trace(s"Got combat instance: ${combatInstance}")
+//      var item = new MenuItem(combatInstance.getNameFromActors)
+//      item.setOnAction(combatInstanceChangeMenuAction())
+//      combatInstanceBuffer += item
+//    }
+//    combatInstanceMenu.items = combatInstanceBuffer.toList
   }
 
   def loadNewDirectory(dirPath: String): Unit = {
-    Logger.highlight(s"Selected Directory Path ${dirPath}")
+//    Logger.highlight(s"Selected Directory Path ${dirPath}")
     UICodeConfig.logPath = dirPath + "/"
     settings.put("logDirectory",dirPath + "/")
     logDirTextField.setText(settings.get("logDirectory","Log Directory Not Set: Use File -> Choose Log Dir"))
@@ -122,24 +118,25 @@ object ElementLoader {
   }
 
   def loadRecentDirectoryMenu(): Unit = {
-    Menus.loadRecentDirMenu()
+//    Menus.loadRecentDirMenu()
   }
 
+  // TODO: REMOVE THIS
   def loadLogFileMenu():Unit = {
-//    Logger.highlight(s"Configured Log Path: ${UICodeConfig.logPath}")
-    val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
-    var fileBuffer = new ListBuffer[MenuItem]()
-    // TODO: Get this working on windows too
-    var del: String = settings.get("pathDelimiter","")
-//    var del = '\\'
-    for (i <- 0 until files.length){
-      // TODO: On Windows we .split('\\') but on mac we need to split on /
-//      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")
-      val item = new MenuItem(files(i).getAbsolutePath().split(del).last)
-      item.setOnAction(loadNewCombatFile())
-      fileBuffer += item
-    }
-    fileMenu.items = fileBuffer.toList.reverse
+////    Logger.highlight(s"Configured Log Path: ${UICodeConfig.logPath}")
+//    val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
+//    var fileBuffer = new ListBuffer[MenuItem]()
+//    // TODO: Get this working on windows too
+//    var del: String = settings.get("pathDelimiter","")
+////    var del = '\\'
+//    for (i <- 0 until files.length){
+//      // TODO: On Windows we .split('\\') but on mac we need to split on /
+////      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")
+//      val item = new MenuItem(files(i).getAbsolutePath().split(del).last)
+//      item.setOnAction(loadNewCombatFile())
+//      fileBuffer += item
+//    }
+//    fileMenu.items = fileBuffer.toList.reverse
 
   }
 
@@ -377,38 +374,54 @@ object ElementLoader {
     }
 
   def loadNewCombatFile(): ActionEvent => Unit = (event: ActionEvent) => {
+    LoadingScreen.startLoadingScreen()
+    // This forces the UI to refresh
+    MainStage.mainStage.getScene().getWindow().setWidth(MainStage.mainStage.getScene().getWidth() + 0.001)
     Controller.resetController()
     Parser.resetParser()
-    val file = event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText
-    val path = s"${UICodeConfig.logPath}${file}"
-    UICodeConfig.logFile = file
-    Logger.info(s"Loading new log ${path}")
-//    Platform.runLater(LoadingScreen.beginLoading())
-    Logger.debug("Begin Parsing")
-    Controller.parseLatest(Parser.getNewLines(path))
-    Logger.debug("End Parsing")
+    Platform.runLater({
+      val file = event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText
+      val path = s"${UICodeConfig.logPath}${file}"
+      UICodeConfig.logFile = file
+      Logger.info(s"Loading new log ${path}")
+      Logger.debug("Begin Parsing")
+      Controller.parseLatest(Parser.getNewLines(path))
+      Logger.debug("End Parsing")
 
-    combatInstanceMenu.getItems.clear()
+//      combatInstanceMenu.getItems.clear()
 
-    loadCombatInstanceMenu()
+      loadCombatInstanceMenu()
+
+      LoadingScreen.closeLoadingScreen()
+    }
+    )
 
   }
 
   def loadLatestCombatFile(): Unit = {
+    LoadingScreen.startLoadingScreen()
+    // This forces the UI to refresh
+    MainStage.mainStage.getScene().getWindow().setWidth(MainStage.mainStage.getScene().getWidth() + 0.001)
     loadNewDirectoryActionEvent(PathLoader.getPaths()(0))
     Controller.resetController()
     Parser.resetParser()
+    var del: String = settings.get("pathDelimiter","")
+//    var del = '\\'
+    Platform.runLater({
     val path = FileHelper.getListOfFiles(PathLoader.getPaths()(0))
     val file = path(path.length - 1)
-    UICodeConfig.logFile = file.getAbsolutePath.split('\\').last
+    UICodeConfig.logFile = file.getAbsolutePath.split(del).last
     Logger.info(s"Loading new log ${file.getAbsolutePath}")
     //    Platform.runLater(LoadingScreen.beginLoading())
     Logger.debug("Begin Parsing")
     Controller.parseLatest(Parser.getNewLines(file.getAbsolutePath))
     Logger.debug("End Parsing")
-    combatInstanceMenu.getItems.clear()
-
-    loadCombatInstanceMenu()
+//    combatInstanceMenu.getItems.clear()
+//
+//    loadCombatInstanceMenu()
+      LoadingScreen.closeLoadingScreen()
+    }
+    )
   }
 
 

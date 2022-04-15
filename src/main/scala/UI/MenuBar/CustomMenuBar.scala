@@ -1,7 +1,7 @@
 package UI.MenuBar
 
 import UI.tabs.CustomTabs
-import UI.{MainStage, UIStyle}
+import UI.{ElementLoader, MainStage, UIStyle}
 import logger.Logger
 import scalafx.scene.control.Label
 import scalafx.scene.layout.HBox
@@ -14,6 +14,9 @@ object CustomMenuBar {
     MainStage.getCenterOfStage()
     menuName match {
       case "File" => FileMenu.spawnMenu()
+      case "Logs" => LogMenu.spawnMenu()
+      case "Combat Instances" => CombatInstanceMenu.spawnMenu()
+      case "Load Latest Log" => ElementLoader.loadLatestCombatFile()
       case _ =>
     }
 
@@ -51,11 +54,14 @@ object CustomMenuBar {
 
   val parent = new HBox()
   parent.setStyle(UIStyle.smallBottomBoarderNoPadding)
+  parent.setStyle(UIStyle.mainBackgroundObject)
 
   val menus = Seq(
-    createMenu("File"),
+//    createMenu("File"),
     createMenu("Logs"),
-    createMenu("Combat Instances")
+    createMenu("Combat Instances"),
+    UIStyle.createSpacer(),
+    createMenu("Load Latest Log"),
   )
 
   menus.foreach(menu => parent.getChildren.add(menu))
