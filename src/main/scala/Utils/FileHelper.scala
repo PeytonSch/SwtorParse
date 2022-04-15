@@ -17,6 +17,19 @@ object FileHelper{
         List[File]()
       }
     }
+
+  def writeTimerToFile(timer: String): Unit = {
+      val fw = new FileWriter("src/main/resources/timers.txt", false)
+      try {
+        fw.write(timer)
+        fw.write("\n")
+      }
+      finally fw.close()
+    }
+
+  def getSavedTimers() = {
+    Source.fromFile("src/main/resources/timers.txt").getLines.toList
+  }
 }
 
 object PathLoader {

@@ -4,6 +4,7 @@ import UI.GraphicFactory.{TimerCategoryFactory, TimerRowFactory}
 import UI.{Tiles, UICodeConfig, UIStyle}
 import UI.objects.TimerSuggestionsTable
 import Utils.Config.settings
+import Utils.FileHelper
 import logger.Logger
 import scalafx.Includes._
 import scalafx.event.ActionEvent
@@ -251,7 +252,9 @@ val cancelOn = new ComboBox(Seq[String](
       TimerRowFactory.createRow(name,source,area,ability,cooldown, color)
     )
 
-    Logger.highlight(s"Saved Timer: ${name},${source},${area},${ability},${cooldown}")
+    Logger.highlight(s"Saved Timer: ${name},${source},${area},${ability},${cooldown}, ${color}")
+
+    FileHelper.writeTimerToFile(s"${name},${source},${area},${ability},${cooldown},${color}")
   }
 
 
@@ -287,6 +290,30 @@ val cancelOn = new ComboBox(Seq[String](
   categories.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
 
   def getCategories = categories
+
+  // load all saved timers
+  for (timerLine <- FileHelper.getSavedTimers()) {
+//    Logger.highlight(s"Attempting to load saved timer ${timerLine}")
+    try {
+      val splitOut = timerLine.split(',')
+      yourTimers.addTimer(
+        TimerRowFactory.createRow(
+          splitOut(0), splitOut(1), splitOut(2), splitOut(3), splitOut(4).toDouble, splitOut(5)
+        )
+      )
+    } catch {
+      case e: IndexOutOfBoundsException =>
+      case e:Throwable => Logger.warn(s"Could not load saved timers: ${e}")
+    }
+  }
+
+//  def saveTimers(): Unit = {
+//    for (category <- categories;
+//         timer <- category.getTimers
+//         ) {
+//
+//    }
+//  }
 
 //  testTimers.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
 //  timerVbox.getChildren.add(testTimer.addToUI)
