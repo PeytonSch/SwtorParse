@@ -4,7 +4,6 @@ import java.io.File
 
 import Controller.Controller
 import UI.ElementLoader.{loadCombatInstanceMenu, refreshUI}
-import UI.objects.Menus.combatInstanceMenu
 import UI.tabs.CustomTabs
 import UI.{MainStage, UICodeConfig, UIStyle}
 import Utils.Config.settings

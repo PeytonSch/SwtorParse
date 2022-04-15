@@ -405,8 +405,8 @@ object ElementLoader {
     loadNewDirectoryActionEvent(PathLoader.getPaths()(0))
     Controller.resetController()
     Parser.resetParser()
-    var del: String = settings.get("pathDelimiter","")
-//    var del = '\\'
+//    var del: String = settings.get("pathDelimiter","")
+    var del = '\\'
     Platform.runLater({
     val path = FileHelper.getListOfFiles(PathLoader.getPaths()(0))
     val file = path(path.length - 1)

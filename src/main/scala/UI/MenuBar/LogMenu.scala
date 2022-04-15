@@ -61,17 +61,19 @@ object LogMenu extends MenuItem {
     val files: List[File] = FileHelper.getListOfFiles(UICodeConfig.logPath)
     var fileBuffer = new ListBuffer[MenuItem]()
     // TODO: Get this working on windows too
-    var del: String = settings.get("pathDelimiter","")
-    //    var del = '\\'
-    for (i <- 0 until files.length){
+//    var del: String = settings.get("pathDelimiter","")
+    var del = '\\'
+    val rows = for (i <- 0 until files.length) yield {
       // TODO: On Windows we .split('\\') but on mac we need to split on /
       //      Logger.highlight(s"Creating menu item for file ${files(i).getAbsolutePath()} , splitting on ${del}")
       val row = files(i).getAbsolutePath().split(del).last
       val size = files(i).length() / 1000000
 
-      logMenuLogs.getChildren.add(createRow(row,size.toString + " MB"))
+      (createRow(row,size.toString + " MB"))
 
     }
+
+    rows.reverse.foreach(r => logMenuLogs.getChildren.add(r))
 
     // spawn the stage in the center of the screen
     val centerOfStage = MainStage.getCenterOfStage()

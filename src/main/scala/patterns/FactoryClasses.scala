@@ -36,7 +36,7 @@ class FactoryClasses {
    * @return
    */
   def actorFromActorString(actorString: String): Actor = {
-    Logger.micro(s"actorFromActorString: ${actorString}")
+//    Logger.highlight(s"actorFromActorString: ${actorString}")
     // First determine if the actor is a player and companion or npc
     // a player has an @ symbol, a companion has an @ and /
     // and an npc has neither
