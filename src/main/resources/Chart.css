@@ -7,10 +7,36 @@
 
 #hoverable:hover {
     -fx-background-color: #262626;
+    -fx-text-fill: #83ABFB;
 }
 
 .hps-bar {
     -fx-bar-fill: #48FF80;
+}
+
+.combo-box
+{
+    -fx-text-fill: #60737F;
+}
+
+.combo-box .list-cell
+{
+    -fx-text-fill: #60737F;
+}
+.combo-box-popup .list-view
+{
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+}
+.combo-box-popup .list-view .list-cell
+{
+    -fx-background-color: #232323;
+    -fx-text-fill: #60737F;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-text-fill: #83ABFB;
 }
 
 .chart-plot-background {
@@ -63,7 +89,7 @@
 /*}*/
 
 .label {
-    -fx-text-fill: #ecec7a;
+    -fx-text-fill: #D9D9D9;
 }
 
 #personalStatslabel {
@@ -171,12 +197,12 @@
 .check-box {
     -fx-font-size: 18;
     -fx-font-weight: bold;
-    -fx-text-fill: #ecec7a;
+    -fx-text-fill: #D9D9D9;
 }
 
 .check-box .box {
 
-    -fx-background-color: white;
+    -fx-background-color: #232323;
     -fx-border-color:grey;
     -fx-border-radius:3px;
 
@@ -184,11 +210,11 @@
 
 .check-box:selected .mark {
 
-    -fx-background-color: white;
+    -fx-background-color: #60737F;
 
 }
 
-.check-box:selected .box {
+/*.check-box:selected .box {*/
 
-    -fx-background-color: #28a3f4;
-}
+/*    -fx-background-color: #28a3f4;*/
+/*}*/

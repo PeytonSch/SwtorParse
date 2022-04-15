@@ -2,7 +2,7 @@ package UI.overlays
 
 import Controller.Controller
 import UI.ElementLoader.{overlayDisplayModeDPS, overlayDisplayModeHPS}
-import UI.Tiles
+import UI.{Tiles, UIStyle}
 import UI.overlays.OverlayUtils.{createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import logger.Logger
@@ -127,6 +127,8 @@ object GroupHealing extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val hpsCheckbox = new CheckBox("Group Healing")
+    hpsCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(hpsCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(hpsCheckbox, GroupHealing.getOverlay(),"groupHpsOverlayEnabled","groupHealingTop")
     if (settings.getBoolean("groupHpsOverlayEnabled",false)) {
       hpsCheckbox.setSelected(true)

@@ -1,7 +1,7 @@
 package UI.overlays
 
 import Controller.Controller
-import UI.UICodeConfig
+import UI.{UICodeConfig, UIStyle}
 import UI.overlays.OverlayUtils.{createMovableTop, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import eu.hansolo.tilesfx.Tile.SkinType
@@ -11,7 +11,6 @@ import scalafx.scene.Scene
 import scalafx.scene.control.CheckBox
 import scalafx.scene.layout.VBox
 import scalafx.stage.{Stage, StageStyle}
-
 import UI.UIStyle._
 
 
@@ -68,6 +67,8 @@ object PersonalHealing extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val personalHpsCheckbox = new CheckBox("Personal Healing Done")
+    personalHpsCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(personalHpsCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(personalHpsCheckbox, PersonalHealing.getOverlay(),"personalHpsOverlayEnabled","personalHealingTop")
     if (settings.getBoolean("personalHpsOverlayEnabled",false)) {
       personalHpsCheckbox.setSelected(true)

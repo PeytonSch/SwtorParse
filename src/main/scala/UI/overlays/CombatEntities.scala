@@ -1,7 +1,7 @@
 package UI.overlays
 
 import Controller.Controller
-import UI.Tiles
+import UI.{Tiles, UIStyle}
 import UI.overlays.OverlayUtils.{initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import scalafx.geometry.Pos
@@ -12,7 +12,6 @@ import scalafx.scene.layout.{StackPane, VBox}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import scalafx.stage.{Stage, StageStyle}
-
 import UI.UIStyle._
 
 object CombatEntities extends Overlay {
@@ -92,6 +91,8 @@ object CombatEntities extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val combatEntitiesCheckbox = new CheckBox("Combat Entities")
+    combatEntitiesCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(combatEntitiesCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(combatEntitiesCheckbox, CombatEntities.getOverlay(),"combatEntitiesOverlayEnabled","entitiesInCombatTop")
     if (settings.getBoolean("combatEntitiesOverlayEnabled",false)) {
       combatEntitiesCheckbox.setSelected(true)

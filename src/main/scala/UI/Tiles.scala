@@ -589,6 +589,7 @@ object Tiles {
   )
 
   //Make all the menus
+  // TODO: This needs to be a combo box not a menu lol
   val actorMenu = new Menu("Select Perspective")
   actorMenu.items = actorMenuItems
 

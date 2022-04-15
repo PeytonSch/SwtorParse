@@ -77,6 +77,8 @@ object BasicTimers extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val timerCheckbox = new CheckBox("Basic Timers")
+    timerCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(timerCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(timerCheckbox, BasicTimers.getOverlay(),"basicTimerOverlayEnabled","basicTimerTop")
     if (settings.getBoolean("basicTimerOverlayEnabled",false)) {
       timerCheckbox.setSelected(true)

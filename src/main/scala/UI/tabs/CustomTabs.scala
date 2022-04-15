@@ -1,8 +1,8 @@
 package UI.tabs
 
 import UI.GraphicFactory.{LineBarChartFactory, SpreadSheetFactory}
+import UI.MenuBar.CustomMenuBar
 import UI.UIStyle
-import UI.objects.CustomMenuBar
 import logger.Logger
 import scalafx.scene.control.Label
 import scalafx.scene.layout.{GridPane, HBox, Priority, VBox}

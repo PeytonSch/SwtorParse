@@ -9,6 +9,8 @@ import scalafx.geometry.{Point2D, Pos}
 import scalafx.scene.control.Label
 import scalafx.scene.layout.{HBox, Priority}
 
+import scalafx.Includes._
+
 object TimerCategoryFactory {
 
   def create(name: String): TimerCategory = {
@@ -16,7 +18,8 @@ object TimerCategoryFactory {
     base.setStyle(UIStyle.mainBackgroundObject)
     base.setStyle(UIStyle.smallBottomBoarder)
     base.setPrefWidth(UICodeConfig.existingTimerWidthHeight._1)
-    base.setId("hoverable")
+//    base.setId("hoverable")
+//    UIStyle.setHoverable(base,UIStyle.mainBackgroundObjectHover + UIStyle.smallBottomBoarderHover)
     val cat = new HBox()
     cat.setStyle(UIStyle.transparentObject)
     cat.setAlignment(Pos.BaselineLeft)
@@ -36,9 +39,23 @@ object TimerCategoryFactory {
       style = UIStyle.largeFaintBlueLabel
     }
 
+
+
     cat.getChildren.addAll(categoryName)
     info.getChildren.addAll(numberOfTimersInCategory)
     base.getChildren.addAll(cat,spacer,info)
+
+    // Some Styling
+    base.onMouseEntered = event => {
+      base.setStyle(UIStyle.mainBackgroundObjectHover)
+      base.setStyle(UIStyle.smallBottomBoarderHover)
+      categoryName.setStyle(UIStyle.largeLightLabel + UIStyle.textHoverLightBlue)
+    }
+    base.onMouseExited = event => {
+      base.setStyle(UIStyle.mainBackgroundObject)
+      base.setStyle(UIStyle.smallBottomBoarder)
+      categoryName.setStyle(UIStyle.largeLightLabel)
+    }
 
     new TimerCategory(base,categoryName,numberOfTimersInCategory)
   }

@@ -73,7 +73,8 @@ object Timers extends UITab {
    * Create timers
    */
 
-    val labelStyle = "-fx-font-size: 20;"
+  val labelStyle = UIStyle.largeLightLabel
+  val textFieldStyle = UIStyle.textFieldStyle
 
   // labels
   val nameLabel = new Label {
@@ -121,15 +122,19 @@ object Timers extends UITab {
 
   val nameText = new TextField{
     prefWidth = 450
+    style = textFieldStyle
   }
   val sourceActorText = new TextField{
     prefWidth = 450
+    style = textFieldStyle
   }
   val sourceAbilityText = new TextField{
     prefWidth = 450
+    style = textFieldStyle
   }
   val areaText = new TextField{
     prefWidth = 450
+    style = textFieldStyle
   }
 //  val triggerOnText = new TextField{
 //    prefWidth = 450
@@ -140,12 +145,15 @@ object Timers extends UITab {
 ))
   triggerOn.setPrefWidth(450)
   triggerOn.value="Ability Activate"
+  triggerOn.setStyle(textFieldStyle)
 
   val durationText = new TextField{
     prefWidth = 450
+    style = textFieldStyle
   }
   val repeatText = new TextField{
     prefWidth = 450
+    style = textFieldStyle
     text = "999"
   }
 //  val cancelOnText = new TextField{
@@ -156,6 +164,7 @@ val cancelOn = new ComboBox(Seq[String](
 ))
   cancelOn.setPrefWidth(450)
   cancelOn.value = "Combat End"
+  cancelOn.setStyle(textFieldStyle)
 
 
   val nameBox = new HBox()
@@ -182,6 +191,13 @@ val cancelOn = new ComboBox(Seq[String](
 
   val applyButton = new Button("Add Timer")
 
+  applyButton.setStyle(UIStyle.uiButtonStyle)
+  UIStyle.setHoverable(applyButton,UIStyle.uiButtonHoverStyle)
+
+  val applyHbox = new HBox{
+    children = Seq(UIStyle.createSpacer(),applyButton)
+  }
+
   applyButton.onAction = (event: ActionEvent) => {
     val name = nameText.getText
     val source = sourceActorText.getText
@@ -202,7 +218,7 @@ val cancelOn = new ComboBox(Seq[String](
   rightTop.getChildren.addAll(
     nameBox,sourceActorBox,sourceAbilityBox,triggerOnBox,
     durationBox,repeatBox,cancelOnBox,areaBox,
-    applyButton
+    applyHbox
   )
 
   // Old suggestions, removed in favor of spreadsheet

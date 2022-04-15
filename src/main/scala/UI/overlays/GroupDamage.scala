@@ -2,6 +2,7 @@ package UI.overlays
 
 import Controller.Controller
 import UI.ElementLoader.overlayDisplayModeDPS
+import UI.UIStyle
 import UI.overlays.OverlayUtils.{createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import logger.Logger
@@ -131,6 +132,8 @@ object GroupDamage extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val dpsCheckbox = new CheckBox("Group Damage")
+    dpsCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(dpsCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(dpsCheckbox, GroupDamage.getOverlay(),"groupDpsOverlayEnabled","groupDamageTop")
     if (settings.getBoolean("groupDpsOverlayEnabled",false)) {
       dpsCheckbox.setSelected(true)

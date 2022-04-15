@@ -1,7 +1,8 @@
 package UI
 
 import scalafx.geometry.Insets
-import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii}
+import scalafx.scene.Node
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, HBox, Priority}
 import scalafx.scene.paint.Color
 
 object UIStyle {
@@ -21,6 +22,9 @@ object UIStyle {
   private val yellowTextColor = "#ecec7a"
 
   private val orangeBarColor = "#EE8525"
+
+  private val lightBlueColor = "#426CFB"
+  private val lightBlueHoverColor = "#83ABFB"
 
   private val baseTextSize = 18
 
@@ -54,6 +58,11 @@ object UIStyle {
     |-fx-background-color: ${mainBackgroundColor};
     |""".stripMargin
 
+  val mainBackgroundObjectHover: String =
+    s"""
+       |-fx-background-color: ${darkBackgroundColor};
+       |""".stripMargin
+
   val insetBackgroundObject: String =
     s"""
     |-fx-background-color: ${darkBackgroundColor};
@@ -73,6 +82,15 @@ object UIStyle {
        |-fx-border-color: ${lightTextColor};
        |""".stripMargin
 
+  val smallBottomBoarderHover: String =
+    s"""
+       |-fx-padding: 10;
+       |-fx-border-style: solid inside;
+       |-fx-border-width: 0 0 2 0;
+       |-fx-border-insets: 5;
+       |-fx-border-color: ${lightBlueHoverColor};
+       |""".stripMargin
+
   val smallBottomBoarderNoPadding: String =
     s"""
        |-fx-border-style: solid inside;
@@ -87,7 +105,11 @@ object UIStyle {
 
   val smallFaintBlueLabel: String = createLabelStyle(faintBlueTextColor,smallSize)
 
+  val mediumLightLabel: String = createLabelStyle(lightTextColor,mediumSize)
+
   val largeLightLabel: String = createLabelStyle(lightTextColor,largeSize)
+
+  val extraLargeLightLabel: String = createLabelStyle(lightTextColor,extraLargeSize)
 
   val largeFaintGreyLabel: String = createLabelStyle(faintGreyTextColor,largeSize)
 
@@ -169,5 +191,60 @@ object UIStyle {
        |-fx-border-width: 0 0 1 0;
        |-fx-border-color: ${lightTextColor};
        |""".stripMargin
+
+  val uiButtonStyle: String =
+    s"""
+      |-fx-background-color: ${lightBlueColor};
+      |-fx-background-radius: 5,4,3,5;
+      |-fx-background-insets: 0,1,2,0;
+      |-fx-text-fill: white;
+      |-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+      |-fx-font-family: "Arial";
+      |-fx-font-size: ${smallSize};
+      |-fx-padding: 10 20 10 20;
+      |""".stripMargin
+
+  val uiButtonHoverStyle =
+    s"""
+       |-fx-background-color: ${lightBlueHoverColor};
+       |-fx-background-radius: 5,4,3,5;
+       |-fx-background-insets: 0,1,2,0;
+       |-fx-text-fill: white;
+       |-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+       |-fx-font-family: "Arial";
+       |-fx-font-size: ${smallSize};
+       |-fx-padding: 10 20 10 20;
+       |""".stripMargin
+
+  val textFieldStyle =
+    s"""
+       |-fx-background-color: ${darkBackgroundColor};
+       |-fx-text-fill: ${faintBlueTextColor};
+       |-fx-font-size: ${mediumSize};
+       |-fx-font-family: ${mainFont};
+       |-fx-font-weight: 300;
+       |-fx-padding: 5;
+       |""".stripMargin
+
+  val textHoverLightBlue =
+    s"""
+       |-fx-text-fill: ${lightBlueHoverColor};
+       |""".stripMargin
+
+  def setHoverable(node: Node, style: String): Unit = {
+    val currentStyle = node.getStyle
+    node.onMouseEntered = event => {
+      node.setStyle(style)
+    }
+    node.onMouseExited = event => {
+      node.setStyle(currentStyle)
+    }
+  }
+
+  def createSpacer() = {
+    val spacer = new HBox()
+    spacer.hgrow = Priority.Always
+    spacer
+  }
 
 }

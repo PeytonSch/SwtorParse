@@ -1,7 +1,7 @@
 package UI.overlays
 
 import Controller.Controller
-import UI.UICodeConfig
+import UI.{UICodeConfig, UIStyle}
 import UI.overlays.OverlayUtils.{createMovableTop, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import eu.hansolo.tilesfx.Tile.SkinType
@@ -88,6 +88,8 @@ object PersonalDamage extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val personalDpsCheckbox = new CheckBox("Personal Damage Done")
+    personalDpsCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(personalDpsCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(personalDpsCheckbox, PersonalDamage.getOverlay(),"personalDpsOverlayEnabled","personalDamageTop")
     if (settings.getBoolean("personalDpsOverlayEnabled",false)) {
       personalDpsCheckbox.setSelected(true)

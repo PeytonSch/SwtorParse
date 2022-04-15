@@ -1,14 +1,18 @@
 package UI.tabs
 
+import UI.UIStyle
 import UI.overlays.{BasicTimers, CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import Utils.Config.settings
 import javafx.collections.FXCollections
 import logger.Logger
 import scalafx.event.ActionEvent
 import scalafx.scene.control.{Button, CheckBox, ComboBox, Label, Slider, TextField}
-import scalafx.scene.layout.{GridPane, HBox, StackPane, VBox}
+import scalafx.scene.layout.{GridPane, HBox, Priority, StackPane, VBox}
 import scalafx.Includes._
+import scalafx.geometry.Pos
 import scalafx.stage.Stage
+
+import scala.reflect.internal.util.Position
 
 object Settings extends UITab {
 
@@ -40,7 +44,7 @@ object Settings extends UITab {
 
 
   val overlayLabel = new Label("OVERLAYS")
-  overlayLabel.setStyle("-fx-font-size: 20;")
+  overlayLabel.setStyle(UIStyle.extraLargeLightLabel)
 
   /**
    * Add Overlay Checkboxes
@@ -83,13 +87,59 @@ object Settings extends UITab {
 
   serverDropDown.setValue((settings.get("server","Select Server")))
 
-  right.getChildren.addAll(
-    guildLabel,guildTextField,
-    raidTeamLabel, raidTeamTextField,
-    serverLabel, serverDropDown,
-    logDirLabel, logDirTextField
-  )
+  // Set Styles
+  // make it easier to adjust these
+  val labelStyle = UIStyle.largeLightLabel
+  val textFieldStyle = UIStyle.textFieldStyle
+  guildLabel.setStyle(labelStyle)
+  raidTeamLabel.setStyle(labelStyle)
+  serverLabel.setStyle(labelStyle)
+  logDirLabel.setStyle(labelStyle)
 
+  guildTextField.setStyle(textFieldStyle)
+  raidTeamTextField.setStyle(textFieldStyle)
+  logDirTextField.setStyle(textFieldStyle)
+
+  serverDropDown.setStyle(textFieldStyle)
+
+  // text field width based off of loaded log dir
+  val rightWidth = 450
+
+  guildTextField.setPrefWidth(rightWidth)
+  raidTeamTextField.setPrefWidth(rightWidth)
+  logDirTextField.setPrefWidth(rightWidth)
+  serverDropDown.setPrefWidth(rightWidth)
+
+  // Create HBoxes
+  val guildHbox = new HBox{
+    children = Seq(guildLabel,UIStyle.createSpacer(),guildTextField)
+    style = UIStyle.mainBackgroundObject
+    hgrow = Priority.Always
+    alignment = Pos.BaselineCenter
+  }
+  val raidTeamHbox = new HBox{
+    children = Seq(raidTeamLabel,UIStyle.createSpacer(), raidTeamTextField)
+    style = UIStyle.mainBackgroundObject
+    hgrow = Priority.Always
+    alignment = Pos.BaselineCenter
+  }
+  val serverHbox = new HBox{
+    children = Seq(serverLabel,UIStyle.createSpacer(), serverDropDown)
+    style = UIStyle.mainBackgroundObject
+    hgrow = Priority.Always
+    alignment = Pos.BaselineCenter
+  }
+  val logDirHbox = new HBox{
+    children = Seq(logDirLabel,UIStyle.createSpacer(), logDirTextField)
+    style = UIStyle.mainBackgroundObject
+    hgrow = Priority.Always
+    alignment = Pos.BaselineCenter
+  }
+
+  right.getChildren.addAll(
+    guildHbox, raidTeamHbox,
+    serverHbox, logDirHbox
+  )
 
   val overlayOpacity = new Slider()
   overlayOpacity.setMin(0)
@@ -97,15 +147,38 @@ object Settings extends UITab {
   overlayOpacity.setValue(settings.getDouble("overlayOpacity",1))
   val overLayOpacityLabel = new Label(s"Overlay Opacity: ${(overlayOpacity.value.value * 100).toInt} %")
 
-  right.getChildren.addAll(overLayOpacityLabel,overlayOpacity)
+  overLayOpacityLabel.setStyle(labelStyle)
+  overlayOpacity.setPrefWidth(rightWidth)
+
+  val opacityHbox = new HBox{
+    children = Seq(overLayOpacityLabel,UIStyle.createSpacer(), overlayOpacity)
+    style = UIStyle.mainBackgroundObject
+    hgrow = Priority.Always
+    alignment = Pos.BaselineCenter
+  }
+
+  right.getChildren.addAll(opacityHbox)
 
   // Path delimiter setting
 
+  val delimiterLabel = new Label("Path Delimiter")
+
+  delimiterLabel.setStyle(labelStyle)
+
   val delimiterDropDown = new ComboBox(Seq[String]("/ (mac, linux?)","\\ (windows)"))
 
+  delimiterDropDown.setStyle(textFieldStyle)
+  delimiterDropDown.setPrefWidth(rightWidth)
   delimiterDropDown.setValue((settings.get("pathDelimiter","Select Path Delimiter")))
 
-  right.getChildren.addAll(delimiterDropDown)
+  val delimiterHbox = new HBox{
+    children = Seq(delimiterLabel,UIStyle.createSpacer(), delimiterDropDown)
+    style = UIStyle.mainBackgroundObject
+    hgrow = Priority.Always
+    alignment = Pos.BaselineCenter
+  }
+
+  right.getChildren.addAll(delimiterHbox)
 
 
 
@@ -114,8 +187,14 @@ object Settings extends UITab {
    */
 
   val applyButton = new Button("Apply")
+  applyButton.setStyle(UIStyle.uiButtonStyle)
+  UIStyle.setHoverable(applyButton,UIStyle.uiButtonHoverStyle)
 
-  right.getChildren.addAll(applyButton)
+  val applyHbox = new HBox{
+    children = Seq(UIStyle.createSpacer(),applyButton)
+  }
+
+  right.getChildren.addAll(applyHbox)
 
   applyButton.onAction = (event: ActionEvent) => {
     // Save Settings
@@ -170,6 +249,9 @@ object Settings extends UITab {
 //    Overlays.groupDamagePane.setStyle(s"-fx-background-color: rgba(0,0,255,${newVal.doubleValue()})")
 //    Overlays.groupHealingPane.setStyle(s"-fx-background-color: rgba(0,0,255,${newVal.doubleValue()})")
   }
+
+
+
 
 
 

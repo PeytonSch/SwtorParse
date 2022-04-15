@@ -84,6 +84,8 @@ object Reflect extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val reflectDamageCheckbox = new CheckBox("Reflect Leaderboard")
+    reflectDamageCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(reflectDamageCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(reflectDamageCheckbox, Reflect.getOverlay(),"reflectOverlayEnabled","reflectDamageTop")
     if (settings.getBoolean("reflectOverlayEnabled",false)) {
       reflectDamageCheckbox.setSelected(true)

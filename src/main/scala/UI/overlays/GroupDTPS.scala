@@ -2,7 +2,7 @@ package UI.overlays
 
 import Controller.Controller
 import UI.ElementLoader.overlayDisplayModeDtps
-import UI.Tiles
+import UI.{Tiles, UIStyle}
 import UI.overlays.OverlayUtils.{createMovableTopWithToggles, initMovableVBox, setCheckboxAction}
 import Utils.Config.settings
 import logger.Logger
@@ -14,7 +14,6 @@ import scalafx.scene.layout.{StackPane, VBox}
 import scalafx.scene.shape.Rectangle
 import scalafx.scene.text.Text
 import scalafx.stage.{Stage, StageStyle}
-
 import UI.UIStyle._
 
 
@@ -112,6 +111,8 @@ object GroupDTPS extends Overlay {
 
   override def createSettingsCheckbox(): CheckBox = {
     val dtpsCheckbox = new CheckBox("Group Damage Taken")
+    dtpsCheckbox.setStyle(UIStyle.mediumLightLabel)
+    UIStyle.setHoverable(dtpsCheckbox,UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     setCheckboxAction(dtpsCheckbox, GroupDTPS.getOverlay(),"groupDtpsOverlayEnabled","groupDtpsTop")
     if (settings.getBoolean("groupDtpsOverlayEnabled",false)) {
       dtpsCheckbox.setSelected(true)
