@@ -27,6 +27,8 @@ import parsing.Actors.Player
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import java.util.prefs.{Preferences, PreferencesFactory}
 
+import UI.MainStage.mainStage
+
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
@@ -74,8 +76,25 @@ object Main extends JFXApp3 {
 
 
     // A stage is like the window we create for the GUI
-    val stage = new PrimaryStage()
+    mainStage = new PrimaryStage()
 //    val dpsOverlay = new PrimaryStage()
+
+    val parentPane = new VBox()
+    parentPane.fillWidth = true
+    parentPane.setId("parentVbox")
+
+
+    val camera = new PerspectiveCamera()
+    camera.setFieldOfView(10)
+
+    val scene = new Scene(parentPane)
+    scene.getStylesheets().add("Chart.css")
+
+    scene.setCamera(camera)
+
+    // This is the title of the window
+    mainStage.setTitle("ELITE RAIDING PARSER")
+    mainStage.setScene(scene)
 
 
 
@@ -155,33 +174,13 @@ object Main extends JFXApp3 {
 //
 //    pane.add(interfacePane, 1, menuRow, 1, 1)
 
-
-    val parentPane = new VBox()
-    parentPane.fillWidth = true
-    parentPane.setId("parentVbox")
-
-
-    val camera = new PerspectiveCamera()
-    camera.setFieldOfView(10)
-
     //val root : javafx.scene.Parent = FXMLLoader.load(getClass().getResource("/Application.fxml"))
 
     // add the pane to a scene and give it a camera
     parentPane.children = List(mainMenuBar,CustomTabs.addToUI)
 
 
-
-    val scene = new Scene(parentPane)
-    scene.getStylesheets().add("Chart.css")
-
-    scene.setCamera(camera)
-
-    // This is the title of the window
-    stage.setTitle("ELITE RAIDING PARSER")
-    stage.setScene(scene)
-
-
-    stage.show()
+    mainStage.show()
 
     /**
      * Timer Code

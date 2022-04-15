@@ -2,6 +2,7 @@ package UI.tabs
 
 import UI.GraphicFactory.{LineBarChartFactory, SpreadSheetFactory}
 import UI.UIStyle
+import UI.objects.CustomMenuBar
 import logger.Logger
 import scalafx.scene.control.Label
 import scalafx.scene.layout.{GridPane, HBox, Priority, VBox}
@@ -112,7 +113,7 @@ object CustomTabs {
   
   tabs.foreach(tab => tabBox.getChildren.add(tab))
 
-  parent.getChildren.addAll(tabBox,contentBox)
+  parent.getChildren.addAll(CustomMenuBar.addToUI,tabBox,contentBox)
 
   def addToUI = parent
 

@@ -1,6 +1,6 @@
 package UI.objects
 
-import UI.{ElementLoader, UICodeConfig}
+import UI.{ElementLoader, UICodeConfig, UIStyle}
 import Utils.{FileHelper, PathLoader}
 import javafx.event.{ActionEvent, EventHandler}
 import scalafx.scene.control.{Menu, MenuBar, MenuItem}
@@ -27,6 +27,7 @@ object Menus {
 
   //Make all the menus
   val menu1 = new Menu("File")
+  fileMenuItems.foreach(_.setStyle(UIStyle.menuItemStyle))
   menu1.items = fileMenuItems
 //    List(
 //    new MenuItem("Choose Log Directory..."),
@@ -49,6 +50,7 @@ object Menus {
   def loadRecentDirMenu(): Unit = {
     recentDirMenu.items = for (path <- PathLoader.getPaths()) yield {
       val item: MenuItem = new MenuItem(path)
+      item.setStyle(UIStyle.menuItemStyle)
       item.setOnAction(ElementLoader.loadNewDirectoryActionEvent(path))
       item
     }
@@ -58,6 +60,7 @@ object Menus {
 
   //Create blank menubar
   val mainMenuBar = new MenuBar()
+  mainMenuBar.setStyle(UIStyle.menuBarStyle)
 
   //add the menus to the menubar
   mainMenuBar.getMenus().addAll(menu1, menu2, menu3, menu4, fileMenu, combatInstanceMenu)

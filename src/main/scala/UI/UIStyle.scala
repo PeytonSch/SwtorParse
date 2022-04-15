@@ -39,7 +39,7 @@ object UIStyle {
        |-fx-font-size: ${textSize};
        |-fx-font-family: ${mainFont};
        |-fx-font-weight: 300;
-       |-fx-padding: 10;
+       |-fx-padding: ${(textSize.toInt - 8).toString};
        |""".stripMargin
   }
 
@@ -73,6 +73,14 @@ object UIStyle {
        |-fx-border-color: ${lightTextColor};
        |""".stripMargin
 
+  val smallBottomBoarderNoPadding: String =
+    s"""
+       |-fx-border-style: solid inside;
+       |-fx-border-width: 0 0 2 0;
+       |-fx-border-insets: 5;
+       |-fx-border-color: ${lightTextColor};
+       |""".stripMargin
+
   val smallLightLabel: String = createLabelStyle(lightTextColor,smallSize)
 
   val smallFaintGreyLabel: String = createLabelStyle(faintGreyTextColor,smallSize)
@@ -88,6 +96,10 @@ object UIStyle {
   val tabLabelStyle: String = createLabelStyle(faintGreyTextColor,extraLargeSize)
 
   val tabLabelStyleSelected: String = createLabelStyle(lightTextColor,extraLargeSize)
+
+  val menuLabelStyle: String = createLabelStyle(faintGreyTextColor,mediumSize)
+
+  val menuLabelStyleSelected: String = createLabelStyle(lightTextColor,mediumSize)
 
   val overlayButtonStyle: String =
     s"""
@@ -122,6 +134,40 @@ object UIStyle {
     s"""
        |-fx-border-width: 0 0 1 0;
        |-fx-border-color: ${orangeBarColor};
+       |""".stripMargin
+
+  val menuBarStyle: String =
+    s"""
+       |-fx-background-color: ${darkBackgroundColor};
+       |-fx-padding: 5;
+       |-fx-border-style: solid inside;
+       |-fx-border-width: 0 0 3 0;
+       |-fx-border-insets: 5;
+       |-fx-border-color: ${faintGreyTextColor};
+       |-fx-base: ${mainBackgroundColor};
+       |-fx-color: ${mainBackgroundColor};
+       |""".stripMargin
+
+  val menuItemStyle: String =
+    s"""
+       |-fx-background-color: transparent;
+       |-fx-border-color: transparent ;
+       |-fx-base: ${mainBackgroundColor};
+       |-fx-color: ${mainBackgroundColor};
+       |""".stripMargin
+
+  val customMenuUnselected: String =
+    s"""
+       |-fx-border-style: solid inside;
+       |-fx-border-width: 0 0 0 0;
+       |-fx-border-insets: 1;
+       |-fx-border-color: ${lightTextColor};
+       |""".stripMargin
+
+  val customMenuHover: String =
+    s"""
+       |-fx-border-width: 0 0 1 0;
+       |-fx-border-color: ${lightTextColor};
        |""".stripMargin
 
 }
