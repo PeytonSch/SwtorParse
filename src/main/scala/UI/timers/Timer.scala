@@ -1,5 +1,6 @@
 package UI.timers
 
+import UI.UIStyle
 import scalafx.event.ActionEvent
 import scalafx.scene.control.CheckBox
 import scalafx.scene.layout.HBox
@@ -12,13 +13,15 @@ class Timer(
                 source: String,
                 ability: String,
                 area: String,
-                cooldown: Double
+                cooldown: Double,
+                color: String
               ) {
 
   def addToUI: HBox = row
   def getAbility: String = ability
   def getCooldown: Double = cooldown
   def getName = name
+  def getHexColor = UIStyle.getHexColor(color)
 
   var triggeredAt = System.nanoTime()
 

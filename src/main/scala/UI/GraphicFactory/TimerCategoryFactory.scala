@@ -2,14 +2,16 @@ package UI.GraphicFactory
 
 import UI.overlays.OverlayUtils.anchors
 import UI.tabs.{Settings, Timers}
+import UI.timers.Timer
 import UI.{UICodeConfig, UIStyle}
 import javafx.event.EventHandler
 import logger.Logger
 import scalafx.geometry.{Point2D, Pos}
 import scalafx.scene.control.Label
 import scalafx.scene.layout.{HBox, Priority}
-
 import scalafx.Includes._
+
+import scala.collection.mutable
 
 object TimerCategoryFactory {
 
@@ -82,12 +84,27 @@ class TimerCategory(
     }
   }
 
-  // Create Test Timers
-  val testTimers = for (i <- 0 to 5) yield {
-    TimerRowFactory.createRow(
-      "Test Timer","Brontes","Dread Fortress","Kephess",5.0
-    )
+  var timers: mutable.Seq[Timer] = mutable.Seq()
+
+  def addTimer(t: Timer) = {
+    timers = timers :+ t
+    // refresh timer menu
+    Timers.timerVbox.getChildren.clear()
+    // populate selected categories with timers
+    for (category <- Timers.getCategories) {
+      Timers.timerVbox.getChildren.add(category.addToUI)
+      if (category.selected) {
+        category.getTimers.foreach(timer => Timers.timerVbox.getChildren.add(timer.addToUI))
+      }
+    }
   }
+
+  // Create Test Timers
+//  val testTimers = for (i <- 0 to 5) yield {
+//    TimerRowFactory.createRow(
+//      "Test Timer","Brontes","Dread Fortress","Kephess",5.0, "Red"
+//    )
+//  }
 
   base.setOnMouseClicked(new EventHandler[javafx.scene.input.MouseEvent] {
     override def handle(event: javafx.scene.input.MouseEvent): Unit = {
@@ -104,6 +121,6 @@ class TimerCategory(
     }
   })
 
-  def getTimers = testTimers
+  def getTimers = timers
 
 }

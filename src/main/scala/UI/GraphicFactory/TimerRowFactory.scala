@@ -7,6 +7,7 @@ import scalafx.scene.control.{CheckBox, Label}
 import scalafx.scene.layout.HBox
 import scalafx.event.ActionEvent
 import scalafx.geometry.Pos
+import scalafx.scene.shape.Rectangle
 
 
 /**
@@ -36,7 +37,9 @@ object TimerRowFactory {
                 source: String,
                 area: String,
                 ability: String,
-                cooldown: Double): Timer = {
+                cooldown: Double,
+                color: String
+               ): Timer = {
 
     // The basis of the row should be an hbox
     val base = new HBox()
@@ -67,6 +70,12 @@ object TimerRowFactory {
     val cdArea = new Label(cooldown.toString)
     cdArea.setStyle(UIStyle.mediumLightLabel)
 
+    val displayColor = new Rectangle{
+      width = 30
+      height = 30
+      style = UIStyle.rectangleStyle(UIStyle.getHexColor(color))
+    }
+
     // Some Styling
     base.onMouseEntered = event => {
       base.setStyle(UIStyle.mainBackgroundObject)
@@ -91,14 +100,15 @@ object TimerRowFactory {
       timerSource,UIStyle.createSpacer(),
       timerAbility,UIStyle.createSpacer(),
       timerArea,UIStyle.createSpacer(),
-      cdArea,UIStyle.createSpacer()
+      cdArea,UIStyle.createSpacer(),
+      displayColor, UIStyle.createSpacer(),
     )
 
     new Timer(
       base,
       enabledCheckBox,
       name,source,ability,area,
-      cooldown
+      cooldown, color
     )
 
   }

@@ -39,7 +39,7 @@ object BasicTimers extends Overlay {
       text.setText(timer.getName + ": " + timeRemaining)
       val rect = Rectangle(percentMaxFill,30)
       val backgroundRect = Rectangle(600, 30)
-      rect.setStyle("-fx-fill: #A723FF; -fx-stroke: black; -fx-stroke-width: 2;")
+      rect.setStyle(s"-fx-fill: ${timer.getHexColor}; -fx-stroke: black; -fx-stroke-width: 2;")
       backgroundRect.setStyle("-fx-fill: #8B12FF; -fx-stroke: black; -fx-stroke-width: 2;")
       stacked.getChildren.addAll(backgroundRect,rect,text)
       stacked.setAlignment(Pos.CenterLeft)

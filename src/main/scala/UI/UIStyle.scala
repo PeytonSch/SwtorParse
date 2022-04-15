@@ -251,10 +251,32 @@ object UIStyle {
     }
   }
 
+  def addPadding(paddingAmount: String) = s"-fx-padding: ${paddingAmount};"
+
+  def rectangleStyle(color: String) =
+    s"""
+      |-fx-fill: ${color};
+      |-fx-stroke: black;
+      |-fx-stroke-width: 2;
+      |""".stripMargin
+
   def createSpacer() = {
     val spacer = new HBox()
     spacer.hgrow = Priority.Always
     spacer
+  }
+
+  def getHexColor(color:String): String = {
+    color match {
+      case "Red" => "#FB4A38"
+      case "Orange" => "#EE8525"
+      case "Yellow" => "#FBE762"
+      case "Green" => "#55FB55"
+      case "Blue" => "#3F81EE"
+      case "Purple" => "#A723FF"
+      case "Pink" => "#FB55EC"
+      case _ => "#FB4A38"
+    }
   }
 
 }

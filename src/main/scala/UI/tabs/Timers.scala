@@ -7,9 +7,11 @@ import Utils.Config.settings
 import logger.Logger
 import scalafx.Includes._
 import scalafx.event.ActionEvent
+import scalafx.geometry.Pos
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import scalafx.scene.control._
 import scalafx.scene.layout.{GridPane, HBox, VBox}
+import scalafx.scene.shape.Rectangle
 import scalafx.stage.Stage
 
 import scala.collection.immutable.Range
@@ -141,7 +143,7 @@ object Timers extends UITab {
 //  }
   val triggerOn = new ComboBox(
   Seq[String](
-  "Ability Activate","Combat Start", "Actor Enter Combat"
+  "Ability Activate","Combat Start - Not yet implemented", "Actor Enter Combat - Not yet implemented"
 ))
   triggerOn.setPrefWidth(450)
   triggerOn.value="Ability Activate"
@@ -160,11 +162,45 @@ object Timers extends UITab {
 //    prefWidth = 450
 //  }
 val cancelOn = new ComboBox(Seq[String](
-  "Ability Activate","Combat End", "Actor Death"
+  "Ability Activate","Combat End - Not yet implemented", "Actor Death - Not yet implemented"
 ))
   cancelOn.setPrefWidth(450)
   cancelOn.value = "Combat End"
   cancelOn.setStyle(textFieldStyle)
+
+  val colorLabel = new Label{
+    text = "Color: "
+    style = labelStyle
+
+  }
+  val colorPreview = new Rectangle{
+    width = 50
+    height = 50
+    style = UIStyle.rectangleStyle("#FB4A38")
+  }
+
+  val colorOptions = new ComboBox(Seq[String](
+      "Red","Orange", "Yellow", "Green", "Blue", "Purple", "Pink"
+    ))
+  colorOptions.value = "Red"
+  colorOptions.setStyle(textFieldStyle)
+  colorOptions.setPrefWidth(435)
+
+  colorOptions.setOnAction( event =>{
+    colorOptions.getValue match {
+      case "Red" => colorPreview.setStyle(UIStyle.rectangleStyle("#FB4A38"))
+      case "Orange" => colorPreview.setStyle(UIStyle.rectangleStyle("#EE8525"))
+      case "Yellow" => colorPreview.setStyle(UIStyle.rectangleStyle("#FBE762"))
+      case "Green" => colorPreview.setStyle(UIStyle.rectangleStyle("#55FB55"))
+      case "Blue" => colorPreview.setStyle(UIStyle.rectangleStyle("#3F81EE"))
+      case "Purple" => colorPreview.setStyle(UIStyle.rectangleStyle("#A723FF"))
+      case "Pink" => colorPreview.setStyle(UIStyle.rectangleStyle("#FB55EC"))
+      case _ =>
+    }
+  })
+
+
+
 
 
   val nameBox = new HBox()
@@ -175,6 +211,7 @@ val cancelOn = new ComboBox(Seq[String](
   val repeatBox = new HBox()
   val cancelOnBox = new HBox()
   val areaBox = new HBox()
+  val color = new HBox()
 
   nameBox.getChildren.addAll(nameLabel,nameText)
   sourceActorBox.getChildren.addAll(sourceActorLabel,sourceActorText)
@@ -184,10 +221,12 @@ val cancelOn = new ComboBox(Seq[String](
   repeatBox.getChildren.addAll(repeatLabel,repeatText)
   cancelOnBox.getChildren.addAll(cancelOnLabel,cancelOn)
   areaBox.getChildren.addAll(areaLabel,areaText)
+  color.getChildren.addAll(colorLabel,colorPreview, UIStyle.createSpacer(),colorOptions)
 
   /**
    * Save with apply button
    */
+  val yourTimers = TimerCategoryFactory.create("> My Timers")
 
   val applyButton = new Button("Add Timer")
 
@@ -204,9 +243,12 @@ val cancelOn = new ComboBox(Seq[String](
     val area = areaText.getText
     val ability = sourceAbilityText.getText
     val cooldown = durationText.getText.toDouble
+    val color = colorOptions.getValue
 
-    timerVbox.getChildren.add(
-      TimerRowFactory.createRow(name,source,area,ability,cooldown).addToUI
+
+
+    yourTimers.addTimer(
+      TimerRowFactory.createRow(name,source,area,ability,cooldown, color)
     )
 
     Logger.highlight(s"Saved Timer: ${name},${source},${area},${ability},${cooldown}")
@@ -217,7 +259,7 @@ val cancelOn = new ComboBox(Seq[String](
 
   rightTop.getChildren.addAll(
     nameBox,sourceActorBox,sourceAbilityBox,triggerOnBox,
-    durationBox,repeatBox,cancelOnBox,areaBox,
+    durationBox,repeatBox,cancelOnBox,areaBox,color,
     applyHbox
   )
 
@@ -238,23 +280,13 @@ val cancelOn = new ComboBox(Seq[String](
    * Left Side Timer Display
    */
 
-  // Create Test Timers
-  val testTimers = for (i <- 0 to 5) yield {
-    TimerRowFactory.createRow(
-      "Test Timer","Brontes","Dread Fortress","Kephess",5.0
-    )
-  }
-  val testTimer = TimerRowFactory.createRow(
-    "Test Timer","Predation Spam","Dread Fortress","Unnatural Might", 15
-  )
-
-  val testCategories = Seq(TimerCategoryFactory.create("> Dread Palace"),TimerCategoryFactory.create("> Dread Fortress"),
+  val categories = Seq(TimerCategoryFactory.create("> Dread Palace"),TimerCategoryFactory.create("> Dread Fortress"),
   TimerCategoryFactory.create("> Explosive Conflict"),TimerCategoryFactory.create("> Terror From Beyond"),
-  TimerCategoryFactory.create("> Temple of Sacrifice"))
+  TimerCategoryFactory.create("> Temple of Sacrifice"),yourTimers)
 
-  testCategories.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
+  categories.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
 
-  def getCategories = testCategories
+  def getCategories = categories
 
 //  testTimers.foreach(timer => timerVbox.getChildren.add(timer.addToUI))
 //  timerVbox.getChildren.add(testTimer.addToUI)
