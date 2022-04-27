@@ -57,10 +57,11 @@ object CombatInstanceMenu extends MenuItem {
 
   override def spawnMenu(): Unit = {
     combatMenuItems.getChildren.clear()
-    for (combatInstance <- Controller.getAllCombatInstances()){
+    val rows = for (combatInstance <- Controller.getAllCombatInstances()) yield {
       Logger.trace(s"Got combat instance: ${combatInstance}")
-      combatMenuItems.getChildren.add(createRow(combatInstance.getNameFromActors))
+      (createRow(combatInstance.getNameFromActors))
     }
+    rows.reverse.foreach(r => combatMenuItems.getChildren.add(r))
 
     // spawn the stage in the center of the screen
     val centerOfStage = MainStage.getCenterOfStage()
