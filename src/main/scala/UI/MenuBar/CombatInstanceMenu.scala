@@ -5,7 +5,7 @@ import java.io.File
 import Controller.Controller
 import UI.ElementLoader.{loadCombatInstanceMenu, refreshUI}
 import UI.tabs.CustomTabs
-import UI.{MainStage, UICodeConfig, UIStyle}
+import UI.{MainStage, Tiles, UICodeConfig, UIStyle}
 import Utils.Config.settings
 import Utils.FileHelper
 import logger.Logger
@@ -111,6 +111,13 @@ object CombatInstanceMenu extends MenuItem {
       Controller
         .setCurrentCombatInstance(Controller.
           getCombatInstanceById(fileName))
+
+      // set the combat perspective to player in combat
+          Tiles.combatPerspectives.setValue(
+            Controller.getCurrentCombat().getCombatActorByIdString(
+              Controller.getCurrentCombat().getPlayerInCombatId()
+            ).getActor().getName()
+          )
 
       refreshUI()
 

@@ -2,12 +2,10 @@ package UI
 
 import Combat.CombatActorInstance
 import Controller.Controller
-
 import UI.overlays.{BasicTimers, CombatEntities, GroupDTPS, GroupDamage, GroupHealing, PersonalDamage, PersonalDamageTaken, PersonalHealing, Reflect}
 import eu.hansolo.tilesfx.chart.ChartData
 import eu.hansolo.tilesfx.tools.TreeNode
 import scalafx.event.ActionEvent
-
 import logger.Logger
 import scalafx.geometry.Pos
 import scalafx.scene.control.{Label, Menu, MenuItem}
@@ -19,16 +17,15 @@ import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
 import scalafx.animation.AnimationTimer
 import scalafx.application.Platform
-
 import UI.tabs.Settings.logDirTextField
 import UI.tabs.{CustomTabs, DamageDone, DamageTaken, HealingDone, HealingTaken, Timers}
 import Utils.Config.settings
 import Utils.{FileHelper, PathLoader}
 import parser.Parser
-
 import java.io.File
 
 import UI.MenuBar.LoadingScreen
+import scalafx.collections.ObservableBuffer
 
 /**
  * Element loader is for loading data into the UI charts and graphs etc.
@@ -319,6 +316,7 @@ object ElementLoader {
     loadTimerSugestions()
 
 
+
     // if we had to return to previouse combat instance, set back to no combat instance
     if (wentBack) {
       Controller.endCombat()
@@ -344,9 +342,9 @@ object ElementLoader {
   }
 
   /**
-   * This function is called when you select a different actor in the perspective menu.
+   * This function is called when you select a different actor in the perspective drop down.
    */
-    def changeUIPerspective(): ActionEvent => Unit = (event: ActionEvent) => {
+    def changeUIPerspective() = {
 
       // Check if we need to load the last combat if we aren't in one right now
 
@@ -358,9 +356,13 @@ object ElementLoader {
         wentBack = true
       }
 
-      Controller.getCurrentCombat().setPlayerInCombat(
-        event.getTarget.asInstanceOf[javafx.scene.control.MenuItem].getText
-      )
+      // first try to get combat actor by name, if that fails try by id
+      val actorId: String = Controller.getCurrentCombat().getCombatActorByPrettyNameID(
+          Tiles.combatPerspectives.getValue
+        ).getActor().getId().toString
+
+
+      Controller.getCurrentCombat().setPlayerInCombat(actorId)
 
       refreshUI()
 
@@ -491,15 +493,24 @@ object ElementLoader {
     // get actors
     val actors: Seq[CombatActorInstance] = Controller.getCurrentCombat().getCombatActors()
 
-    // create a list of menu items from their names
-    val newMenuItems: Seq[MenuItem] = for (actor <- actors) yield {
-      val item = new MenuItem(actor.getActor().getName())
-      item.setOnAction(changeUIPerspective())
-      item
+    val buf = ObservableBuffer[String]()
+
+    // get actor names and add to drop down
+    for (actor <- actors) {
+      buf += actor.getActor().getPrettyNameWithInstanceIdIfNecessary()
     }
 
-    // set menu to those items
-    Tiles.actorMenu.items = newMenuItems
+    Tiles.combatPerspectives.items = buf
+
+//    // create a list of menu items from their names
+//    val newMenuItems: Seq[MenuItem] = for (actor <- actors) yield {
+//      val item = new MenuItem(actor.getActor().getName())
+//      item.setOnAction(changeUIPerspective())
+//      item
+//    }
+//
+//    // set menu to those items
+//    Tiles.actorMenu.items = newMenuItems
   }
 
 

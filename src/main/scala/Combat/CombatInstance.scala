@@ -223,5 +223,17 @@ class CombatInstance (
     result
   }
 
+  // This was created for the drop down menu. Players just have their names,
+  // but anything else that could have multiple names is Name : InstanceID
+  def getCombatActorByPrettyNameID(name:String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    for (actor <- combatActors) {
+      if (actor.getActor().getPrettyNameWithInstanceIdIfNecessary() == name) {
+        result = actor
+      }
+    }
+    result
+  }
+
 
 }

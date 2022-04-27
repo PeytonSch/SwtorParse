@@ -11,6 +11,15 @@ trait Actor {
 
   def getId(): ActorId
 
+  def getPrettyNameWithInstanceIdIfNecessary(): String = {
+    if (isPlayer()) {
+      getName()
+    }
+    else {
+      s"${getName()} : ${getId().getInstanceId()}"
+    }
+  }
+
   override def toString: String = "Err, this actor string needs to be overridden"
 
   /**

@@ -13,7 +13,7 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.chart._
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
-import scalafx.scene.control.{Label, Menu, MenuBar, MenuItem, ScrollPane}
+import scalafx.scene.control.{ComboBox, Label, Menu, MenuBar, MenuItem, ScrollPane}
 import scalafx.scene.layout.GridPane.getColumnIndex
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, StackPane, VBox}
 import scalafx.scene.paint.Color
@@ -599,6 +599,15 @@ object Tiles {
   //add the menus to the menubar
   actorMenuBar.getMenus().addAll(actorMenu)
 
+
+  // Combat Perspective as a drop down
+  val combatPerspectives = new ComboBox(Seq[String]("No Combat instance loaded"))
+  combatPerspectives.setValue("Select Perspective")
+  combatPerspectives.setStyle(UIStyle.textFieldStyle)
+
+  combatPerspectives.setOnAction(event => {
+    ElementLoader.changeUIPerspective()
+  })
 
 
 
