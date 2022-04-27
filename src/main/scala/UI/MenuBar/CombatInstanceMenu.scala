@@ -113,13 +113,16 @@ object CombatInstanceMenu extends MenuItem {
           getCombatInstanceById(fileName))
 
       // set the combat perspective to player in combat
+      Tiles.alreadyTriggered = true
           Tiles.combatPerspectives.setValue(
             Controller.getCurrentCombat().getCombatActorByIdString(
               Controller.getCurrentCombat().getPlayerInCombatId()
-            ).getActor().getName()
+            ).getActor().getPrettyNameWithInstanceIdIfNecessary()
           )
 
       refreshUI()
+
+      Tiles.alreadyTriggered = false
 
       //once the UI is set, because we clicked on a past combat instance, set current combat to null
       Controller.endCombat()

@@ -356,15 +356,16 @@ object ElementLoader {
         wentBack = true
       }
 
-      // first try to get combat actor by name, if that fails try by id
-      val actorId: String = Controller.getCurrentCombat().getCombatActorByPrettyNameID(
+      if (Tiles.combatPerspectives.getValue != null) {
+        val actorId: String = Controller.getCurrentCombat().getCombatActorByPrettyNameID(
           Tiles.combatPerspectives.getValue
         ).getActor().getId().toString
 
 
-      Controller.getCurrentCombat().setPlayerInCombat(actorId)
+        Controller.getCurrentCombat().setPlayerInCombat(actorId)
 
-      refreshUI()
+        refreshUI()
+      }
 
       // if we had to return to previouse combat instance, set back to no combat instance
       if (wentBack) {
