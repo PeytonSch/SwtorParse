@@ -210,6 +210,11 @@ class CombatInstance (
         result = actor
       }
     }
+
+    if (result == null) {
+      Logger.error(s"Could not get combat actor by ID string ${id} in combat ${this.toString}. Returning first actor")
+      result = combatActors(0)
+    }
     result
   }
 
@@ -218,6 +223,31 @@ class CombatInstance (
     for (actor <- combatActors) {
       if (actor.getActor().getName() == name) {
         result = actor
+      }
+    }
+    if (result == null) {
+      Logger.error(s"Could not get combat actor by name string ${name} in combat ${this.toString}. Returning first actor")
+      result = combatActors(0)
+    }
+    result
+  }
+
+  // This was created for the drop down menu. Players just have their names,
+  // but anything else that could have multiple names is Name : InstanceID
+  def getCombatActorByPrettyNameID(name:String): CombatActorInstance = {
+    var result : CombatActorInstance = null
+    for (actor <- combatActors) {
+      if (actor.getActor().getPrettyNameWithInstanceIdIfNecessary() == name) {
+        result = actor
+      }
+    }
+    if (result == null) {
+      Logger.error(s"Could not get combat actor by prettyNameId ${name} in combat ${this.toString}")
+      if (playerInCombat != "") {
+        result = getCombatActorByIdString(playerInCombat)
+      } else {
+        Logger.error("Player in combat string not set, returning first actor")
+        result = combatActors(0)
       }
     }
     result

@@ -2,7 +2,7 @@
     -fx-font-family: HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
     -fx-font-weight: bold;
     -fx-base: "#2B2B2B";
-
+    /*-fx-base: transparent;*/
 }
 
 #hoverable:hover {

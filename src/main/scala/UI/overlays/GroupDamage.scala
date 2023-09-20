@@ -8,7 +8,7 @@ import UI.overlays.OverlayUtils.{createMovableTopWithToggles, initMovableVBox, s
 import Utils.Config.settings
 import logger.Logger
 import scalafx.geometry.Pos
-import scalafx.scene.Scene
+import scalafx.scene.{Node, Scene}
 import scalafx.scene.control.{CheckBox, ScrollPane}
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
 import scalafx.scene.layout.{StackPane, VBox}
@@ -58,6 +58,7 @@ object GroupDamage extends Overlay {
       }
     }
 
+
     for (actor <- filterDamageByMode) {
       val stacked = new StackPane()
       val text = new Text()
@@ -76,9 +77,12 @@ object GroupDamage extends Overlay {
         rect.setStyle("-fx-fill: #4C3DFF; -fx-stroke: black; -fx-stroke-width: 2;")
       }
       backgroundRect.setStyle("-fx-fill: #FF908D; -fx-stroke: black; -fx-stroke-width: 2;")
+      backgroundRect.setOpacity(1)
+      rect.setOpacity(1)
       stacked.getChildren.addAll(backgroundRect,rect,text)
       stacked.setAlignment(Pos.CenterLeft)
       stacked.setStyle("-fx-background-color: rgba(0,255,0,0)")
+      stacked.setOpacity(1)
       groupDamagePane.getChildren.add(stacked)
     }
   }
@@ -87,12 +91,15 @@ object GroupDamage extends Overlay {
    * Group Damage Overlay
    */
   val groupDamageOuter = new VBox()
+  groupDamageOuter.setBackground(background)
   val groupDamagePane = new VBox()
   val groupDamageTop = createMovableTopWithToggles("dps")
   groupDamageTop.setId("groupDamageTop")
 
   val groupDamageScrollPane = new ScrollPane()
   groupDamageScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+  groupDamageScrollPane.setBackground(background)
+
 
   groupDamageOuter.getChildren.addAll(groupDamageTop,groupDamageScrollPane)
 
@@ -112,17 +119,19 @@ object GroupDamage extends Overlay {
 
   groupDamagePane.setBackground(background)
   groupDamagePane.setPrefSize(200,200)
+//  groupDamagePane.setMaxSize(200,200)
   val groupDpsOverlay = new Stage()
-//  groupDpsOverlay.initStyle(StageStyle.Transparent)
-    groupDpsOverlay.initStyle(StageStyle.Undecorated)
+  groupDpsOverlay.initStyle(StageStyle.Undecorated)
+  //  groupDpsOverlay.initStyle(StageStyle.Undecorated)
   groupDamageScrollPane.setContent(groupDamagePane)
   val groupDpsOverlayScene = new Scene(groupDamageOuter)
-//  groupDpsOverlayScene.setFill(Color.Transparent)
+
   groupDpsOverlay.setTitle("Group DPS")
   groupDpsOverlay.setAlwaysOnTop(true)
   groupDpsOverlay.setScene(groupDpsOverlayScene)
 
   initMovableVBox(groupDamageTop,groupDpsOverlay,0)
+
 
 
   override def createSettingsCheckbox(): CheckBox = {

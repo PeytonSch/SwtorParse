@@ -30,6 +30,7 @@ import java.util.prefs.{Preferences, PreferencesFactory}
 import UI.MainStage.mainStage
 import UI.MenuBar.CustomMenuBar
 import UI.tabs.{CustomTabs, Settings}
+import Utils.Config.settings
 import Utils.{Config, FileHelper}
 import parser.Parser
 
@@ -186,7 +187,7 @@ object Main extends JFXApp3 {
 
       // TODO: This may need to be removed, it is originally made for testing timers
       // we may want to keep this so we can make timers smoother though
-      if (now > lastTimerOverlayTimerCall + timerRate && UICodeConfig.logFile != "") {
+      if (settings.getBoolean("basicTimerOverlayEnabled",false) && now > lastTimerOverlayTimerCall + timerRate && UICodeConfig.logFile != "") {
         lastTimerOverlayTimerCall = now
         BasicTimers.refresh()
       }

@@ -1,28 +1,33 @@
 package UI.tabs
 
-import UI.GraphicFactory.{LineBarChartFactory, SpreadSheetFactory}
-import UI.MenuBar.CustomMenuBar
 import UI.UIStyle
-import logger.Logger
 import scalafx.scene.control.Label
 import scalafx.scene.layout.{GridPane, HBox, Priority, VBox}
-import scalafx.Includes._
+import scalafx.scene.web.WebView
 
-object CustomTabs {
+object Research extends UITab {
 
-  var selectedTab: String = "Overview" // always start with overview tab
+  val browserBox = new VBox()
+
+
+  // create browser
+  val browser = new WebView()
+  browser.vgrow = Priority.Always
+//  browser.hgrow = Priority.Always
+  val webEngine = browser.getEngine
+
+  webEngine.load("https://github.com/PeytonSch/SwtorParse")
+
+
+  var selectedTab: String = "Elite Raid Parser" // always start with erp tab
 
   def loadTabContent() = {
     selectedTab match {
-      case "Overview" => contentBox.getChildren.clear(); contentBox.getChildren.add(Overview.addToUI())
-      case "Damage Done" => contentBox.getChildren.clear(); contentBox.getChildren.add(DamageDone.addToUI())
-      case "Healing Done" => contentBox.getChildren.clear(); contentBox.getChildren.add(HealingDone.addToUI())
-      case "Damage Taken" => contentBox.getChildren.clear(); contentBox.getChildren.add(DamageTaken.addToUI())
-      case "Healing Taken" => contentBox.getChildren.clear(); contentBox.getChildren.add(HealingTaken.addToUI())
-      case "Settings" => contentBox.getChildren.clear(); contentBox.getChildren.add(Settings.addToUI())
-      case "Timers" => contentBox.getChildren.clear(); contentBox.getChildren.add(Timers.addToUI())
-      case "Research" => contentBox.getChildren.clear(); contentBox.getChildren.add(Research.addToUI())
-      case _ => Logger.error(s"COULD NOT MATCH UI TAB ${selectedTab}")
+      case "Elite Raid Parser" => webEngine.load("https://github.com/PeytonSch/SwtorParse")
+      case "Google" => webEngine.load("https://google.com")
+      case "Parsely" => webEngine.load("https://parsely.io/")
+      case "Jedipedia" => webEngine.load("https://swtor.jedipedia.net/en")
+      case "SWTOR" => webEngine.load("https://swtor.com")
     }
   }
 
@@ -59,7 +64,7 @@ object CustomTabs {
     val label = new Label(tabName)
     label.setStyle(UIStyle.tabLabelStyle)
     val spacer = new HBox()
-//    spacer.setStyle(UIStyle.transparentObject)
+    //    spacer.setStyle(UIStyle.transparentObject)
     spacer.hgrow = Priority.Always
     box.hgrow = Priority.Always
 
@@ -102,30 +107,32 @@ object CustomTabs {
   contentBox.setStyle(UIStyle.mainBackgroundObject)
   contentBox.vgrow = Priority.Always
   contentBox.hgrow = Priority.Always
+  contentBox.getChildren.add(browser)
 
   def getContentSize = {
     (contentBox.getWidth,contentBox.getHeight)
   }
 
   val tabs = Seq(
-    createTab("Overview"),
-    createTab("Damage Done"),
-    createTab("Healing Done"),
-    createTab("Damage Taken"),
-    createTab("Healing Taken"),
-    createTab("Settings"),
-    createTab("Timers"),
-    createTab("Research")
+    createTab("Elite Raid Parser"),
+    createTab("Google"),
+    createTab("Parsely"),
+    createTab("Jedipedia"),
+    createTab("SWTOR")
   )
-  
+
   tabs.foreach(tab => tabBox.getChildren.add(tab))
 
   parent.getChildren.addAll(tabBox,contentBox)
 
-  def addToUI = parent
-
   loadTabContent()
   refreshTabs()
+
+//
+//  browserBox.getChildren.add(browser)
+//  browserBox.setPrefSize(CustomTabs.getContentSize._1,CustomTabs.getContentSize._2)
+
+  def addToUI = parent
 
 
 }

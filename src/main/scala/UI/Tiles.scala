@@ -8,12 +8,13 @@ import eu.hansolo.tilesfx.skins.{BarChartItem, LeaderBoardItem}
 import eu.hansolo.tilesfx.tools.{Helper, TreeNode}
 import eu.hansolo.tilesfx.{Tile, TileBuilder}
 import javafx.scene.paint.Stop
+import logger.Logger
 import scalafx.collections.ObservableBuffer
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.Scene
 import scalafx.scene.chart._
 import scalafx.scene.control.ScrollPane.ScrollBarPolicy
-import scalafx.scene.control.{Label, Menu, MenuBar, MenuItem, ScrollPane}
+import scalafx.scene.control.{ComboBox, Label, Menu, MenuBar, MenuItem, ScrollPane}
 import scalafx.scene.layout.GridPane.getColumnIndex
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, GridPane, StackPane, VBox}
 import scalafx.scene.paint.Color
@@ -599,6 +600,21 @@ object Tiles {
   //add the menus to the menubar
   actorMenuBar.getMenus().addAll(actorMenu)
 
+
+  // Combat Perspective as a drop down
+  val combatPerspectives = new ComboBox(Seq[String]("No Combat instance loaded"))
+  // This is a real pain but its the only way to stop the menu action happening forever on loading new combat instances
+  // https://stackoverflow.com/questions/61792126/how-to-prevent-firing-actionevent-when-combobox-value-property-is-changed-progra
+  var alreadyTriggered = false
+  alreadyTriggered = true
+  combatPerspectives.setValue("Select Perspective")
+  alreadyTriggered = false
+  combatPerspectives.setStyle(UIStyle.textFieldStyle)
+  combatPerspectives.setOnAction(event => {
+    if (!alreadyTriggered) {
+      ElementLoader.changeUIPerspective()
+    }
+  })
 
 
 

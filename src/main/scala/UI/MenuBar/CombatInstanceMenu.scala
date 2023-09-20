@@ -5,7 +5,7 @@ import java.io.File
 import Controller.Controller
 import UI.ElementLoader.{loadCombatInstanceMenu, refreshUI}
 import UI.tabs.CustomTabs
-import UI.{MainStage, UICodeConfig, UIStyle}
+import UI.{MainStage, Tiles, UICodeConfig, UIStyle}
 import Utils.Config.settings
 import Utils.FileHelper
 import logger.Logger
@@ -57,10 +57,11 @@ object CombatInstanceMenu extends MenuItem {
 
   override def spawnMenu(): Unit = {
     combatMenuItems.getChildren.clear()
-    for (combatInstance <- Controller.getAllCombatInstances()){
+    val rows = for (combatInstance <- Controller.getAllCombatInstances()) yield {
       Logger.trace(s"Got combat instance: ${combatInstance}")
-      combatMenuItems.getChildren.add(createRow(combatInstance.getNameFromActors))
+      (createRow(combatInstance.getNameFromActors))
     }
+    rows.reverse.foreach(r => combatMenuItems.getChildren.add(r))
 
     // spawn the stage in the center of the screen
     val centerOfStage = MainStage.getCenterOfStage()
@@ -111,7 +112,17 @@ object CombatInstanceMenu extends MenuItem {
         .setCurrentCombatInstance(Controller.
           getCombatInstanceById(fileName))
 
+      // set the combat perspective to player in combat
+      Tiles.alreadyTriggered = true
+          Tiles.combatPerspectives.setValue(
+            Controller.getCurrentCombat().getCombatActorByIdString(
+              Controller.getCurrentCombat().getPlayerInCombatId()
+            ).getActor().getPrettyNameWithInstanceIdIfNecessary()
+          )
+
       refreshUI()
+
+      Tiles.alreadyTriggered = false
 
       //once the UI is set, because we clicked on a past combat instance, set current combat to null
       Controller.endCombat()
