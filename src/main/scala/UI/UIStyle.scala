@@ -10,8 +10,8 @@ object UIStyle {
   // TODO: Font isn't being recognized
   private val mainFont = "HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif";
 
-  private val mainBackgroundColor = "#2B2B2B"
-  private val darkBackgroundColor = "#232323"
+  val mainBackgroundColor = "#2B2B2B"
+  val darkBackgroundColor = "#232323"
   private val lightBackgroundColor = "#404040"
   // right now this is in the css file and needs the #hoverable id
   private val mouseOverHighlightColor = "#262626"

@@ -1,1 +1,1 @@
-Save Test 1,Slice,,Slice,14.0,Green
+Ability,Wiziie,,Force Lightning,2.0,Orange,Ability Activate

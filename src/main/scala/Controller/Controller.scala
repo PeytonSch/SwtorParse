@@ -110,6 +110,8 @@ object Controller {
       // Check to see if we entered or exit combat
       if(logInfo.getResult().isInstanceOf[EnterCombat]) {
         this.startNewCombat(logInfo)
+        // check for timers that begin on combat start
+        ActiveTimers.checkCombatStart(logInfo)
       } else if (logInfo.getResult().isInstanceOf[ExitCombat]) {
         this.endCombat()
         // when we end combat, have the UI refresh the combat instance menu

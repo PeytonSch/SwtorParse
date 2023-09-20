@@ -100,6 +100,7 @@ object GroupDamage extends Overlay {
   groupDamageScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
   groupDamageScrollPane.setBackground(background)
 
+
   groupDamageOuter.getChildren.addAll(groupDamageTop,groupDamageScrollPane)
 
   // this populates some test data on start
@@ -124,6 +125,7 @@ object GroupDamage extends Overlay {
   //  groupDpsOverlay.initStyle(StageStyle.Undecorated)
   groupDamageScrollPane.setContent(groupDamagePane)
   val groupDpsOverlayScene = new Scene(groupDamageOuter)
+
   groupDpsOverlay.setTitle("Group DPS")
   groupDpsOverlay.setAlwaysOnTop(true)
   groupDpsOverlay.setScene(groupDpsOverlayScene)

@@ -14,7 +14,8 @@ class Timer(
                 ability: String,
                 area: String,
                 cooldown: Double,
-                color: String
+                color: String,
+                triggerOn: String
               ) {
 
   def addToUI: HBox = row
@@ -26,6 +27,8 @@ class Timer(
   var triggeredAt = System.nanoTime()
 
   def getTriggeredAt = triggeredAt
+
+  def getTriggerOn = triggerOn
 
   def trigger = {triggeredAt = System.nanoTime()}
 
