@@ -38,7 +38,8 @@ object TimerRowFactory {
                 area: String,
                 ability: String,
                 cooldown: Double,
-                color: String
+                color: String,
+                triggerOn: String,
                ): Timer = {
 
     // The basis of the row should be an hbox
@@ -70,6 +71,11 @@ object TimerRowFactory {
     val cdArea = new Label(cooldown.toString)
     cdArea.setStyle(UIStyle.mediumLightLabel)
 
+    // each row should display the trigger on method
+    // TODO: Can this be an icon?
+    val triggerArea = new Label(triggerOn)
+    triggerArea.setStyle(UIStyle.mediumLightLabel)
+
     val displayColor = new Rectangle{
       width = 30
       height = 30
@@ -84,6 +90,7 @@ object TimerRowFactory {
       timerAbility.setStyle(UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
       timerArea.setStyle(UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
       cdArea.setStyle(UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
+      triggerArea.setStyle(UIStyle.mediumLightLabel + UIStyle.textHoverLightBlue)
     }
     base.onMouseExited = event => {
       base.setStyle(UIStyle.insetBackgroundObject)
@@ -92,6 +99,7 @@ object TimerRowFactory {
       timerAbility.setStyle(UIStyle.mediumLightLabel)
       timerArea.setStyle(UIStyle.mediumLightLabel)
       cdArea.setStyle(UIStyle.mediumLightLabel)
+      triggerArea.setStyle(UIStyle.mediumLightLabel)
     }
 
     base.getChildren.addAll(
@@ -101,6 +109,7 @@ object TimerRowFactory {
       timerAbility,UIStyle.createSpacer(),
       timerArea,UIStyle.createSpacer(),
       cdArea,UIStyle.createSpacer(),
+      triggerArea,UIStyle.createSpacer(),
       displayColor, UIStyle.createSpacer(),
     )
 
@@ -108,7 +117,7 @@ object TimerRowFactory {
       base,
       enabledCheckBox,
       name,source,ability,area,
-      cooldown, color
+      cooldown, color, triggerOn
     )
 
   }

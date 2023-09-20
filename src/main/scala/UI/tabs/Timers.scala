@@ -144,7 +144,7 @@ object Timers extends UITab {
 //  }
   val triggerOn = new ComboBox(
   Seq[String](
-  "Ability Activate","Combat Start - Not yet implemented", "Actor Enter Combat - Not yet implemented"
+  "Ability Activate","Combat Start", "Actor Enter Combat - Not yet implemented"
 ))
   triggerOn.setPrefWidth(450)
   triggerOn.value="Ability Activate"
@@ -245,16 +245,17 @@ val cancelOn = new ComboBox(Seq[String](
     val ability = sourceAbilityText.getText
     val cooldown = durationText.getText.toDouble
     val color = colorOptions.getValue
+    val trigOn = triggerOn.getValue()
 
 
 
     yourTimers.addTimer(
-      TimerRowFactory.createRow(name,source,area,ability,cooldown, color)
+      TimerRowFactory.createRow(name,source,area,ability,cooldown, color, trigOn)
     )
 
-    Logger.highlight(s"Saved Timer: ${name},${source},${area},${ability},${cooldown}, ${color}")
+    Logger.highlight(s"Saved Timer: ${name},${source},${area},${ability},${cooldown}, ${color}, ${trigOn}")
 
-    FileHelper.writeTimerToFile(s"${name},${source},${area},${ability},${cooldown},${color}")
+    FileHelper.writeTimerToFile(s"${name},${source},${area},${ability},${cooldown},${color},${trigOn}")
   }
 
 
@@ -298,7 +299,7 @@ val cancelOn = new ComboBox(Seq[String](
       val splitOut = timerLine.split(',')
       yourTimers.addTimer(
         TimerRowFactory.createRow(
-          splitOut(0), splitOut(1), splitOut(2), splitOut(3), splitOut(4).toDouble, splitOut(5)
+          splitOut(0), splitOut(1), splitOut(2), splitOut(3), splitOut(4).toDouble, splitOut(5), splitOut(6)
         )
       )
     } catch {
